@@ -210,11 +210,20 @@ $(document).ready(function () {
         // Get the value of the clicked button
         const value = $(this).data('value');
 
+        // Update the hidden input field
+        $('#selected-number').val(value);
+
         // Update the coin stack
         updateCoinStack(value);
 
         punishment = value
         console.log(punishment)
+    });
+
+    // Submit button click handler
+    $('#submit-button').on('click', function () {
+        // Submit the form
+        $('form').submit();
     });
 
     // update coin stacks to original state when mouse leaves number area
@@ -248,49 +257,54 @@ $(document).ready(function () {
 {{ endblock }}
 
 
-
 {{ block content }}
 
+<form method="post">
+    <!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="number" id="selected-number">
 
-<div style='width:45%; height:25vw; margin-left:auto; margin-right:auto; border:0px solid black; position:relative'>
+    {{ formfield_errors 'number' }}
 
-    <img src="" style='width:25%; position:absolute; left:0px' class='dictatorCountry'>
-    <img src="" style='width:25%; position:absolute; right:0px' class='receiverCountry'>
+    <div style='width:45%; height:25vw; margin-left:auto; margin-right:auto; border:0px solid black; position:relative'>
 
-    <img src="{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:20%; top:3vw'>
+        <img src="" style='width:25%; position:absolute; left:0px' class='dictatorCountry'>
+        <img src="" style='width:25%; position:absolute; right:0px' class='receiverCountry'>
 
-    <span class='coinstack coinstackD'>
-    </span>
+        <img src="{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:20%; top:3vw'>
 
-    <span class='coinstack coinstackR'>
-    </span>
+        <span class='coinstack coinstackD'>
+        </span>
 
-    <span class='coinstack coinstackTP'>
-    </span>
+        <span class='coinstack coinstackR'>
+        </span>
 
-</div>
+        <span class='coinstack coinstackTP'>
+        </span>
 
-<br>
-
-<div style='position:relative;'>
-   <div class="number-row">
-        <div class="number" data-value="0">0</div>
-        <div class="number" data-value="1">1</div>
-        <div class="number" data-value="2">2</div>
-        <div class="number" data-value="3">3</div>
-        <div class="number" data-value="4">4</div>
-        <div class="number" data-value="5">5</div>
-        <div class="number" data-value="6">6</div>
-        <div class="number" data-value="7">7</div>
-        <div class="number" data-value="8">8</div>
-        <div class="number" data-value="9">9</div>
-        <div class="number" data-value="10">10</div>
     </div>
-</div>
 
-</body>
-</html>
+    <br>
 
+    <div style='position:relative;'>
+       <div class="number-row">
+            <div class="number" data-value="0">0</div>
+            <div class="number" data-value="1">1</div>
+            <div class="number" data-value="2">2</div>
+            <div class="number" data-value="3">3</div>
+            <div class="number" data-value="4">4</div>
+            <div class="number" data-value="5">5</div>
+            <div class="number" data-value="6">6</div>
+            <div class="number" data-value="7">7</div>
+            <div class="number" data-value="8">8</div>
+            <div class="number" data-value="9">9</div>
+            <div class="number" data-value="10">10</div>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button type="button" id="submit-button">Submit</button>
+    </div>
+</form>
 
 
 {{ endblock }}

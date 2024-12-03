@@ -22,22 +22,47 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
-    punishment_1 = models.IntegerField()
+    punishment_decision = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'],
+            [1, f'value 1'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect
+    )
 
+    number = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'],
+            [1, f'value 1'],
+            [0, f'value 2'],
+            [1, f'value 3'],
+            [4, f'value 4'],
+            [5, f'value 5'],
+            [6, f'value 6'],
+            [7, f'value 7'],
+            [8, f'value 8'],
+            [9, f'value 9'],
+            [10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect
+    )
 
 
 ###### PAGES #######
-class Punishment(Page):
 
-    @staticmethod
-    def is_displayed(player: Player):
-        if player.round_number == 1:
-            return True
+class Punishment(Page):
+    form_model = 'player'
+    form_fields = ['number']
+
 
     def vars_for_template(player: Player):
-        return {
-            'participation_fee': player.session.config['participation_fee'],
-        }
+        return dict(
+            number=player.number
+        )
 
 
 class ResultsWaitPage(WaitPage):
@@ -45,8 +70,15 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['punishment_decision']
+
+    def vars_for_template(player: Player):
+        return dict(
+            punishment_decision=player.punishment_decision
+        )
 
 
-page_sequence = [Punishment,
+page_sequence = [Results,
+                 Punishment,
                  ]
