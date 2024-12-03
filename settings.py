@@ -1,12 +1,15 @@
 from os import environ
+from os import popen
 
 
 SESSION_CONFIGS = [
     dict(
-        name='guess_two_thirds',
-        display_name="Guess 2/3 of the Average",
-        app_sequence=['guess_two_thirds', 'payment_info'],
-        num_demo_participants=3,
+        name='TPP',
+        display_name="Third party punishment game",
+        app_sequence=['TPP_game'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
     ),
     dict(
         name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
