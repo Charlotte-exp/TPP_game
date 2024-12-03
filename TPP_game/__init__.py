@@ -58,10 +58,6 @@ class Punishment(Page):
     form_model = 'player'
     form_fields = ['number']
 
-    @staticmethod
-    def is_displayed(player: Player):
-        if player.round_number == 1:
-            return True
 
     def vars_for_template(player: Player):
         return dict(
