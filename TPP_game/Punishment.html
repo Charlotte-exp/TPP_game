@@ -210,8 +210,16 @@ $(document).ready(function () {
         // Get the value of the clicked button
         const value = $(this).data('value');
 
+        // Update the hidden input field
+        $('#selected-number').val(value);
+
         // Update the coin stack
         updateCoinStack(value);
+
+        // Submit the form after ensuring the hidden input is updated
+        setTimeout(() => {
+            $('form').submit();
+        }, 100); // Slight delay to ensure value is updated
 
         punishment = value
         console.log(punishment)
@@ -248,9 +256,13 @@ $(document).ready(function () {
 {{ endblock }}
 
 
-
 {{ block content }}
 
+<form method="post">
+    <!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="number" id="selected-number">
+
+    {{ formfield_errors 'number' }}
 
 <div style='width:45%; height:25vw; margin-left:auto; margin-right:auto; border:0px solid black; position:relative'>
 
@@ -287,10 +299,7 @@ $(document).ready(function () {
         <div class="number" data-value="10">10</div>
     </div>
 </div>
-
-</body>
-</html>
-
+    </form>
 
 
 {{ endblock }}
