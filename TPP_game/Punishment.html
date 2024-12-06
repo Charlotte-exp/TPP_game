@@ -1,7 +1,5 @@
 {{ block title }}
 
-Here is a change.
-
 Round {{ subsession.round_number }}
 
 {{ endblock }}
@@ -147,18 +145,18 @@ $(document).ready(function () {
 
     // task variables
 
-    total_endowment = 30
-    dictator = 23 // dictator keeps
+    total_endowment = {{ C.total_endowment }}
+    dictator = {{ C.dictator_keeps}} // dictator keeps
     receiver = total_endowment - dictator // receiver receives
 
-    TP = 10 // punishment points
+    TP = {{ C.punishment_points }} // punishment points
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
     receiverCountry = 'ae'
     dictatorCountry = 'bl'
 
-    pun_eff = 3 // punishment effectiveness
+    pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
 
     // dependent variable
     var punishment = 0

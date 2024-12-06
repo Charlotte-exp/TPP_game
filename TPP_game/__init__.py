@@ -11,6 +11,11 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 20
 
+    total_endowment = 30
+    dictator_keeps = 23
+    punishment_points = 10
+    punishment_effectiveness = 3
+
 
 class Subsession(BaseSubsession):
     pass
@@ -22,30 +27,12 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
-    punishment_decision = models.IntegerField(
-        initial=0,
-        choices=[
-            [0, f'value 0'],
-            [1, f'value 1'],
-        ],
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect
-    )
 
-    number = models.IntegerField(
+    number = models.IntegerField(  # change this to punishment_decision at some point...
         initial=0,
         choices=[
-            [0, f'value 0'],
-            [1, f'value 1'],
-            [0, f'value 2'],
-            [1, f'value 3'],
-            [4, f'value 4'],
-            [5, f'value 5'],
-            [6, f'value 6'],
-            [7, f'value 7'],
-            [8, f'value 8'],
-            [9, f'value 9'],
-            [10, f'value 10'],
+            [0, f'value 0'],[1, f'value 1'],[2, f'value 2'],[3, f'value 3'],[4, f'value 4'],[5, f'value 5'],
+            [6, f'value 6'],[7, f'value 7'],[8, f'value 8'],[9, f'value 9'],[10, f'value 10'],
         ],
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect
@@ -61,7 +48,7 @@ class Punishment(Page):
 
     def vars_for_template(player: Player):
         return dict(
-            number=player.number
+            number=player.number,
         )
 
 
@@ -70,15 +57,8 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-    form_model = 'player'
-    form_fields = ['punishment_decision']
+    pass
 
-    def vars_for_template(player: Player):
-        return dict(
-            punishment_decision=player.punishment_decision
-        )
-
-
-page_sequence = [Results,
+page_sequence = [
                  Punishment,
                  ]
