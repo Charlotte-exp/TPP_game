@@ -16,6 +16,99 @@ Round {{ subsession.round_number }}
         background-color: #f4f4f4;
     }
 
+    .number-row {
+        justify-content: center;
+          display: flex;
+          margin-top:3vw;
+          gap: 1vw; /* Space between numbers scales with viewport width */
+    }
+
+    .number {
+        width: 3vw; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      /*border:1px solid black;*/
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .container {
+        width:45%;
+        height:25vw;
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
+    @media (max-width: 1200px) {
+      .responsive-div {
+        transform: scale(1.0); /* Scale to 80% for smaller screens */
+      }
+      .container {
+          margin-left:10vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:6vw;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .responsive-div {
+        transform: scale(2); /* Scale to 60% for even smaller screens */
+      }
+      .container {
+          margin-left:1vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:-3.2vw;
+      }
+      .number {
+          font-size:2vw;
+          border-width:1px;
+      }
+    }
+
     .coin-stack {
         position: absolute;
         width: 5vw; /* The stack width adjusts to 20% of the viewport width */
@@ -88,48 +181,6 @@ Round {{ subsession.round_number }}
     .coinown:nth-child(2)   { top: 23.0vw; left:58% }
     .coinown:nth-child(1)   { top: 23.3vw; left:58% }
 
-    .number-row {
-        justify-content: center;
-          display: flex;
-          margin-top:3vw;
-          gap: 1vw; /* Space between numbers scales with viewport width */
-    }
-
-    .number {
-        width: 3vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.5vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    .number:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .number:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .number.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .number.disabled {
-        background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
-        color:#d3d3d3;
-        cursor: not-allowed;
-        pointer-events: none; /* Disable interactions */
-    }
-
 </style>
 
 
@@ -139,7 +190,10 @@ Round {{ subsession.round_number }}
 
 {{ block scripts }}
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $(document).ready(function () {
 
@@ -165,9 +219,14 @@ $(document).ready(function () {
     /////////
     // script
 
+    // get flags
     $('.receiverCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + receiverCountry +'.png');
     $('.dictatorCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + dictatorCountry +'.png');
 
+    $('.receiverCountryMap').attr('src', '/static/TPP_game/worldmap/' + receiverCountry +'_map.png');
+    $('.dictatorCountryMap').attr('src', '/static/TPP_game/worldmap/' + dictatorCountry +'_map.png');
+
+    // get maps
     for (let i = 0; i < dictator; i++) {
         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
     }
@@ -263,12 +322,18 @@ $(document).ready(function () {
 
     {{ formfield_errors 'number' }}
 
-    <div style='width:45%; height:25vw; margin-left:auto; margin-right:auto; border:0px solid black; position:relative'>
+    <div class='responsive-div'>
+
+    <div class='container'>
 
         <img src="" style='width:25%; position:absolute; left:0px' class='dictatorCountry'>
         <img src="" style='width:25%; position:absolute; right:0px' class='receiverCountry'>
 
-        <img src="{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:20%; top:3vw'>
+        <img src="" style='width:19%; position:absolute; top:7.2vw; left:-10px' class='dictatorCountryMap'>
+        <img src="" style='width:19%; position:absolute; top:7.2vw; right:-10px' class='receiverCountryMap'>
+
+
+        <img src = "{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:20%; top:3vw'>
 
         <span class='coinstack coinstackD'>
         </span>
@@ -280,10 +345,8 @@ $(document).ready(function () {
         </span>
 
     </div>
-
     <br>
-
-    <div style='position:relative;'>
+    <div class='numbers'>
        <div class="number-row">
             <div class="number" data-value="0">0</div>
             <div class="number" data-value="1">1</div>
@@ -297,6 +360,8 @@ $(document).ready(function () {
             <div class="number" data-value="9">9</div>
             <div class="number" data-value="10">10</div>
         </div>
+    </div>
+
     </div>
 
     <div style="display: flex; justify-content: flex-end">

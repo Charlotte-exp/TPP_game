@@ -74,9 +74,9 @@ def get_2_countries(player: Player):
         country_1, country_2 = random.choices(country_codes, k=2)
         if country_1 != country_2:
             player.receiver_country = country_1
-            print('receiver', player.receiver_country)
+            #print('receiver', player.receiver_country)
             player.dictator_country = country_2
-            print('dictator', player.dictator_country)
+            #print('dictator', player.dictator_country)
             return player.receiver_country, player.dictator_country
 
 ####### PAGES #######
