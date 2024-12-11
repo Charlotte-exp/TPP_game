@@ -15,7 +15,11 @@ SESSION_CONFIGS = [
         name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
     ),
     dict(
-        name='baseline', app_sequence=['baseline_trials'], num_demo_participants=1
+        name='baseline',
+        app_sequence=['baseline_trials'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
     ),
 ]
 
