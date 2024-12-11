@@ -33,7 +33,7 @@ class Player(BasePlayer):
     dictator_country = models.StringField()
     receiver_country = models.StringField()
 
-    number = models.IntegerField(  # change this to punishment_decision at some point...
+    decision_1 = models.IntegerField(  # change this to punishment_decision at some point...
         initial=0,
         choices=[
             [0, f'value 0'],[1, f'value 1'],[2, f'value 2'],[3, f'value 3'],[4, f'value 4'],[5, f'value 5'],
@@ -83,12 +83,12 @@ def get_2_countries(player: Player):
 
 class Punishment(Page):
     form_model = 'player'
-    form_fields = ['number']
+    form_fields = ['decision_1']
 
 
     def vars_for_template(player: Player):
         return dict(
-            number=player.number,
+            decision_1=player.decision_1,
             receiver_country=player.receiver_country,
             dictator_country=player.dictator_country
         )
@@ -96,7 +96,7 @@ class Punishment(Page):
     # also does not display...
     # @staticmethod
     # def error_message(player: Player, values):
-    #     if values['number'] is None:
+    #     if values['decision_1'] is None:
     #         return 'Please make a selection before proceeding.'
 
 
