@@ -213,7 +213,7 @@ $(document).ready(function () {
     pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
 
     // dependent variable
-    var punishment = 0
+    let punishments = [0, 0, 0, 0]; // Array to store selected values for each row
 
 
     /////////
@@ -254,27 +254,36 @@ $(document).ready(function () {
     // add hover event listener to numbers
     $('.number').hover(function () {
         const value = $(this).data('value'); // Get the number value
-        updateCoinStack(value); // Update the coin stack
+        const rowIndex = $(this).closest('.number-row').data('row-index'); // Get row index
+        updateCoinStack(value, rowIndex); // Update the coin stack
     });
 
     $('.number').on('click', function () {
-        // Remove 'selected' class from all buttons
-        $('.number').removeClass('selected');
+        // Remove 'selected' class from all buttons in this row
+        $(this).closest('.number-row').find('.number').removeClass('selected');
 
         // Add 'selected' class to the clicked button
         $(this).addClass('selected');
 
         // Get the value of the clicked button
         const value = $(this).data('value');
+        const rowIndex = $(this).closest('.number-row').data('row-index'); // Get row index
 
-        // Update the hidden input field
-        $('#selected-number').val(value);
 
-        // Update the coin stack
-        updateCoinStack(value);
+        // Update the corresponding punishment value in the array
+        punishments[rowIndex - 1] = value;
 
-        punishment = value
-        console.log(punishment)
+        // Update the hidden input field for this row
+        $(`#selected-number-${rowIndex}`).val(value);
+
+        // Update the coin stack for this row
+        updateCoinStack(value, rowIndex);
+
+        // Debugging
+        console.log($(this).closest('.number-row')); // Ensure it finds the correct row
+        console.log($(this).closest('.number-row').data('row-index')); // Check the retrieved row index
+        console.log(`Updated hidden input for row ${rowIndex}: ${value}`);
+        console.log(`Punishment values: ${punishments}`);
     });
 
     // Submit button click handler
@@ -283,17 +292,16 @@ $(document).ready(function () {
         $('form').submit();
     });
 
-    // update coin stacks to original state when mouse leaves number area
     $('.number-row').mouseleave(function () {
-        updateCoinStack(punishment);
+        const rowIndex = $(this).data('row-index'); // Get row index
+        updateCoinStack(punishments[rowIndex], rowIndex);
     });
 
-    // function to update the coin stack
-    function updateCoinStack(count) {
-        // Clear existing coins in coinstack1
-
-        TPupdate = TP - count
-        Dupdate = dictator - (count * pun_eff)
+    // Function to update the coin stack
+    function updateCoinStack(count, rowIndex) {
+        // Clear existing coins in coin stacks
+        const TPupdate = TP - count;
+        const Dupdate = dictator - (count * pun_eff);
 
         $('.coinstackTP').empty();
         $('.coinstackD').empty();
@@ -317,53 +325,68 @@ $(document).ready(function () {
 {{ block content }}
 
 <form method="post">
-    <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="decision_1" id="selected-number">
+    <!-- Add hidden inputs to store the selected values for each row -->
+    <input type="hidden" name="decision_1" id="selected-number-1">
+    <input type="hidden" name="decision_2" id="selected-number-2">
+    <input type="hidden" name="decision_3" id="selected-number-3">
+    <input type="hidden" name="decision_4" id="selected-number-4">
 
     {{ formfield_errors 'decision_1' }}
+    {{ formfield_errors 'decision_2' }}
+    {{ formfield_errors 'decision_3' }}
+    {{ formfield_errors 'decision_4' }}
 
     <div class='responsive-div'>
+        <div class='container'>
 
-    <div class='container'>
+            <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+            <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-        <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+            <img src = "{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:-25%; top:3vw'>
 
+            <span class='coinstack coinstackD'></span>
+            <span class='coinstack coinstackR'></span>
+            <span class='coinstack coinstackTP'></span>
 
-        <img src = "{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:-25%; top:3vw'>
+        </div>
+        <br>
+        <div class='numbers'>
+            <div class="number-row" data-row-index="1" data-input="selected-number-1">
+                {% for i in range(0, 11) %}
+                <div class="number" data-value="{{ i }}">{{ i }}</div>
+                {% endfor %}
+            </div>
+        </div>
 
-        <span class='coinstack coinstackD'>
-        </span>
+        <div class='numbers'>
+            <div class="number-row" data-row-index="2" data-input="selected-number-2">
+                {% for i in range(0, 11) %}
+                <div class="number" data-value="{{ i }}">{{ i }}</div>
+                {% endfor %}
+            </div>
+        </div>
 
-        <span class='coinstack coinstackR'>
-        </span>
+        <div class='numbers'>
+            <div class="number-row" data-row-index="3" data-input="selected-number-3">
+                {% for i in range(0, 11) %}
+                <div class="number" data-value="{{ i }}">{{ i }}</div>
+                {% endfor %}
+            </div>
+        </div>
 
-        <span class='coinstack coinstackTP'>
-        </span>
-
-    </div>
-    <br>
-    <div class='numbers'>
-       <div class="number-row">
-            <div class="number" data-value="0">0</div>
-            <div class="number" data-value="1">1</div>
-            <div class="number" data-value="2">2</div>
-            <div class="number" data-value="3">3</div>
-            <div class="number" data-value="4">4</div>
-            <div class="number" data-value="5">5</div>
-            <div class="number" data-value="6">6</div>
-            <div class="number" data-value="7">7</div>
-            <div class="number" data-value="8">8</div>
-            <div class="number" data-value="9">9</div>
-            <div class="number" data-value="10">10</div>
+        <div class='numbers'>
+            <div class="number-row" data-row-index="4" data-input="selected-number-4">
+                {% for i in range(0, 11) %}
+                <div class="number" data-value="{{ i }}">{{ i }}</div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
-    </div>
-
+    <br>
     <div style="display: flex; justify-content: flex-end">
         <button type="button" id="submit-button">Submit</button>
     </div>
