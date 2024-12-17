@@ -1,11 +1,7 @@
 {{ block title }}
-    Baseline test
+
 {{ endblock }}
 {{ block content }}
-
-<p>{{ treatment_text }}</p>
-
-
 
 <html>
 <head>
@@ -20,22 +16,22 @@ $(document).ready(function () {
     // task variables
 
     total_endowment = {{ C.total_endowment }}
-    dictator = {{ C.dictator_keeps}} // dictator keeps
-    receiver = total_endowment - dictator // receiver receives
 
-    TP = {{ C.punishment_points }} // punishment points
+    //TP = {{ C.punishment_points }} // punishment points
+    //pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+
+    receiver_endowment = {{ C.receiver_endowment}}
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-
     receiverCountry = 'be'
     dictatorCountry = 'us'
 
-    pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+
 
     // dependent variable
-    var punishment = 0
+    var dictator = 0 //dictator gives
 
 
     /////////
@@ -48,15 +44,21 @@ $(document).ready(function () {
     $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
 
-    for (let i = 0; i < dictator; i++) {
+    for (let i = 0; i < total_endowment; i++) {
         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
     }
-    for (let i = 0; i < TP; i++) {
-        $('.coinstackTP').append('<div class="coinown"></div>');
+    // for (let i = 0; i < TP; i++) {
+    //     $('.coinstackTP').append('<div class="coinown"></div>');
+    // }
+    for (let i = 0; i < receiver_endowment; i++) {
+        $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
     }
-    for (let i = 0; i < receiver; i++) {
-        $('.coinstackR').append('<div class="coin" style="left:85%;"></div>');
-    }
+
+    // Initialize the number labels
+    //$('#countTP').text(`${TP}`);
+    $('#countD').text(`${total_endowment}`);
+    // $('#countDDes').text(`${dictator_destroyed}`);
+    $('#countR').text(`${receiver_endowment}`);
 
     function deactivateNumbers(numbersToDisable) {
         numbersToDisable.forEach(num => {
@@ -64,13 +66,13 @@ $(document).ready(function () {
         });
     }
 
-    // deactive punishment that would generate negative values
-    DPpossible = Math.ceil(dictator/3);
-    let list = [];
-    for (let i = DPpossible+1; i <= TP; i++) {
-        list.push(i);
-    }
-    deactivateNumbers(list);
+    // // deactive punishment that would generate negative values
+    // DPpossible = Math.ceil(dictator/3);
+    // let list = [];
+    // for (let i = DPpossible+1; i <= TP; i++) {
+    //     list.push(i);
+    // }
+    // deactivateNumbers(list);
 
     // add hover event listener to numbers
     $('.number').hover(function () {
@@ -88,23 +90,15 @@ $(document).ready(function () {
         // Get the value of the clicked button
         const value = $(this).data('value');
 
-
-
-
         // Update the hidden input field
-        $('#selected-decision1').val(value);
-
-        //$('#selected-decision2').val(value);
-
-
-
-
+        $('#selected-dic_decision1').val(value);
 
         // Update the coin stack
         updateCoinStack(value);
 
-        punishment = value
-        console.log(punishment)
+        dictator = value
+
+        console.log(dictator)
     });
 
     // Submit button click handler
@@ -115,27 +109,39 @@ $(document).ready(function () {
 
     // update coin stacks to original state when mouse leaves number area
     $('.number-row').mouseleave(function () {
-        updateCoinStack(punishment);
+        updateCoinStack(dictator);
     });
 
     // function to update the coin stack
     function updateCoinStack(count) {
         // Clear existing coins in coinstack1
 
-        TPupdate = TP - count
-        Dupdate = dictator - (count * pun_eff)
+        //TPupdate = TP - count
+        Dupdate = total_endowment - count
+        Rupdate = receiver_endowment + count
 
-        $('.coinstackTP').empty();
+
+        //$('.coinstackTP').empty();
+        $('.coinstackR').empty();
         $('.coinstackD').empty();
 
         // Add the specified number of coins
-        for (let i = 0; i < TPupdate; i++) {
-            $('.coinstackTP').append('<div class="coinown"></div>');
+        for (let i = 0; i < Rupdate; i++) {
+            $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
         }
+        // for (let i = 0; i < TPupdate; i++) {
+        //     $('.coinstackTP').append('<div class="coinown"></div>');
+        // }
 
         for (let i = 0; i < Dupdate; i++) {
             $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
         }
+
+        // Update the number labels
+        //$('#countTP').text(`${TPupdate}`);
+        $('#countD').text(`${Dupdate}`);
+        //$('#countDDes').text(`${dictator_destroyedUpdate}`);
+        $('#countR').text(`${Rupdate}`);
     }
 
 });
@@ -154,13 +160,16 @@ $(document).ready(function () {
 
     .number-row {
         justify-content: center;
-          display: flex;
-          margin-top:3vw;
-          gap: 1vw; /* Space between numbers scales with viewport width */
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
     }
 
     .number {
-        width: 3vw; /* Width scales with viewport width */
+        width: 2.5vw; /* Width scales with viewport width */
         height: 3vw; /* Height scales with viewport width */
         display: flex;
         justify-content: center;
@@ -275,6 +284,56 @@ $(document).ready(function () {
         transform: translateX(-50%);
     }
 
+    .coin-count-labelD {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelDDes {
+    font-size: 1.2rem;
+    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 0%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 85%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 80%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP2PP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 8%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
     .coin:nth-child(30)  { top: 0.6vw; }
     .coin:nth-child(29)  { top: 0.9vw; }
     .coin:nth-child(28)  { top: 1.2vw; }
@@ -325,9 +384,9 @@ $(document).ready(function () {
 
 <form method="post">
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="decision1" id="selected-decision1">
+    <input type="hidden" name="dic_decision1" id="selected-dic_decision1">
 
-    {{ formfield_errors 'decision1' }}
+    {{ formfield_errors 'dic_decision1' }}
 
 
 <div class='responsive-div'>
@@ -340,21 +399,31 @@ $(document).ready(function () {
     <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
     <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-    <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>
+<!--    <img src='/static/baseline/3PP give.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
+
+    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
     <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
     <span class='coinstack coinstackD'>
     </span>
 
+    <div class="coin-count-labelD" id="countD"></div>
+
     <span class='coinstack coinstackR'>
     </span>
 
+    <div class="coin-count-labelR" id="countR"></div>
+
+    <!--
     <span class='coinstack coinstackTP'>
     </span>
+    -->
 
 </div>
-<br>
+
+    <p>{{ treatment_text }} </p>
+
 <div class='numbers'>
    <div class="number-row">
         <div class="number" data-value="0">0</div>
@@ -368,11 +437,32 @@ $(document).ready(function () {
         <div class="number" data-value="8">8</div>
         <div class="number" data-value="9">9</div>
         <div class="number" data-value="10">10</div>
+        <div class="number" data-value="11">11</div>
+        <div class="number" data-value="12">12</div>
+<!--        <div class="number" data-value="13">13</div>-->
+<!--        <div class="number" data-value="14">14</div>-->
+<!--        <div class="number" data-value="15">15</div>-->
+<!--        <div class="number" data-value="16">16</div>-->
+<!--        <div class="number" data-value="17">17</div>-->
+<!--        <div class="number" data-value="18">18</div>-->
+<!--        <div class="number" data-value="19">19</div>-->
+<!--        <div class="number" data-value="20">20</div>-->
+<!--        <div class="number" data-value="21">21</div>-->
+<!--        <div class="number" data-value="22">22</div>-->
+<!--        <div class="number" data-value="23">23</div>-->
+<!--        <div class="number" data-value="24">24</div>-->
+<!--        <div class="number" data-value="25">25</div>-->
+<!--        <div class="number" data-value="26">26</div>-->
+<!--        <div class="number" data-value="27">27</div>-->
+<!--        <div class="number" data-value="28">28</div>-->
+<!--        <div class="number" data-value="29">29</div>-->
+<!--        <div class="number" data-value="30">30</div>-->
     </div>
 </div>
 
 </div>
 
+<br>
 
    {{ next_button }}
 
