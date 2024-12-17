@@ -1,10 +1,7 @@
 {{ block title }}
-    Baseline test
+
 {{ endblock }}
 {{ block content }}
-
-<p>{{ treatment_text }}</p>
-
 
 
 <html>
@@ -25,6 +22,8 @@ $(document).ready(function () {
 
     TP = {{ C.punishment_points }} // punishment points
 
+    dictator_destroyed = 0 // dictator earnings that are destroyed by punishment
+
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
@@ -36,6 +35,7 @@ $(document).ready(function () {
 
     // dependent variable
     var punishment = 0
+
 
 
     /////////
@@ -51,12 +51,27 @@ $(document).ready(function () {
     for (let i = 0; i < dictator; i++) {
         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
     }
+    for (let i = 0; i < dictator_destroyed; i++) {
+        $('.coinstackDDes').append('<div class="coin_destroyed" style="left:19%;"></div>');
+    }
     for (let i = 0; i < TP; i++) {
-        $('.coinstackTP').append('<div class="coinown"></div>');
+        $('.coinstackTP').append('<div class="coinown" style="left:75%;"></div>');
     }
     for (let i = 0; i < receiver; i++) {
-        $('.coinstackR').append('<div class="coin" style="left:85%;"></div>');
+        $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
     }
+
+    // Make another coin stack for punisher in 2PP: different location
+    for (let i = 0; i < TP; i++) {
+        $('.coinstackTP2PP').append('<div class="coinown2PP" style="left:83%;"></div>');
+    }
+
+    // Initialize the number labels
+    $('#countTP').text(`${TP}`);
+    $('#countD').text(`${dictator}`);
+    // $('#countDDes').text(`${dictator_destroyed}`);
+    $('#countR').text(`${receiver}`);
+    $('#countTP2PP').text(`${TP}`);
 
     function deactivateNumbers(numbersToDisable) {
         numbersToDisable.forEach(num => {
@@ -92,7 +107,7 @@ $(document).ready(function () {
 
 
         // Update the hidden input field
-        $('#selected-decision1').val(value);
+        $('#selected-pun_decision1').val(value);
 
         //$('#selected-decision2').val(value);
 
@@ -124,18 +139,40 @@ $(document).ready(function () {
 
         TPupdate = TP - count
         Dupdate = dictator - (count * pun_eff)
+        dictator_destroyedUpdate = count * pun_eff
+
+        if (Dupdate < 0) { // if Dupdate is less than 0
+            dictator_destroyedUpdate = dictator_destroyedUpdate + Dupdate // Set dictator_destroyedUpdate to max endowment (not more)
+            Dupdate = 0; // Set Dupdate to 0 if it's less than 0
+    }
 
         $('.coinstackTP').empty();
         $('.coinstackD').empty();
+        $('.coinstackDDes').empty();
+        $('.coinstackTP2PP').empty();
 
         // Add the specified number of coins
         for (let i = 0; i < TPupdate; i++) {
-            $('.coinstackTP').append('<div class="coinown"></div>');
+            $('.coinstackTP').append('<div class="coinown" style="left:75%;"></div>');
         }
 
         for (let i = 0; i < Dupdate; i++) {
             $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
         }
+
+        for (let i = 0; i < dictator_destroyedUpdate; i++) {
+            $('.coinstackDDes').append('<div class="coin_destroyed" style="left:19%;"></div>');
+        }
+        for (let i = 0; i < TPupdate; i++) {
+            $('.coinstackTP2PP').append('<div class="coinown2PP" style="left:83%;"></div>');
+        }
+
+        // Update the number labels
+        $('#countTP').text(`${TPupdate}`);
+        $('#countD').text(`${Dupdate}`);
+        $('#countDDes').text(`${dictator_destroyedUpdate}`);
+        $('#countTP2PP').text(`${TPupdate}`);
+
     }
 
 });
@@ -263,17 +300,95 @@ $(document).ready(function () {
         transform: translateX(-50%);
     }
 
+    .coin_destroyed {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background-color: rgba(255, 0, 0, 0.15); /* Semi-transparent red (0.5 is 50% transparency) */
+        /*background: linear-gradient(145deg, #ffd700, #e6c200);*/
+        /*border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        /*box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);*/
+        position: absolute;
+        transform: translateX(-50%);
+}
+
     .coinown {
         width: 1.8vw; /* Coins take the full width of the stack container */
         min-width:10px;
         height: 8px; /* Coin height is proportional to the width */
         border-radius: 50%;
         background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        /*border: 0.1vw solid #FFFFFF; !* Border size scales with the coin size *!*/
+        border: 0.1vw solid darkred; /* Border size scales with the coin size */
         box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
         position: absolute;
         transform: translateX(-50%);
     }
+
+    .coinown2PP {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        /*border: 0.1vw solid #FFFFFF; !* Border size scales with the coin size *!*/
+        border: 0.1vw solid darkred; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin-count-labelD {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelDDes {
+    font-size: 1.2rem;
+    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 0%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 85%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 80%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP2PP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 8%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
 
     .coin:nth-child(30)  { top: 0.6vw; }
     .coin:nth-child(29)  { top: 0.9vw; }
@@ -306,16 +421,61 @@ $(document).ready(function () {
     .coin:nth-child(2)   { top: 9.0vw; }
     .coin:nth-child(1)   { top: 9.3vw; }
 
-    .coinown:nth-child(10)  { top: 20.6vw; left:58% }
-    .coinown:nth-child(9)   { top: 20.9vw; left:58% }
-    .coinown:nth-child(8)   { top: 21.2vw; left:58% }
-    .coinown:nth-child(7)   { top: 21.5vw; left:58% }
-    .coinown:nth-child(6)   { top: 21.8vw; left:58% }
-    .coinown:nth-child(5)   { top: 22.1vw; left:58% }
-    .coinown:nth-child(4)   { top: 22.4vw; left:58% }
-    .coinown:nth-child(3)   { top: 22.7vw; left:58% }
-    .coinown:nth-child(2)   { top: 23.0vw; left:58% }
-    .coinown:nth-child(1)   { top: 23.3vw; left:58% }
+    .coinown:nth-child(10)  { top: 18.8vw; }
+    .coinown:nth-child(9)   { top: 19.1vw; }
+    .coinown:nth-child(8)   { top: 19.4vw; }
+    .coinown:nth-child(7)   { top: 19.7vw; }
+    .coinown:nth-child(6)   { top: 20.0vw; }
+    .coinown:nth-child(5)   { top: 20.3vw; }
+    .coinown:nth-child(4)   { top: 20.6vw; }
+    .coinown:nth-child(3)   { top: 20.9vw; }
+    .coinown:nth-child(2)   { top: 21.2vw; }
+    .coinown:nth-child(1)   { top: 21.5vw; }
+
+    .coinown2PP:nth-child(10)  { top: 0.6vw; }
+    .coinown2PP:nth-child(9)   { top: 0.9vw; }
+    .coinown2PP:nth-child(8)   { top: 1.2vw; }
+    .coinown2PP:nth-child(7)   { top: 1.5vw; }
+    .coinown2PP:nth-child(6)   { top: 1.8vw; }
+    .coinown2PP:nth-child(5)   { top: 2.1vw; }
+    .coinown2PP:nth-child(4)   { top: 2.4vw; }
+    .coinown2PP:nth-child(3)   { top: 2.7vw; }
+    .coinown2PP:nth-child(2)   { top: 3.0vw; }
+    .coinown2PP:nth-child(1)   { top: 3.3vw; }
+
+
+
+ .coin_destroyed:nth-child(30)  { top: 8.7vw; }
+.coin_destroyed:nth-child(29)  { top: 8.4vw; }
+.coin_destroyed:nth-child(28)  { top: 8.1vw; }
+.coin_destroyed:nth-child(27)  { top: 7.8vw; }
+.coin_destroyed:nth-child(26)  { top: 7.5vw; }
+.coin_destroyed:nth-child(25)  { top: 7.2vw; }
+.coin_destroyed:nth-child(24)  { top: 6.9vw; }
+.coin_destroyed:nth-child(23)  { top: 6.6vw; }
+.coin_destroyed:nth-child(22)  { top: 6.3vw; }
+.coin_destroyed:nth-child(21)  { top: 6vw; }
+.coin_destroyed:nth-child(20)  { top: 5.7vw; }
+.coin_destroyed:nth-child(19)  { top: 5.4vw; }
+.coin_destroyed:nth-child(18)  { top: 5.1vw; }
+.coin_destroyed:nth-child(17)  { top: 4.8vw; }
+.coin_destroyed:nth-child(16)  { top: 4.5vw; }
+.coin_destroyed:nth-child(15)  { top: 4.2vw; }
+.coin_destroyed:nth-child(14)  { top: 3.9vw; }
+.coin_destroyed:nth-child(13)  { top: 3.6vw; }
+.coin_destroyed:nth-child(12)  { top: 3.3vw; }
+.coin_destroyed:nth-child(11)  { top: 3vw; }
+.coin_destroyed:nth-child(10)  { top: 2.7vw; }
+.coin_destroyed:nth-child(9)   { top: 2.4vw; }
+.coin_destroyed:nth-child(8)   { top: 2.1vw; }
+.coin_destroyed:nth-child(7)   { top: 1.8vw; }
+.coin_destroyed:nth-child(6)   { top: 1.5vw; }
+.coin_destroyed:nth-child(5)   { top: 1.2vw; }
+.coin_destroyed:nth-child(4)   { top: 0.9vw; }
+.coin_destroyed:nth-child(3)   { top: 0.6vw; }
+.coin_destroyed:nth-child(2)   { top: 0.3vw; }
+.coin_destroyed:nth-child(1)   { top: 0vw; }
+
 
 </style>
 </head>
@@ -325,9 +485,9 @@ $(document).ready(function () {
 
 <form method="post">
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="decision1" id="selected-decision1">
+    <input type="hidden" name="pun_decision1" id="selected-pun_decision1">
 
-    {{ formfield_errors 'decision1' }}
+    {{ formfield_errors 'pun_decision1' }}
 
 
 <div class='responsive-div'>
@@ -340,21 +500,54 @@ $(document).ready(function () {
     <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
     <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-    <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>
+<!--    <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
+
+    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
     <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
     <span class='coinstack coinstackD'>
     </span>
 
+    <div class="coin-count-labelD" id="countD"></div>
+
+     <span class='coinstack coinstackDDes'>
+    </span>
+
+    <div class="coin-count-labelDDes" id="countDDes"></div>
+
     <span class='coinstack coinstackR'>
     </span>
+
+    <div class="coin-count-labelR" id="countR"></div>
+
+<!--    Adjust location of TP coin stack depending on 2PP vs 3PP-->
+    {% if player.treatment == "3PP punish" %}
 
     <span class='coinstack coinstackTP'>
     </span>
 
+    <div class="coin-count-labelTP" id="countTP"></div>
+
+{% endif %}
+
+    {% if player.treatment == "2PP punish" %}
+
+    <span class='coinstack coinstackTP2PP'>
+    </span>
+
+    <div class="coin-count-labelTP2PP" id="countTP2PP"></div>
+
+{% endif %}
+
+
+
+
 </div>
-<br>
+
+    <p>{{ treatment_text }}</p>
+
+
 <div class='numbers'>
    <div class="number-row">
         <div class="number" data-value="0">0</div>
@@ -362,17 +555,18 @@ $(document).ready(function () {
         <div class="number" data-value="2">2</div>
         <div class="number" data-value="3">3</div>
         <div class="number" data-value="4">4</div>
-        <div class="number" data-value="5">5</div>
-        <div class="number" data-value="6">6</div>
-        <div class="number" data-value="7">7</div>
-        <div class="number" data-value="8">8</div>
-        <div class="number" data-value="9">9</div>
-        <div class="number" data-value="10">10</div>
+<!--        <div class="number" data-value="5">5</div>-->
+<!--        <div class="number" data-value="6">6</div>-->
+<!--        <div class="number" data-value="7">7</div>-->
+<!--        <div class="number" data-value="8">8</div>-->
+<!--        <div class="number" data-value="9">9</div>-->
+<!--        <div class="number" data-value="10">10</div>-->
     </div>
 </div>
 
 </div>
 
+    <br>
 
    {{ next_button }}
 

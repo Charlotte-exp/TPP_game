@@ -1,0 +1,501 @@
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+
+    // task variables
+
+    total_endowment = {{ C.total_endowment }}
+
+    receiver = {{ C.norm_strategy_dic_gives }} // The receiver gets however much the dictator gives
+    dictator = total_endowment - receiver
+
+    //TP = {{ C.punishment_points }} // punishment points
+    //pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+
+    // country pictures from https://github.com/irixapps/World-Flags/tree/master
+    // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+    receiverCountry = 'be'
+    dictatorCountry = 'us'
+
+
+
+    // dependent variable
+
+
+    /////////
+    // script
+
+    $('.receiverCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + receiverCountry +'.png');
+    $('.dictatorCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + dictatorCountry +'.png');
+
+    $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
+    $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
+
+
+    for (let i = 0; i < dictator; i++) {
+        $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
+    }
+    // for (let i = 0; i < TP; i++) {
+    //     $('.coinstackTP').append('<div class="coinown"></div>');
+    // }
+    for (let i = 0; i < receiver; i++) {
+        $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
+    }
+
+    // Initialize the number labels
+    //$('#countTP').text(`${TP}`);
+    $('#countD').text(`${dictator}`);
+    // $('#countDDes').text(`${dictator_destroyed}`);
+    $('#countR').text(`${receiver}`);
+
+    function deactivateNumbers(numbersToDisable) {
+        numbersToDisable.forEach(num => {
+            $('.number[data-value="' + num + '"]').addClass('disabled');
+        });
+    }
+
+    // // deactive punishment that would generate negative values
+    // DPpossible = Math.ceil(dictator/3);
+    // let list = [];
+    // for (let i = DPpossible+1; i <= TP; i++) {
+    //     list.push(i);
+    // }
+    // deactivateNumbers(list);
+
+    // // add hover event listener to numbers
+    // $('.number').hover(function () {
+    //     const value = $(this).data('value'); // Get the number value
+    //     updateCoinStack(value); // Update the coin stack
+    // });
+
+    $('.number').on('click', function () {
+        // Remove 'selected' class from all buttons
+        $('.number').removeClass('selected');
+
+        // Add 'selected' class to the clicked button
+        $(this).addClass('selected');
+
+        // Get the value of the clicked button
+        const value = $(this).data('value');
+
+        // Update the hidden input field
+        $('#selected-dic_norm_decision1').val(value);
+
+        // // Update the coin stack
+        // updateCoinStack(value);
+
+        dictator = value
+
+        console.log(dictator)
+    });
+    //
+    // // Submit button click handler
+    // $('#submit-button').on('click', function () {
+    //     // Submit the form
+    //     $('form').submit();
+    // });
+    //
+    // // update coin stacks to original state when mouse leaves number area
+    // $('.number-row').mouseleave(function () {
+    //     updateCoinStack(dictator);
+    // });
+    //
+    // // function to update the coin stack
+    // function updateCoinStack(count) {
+    //     // Clear existing coins in coinstack1
+    //
+    //     //TPupdate = TP - count
+    //     Dupdate = total_endowment - count
+    //     Rupdate = receiver_endowment + count
+    //
+    //
+    //     //$('.coinstackTP').empty();
+    //     $('.coinstackR').empty();
+    //     $('.coinstackD').empty();
+    //
+    //     // Add the specified number of coins
+    //     for (let i = 0; i < Rupdate; i++) {
+    //         $('.coinstackR').append('<div class="coin" style="left:85%;"></div>');
+    //     }
+    //     // for (let i = 0; i < TPupdate; i++) {
+    //     //     $('.coinstackTP').append('<div class="coinown"></div>');
+    //     // }
+    //
+    //     for (let i = 0; i < Dupdate; i++) {
+    //         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
+    //     }
+    // }
+
+});
+</script>
+
+
+<style>
+
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin-top: 4vw;
+        background-color: #f4f4f4;
+    }
+
+    .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      /*border:1px solid black;*/
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .container {
+        width:45%;
+        height:25vw;
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
+    @media (max-width: 1200px) {
+      .responsive-div {
+        transform: scale(1.0); /* Scale to 80% for smaller screens */
+      }
+      .container {
+          margin-left:10vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:6vw;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .responsive-div {
+        transform: scale(2); /* Scale to 60% for even smaller screens */
+      }
+      .container {
+          margin-left:1vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:-3.2vw;
+      }
+      .number {
+          font-size:2vw;
+          border-width:1px;
+      }
+    }
+
+    .coin-stack {
+        position: absolute;
+        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
+        max-width: 100px; /* Ensure coins don't get too big */
+    }
+
+    .coin {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin-count-labelD {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelDDes {
+    font-size: 1.2rem;
+    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 0%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 85%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 80%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP2PP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 8%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin:nth-child(30)  { top: 0.6vw; }
+    .coin:nth-child(29)  { top: 0.9vw; }
+    .coin:nth-child(28)  { top: 1.2vw; }
+    .coin:nth-child(27)  { top: 1.5vw; }
+    .coin:nth-child(26)  { top: 1.8vw; }
+    .coin:nth-child(25)  { top: 2.1vw; }
+    .coin:nth-child(24)  { top: 2.4vw; }
+    .coin:nth-child(23)  { top: 2.7vw; }
+    .coin:nth-child(22)  { top: 3.0vw; }
+    .coin:nth-child(21)  { top: 3.3vw; }
+    .coin:nth-child(20)  { top: 3.6vw; }
+    .coin:nth-child(19)  { top: 3.9vw; }
+    .coin:nth-child(18)  { top: 4.2vw; }
+    .coin:nth-child(17)  { top: 4.5vw; }
+    .coin:nth-child(16)  { top: 4.8vw; }
+    .coin:nth-child(15)  { top: 5.1vw; }
+    .coin:nth-child(14)  { top: 5.4vw; }
+    .coin:nth-child(13)  { top: 5.7vw; }
+    .coin:nth-child(12)  { top: 6.0vw; }
+    .coin:nth-child(11)  { top: 6.3vw; }
+    .coin:nth-child(10)  { top: 6.6vw; }
+    .coin:nth-child(9)   { top: 6.9vw; }
+    .coin:nth-child(8)   { top: 7.2vw; }
+    .coin:nth-child(7)   { top: 7.5vw; }
+    .coin:nth-child(6)   { top: 7.8vw; }
+    .coin:nth-child(5)   { top: 8.1vw; }
+    .coin:nth-child(4)   { top: 8.4vw; }
+    .coin:nth-child(3)   { top: 8.7vw; }
+    .coin:nth-child(2)   { top: 9.0vw; }
+    .coin:nth-child(1)   { top: 9.3vw; }
+
+    .coinown:nth-child(10)  { top: 20.6vw; left:58% }
+    .coinown:nth-child(9)   { top: 20.9vw; left:58% }
+    .coinown:nth-child(8)   { top: 21.2vw; left:58% }
+    .coinown:nth-child(7)   { top: 21.5vw; left:58% }
+    .coinown:nth-child(6)   { top: 21.8vw; left:58% }
+    .coinown:nth-child(5)   { top: 22.1vw; left:58% }
+    .coinown:nth-child(4)   { top: 22.4vw; left:58% }
+    .coinown:nth-child(3)   { top: 22.7vw; left:58% }
+    .coinown:nth-child(2)   { top: 23.0vw; left:58% }
+    .coinown:nth-child(1)   { top: 23.3vw; left:58% }
+
+</style>
+</head>
+
+
+<body>
+
+<form method="post">
+    <!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="dic_norm_decision1" id="selected-dic_norm_decision1">
+
+    {{ formfield_errors 'dic_norm_decision1' }}
+
+
+<div class='responsive-div'>
+
+<div class='container'>
+
+    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+
+    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+<!--    <img src='/static/baseline/3PP give.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
+
+    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+    <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
+
+    <span class='coinstack coinstackD'>
+    </span>
+
+    <div class="coin-count-labelD" id="countD"></div>
+
+    <span class='coinstack coinstackR'>
+    </span>
+
+    <div class="coin-count-labelR" id="countR"></div>
+
+    <!--
+    <span class='coinstack coinstackTP'>
+    </span>
+    -->
+
+</div>
+
+    <p>{{ treatment_text }} {{ C.norm_strategy_dic_gives }}? </p>
+
+<!--<div class='numbers'>-->
+<!--   <div class="number-row">-->
+<!--        <div class="number" data-value="0">0</div>-->
+<!--        <div class="number" data-value="1">1</div>-->
+<!--        <div class="number" data-value="2">2</div>-->
+<!--        <div class="number" data-value="3">3</div>-->
+<!--        <div class="number" data-value="4">4</div>-->
+<!--        <div class="number" data-value="5">5</div>-->
+<!--        <div class="number" data-value="6">6</div>-->
+<!--        <div class="number" data-value="7">7</div>-->
+<!--        <div class="number" data-value="8">8</div>-->
+<!--        <div class="number" data-value="9">9</div>-->
+<!--        <div class="number" data-value="10">10</div>-->
+<!--        <div class="number" data-value="11">11</div>-->
+<!--        <div class="number" data-value="12">12</div>-->
+<!--        <div class="number" data-value="13">13</div>-->
+<!--        <div class="number" data-value="14">14</div>-->
+<!--        <div class="number" data-value="15">15</div>-->
+<!--        <div class="number" data-value="16">16</div>-->
+<!--        <div class="number" data-value="17">17</div>-->
+<!--        <div class="number" data-value="18">18</div>-->
+<!--        <div class="number" data-value="19">19</div>-->
+<!--        <div class="number" data-value="20">20</div>-->
+<!--        <div class="number" data-value="21">21</div>-->
+<!--        <div class="number" data-value="22">22</div>-->
+<!--        <div class="number" data-value="23">23</div>-->
+<!--        <div class="number" data-value="24">24</div>-->
+<!--        <div class="number" data-value="25">25</div>-->
+<!--        <div class="number" data-value="26">26</div>-->
+<!--        <div class="number" data-value="27">27</div>-->
+<!--        <div class="number" data-value="28">28</div>-->
+<!--        <div class="number" data-value="29">29</div>-->
+<!--        <div class="number" data-value="30">30</div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--    <div class='numbers'>-->
+<!--   <div class="number-row">-->
+<!--        <div class="number" data-value="very socially unacceptable">very socially<br>unacceptable</div>-->
+<!--        <div class="number" data-value="socially unacceptable">socially<br>unacceptable</div>-->
+<!--       <div class="number" data-value="slightly socially unacceptable">slightly socially<br>unacceptable</div>-->
+<!--       <div class="number" data-value="slightly socially acceptable">slightly socially<br>acceptable</div>-->
+<!--       <div class="number" data-value="socially acceptable">socially<br>acceptable</div>-->
+<!--       <div class="number" data-value="very socially acceptable">very socially<br>acceptable</div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+    <div class='numbers'>
+    <div class="number-row">
+        <div class="number" data-value="0">very socially<br>unacceptable</div>
+        <div class="number" data-value="1">socially<br>unacceptable</div>
+        <div class="number" data-value="2">slightly socially<br>unacceptable</div>
+        <div class="number" data-value="3">slightly socially<br>acceptable</div>
+        <div class="number" data-value="4">socially<br>acceptable</div>
+        <div class="number" data-value="5">very socially<br>acceptable</div>
+    </div>
+</div>
+
+</div>
+
+    <br>
+
+   {{ next_button }}
+
+
+</form>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+{{ endblock }}
