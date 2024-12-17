@@ -20,13 +20,13 @@ $(document).ready(function () {
     receiver = {{ C.norm_strategy_dic_gives_binary }} // The receiver gets however much the dictator gives
 
     TP_points_assigned = {{ C.norm_strategy_punish_norm }} // punishment points assigned by punisher
-    TP_punishment_points = {{ C.punishment_points }}
-    TP = TP_punishment_points - TP_points_assigned // punishment points
-    pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+    TP_points = {{ C.TP_points }}
+    TP = TP_points - TP_points_assigned // punishment points
+    TP_eff = {{ C.TP_effectiveness }} // punishment effectiveness
 
     // dictator = total_endowment - receiver
-    dictator_destroyed = TP_points_assigned * pun_eff
-    dictator = total_endowment - receiver - dictator_destroyed
+    dictator_recipient_TPeffect = TP_points_assigned * TP_eff
+    dictator = total_endowment - receiver - dictator_recipient_TPeffect
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -52,7 +52,7 @@ $(document).ready(function () {
     for (let i = 0; i < dictator; i++) {
         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
     }
-    for (let i = 0; i < dictator_destroyed; i++) {
+    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
         $('.coinstackDDes').append('<div class="coin_destroyed" style="left:19%;"></div>');
     }
     for (let i = 0; i < TP; i++) {
@@ -70,7 +70,7 @@ $(document).ready(function () {
     // Initialize the number labels
     $('#countTP').text(`${TP}`);
     $('#countD').text(`${dictator}`);
-    $('#countDDes').text(`${dictator_destroyed}`);
+    $('#countDDes').text(`${dictator_recipient_TPeffect}`);
     $('#countR').text(`${receiver}`);
     $('#countTP2PP').text(`${TP}`);
 
@@ -105,7 +105,7 @@ $(document).ready(function () {
         const value = $(this).data('value');
 
         // Update the hidden input field
-        $('#selected-pun_norm_decision1').val(value);
+        $('#selected-TP_norm_decision1').val(value);
 
         // // Update the coin stack
         // updateCoinStack(value);
@@ -465,9 +465,9 @@ $(document).ready(function () {
 
 <form method="post">
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="pun_norm_decision1" id="selected-pun_norm_decision1">
+    <input type="hidden" name="TP_norm_decision1" id="selected-TP_norm_decision1">
 
-    {{ formfield_errors 'pun_norm_decision1' }}
+    {{ formfield_errors 'TP_norm_decision1' }}
 
 
 <div class='responsive-div'>
