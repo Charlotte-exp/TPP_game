@@ -11,7 +11,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 3
 
-    TREATMENTS = ['3PP punish', '3PR reward', '3PC comp'] #['DG give', 'DG give norm', '3PP give', '3PP punish', '3PP punish norm', '2PP give', '2PP punish', '2PP punish norm']
+    TREATMENTS = ['3PP punish norm', '3PR reward norm', '3PC comp norm'] #['DG give', 'DG give norm', '3PP give', '3PP punish', '3PP punish norm', '2PP give', '2PP punish', '2PP punish norm']
     # total_endowment = 30
     # receiver_endowment = 0
     # TP_points = 10
@@ -129,6 +129,35 @@ class TPPage(Page):
         player.payoff = C.TP_points - player.TP_decision1
 
 
+class TPNormPage(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm"  or player.treatment == '3PR reward norm' or player.treatment == '3PC comp norm'
+    form_model = 'player'
+    form_fields = ['TP_norm_decision1']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        # text1 = "How socially acceptable is it to punish"
+        if player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm":
+            text1 = "How socially acceptable is it to punish Person A"
+        if player.treatment == "3PR reward norm":
+            text1 = "How socially acceptable is it to reward Person A"
+        if player.treatment == "3PC comp norm":
+            text1 = "How socially acceptable is it to compensate Person B"
+        text2 = "points when Person A gave"
+        image = 'baseline/{}.png'.format(player.treatment)
+        print('Generating image path and round number - 1', image, player.round_number - 1)
+
+        return {
+            'treatment': player.treatment,
+            'treatment_text1': text1,
+            'treatment_text2': text2,
+            'image': image,
+            'TP_norm_decision1': player.TP_norm_decision1,
+            # 'decision2': player.decision2,
+            # 'receiver_country': player.receiver_country
+        }
 
 class DictatorPage(Page):
     @staticmethod
@@ -175,33 +204,6 @@ class DictatorNormPage(Page):
             'treatment_text': text,
             'image': image,
             'dic_norm_decision1': player.dic_norm_decision1,
-            # 'decision2': player.decision2,
-            # 'receiver_country': player.receiver_country
-        }
-    # def before_next_page(player: Player, timeout_happened):
-    #     player.payoff = C.total_endowment - player.dic_norm_decision1
-
-class TPNormPage(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm"
-
-    form_model = 'player'
-    form_fields = ['TP_norm_decision1']
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        text1 = "How socially acceptable is it to punish"
-        text2 = "when Person A gave"
-        image = 'baseline/{}.png'.format(player.treatment)
-        print('Generating image path and round number - 1', image, player.round_number - 1)
-
-        return {
-            'treatment': player.treatment,
-            'treatment_text1': text1,
-            'treatment_text2': text2,
-            'image': image,
-            'TP_norm_decision1': player.TP_norm_decision1,
             # 'decision2': player.decision2,
             # 'receiver_country': player.receiver_country
         }
