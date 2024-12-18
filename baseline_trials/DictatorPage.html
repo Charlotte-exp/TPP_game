@@ -420,6 +420,25 @@ $(document).ready(function () {
     </span>
     -->
 
+<!--    Add symbol for giving or taking-->
+
+    {% if player.treatment == "3PP give" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>
+{% endif %}
+
+    {% if player.treatment == "3PR give" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>
+{% endif %}
+
+    {% if player.treatment == "3PC give" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>
+{% endif %}
+
+     {% if player.treatment == "2PP give" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>
+{% endif %}
+
+
 </div>
 
     <p>{{ treatment_text }} </p>
