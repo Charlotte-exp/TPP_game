@@ -108,17 +108,21 @@ class TPPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         if player.treatment == "3PP punish" or player.treatment == "2PP punish":
-            text = "How much do you punish Person A?"
+            text_action = "take away"
+            text_receiver = "from Person A"
         if player.treatment == "3PR reward":
-            text = "How much do you reward Person A?"
+            text_action = "give"
+            text_receiver = "to Person A"
         if player.treatment == "3PC comp":
-            text = "How much do you compensate Person B?"
+            text_action = "give"
+            text_receiver = "to Person B"
         image = 'baseline/{}.png'.format(player.treatment)
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
             'treatment': player.treatment,
-            'treatment_text': text,
+            'treatment_text_action': text_action,
+            'treatment_text_receiver': text_receiver,
             'image': image,
             'TP_decision1':player.TP_decision1,
             #'decision2': player.decision2,
@@ -140,20 +144,22 @@ class TPNormPage(Page):
     def vars_for_template(player: Player):
         # text1 = "How socially acceptable is it to punish"
         if player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm":
-            text1 = "How socially acceptable is it to punish Person A"
+            text_action = "take away"
+            text_receiver = "from Person A"
         if player.treatment == "3PR reward norm":
-            text1 = "How socially acceptable is it to reward Person A"
+            text_action = "give"
+            text_receiver = "to Person A"
         if player.treatment == "3PC comp norm":
-            text1 = "How socially acceptable is it to compensate Person B"
-        text2 = "points when Person A gave"
+            text_action = "give"
+            text_receiver = "to Person B"
         image = 'baseline/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
             'treatment': player.treatment,
-            'treatment_text1': text1,
-            'treatment_text2': text2,
+            'treatment_text_action': text_action,
+            'treatment_text_receiver': text_receiver,
             'image': image,
             'TP_norm_decision1': player.TP_norm_decision1,
             # 'decision2': player.decision2,
@@ -170,13 +176,13 @@ class DictatorPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        text = "How much do you give to Person B?"
+        # text = "How much do you give to Person B?"
         image = 'baseline/{}.png'.format(player.treatment)
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
             'treatment': player.treatment,
-            'treatment_text': text,
+            # 'treatment_text': text,
             'image': image,
             'dic_decision1': player.dic_decision1,
             # 'decision2': player.decision2,
@@ -196,14 +202,14 @@ class DictatorNormPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        text = "How socially acceptable is it to give"
+        # text = "How socially acceptable is it to give"
         image = 'baseline/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
             'treatment': player.treatment,
-            'treatment_text': text,
+            # 'treatment_text': text,
             'image': image,
             'dic_norm_decision1': player.dic_norm_decision1,
             # 'decision2': player.decision2,
