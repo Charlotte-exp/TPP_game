@@ -13,6 +13,8 @@
 <script>
 $(document).ready(function () {
 
+    var current_treatment = "{{ treatment }}";
+
     // task variables
 
     total_endowment = {{ C.total_endowment }}
@@ -20,13 +22,17 @@ $(document).ready(function () {
     receiver = {{ C.norm_strategy_dic_gives_binary }} // The receiver gets however much the dictator gives
 
     TP_points_assigned = {{ C.norm_strategy_punish_norm }} // punishment points assigned by punisher
-    TP_punishment_points = {{ C.punishment_points }}
-    TP = TP_punishment_points - TP_points_assigned // punishment points
-    pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+    TP_points = {{ C.TP_points }}
+    TP = TP_points - TP_points_assigned // punishment points
+    TP_eff = {{ C.TP_effectiveness }} // punishment effectiveness
 
     // dictator = total_endowment - receiver
-    dictator_destroyed = TP_points_assigned * pun_eff
-    dictator = total_endowment - receiver - dictator_destroyed
+    dictator_recipient_TPeffect = TP_points_assigned * TP_eff
+    dictator_kept = total_endowment - receiver
+    dictator = dictator_kept - dictator_recipient_TPeffect
+
+    document.getElementById("dictator_recipient_TPeffect").textContent = dictator_recipient_TPeffect;
+    //document.getElementById("dictator_kept").textContent = dictator_kept;
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -52,7 +58,7 @@ $(document).ready(function () {
     for (let i = 0; i < dictator; i++) {
         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
     }
-    for (let i = 0; i < dictator_destroyed; i++) {
+    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
         $('.coinstackDDes').append('<div class="coin_destroyed" style="left:19%;"></div>');
     }
     for (let i = 0; i < TP; i++) {
@@ -66,13 +72,23 @@ $(document).ready(function () {
     for (let i = 0; i < TP; i++) {
         $('.coinstackTP2PP').append('<div class="coinown2PP" style="left:83%;"></div>');
     }
+    // Make another coin stack for DG reward in 3PR: different location
+    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+        $('.coinstackTP3PR').append('<div class="coinown3PR" style="left:19%;"></div>');
+    }
+    // Make another coin stack for recipient compensation in 3PC: different location
+    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+        $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:83%;"></div>');
+    }
 
     // Initialize the number labels
     $('#countTP').text(`${TP}`);
     $('#countD').text(`${dictator}`);
-    $('#countDDes').text(`${dictator_destroyed}`);
+    $('#countDDes').text(`${dictator_recipient_TPeffect}`);
     $('#countR').text(`${receiver}`);
     $('#countTP2PP').text(`${TP}`);
+    $('#countTP3PR').text(`${dictator_recipient_TPeffect}`);
+    $('#countTP3PC').text(`${dictator_recipient_TPeffect}`);
 
     function deactivateNumbers(numbersToDisable) {
         numbersToDisable.forEach(num => {
@@ -105,7 +121,7 @@ $(document).ready(function () {
         const value = $(this).data('value');
 
         // Update the hidden input field
-        $('#selected-pun_norm_decision1').val(value);
+        $('#selected-TP_norm_decision1').val(value);
 
         // // Update the coin stack
         // updateCoinStack(value);
@@ -320,7 +336,31 @@ $(document).ready(function () {
         transform: translateX(-50%);
     }
 
-     .coin-count-labelD {
+    .coinown3PR {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown3PC {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin-count-labelD {
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
@@ -363,6 +403,26 @@ $(document).ready(function () {
     .coin-count-labelTP2PP {
     font-size: 1.2rem;
     color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 8%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP3PR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 8%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP3PC {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
     left: 73%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
@@ -424,6 +484,32 @@ $(document).ready(function () {
     .coinown2PP:nth-child(2)   { top: 3.0vw; }
     .coinown2PP:nth-child(1)   { top: 3.3vw; }
 
+    .coinown3PR:nth-child(1)  { top: 3.3vw; }
+.coinown3PR:nth-child(2)  { top: 3vw; }
+.coinown3PR:nth-child(3)  { top: 2.7vw; }
+.coinown3PR:nth-child(4)   { top: 2.4vw; }
+.coinown3PR:nth-child(5)   { top: 2.1vw; }
+.coinown3PR:nth-child(6)   { top: 1.8vw; }
+.coinown3PR:nth-child(7)   { top: 1.5vw; }
+.coinown3PR:nth-child(8)   { top: 1.2vw; }
+.coinown3PR:nth-child(9)   { top: 0.9vw; }
+.coinown3PR:nth-child(10)   { top: 0.6vw; }
+.coinown3PR:nth-child(11)   { top: 0.3vw; }
+.coinown3PR:nth-child(12)   { top: 0vw; }
+
+.coinown3PC:nth-child(1)  { top: 3.3vw; }
+.coinown3PC:nth-child(2)  { top: 3vw; }
+.coinown3PC:nth-child(3)  { top: 2.7vw; }
+.coinown3PC:nth-child(4)   { top: 2.4vw; }
+.coinown3PC:nth-child(5)   { top: 2.1vw; }
+.coinown3PC:nth-child(6)   { top: 1.8vw; }
+.coinown3PC:nth-child(7)   { top: 1.5vw; }
+.coinown3PC:nth-child(8)   { top: 1.2vw; }
+.coinown3PC:nth-child(9)   { top: 0.9vw; }
+.coinown3PC:nth-child(10)   { top: 0.6vw; }
+.coinown3PC:nth-child(11)   { top: 0.3vw; }
+.coinown3PC:nth-child(12)   { top: 0vw; }
+
 
 
  .coin_destroyed:nth-child(30)  { top: 8.7vw; }
@@ -457,6 +543,7 @@ $(document).ready(function () {
 .coin_destroyed:nth-child(2)   { top: 0.3vw; }
 .coin_destroyed:nth-child(1)   { top: 0vw; }
 
+
 </style>
 </head>
 
@@ -465,9 +552,9 @@ $(document).ready(function () {
 
 <form method="post">
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="pun_norm_decision1" id="selected-pun_norm_decision1">
+    <input type="hidden" name="TP_norm_decision1" id="selected-TP_norm_decision1">
 
-    {{ formfield_errors 'pun_norm_decision1' }}
+    {{ formfield_errors 'TP_norm_decision1' }}
 
 
 <div class='responsive-div'>
@@ -484,25 +571,51 @@ $(document).ready(function () {
 
     <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
-    <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
+<!--     <img src='/static/baseline/3PC comp.png' style='width:27vw; position:absolute; left:20%; top:3vw'>-->
 
     <span class='coinstack coinstackD'>
     </span>
 
     <div class="coin-count-labelD" id="countD"></div>
 
-    <span class='coinstack coinstackDDes'>
-    </span>
-
-    <div class="coin-count-labelDDes" id="countDDes"></div>
 
     <span class='coinstack coinstackR'>
     </span>
 
     <div class="coin-count-labelR" id="countR"></div>
 
-    <!--    Adjust location of TP coin stack depending on 2PP vs 3PP-->
-    {% if player.treatment == "3PP punish norm" %}
+
+
+    {% if player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm" %}
+
+    <span class='coinstack coinstackDDes'>
+    </span>
+
+    <div class="coin-count-labelDDes" id="countDDes"></div>
+
+{% endif %}
+
+     {% if player.treatment == "3PR reward norm" %}
+
+    <span class='coinstack coinstackTP3PR'>
+    </span>
+
+    <div class="coin-count-labelTP3PR" id="countTP3PR"></div>
+
+{% endif %}
+
+    {% if player.treatment == "3PC comp norm" %}
+
+    <span class='coinstack coinstackTP3PC'>
+    </span>
+
+    <div class="coin-count-labelTP3PC" id="countTP3PC"></div>
+
+{% endif %}
+
+
+<!--    Adjust location of TP coin stack depending on 2PP vs 3PP-->
+    {% if player.treatment == "3PP punish norm" or player.treatment == "3PR reward norm" or player.treatment == "3PC comp norm" %}
 
     <span class='coinstack coinstackTP'>
     </span>
@@ -520,9 +633,30 @@ $(document).ready(function () {
 
 {% endif %}
 
+        {% if player.treatment == "3PP punish norm" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>
+{% endif %}
+
+    {% if player.treatment == "3PR reward norm" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>
+{% endif %}
+
+    {% if player.treatment == "3PC comp norm" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>
+{% endif %}
+
+     {% if player.treatment == "2PP punish norm" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>
+{% endif %}
+
+
+
+
 </div>
 
-    <p>{{ treatment_text1 }} {{ C.norm_strategy_punish_norm }} {{ treatment_text2 }} {{ C.norm_strategy_dic_gives_binary }}? </p>
+<!--    <p>{{ treatment_text1 }} <span id="dictator_recipient_TPeffect"></span> {{ treatment_text2 }} {{ C.norm_strategy_dic_gives_binary }} points and kept <span id="dictator_kept"></span>? </p>-->
+<p>{{ treatment_text1 }} <span id="dictator_recipient_TPeffect"></span> points?  </p>
+
 
 <!--<div class='numbers'>-->
 <!--   <div class="number-row">-->

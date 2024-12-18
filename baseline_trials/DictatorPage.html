@@ -17,8 +17,8 @@ $(document).ready(function () {
 
     total_endowment = {{ C.total_endowment }}
 
-    //TP = {{ C.punishment_points }} // punishment points
-    //pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+    //TP = {{ C.TP_points }} // punishment points
+    //pun_eff = {{ C.TP_effectiveness }} // punishment effectiveness
 
     receiver_endowment = {{ C.receiver_endowment}}
 
@@ -419,6 +419,25 @@ $(document).ready(function () {
     <span class='coinstack coinstackTP'>
     </span>
     -->
+
+<!--    Add symbol for giving or taking-->
+
+    {% if player.treatment == "3PP give" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>
+{% endif %}
+
+    {% if player.treatment == "3PR give" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>
+{% endif %}
+
+    {% if player.treatment == "3PC give" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>
+{% endif %}
+
+     {% if player.treatment == "2PP give" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>
+{% endif %}
+
 
 </div>
 

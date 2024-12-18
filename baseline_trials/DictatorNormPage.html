@@ -20,8 +20,8 @@ $(document).ready(function () {
     receiver = {{ C.norm_strategy_dic_gives }} // The receiver gets however much the dictator gives
     dictator = total_endowment - receiver
 
-    //TP = {{ C.punishment_points }} // punishment points
-    //pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+    //TP = {{ C.TP_points }} // punishment points
+    //TP_eff = {{ C.TP_effectiveness }} // punishment effectiveness
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -414,6 +414,22 @@ $(document).ready(function () {
     <span class='coinstack coinstackTP'>
     </span>
     -->
+
+        {% if player.treatment == "3PP give norm" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>
+{% endif %}
+
+    {% if player.treatment == "3PR give norm" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>
+{% endif %}
+
+    {% if player.treatment == "3PC give norm" %}
+    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>
+{% endif %}
+
+     {% if player.treatment == "2PP give norm" %}
+    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>
+{% endif %}
 
 </div>
 
