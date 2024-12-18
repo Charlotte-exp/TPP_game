@@ -9,9 +9,9 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 3
+    NUM_ROUNDS = 14
 
-    TREATMENTS = ['3PP punish norm', '3PR reward norm', '3PC comp norm'] #['DG give', 'DG give norm', '3PP give', '3PP punish', '3PP punish norm', '2PP give', '2PP punish', '2PP punish norm']
+    TREATMENTS = ['DG give', 'DG give norm', '3PP give', '3PP punish', '3PP punish norm', '2PP give', '2PP punish', '2PP punish norm', '3PR give', '3PC give', '3PR reward', '3PC comp', '3PR reward norm', '3PC comp norm']
     # total_endowment = 30
     # receiver_endowment = 0
     # TP_points = 10
@@ -147,6 +147,7 @@ class TPNormPage(Page):
             text1 = "How socially acceptable is it to compensate Person B"
         text2 = "points when Person A gave"
         image = 'baseline/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
@@ -162,7 +163,7 @@ class TPNormPage(Page):
 class DictatorPage(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.treatment == "3PP give" or player.treatment == "DG give" or player.treatment == "2PP give"
+        return player.treatment == "3PP give" or player.treatment == "DG give" or player.treatment == "2PP give" or player.treatment == "3PR give" or player.treatment == "3PC give"
 
     form_model = 'player'
     form_fields = ['dic_decision1']  # , 'decision2']
@@ -197,6 +198,7 @@ class DictatorNormPage(Page):
     def vars_for_template(player: Player):
         text = "How socially acceptable is it to give"
         image = 'baseline/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
