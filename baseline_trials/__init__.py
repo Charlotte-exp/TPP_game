@@ -1,6 +1,8 @@
 from otree.api import *
 import random
 
+from otree.models import player
+
 doc = """
 Your app description
 """
@@ -20,6 +22,21 @@ class C(BaseConstants):
     trials_2PP = ['2PP give', '2PP punish', '2PP punish norm']
     trials_3PR = ['3PR give', '3PR reward', '3PR reward norm']
     trials_3PC = ['3PC give', '3PC comp', '3PC comp norm']
+
+    ## 2) Ingroup - outgroup
+
+    trials_3PP_INOUT = ['3PP give IN', '3PP give OUT', '3PP give norm IN', '3PP give norm OUT',
+                        '3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
+                        '3PP punish OUT OUT',
+                        '3PP punish norm IN IN', '3PP punish norm OUT OUT']
+    trials_3PR_INOUT = ['3PR give IN', '3PR give OUT', '3PR give norm IN', '3PR give norm OUT',
+                        '3PR punish IN IN', '3PR punish IN OUT', '3PR punish OUT IN',
+                        '3PR punish OUT OUT',
+                        '3PR punish norm IN IN', '3PR punish norm OUT OUT']
+    trials_3PC_INOUT = ['3PC give IN', '3PC give OUT', '3PC give norm IN', '3PC give norm OUT',
+                        '3PC punish IN IN', '3PC punish IN OUT', '3PC punish OUT IN',
+                        '3PC punish OUT OUT',
+                        '3PC punish norm IN IN', '3PC punish norm OUT OUT']
 
     # total_endowment = 30
     # receiver_endowment = 0
@@ -63,11 +80,25 @@ def creating_session(subsession):
             order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
             # Assign randomized list (DG always first)
             participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
-
             print('set treatment_order_baseline to', participant.treatment_order_baseline)
-            
+
+            participant.instruction_round = [ trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0], trials_3PR_current[0], trials_3PC_current[0] ]
+
+            ## 2) Ingroup - outgroup trials
+            trials_3PP_INOUT_current = random.sample(C.trials_3PP_INOUT, len(C.trials_3PP_INOUT))
+            trials_3PR_INOUT_current = random.sample(C.trials_3PR_INOUT, len(C.trials_3PR_INOUT))
+            trials_3PC_INOUT_current = random.sample(C.trials_3PC_INOUT, len(C.trials_3PC_INOUT))
+
+            order_INOUT = random.sample(
+                [trials_3PP_INOUT_current, trials_3PR_INOUT_current, trials_3PC_INOUT_current], 3)
+            order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
+            participant.treatment_order_INOUT = order_INOUT_flat
+
+            #print('set treatment_order_INOUT to', participant.treatment_order_INOUT)
+
     for player in subsession.get_players():
         player.treatment = player.participant.treatment_order_baseline[player.round_number - 1]
+        player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         print('set treatment to', player.treatment)
 
 class Group(BaseGroup):
@@ -118,6 +149,7 @@ class Player(BasePlayer):
     )
 
     treatment = models.StringField()
+    instruction_round_true = models.BooleanField()
     #dictator_country = models.StringField()
     #receiver_country = models.StringField()
 
@@ -248,10 +280,27 @@ class Results(Page):
     pass
 
 class instructionPage(Page):
+    # print('player.participant.instruction_round', player.participant.instruction_round)
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 1
+        # return player.round_number == 1
+        return player.instruction_round_true
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        # text = "How socially acceptable is it to give"
+        image = 'baseline/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
+        treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
+        print('Generating image path and round number - 1', image, player.round_number - 1)
+
+        return {
+            'treatment': player.treatment,
+            # 'treatment_text': text,
+            'image': image,
+            'treatment_type': treatment_type
+        }
 
 #page_sequence = [instructionPage, baselinePage, Results]
-page_sequence = [DictatorPage, TPPage, DictatorNormPage, TPNormPage]
+page_sequence = [instructionPage, DictatorPage, TPPage, DictatorNormPage, TPNormPage]
 #page_sequence = [TPPage]

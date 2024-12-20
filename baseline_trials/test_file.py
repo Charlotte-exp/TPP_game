@@ -16,15 +16,15 @@ order_baseline_flat = [item for sublist in order_baseline for item in sublist] #
 trials_baseline = trials_DG + order_baseline_flat
 
 ## 2) Ingroup - outgroup trials
-trials_3PP_INOUT = random.sample(['3PP give IN', '3PP give OUT', '3PP give IN norm', '3PP give OUT norm',
+trials_3PP_INOUT = random.sample(['3PP give IN', '3PP give OUT', '3PP give norm IN', '3PP give norm OUT',
                     '3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN', '3PP punish OUT OUT',
-                    '3PP punish IN IN norm', '3PP punish OUT OUT norm'], 10)
-trials_3PR_INOUT = random.sample(['3PR give IN', '3PR give OUT', '3PR give IN norm', '3PR give OUT norm',
+                    '3PP punish norm IN IN', '3PP punish norm OUT OUT'], 10)
+trials_3PR_INOUT = random.sample(['3PR give IN', '3PR give OUT', '3PR give norm IN', '3PR give norm OUT',
                     '3PR punish IN IN', '3PR punish IN OUT', '3PR punish OUT IN', '3PR punish OUT OUT',
-                    '3PR punish IN IN norm', '3PR punish OUT OUT norm'], 10)
-trials_3PC_INOUT = random.sample(['3PC give IN', '3PC give OUT', '3PC give IN norm', '3PC give OUT norm',
+                    '3PR punish norm IN IN', '3PR punish norm OUT OUT'], 10)
+trials_3PC_INOUT = random.sample(['3PC give IN', '3PC give OUT', '3PC give norm IN', '3PC give norm OUT',
                     '3PC punish IN IN', '3PC punish IN OUT', '3PC punish OUT IN', '3PC punish OUT OUT',
-                    '3PC punish IN IN norm', '3PC punish OUT OUT norm'], 10)
+                    '3PC punish norm IN IN', '3PC punish norm OUT OUT'], 10)
 order_INOUT = random.sample([trials_3PP_INOUT, trials_3PR_INOUT, trials_3PC_INOUT], 3)
 order_INOUT_flat = [item for sublist in order_INOUT for item in sublist] # Flatten the nested lists
 
