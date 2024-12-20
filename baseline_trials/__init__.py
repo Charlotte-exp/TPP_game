@@ -11,7 +11,16 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 14
 
-    TREATMENTS = ['DG give', 'DG give norm', '3PP give', '3PP punish', '3PP punish norm', '2PP give', '2PP punish', '2PP punish norm', '3PR give', '3PC give', '3PR reward', '3PC comp', '3PR reward norm', '3PC comp norm']
+    ### Treatments
+
+    ## 1) Baseline
+
+    trials_DG = ['DG give', 'DG give norm']
+    trials_3PP = ['3PP give', '3PP punish', '3PP punish norm']
+    trials_2PP = ['2PP give', '2PP punish', '2PP punish norm']
+    trials_3PR = ['3PR give', '3PR reward', '3PR reward norm']
+    trials_3PC = ['3PC give', '3PC comp', '3PC comp norm']
+
     # total_endowment = 30
     # receiver_endowment = 0
     # TP_points = 10
@@ -40,10 +49,25 @@ def creating_session(subsession):
     if subsession.round_number == 1:
         for player in subsession.get_players():
             participant = player.participant
-            participant.treatment_order = random.sample(C.TREATMENTS, len(C.TREATMENTS))
-            print('set treatment_order to', participant.treatment_order)
+
+            ### RANDOMIZATION
+
+            ## 1) Baseline trials
+
+            trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
+            trials_3PP_current = random.sample(C.trials_3PP, len(C.trials_3PP))
+            trials_2PP_current = random.sample(C.trials_2PP, len(C.trials_2PP))
+            trials_3PR_current = random.sample(C.trials_3PR, len(C.trials_3PR))
+            trials_3PC_current = random.sample(C.trials_3PC, len(C.trials_3PC))
+            order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
+            order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
+            # Assign randomized list (DG always first)
+            participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
+
+            print('set treatment_order_baseline to', participant.treatment_order_baseline)
+            
     for player in subsession.get_players():
-        player.treatment = player.participant.treatment_order[player.round_number - 1]
+        player.treatment = player.participant.treatment_order_baseline[player.round_number - 1]
         print('set treatment to', player.treatment)
 
 class Group(BaseGroup):
