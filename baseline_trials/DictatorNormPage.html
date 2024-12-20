@@ -26,8 +26,8 @@ $(document).ready(function () {
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-    receiverCountry = 'be'
-    dictatorCountry = 'us'
+    receiverCountry = "{{ recip_identity }}"
+    dictatorCountry = "{{ dic_identity }}"
 
 
 
@@ -37,8 +37,8 @@ $(document).ready(function () {
     /////////
     // script
 
-    $('.receiverCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + receiverCountry +'.png');
-    $('.dictatorCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + dictatorCountry +'.png');
+    $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
+    $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
 
     $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
     $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
@@ -388,11 +388,15 @@ $(document).ready(function () {
 
 <div class='container'>
 
+    {% if dic_identity != "baseline"%}
+
     <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
     <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
     <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
     <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+    {% endif %}
 
 <!--    <img src='/static/baseline/3PP give.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
 
@@ -415,25 +419,41 @@ $(document).ready(function () {
     </span>
     -->
 
-        {% if player.treatment == "3PP give norm" %}
-    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>
+<!--        {% if "3PP" in player.treatment %}-->
+<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>-->
+<!--{% endif %}-->
+
+<!--    {% if "3PR" in player.treatment %}-->
+<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>-->
+<!--{% endif %}-->
+
+<!--    {% if "3PC" in player.treatment %}-->
+<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>-->
+<!--{% endif %}-->
+
+<!--     {% if "2PP" in player.treatment %}-->
+<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>-->
+<!--{% endif %}-->
+
+   {% if "3PP" in player.treatment %}
+    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
 {% endif %}
 
-    {% if player.treatment == "3PR give norm" %}
-    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>
+    {% if "3PR" in player.treatment %}
+    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
 {% endif %}
 
-    {% if player.treatment == "3PC give norm" %}
-    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>
+    {% if "3PC" in player.treatment %}
+    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
 {% endif %}
 
-     {% if player.treatment == "2PP give norm" %}
-    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>
+     {% if "2PP" in player.treatment %}
+    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
 {% endif %}
 
 </div>
 
-    <p>{{ treatment_text }} {{ C.norm_strategy_dic_gives }}? </p>
+    <p> How <b style="color: red;">socially acceptable</b> is it to give {{ C.norm_strategy_dic_gives }} points to Person B? </p>
 
 <!--<div class='numbers'>-->
 <!--   <div class="number-row">-->

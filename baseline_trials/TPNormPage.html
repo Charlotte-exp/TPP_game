@@ -37,8 +37,8 @@ $(document).ready(function () {
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-    receiverCountry = 'be'
-    dictatorCountry = 'us'
+    receiverCountry = "{{ recip_identity }}"
+    dictatorCountry = "{{ dic_identity }}"
 
 
 
@@ -48,8 +48,8 @@ $(document).ready(function () {
     /////////
     // script
 
-    $('.receiverCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + receiverCountry +'.png');
-    $('.dictatorCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + dictatorCountry +'.png');
+    $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
+    $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
 
     $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
     $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
@@ -74,11 +74,11 @@ $(document).ready(function () {
     }
     // Make another coin stack for DG reward in 3PR: different location
     for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-        $('.coinstackTP3PR').append('<div class="coinown3PR" style="left:19%;"></div>');
+        $('.coinstackTP3PR').append('<div class="coinown3PR" style="left:7%;"></div>');
     }
     // Make another coin stack for recipient compensation in 3PC: different location
     for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-        $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:83%;"></div>');
+        $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:102%;"></div>');
     }
 
     // Initialize the number labels
@@ -414,9 +414,9 @@ $(document).ready(function () {
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
-    left: 30%; /* Center horizontally */
+    left: -4%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
-    top: 8%; /* Move up; adjust value as needed */
+    top: 56%; /* Move up; adjust value as needed */
     text-align: center; /* Align text */
 }
 
@@ -424,31 +424,14 @@ $(document).ready(function () {
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
-    left: 73%; /* Center horizontally */
+    left: 113%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
-    top: 8%; /* Move up; adjust value as needed */
+    top: 56%; /* Move up; adjust value as needed */
     text-align: center; /* Align text */
 }
 
 
-    .coin:nth-child(30)  { top: 0.6vw; }
-    .coin:nth-child(29)  { top: 0.9vw; }
-    .coin:nth-child(28)  { top: 1.2vw; }
-    .coin:nth-child(27)  { top: 1.5vw; }
-    .coin:nth-child(26)  { top: 1.8vw; }
-    .coin:nth-child(25)  { top: 2.1vw; }
-    .coin:nth-child(24)  { top: 2.4vw; }
-    .coin:nth-child(23)  { top: 2.7vw; }
-    .coin:nth-child(22)  { top: 3.0vw; }
-    .coin:nth-child(21)  { top: 3.3vw; }
-    .coin:nth-child(20)  { top: 3.6vw; }
-    .coin:nth-child(19)  { top: 3.9vw; }
-    .coin:nth-child(18)  { top: 4.2vw; }
-    .coin:nth-child(17)  { top: 4.5vw; }
-    .coin:nth-child(16)  { top: 4.8vw; }
-    .coin:nth-child(15)  { top: 5.1vw; }
-    .coin:nth-child(14)  { top: 5.4vw; }
-    .coin:nth-child(13)  { top: 5.7vw; }
+
     .coin:nth-child(12)  { top: 6.0vw; }
     .coin:nth-child(11)  { top: 6.3vw; }
     .coin:nth-child(10)  { top: 6.6vw; }
@@ -484,52 +467,33 @@ $(document).ready(function () {
     .coinown2PP:nth-child(2)   { top: 3.0vw; }
     .coinown2PP:nth-child(1)   { top: 3.3vw; }
 
-    .coinown3PR:nth-child(1)  { top: 3.3vw; }
-.coinown3PR:nth-child(2)  { top: 3vw; }
-.coinown3PR:nth-child(3)  { top: 2.7vw; }
-.coinown3PR:nth-child(4)   { top: 2.4vw; }
-.coinown3PR:nth-child(5)   { top: 2.1vw; }
-.coinown3PR:nth-child(6)   { top: 1.8vw; }
-.coinown3PR:nth-child(7)   { top: 1.5vw; }
-.coinown3PR:nth-child(8)   { top: 1.2vw; }
-.coinown3PR:nth-child(9)   { top: 0.9vw; }
-.coinown3PR:nth-child(10)   { top: 0.6vw; }
-.coinown3PR:nth-child(11)   { top: 0.3vw; }
-.coinown3PR:nth-child(12)   { top: 0vw; }
+    .coinown3PR:nth-child(1)  { top: 15.8vw; }
+.coinown3PR:nth-child(2)  { top: 15.5vw; }
+.coinown3PR:nth-child(3)  { top: 15.2vw; }
+.coinown3PR:nth-child(4)   { top: 14.9vw; }
+.coinown3PR:nth-child(5)   { top: 14.6vw; }
+.coinown3PR:nth-child(6)   { top: 14.3vw; }
+.coinown3PR:nth-child(7)   { top: 14.0vw; }
+.coinown3PR:nth-child(8)   { top: 13.7vw; }
+.coinown3PR:nth-child(9)   { top: 13.4vw; }
+.coinown3PR:nth-child(10)   { top: 13.1vw; }
+.coinown3PR:nth-child(11)   { top: 12.8vw; }
+.coinown3PR:nth-child(12)   { top: 12.5vw; }
 
-.coinown3PC:nth-child(1)  { top: 3.3vw; }
-.coinown3PC:nth-child(2)  { top: 3vw; }
-.coinown3PC:nth-child(3)  { top: 2.7vw; }
-.coinown3PC:nth-child(4)   { top: 2.4vw; }
-.coinown3PC:nth-child(5)   { top: 2.1vw; }
-.coinown3PC:nth-child(6)   { top: 1.8vw; }
-.coinown3PC:nth-child(7)   { top: 1.5vw; }
-.coinown3PC:nth-child(8)   { top: 1.2vw; }
-.coinown3PC:nth-child(9)   { top: 0.9vw; }
-.coinown3PC:nth-child(10)   { top: 0.6vw; }
-.coinown3PC:nth-child(11)   { top: 0.3vw; }
-.coinown3PC:nth-child(12)   { top: 0vw; }
+.coinown3PC:nth-child(1)  { top: 15.8vw; }
+.coinown3PC:nth-child(2)  { top: 15.5vw; }
+.coinown3PC:nth-child(3)  { top: 15.2vw; }
+.coinown3PC:nth-child(4)   { top: 14.9vw; }
+.coinown3PC:nth-child(5)   { top: 14.6vw; }
+.coinown3PC:nth-child(6)   { top: 14.3vw; }
+.coinown3PC:nth-child(7)   { top: 14.0vw; }
+.coinown3PC:nth-child(8)   { top: 13.7vw; }
+.coinown3PC:nth-child(9)   { top: 13.4vw; }
+.coinown3PC:nth-child(10)   { top: 13.1vw; }
+.coinown3PC:nth-child(11)   { top: 12.8vw; }
+.coinown3PC:nth-child(12)   { top: 12.5vw; }
 
 
-
- .coin_destroyed:nth-child(30)  { top: 8.7vw; }
-.coin_destroyed:nth-child(29)  { top: 8.4vw; }
-.coin_destroyed:nth-child(28)  { top: 8.1vw; }
-.coin_destroyed:nth-child(27)  { top: 7.8vw; }
-.coin_destroyed:nth-child(26)  { top: 7.5vw; }
-.coin_destroyed:nth-child(25)  { top: 7.2vw; }
-.coin_destroyed:nth-child(24)  { top: 6.9vw; }
-.coin_destroyed:nth-child(23)  { top: 6.6vw; }
-.coin_destroyed:nth-child(22)  { top: 6.3vw; }
-.coin_destroyed:nth-child(21)  { top: 6vw; }
-.coin_destroyed:nth-child(20)  { top: 5.7vw; }
-.coin_destroyed:nth-child(19)  { top: 5.4vw; }
-.coin_destroyed:nth-child(18)  { top: 5.1vw; }
-.coin_destroyed:nth-child(17)  { top: 4.8vw; }
-.coin_destroyed:nth-child(16)  { top: 4.5vw; }
-.coin_destroyed:nth-child(15)  { top: 4.2vw; }
-.coin_destroyed:nth-child(14)  { top: 3.9vw; }
-.coin_destroyed:nth-child(13)  { top: 3.6vw; }
 .coin_destroyed:nth-child(12)  { top: 3.3vw; }
 .coin_destroyed:nth-child(11)  { top: 3vw; }
 .coin_destroyed:nth-child(10)  { top: 2.7vw; }
@@ -561,11 +525,15 @@ $(document).ready(function () {
 
 <div class='container'>
 
+    {% if dic_identity != "baseline"%}
+
     <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
     <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
     <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
     <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+    {% endif %}
 
 <!--    <img src='/static/baseline/3PP give.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
 
@@ -586,7 +554,7 @@ $(document).ready(function () {
 
 
 
-    {% if player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm" %}
+    {% if "punish" in player.treatment %}
 
     <span class='coinstack coinstackDDes'>
     </span>
@@ -595,7 +563,7 @@ $(document).ready(function () {
 
 {% endif %}
 
-     {% if player.treatment == "3PR reward norm" %}
+     {% if "reward" in player.treatment %}
 
     <span class='coinstack coinstackTP3PR'>
     </span>
@@ -604,7 +572,7 @@ $(document).ready(function () {
 
 {% endif %}
 
-    {% if player.treatment == "3PC comp norm" %}
+    {% if "comp" in player.treatment %}
 
     <span class='coinstack coinstackTP3PC'>
     </span>
@@ -614,39 +582,56 @@ $(document).ready(function () {
 {% endif %}
 
 
-<!--    Adjust location of TP coin stack depending on 2PP vs 3PP-->
-    {% if player.treatment == "3PP punish norm" or player.treatment == "3PR reward norm" or player.treatment == "3PC comp norm" %}
+<!--&lt;!&ndash;    Adjust location of TP coin stack depending on 2PP vs 3PP&ndash;&gt;-->
+<!--    {% if player.treatment == "3PP punish norm" or player.treatment == "3PR reward norm" or player.treatment == "3PC comp norm" %}-->
 
-    <span class='coinstack coinstackTP'>
-    </span>
+<!--    <span class='coinstack coinstackTP'>-->
+<!--    </span>-->
 
-    <div class="coin-count-labelTP" id="countTP"></div>
+<!--    <div class="coin-count-labelTP" id="countTP"></div>-->
 
+<!--{% endif %}-->
+
+<!--    {% if player.treatment == "2PP punish norm" %}-->
+
+<!--    <span class='coinstack coinstackTP2PP'>-->
+<!--    </span>-->
+
+<!--    <div class="coin-count-labelTP2PP" id="countTP2PP"></div>-->
+
+<!--{% endif %}-->
+
+
+<!--        {% if "3PP punish" in player.treatment %}-->
+<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>-->
+<!--{% endif %}-->
+
+<!--    {% if "reward" in player.treatment %}-->
+<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>-->
+<!--{% endif %}-->
+
+<!--    {% if "comp" in player.treatment %}-->
+<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>-->
+<!--{% endif %}-->
+
+<!--     {% if "2PP punish" in player.treatment %}-->
+<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>-->
+<!--{% endif %}-->
+
+    {% if "3PP" in player.treatment %}
+    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
 {% endif %}
 
-    {% if player.treatment == "2PP punish norm" %}
-
-    <span class='coinstack coinstackTP2PP'>
-    </span>
-
-    <div class="coin-count-labelTP2PP" id="countTP2PP"></div>
-
+    {% if "3PR" in player.treatment %}
+    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
 {% endif %}
 
-        {% if player.treatment == "3PP punish norm" %}
-    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>
+    {% if "3PC" in player.treatment %}
+    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
 {% endif %}
 
-    {% if player.treatment == "3PR reward norm" %}
-    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>
-{% endif %}
-
-    {% if player.treatment == "3PC comp norm" %}
-    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>
-{% endif %}
-
-     {% if player.treatment == "2PP punish norm" %}
-    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>
+    {% if "2PP" in player.treatment %}
+    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
 {% endif %}
 
 
@@ -654,8 +639,10 @@ $(document).ready(function () {
 
 </div>
 
-<!--    <p>{{ treatment_text1 }} <span id="dictator_recipient_TPeffect"></span> {{ treatment_text2 }} {{ C.norm_strategy_dic_gives_binary }} points and kept <span id="dictator_kept"></span>? </p>-->
-<p>{{ treatment_text1 }} <span id="dictator_recipient_TPeffect"></span> points?  </p>
+
+
+     <p> How <b style="color: red;">socially acceptable</b> is it to <b style="color: red;">{{ treatment_text_action }}</b> <span id="dictator_recipient_TPeffect"></span> points {{ treatment_text_receiver }}? </p>
+
 
 
 <!--<div class='numbers'>-->
