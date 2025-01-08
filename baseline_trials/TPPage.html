@@ -157,15 +157,19 @@ $(document).ready(function () {
         const receiverGets = TP_decision.receiver;
 
         // Fill initial coin stacks
+        // dictator stack
         for (let i = 0; i < dictatorKeeps; i++) {
             $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
         }
+        // red stack (destructed coins)
         for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
+            $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
         }
+        // punisher stack
         for (let i = 0; i < TP_points; i++) {
             $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
         }
+        // receiver stack
         for (let i = 0; i < receiverGets; i++) {
             $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
         }
@@ -659,7 +663,7 @@ $(document).ready(function () {
 
 <!--    <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
 
-    <!---img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw"--->
+    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
     <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
@@ -751,9 +755,10 @@ $(document).ready(function () {
         <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
     {% endif %}
 
+</div>
 
-     <p> How much do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </p>
 
+    <p> How much do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </p>
 
     <div class='numbers'>
         <div class="number-row" data-index="{{ TP_decision.index }}" data-input="selected-number-{{ TP_decision.index }}">
@@ -762,9 +767,7 @@ $(document).ready(function () {
             {{ endfor }}
         </div>
     </div>
-
-
-</div>
+ <br>
 
 </div>
 {% endfor %}

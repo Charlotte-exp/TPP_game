@@ -50,8 +50,8 @@ class C(BaseConstants):
     # norm_strategy_punish_norm = 3 # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
     total_endowment = 12
     dictator_keeps_1 = total_endowment  # everything
-    dictator_keeps_2 = total_endowment * (1 / 4)  # quarter
-    dictator_keeps_3 = total_endowment * (1 / 3)  # third
+    dictator_keeps_2 = total_endowment * (3 / 4)  # three quarters
+    dictator_keeps_3 = total_endowment * (2 / 3)  # two thirds
     dictator_keeps_4 = total_endowment * (1 / 2)  # half
     punishment_points = total_endowment * (1 / 3)
 
