@@ -448,7 +448,7 @@ $(document).ready(function () {
 <!--    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>-->
 <!--{% endif %}-->
 
-    {% if "3PP" in player.treatment %}
+    {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
     <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
 {% endif %}
 

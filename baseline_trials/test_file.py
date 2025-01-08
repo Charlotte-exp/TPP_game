@@ -3,6 +3,9 @@ import random
 print(random.sample([1, 2, 3], 3)[1])
 
 
+
+
+
 ### Generate trial structure
 
 # ## 1) Baseline trials
@@ -37,6 +40,10 @@ CURRENT_COUNTRY = 'us'
 #     COUNTRY_LIST = [line.strip() for line in file]
 
 COUNTRY_LIST = ['us', 'ae', 'bl']
+
+
+print("3PP" in  ('us bl 3PP'))
+
 
 country_list_no_current = [entry for entry in COUNTRY_LIST if entry != CURRENT_COUNTRY]
 
