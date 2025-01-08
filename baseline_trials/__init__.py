@@ -11,7 +11,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 44
+    NUM_ROUNDS = 5
 
     CURRENT_COUNTRY = 'us' # CHANGE TO COUNTRY FOR THIS LINK
 
@@ -49,6 +49,13 @@ class C(BaseConstants):
     # norm_strategy_dic_gives_binary = 10 # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
     # norm_strategy_punish_norm = 3 # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
     total_endowment = 12
+    dictator_keeps_1 = total_endowment  # everything
+    dictator_keeps_2 = total_endowment * (1 / 4)  # quarter
+    dictator_keeps_3 = total_endowment * (1 / 3)  # third
+    dictator_keeps_4 = total_endowment * (1 / 2)  # half
+    punishment_points = total_endowment * (1 / 3)
+
+
     receiver_endowment = 0
     TP_points = 4
     TP_effectiveness = 3
@@ -75,13 +82,14 @@ def creating_session(subsession):
 
             trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
             trials_3PP_current = random.sample(C.trials_3PP, len(C.trials_3PP))
-            trials_2PP_current = random.sample(C.trials_2PP, len(C.trials_2PP))
-            trials_3PR_current = random.sample(C.trials_3PR, len(C.trials_3PR))
-            trials_3PC_current = random.sample(C.trials_3PC, len(C.trials_3PC))
-            order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
-            order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
+            #trials_2PP_current = random.sample(C.trials_2PP, len(C.trials_2PP))
+            #trials_3PR_current = random.sample(C.trials_3PR, len(C.trials_3PR))
+            #trials_3PC_current = random.sample(C.trials_3PC, len(C.trials_3PC))
+            #order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
+            #order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
             # Assign randomized list (DG always first)
-            participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
+            #participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
+            participant.treatment_order_baseline  = trials_DG_current + trials_3PP_current
 
             #print('set treatment_order_baseline to', participant.treatment_order_baseline)
 
@@ -104,9 +112,11 @@ def creating_session(subsession):
             print('set treatment_order to', participant.treatment_order)
 
             ## 5) Put instruction round before trials from new treatment type
-            participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
-                                             trials_3PR_current[0], trials_3PC_current[0],
-                                             trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0]]
+            # participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
+            #                                  trials_3PR_current[0], trials_3PC_current[0],
+            #                                  trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0]]
+
+            participant.instruction_round = [trials_3PP_current[0]]
 
     for player in subsession.get_players():
         #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
@@ -152,6 +162,36 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
+    TP_decision2 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    TP_decision3 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    TP_decision4 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
     TP_norm_decision1 = models.IntegerField(
         initial=0,
         choices=[
@@ -175,7 +215,7 @@ class TPPage(Page):
         # return player.treatment == "3PP punish" or player.treatment == "2PP punish" or player.treatment == '3PR reward' or player.treatment == '3PC comp'
         return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment) and "norm" not in player.treatment
     form_model = 'player'
-    form_fields = ['TP_decision1']#, 'decision2']
+    form_fields = ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
     @staticmethod
     def vars_for_template(player: Player):
         if "2PP punish" in player.treatment:
@@ -214,17 +254,45 @@ class TPPage(Page):
             dic_identity = "baseline"
             recip_identity = "baseline"
 
-        return {
-            'treatment': player.treatment,
-            'dic_identity': dic_identity,
-            'recip_identity': recip_identity,
-            'treatment_text_action': text_action,
-            'treatment_text_receiver': text_receiver,
-            'image': image,
-            'TP_decision1':player.TP_decision1,
-            #'decision2': player.decision2,
-            #'receiver_country': player.receiver_country
-        }
+        return dict(
+            TP_decisions=[
+                dict(
+                    index=1,
+                    TP_decision=player.TP_decision1,
+                    dictator_keeps=C.dictator_keeps_1,
+                    receiver=C.total_endowment - C.dictator_keeps_1,
+                ),
+                dict(
+                    index=2,
+                    TP_decision=player.TP_decision2,
+                    dictator_keeps=C.dictator_keeps_2,
+                    receiver=C.total_endowment - C.dictator_keeps_2,
+                ),
+                dict(
+                    index=3,
+                    TP_decision=player.TP_decision3,
+                    dictator_keeps=C.dictator_keeps_3,
+                    receiver=C.total_endowment - C.dictator_keeps_3,
+                ),
+                dict(
+                    index=4,
+                    TP_decision=player.TP_decision4,
+                    dictator_keeps=C.dictator_keeps_4,
+                    receiver=C.total_endowment - C.dictator_keeps_4,
+                ),
+            ],
+            #receiver_country=player.receiver_country,
+            #dictator_country=player.dictator_country,
+            TP_points=range(0, int(C.TP_points) + 1),
+            TP_effectiveness=C.TP_effectiveness,
+            treatment=player.treatment,
+            dic_identity=dic_identity,
+            recip_identity=recip_identity,
+            treatment_text_action=text_action,
+            treatment_text_receiver=text_receiver,
+            image=image,
+            )
+
     def before_next_page(player: Player, timeout_happened):
         #player.payoff = 10 - player.TP_decision1
         player.payoff = C.TP_points - player.TP_decision1
