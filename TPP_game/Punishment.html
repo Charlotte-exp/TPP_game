@@ -195,25 +195,83 @@ Round {{ subsession.round_number }}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
+// Move updateCoinStack function to the global scope
+function updateCoinStack(count, index) {
+
+    total_endowment = {{ C.total_endowment }}
+
+    const punishmentEffectiveness = {{ C.punishment_effectiveness }};
+    const punishmentPoints = {{ C.punishment_points }};
+    //console.log('Decisions:', {{ decisions | safe }});
+    const decisions = {{ decisions | safe }};
+
+
+    //console.log('updateCoinStack called with:', { count, index });
+
+    const decision = decisions.find((d) => d.index === parseInt(index, 10));
+
+    const dictatorKeeps = decision.dictator_keeps;
+    const TPupdate = punishmentPoints - count;
+    const Dupdate = dictatorKeeps - (count * punishmentEffectiveness);
+
+    //console.log('TPupdate:', TPupdate, 'Dupdate:', Dupdate);
+
+    // Clear existing stacks
+    $(`.coinstackTP[data-index="${index}"]`).empty();
+    //console.log('Cleared coinstackTP for index:', index);
+
+    $(`.coinstackD[data-index="${index}"]`).empty();
+    //console.log('Cleared coinstackD for index:', index);
+
+    // Populate updated stacks
+    for (let i = 0; i < TPupdate; i++) {
+        $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown"></div>');
+        //console.log('Appended coinown to coinstackTP:', i + 1);
+    }
+    for (let i = 0; i < Dupdate; i++) {
+        $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+        //console.log('Appended coin to coinstackD:', i + 1);
+    }
+
+    //console.log('updateCoinStack completed for index:', index);
+}
+
+// Hover function calling updateCoinStack
+$('.number').hover(function () {
+    const value = $(this).data('value'); // Get the number value
+    const index = $(this).closest('.container').data('index');
+
+    //console.log('hover triggered. Value:', value, 'Index:', index);
+    updateCoinStack(value, index); // Now accessible
+});
+
+
+    $('.number-row').mouseleave(function () {
+        const index = $(this).closest('.container').data('index');
+        updateCoinStack(punishments, index);
+    });
+
+
+
 $(document).ready(function () {
 
     // task variables
-
-    total_endowment = {{ C.total_endowment }}
-    dictator = {{ C.dictator_keeps}} // dictator keeps
-    receiver = total_endowment - dictator // receiver receives
-
-    TP = {{ C.punishment_points }} // punishment points
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
     receiverCountry = '{{ receiver_country }}'
     dictatorCountry = '{{ dictator_country }}'
 
-    pun_eff = {{ C.punishment_effectiveness }} // punishment effectiveness
+    total_endowment = {{ C.total_endowment }}
+
+    const punishmentEffectiveness = {{ C.punishment_effectiveness }};
+    const punishmentPoints = {{ C.punishment_points }};
+    console.log('Decisions:', {{ decisions | safe }});
+    const decisions = {{ decisions | safe }};
 
     // dependent variable
-    var punishment = 0
+    let punishments = [0, 0, 0, 0]; // Array to store selected values for each row
 
 
     /////////
@@ -223,58 +281,74 @@ $(document).ready(function () {
     $('.receiverCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + receiverCountry +'.png');
     $('.dictatorCountry').attr('src', 'https://raw.githubusercontent.com/irixapps/World-Flags/refs/heads/master/png1024/' + dictatorCountry +'.png');
 
+    // get maps
     $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
     $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
-    // get maps
-    for (let i = 0; i < dictator; i++) {
-        $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
-    }
-    for (let i = 0; i < TP; i++) {
-        $('.coinstackTP').append('<div class="coinown"></div>');
-    }
-    for (let i = 0; i < receiver; i++) {
-        $('.coinstackR').append('<div class="coin" style="left:65%;"></div>');
-    }
 
-    function deactivateNumbers(numbersToDisable) {
+    // Initialize coin stacks for each decision
+    decisions.forEach((decision) => {
+        const index = decision.index;
+        const dictatorKeeps = decision.dictator_keeps;
+        const receiverGets = decision.receiver;
+
+        // Fill initial coin stacks
+        for (let i = 0; i < dictatorKeeps; i++) {
+            $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+        }
+        for (let i = 0; i < punishmentPoints; i++) {
+            $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown"></div>');
+        }
+        for (let i = 0; i < receiverGets; i++) {
+            $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:65%;"></div>');
+        }
+    });
+
+    function deactivateNumbers(numbersToDisable, index) {
         numbersToDisable.forEach(num => {
-            $('.number[data-value="' + num + '"]').addClass('disabled');
+            $('.number[data-value="' + num + '"][data-index="' + index + '"]').addClass('disabled');
         });
     }
 
-    // deactive punishment that would generate negative values
-    DPpossible = Math.ceil(dictator/3);
-    let list = [];
-    for (let i = DPpossible+1; i <= TP; i++) {
-        list.push(i);
-    }
-    deactivateNumbers(list);
+    // deactivate punishment that would generate negative values
+    decisions.forEach(decision => {
+        const DPpossible = Math.ceil(decision.dictator_keeps / 3);
+        const numbersToDisable = [];
 
-    // add hover event listener to numbers
-    $('.number').hover(function () {
-        const value = $(this).data('value'); // Get the number value
-        updateCoinStack(value); // Update the coin stack
+        // Add numbers to disable based on the logic for each decision
+        for (let i = DPpossible + 1; i <= punishmentPoints; i++) {
+            numbersToDisable.push(i);
+        }
+
+        // Deactivate numbers for the current decision
+        deactivateNumbers(numbersToDisable, decision.index);
     });
 
     $('.number').on('click', function () {
-        // Remove 'selected' class from all buttons
-        $('.number').removeClass('selected');
+        // Remove 'selected' class from all buttons in this row
+        $(this).closest('.container').find('.number').removeClass('selected');
 
         // Add 'selected' class to the clicked button
         $(this).addClass('selected');
 
         // Get the value of the clicked button
         const value = $(this).data('value');
+        const index = $(this).data('index');
 
-        // Update the hidden input field
-        $('#selected-number').val(value);
+        // Update the corresponding punishment value in the array
+        punishments[index - 1] = value;
 
-        // Update the coin stack
-        updateCoinStack(value);
+        // Update the hidden input field for this row
+        $(`#selected-number-${index}`).val(value);
 
-        punishment = value
-        console.log(punishment)
+        // Update the coin stack for this row
+        updateCoinStack(value, index);
+
+        // Debugging
+        console.log('Index:', index);
+        console.log('Value:', value);
+        console.log('Decisions:', decisions);
+        console.log(`Punishment values: ${punishments}`);
     });
 
     // Submit button click handler
@@ -283,32 +357,8 @@ $(document).ready(function () {
         $('form').submit();
     });
 
-    // update coin stacks to original state when mouse leaves number area
-    $('.number-row').mouseleave(function () {
-        updateCoinStack(punishment);
-    });
-
-    // function to update the coin stack
-    function updateCoinStack(count) {
-        // Clear existing coins in coinstack1
-
-        TPupdate = TP - count
-        Dupdate = dictator - (count * pun_eff)
-
-        $('.coinstackTP').empty();
-        $('.coinstackD').empty();
-
-        // Add the specified number of coins
-        for (let i = 0; i < TPupdate; i++) {
-            $('.coinstackTP').append('<div class="coinown"></div>');
-        }
-
-        for (let i = 0; i < Dupdate; i++) {
-            $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
-        }
-    }
-
 });
+
 </script>
 
 {{ endblock }}
@@ -317,53 +367,47 @@ $(document).ready(function () {
 {{ block content }}
 
 <form method="post">
-    <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="decision_1" id="selected-number">
+    <!-- Add hidden inputs to store the selected values for each row -->
+    <input type="hidden" name="decision_1" id="selected-number-1">
+    <input type="hidden" name="decision_2" id="selected-number-2">
+    <input type="hidden" name="decision_3" id="selected-number-3">
+    <input type="hidden" name="decision_4" id="selected-number-4">
 
     {{ formfield_errors 'decision_1' }}
+    {{ formfield_errors 'decision_2' }}
+    {{ formfield_errors 'decision_3' }}
+    {{ formfield_errors 'decision_4' }}
 
+    {% for decision in decisions %}
     <div class='responsive-div'>
+        <div class='container' data-index="{{ decision.index }}">
+            <div data-index="{{ decision.index }}" >
 
-    <div class='container'>
+                <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-        <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+                <!---img src = "{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:-25%; top:3vw'--->
 
+                <span class='coinstack coinstackD' data-index="{{ decision.index }}"></span>
+                <span class='coinstack coinstackR' data-index="{{ decision.index }}"></span>
+                <span class='coinstack coinstackTP' data-index="{{ decision.index }}"></span>
 
-        <img src = "{{ static 'TPP_game/TPtask.png' }}" style='width:27vw; position:absolute; left:-25%; top:3vw'>
-
-        <span class='coinstack coinstackD'>
-        </span>
-
-        <span class='coinstack coinstackR'>
-        </span>
-
-        <span class='coinstack coinstackTP'>
-        </span>
-
-    </div>
-    <br>
-    <div class='numbers'>
-       <div class="number-row">
-            <div class="number" data-value="0">0</div>
-            <div class="number" data-value="1">1</div>
-            <div class="number" data-value="2">2</div>
-            <div class="number" data-value="3">3</div>
-            <div class="number" data-value="4">4</div>
-            <div class="number" data-value="5">5</div>
-            <div class="number" data-value="6">6</div>
-            <div class="number" data-value="7">7</div>
-            <div class="number" data-value="8">8</div>
-            <div class="number" data-value="9">9</div>
-            <div class="number" data-value="10">10</div>
+            </div>
+            <br>
+            <div class='numbers'>
+                <div class="number-row" data-index="{{ decision.index }}" data-input="selected-number-{{ decision.index }}">
+                    {{ for num in punishment_points }}
+                    <div class="number" data-value="{{ num }}" data-index="{{ decision.index }}">{{ num }}</div>
+                    {{ endfor }}
+                </div>
+            </div>
         </div>
     </div>
-
-    </div>
-
+    {% endfor %}
+    <br>
     <div style="display: flex; justify-content: flex-end">
         <button type="button" id="submit-button">Submit</button>
     </div>

@@ -14,9 +14,12 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 20
 
-    total_endowment = 30
-    dictator_keeps = 23
-    punishment_points = 10
+    total_endowment = 12
+    dictator_keeps_1 = total_endowment  # everything
+    dictator_keeps_2 = total_endowment*(1/4)  # quarter
+    dictator_keeps_3 = total_endowment*(1/3)  # third
+    dictator_keeps_4 = total_endowment*(1/2)  # half
+    punishment_points = total_endowment*(1/3)
     punishment_effectiveness = 3
 
 
@@ -33,11 +36,44 @@ class Player(BasePlayer):
     dictator_country = models.StringField()
     receiver_country = models.StringField()
 
-    decision_1 = models.IntegerField(  # change this to punishment_decision at some point...
+    decision_1 = models.IntegerField(  # I don't know why I need the string as well...
         initial=0,
         choices=[
             [0, f'value 0'],[1, f'value 1'],[2, f'value 2'],[3, f'value 3'],[4, f'value 4'],[5, f'value 5'],
             [6, f'value 6'],[7, f'value 7'],[8, f'value 8'],[9, f'value 9'],[10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+
+    decision_2 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+
+    decision_3 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+
+    decision_4 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
         ],
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
@@ -83,14 +119,45 @@ def get_2_countries(player: Player):
 
 class Punishment(Page):
     form_model = 'player'
-    form_fields = ['decision_1']
+    form_fields = ['decision_1', 'decision_2', 'decision_3', 'decision_4']
 
 
     def vars_for_template(player: Player):
         return dict(
-            decision_1=player.decision_1,
+            decisions=[
+                dict(
+                    index=1,
+                    decision=player.decision_1,
+                    dictator_keeps=C.dictator_keeps_1,
+                    receiver=C.total_endowment - C.dictator_keeps_1,
+                ),
+                dict(
+                    index=2,
+                    decision=player.decision_2,
+                    dictator_keeps=C.dictator_keeps_2,
+                    receiver=C.total_endowment - C.dictator_keeps_2,
+                ),
+                dict(
+                    index=3,
+                    decision=player.decision_3,
+                    dictator_keeps=C.dictator_keeps_3,
+                    receiver=C.total_endowment - C.dictator_keeps_3,
+                ),
+                dict(
+                    index=4,
+                    decision=player.decision_4,
+                    dictator_keeps=C.dictator_keeps_4,
+                    receiver=C.total_endowment - C.dictator_keeps_4,
+                ),
+            ],
+            # decision_1=player.decision_1,
+            # decision_2=player.decision_2,
+            # decision_3=player.decision_3,
+            # decision_4=player.decision_4,
             receiver_country=player.receiver_country,
-            dictator_country=player.dictator_country
+            dictator_country=player.dictator_country,
+            punishment_points=range(0, int(C.punishment_points) + 1),
+            punishment_effectiveness=C.punishment_effectiveness,
         )
 
     # also does not display...
