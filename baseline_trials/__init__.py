@@ -153,14 +153,14 @@ def creating_session(subsession):
 
             trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
             trials_3PP_current = random.sample(C.trials_3PP, len(C.trials_3PP))
-            #trials_2PP_current = random.sample(C.trials_2PP, len(C.trials_2PP))
-            #trials_3PR_current = random.sample(C.trials_3PR, len(C.trials_3PR))
-            #trials_3PC_current = random.sample(C.trials_3PC, len(C.trials_3PC))
-            #order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
-            #order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
+            trials_2PP_current = random.sample(C.trials_2PP, len(C.trials_2PP))
+            trials_3PR_current = random.sample(C.trials_3PR, len(C.trials_3PR))
+            trials_3PC_current = random.sample(C.trials_3PC, len(C.trials_3PC))
+            order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
+            order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
             # Assign randomized list (DG always first)
-            #participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
-            participant.treatment_order_baseline  = trials_DG_current + trials_3PP_current
+            participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
+            #participant.treatment_order_baseline  = trials_DG_current + trials_3PP_current
 
             #print('set treatment_order_baseline to', participant.treatment_order_baseline)
 
