@@ -1,5 +1,6 @@
 from otree.api import *
 import random
+import logging
 
 from otree.models import player
 
@@ -14,6 +15,12 @@ class C(BaseConstants):
     NUM_ROUNDS = 44
 
     CURRENT_COUNTRY = 'us' # CHANGE TO COUNTRY FOR THIS LINK
+
+    COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
+
+    # # Load country codes
+    # with open('TPP_game/country_codes.txt', 'r') as file:
+    #     COUNTRY_LIST = [line.strip() for line in file]
 
     ### Treatments
 
@@ -40,6 +47,15 @@ class C(BaseConstants):
                         '3PC comp OUT OUT',
                         '3PC comp norm IN IN', '3PC comp norm OUT OUT']
 
+    ## 3) Country - partner
+
+    # Define number of trials for each trial type
+    number_trials_partner_dic_out = 2 # dictator role
+    number_trials_partner_in_out = 3
+    number_trials_partner_out_in = 3
+    number_trials_partner_out_out_homog = 3
+    number_trials_partner_out_out_heterog = 3
+
     # total_endowment = 30
     # receiver_endowment = 0
     # TP_points = 10
@@ -65,9 +81,67 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
+
+    ### Make immutable variables for partner-country block
+
+    # Make country list without current country
+    country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != C.CURRENT_COUNTRY]
+
+    # Make all possible combinations
+    combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
+
+    # Filter IN-IN trials, because every participant needs to see one IN-IN trial as punisher
+    combinations = [entry for entry in combinations if not entry[0] == entry[1] == C.CURRENT_COUNTRY]
+
+    # Filter different trial types
+    trials_partner_in_out = [entry for entry in combinations if entry[0] == C.CURRENT_COUNTRY]
+    trials_partner_out_in = [entry for entry in combinations if entry[1] == C.CURRENT_COUNTRY]
+    trials_partner_out_out_homog = [entry for entry in combinations if
+                                    (entry[0] != C.CURRENT_COUNTRY and entry[1] != C.CURRENT_COUNTRY and entry[0] ==
+                                     entry[1])]
+    trials_partner_out_out_heterog = [entry for entry in combinations if
+                                      (entry[0] != C.CURRENT_COUNTRY and entry[1] != C.CURRENT_COUNTRY and entry[0] !=
+                                       entry[1])]
+
+    print("access to trials_partner_in_out outside for ", trials_partner_in_out)
+
+    # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
+    country_list_no_current_editable = country_list_no_current.copy()
+    trials_partner_in_out_editable = trials_partner_in_out.copy()
+    trials_partner_out_in_editable = trials_partner_out_in.copy()
+    trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
+    trials_partner_out_out_heterog_editable = trials_partner_out_out_heterog.copy()
+
+    # Make sampling function to sample without replacement
+    def sample_trials_partner(pool, num_trials, pool_name):
+        # If empty, refill from the original pool
+        print("pool used ", pool)
+        # There are problems with eval(poolname), therefore assign original pool manually
+        if pool_name == 'country_list_no_current': pool_original = country_list_no_current
+        if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
+        if pool_name == 'trials_partner_in_out': pool_original = trials_partner_in_out
+        if pool_name == 'trials_partner_out_out_homog': pool_original = trials_partner_out_out_homog
+        if pool_name == 'trials_partner_out_out_heterog': pool_original = trials_partner_out_out_heterog
+        # If pool is depleted, refresh
+        if len(pool) < num_trials:
+            # print("country_list_no_current ", country_list_no_current)
+            pool = pool_original.copy()
+            #pool = eval(pool_name).copy()
+            print("pool refreshed, pool ", pool)
+        # Otherwise, keep sampling without replacement
+        trials = random.sample(pool, num_trials)
+        print("trials chosen ", trials)
+        for trial in trials:
+            pool.remove(trial)
+        return trials, pool
+
+    ### Loop through participants to create randomization
+
     if subsession.round_number == 1:
         for player in subsession.get_players():
             participant = player.participant
+
+            print("access to trials_partner_in_out for loop ", trials_partner_in_out)
 
             ### RANDOMIZATION
 
@@ -85,7 +159,9 @@ def creating_session(subsession):
 
             #print('set treatment_order_baseline to', participant.treatment_order_baseline)
 
+
             ## 2) Ingroup - outgroup trials
+
             trials_3PP_INOUT_current = random.sample(C.trials_3PP_INOUT, len(C.trials_3PP_INOUT))
             trials_3PR_INOUT_current = random.sample(C.trials_3PR_INOUT, len(C.trials_3PR_INOUT))
             trials_3PC_INOUT_current = random.sample(C.trials_3PC_INOUT, len(C.trials_3PC_INOUT))
@@ -97,16 +173,41 @@ def creating_session(subsession):
 
             #print('set treatment_order_INOUT to', participant.treatment_order_INOUT)
 
+
             ## 3) Country partners
 
+            # a) Dictator role
+
+            trials_partner_dic_out_current, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable, C.number_trials_partner_dic_out, "country_list_no_current")
+
+            # b) Punisher role
+
+            trials_partner_in_in_current = [(C.CURRENT_COUNTRY, C.CURRENT_COUNTRY)]
+            trials_partner_in_out_current, trials_partner_in_out_editable = sample_trials_partner(trials_partner_in_out_editable, C.number_trials_partner_in_out, "trials_partner_in_out")
+            trials_partner_out_in_current, trials_partner_out_in_editable = sample_trials_partner(trials_partner_out_in_editable, C.number_trials_partner_out_in, "trials_partner_out_in")
+            trials_partner_out_out_homog_current, trials_partner_out_out_homog_editable = sample_trials_partner(trials_partner_out_out_homog_editable, C.number_trials_partner_out_out_homog, "trials_partner_out_out_homog")
+            trials_partner_out_out_heterog_current, trials_partner_out_out_heterog_editable = sample_trials_partner(trials_partner_out_out_heterog_editable, C.number_trials_partner_out_out_heterog, "trials_partner_out_out_heterog")
+
+            # c) Merge trials
+            treatment_order_partner = trials_partner_dic_out_current + trials_partner_in_in_current + trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
+
+            # Shuffle the merged list
+            #random.shuffle(treatment_order_partner)
+
+
             ## 4) Put all treatment orders together
-            participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT
+            # participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT
+            participant.treatment_order = treatment_order_partner
             print('set treatment_order to', participant.treatment_order)
 
-            ## 5) Put instruction round before trials from new treatment type
-            participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
-                                             trials_3PR_current[0], trials_3PC_current[0],
-                                             trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0]]
+            # breakpoint()
+
+            # ## 5) Put instruction round before trials from new treatment type
+            # participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
+            #                                  trials_3PR_current[0], trials_3PC_current[0],
+            #                                  trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0]]
+
+    breakpoint()
 
     for player in subsession.get_players():
         #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
