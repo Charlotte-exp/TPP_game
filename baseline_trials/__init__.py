@@ -1,5 +1,6 @@
 from otree.api import *
 import random
+import logging
 
 from otree.models import player
 
@@ -11,9 +12,15 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 58 #14
 
     CURRENT_COUNTRY = 'us' # CHANGE TO COUNTRY FOR THIS LINK
+
+    COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
+
+    # # Load country codes
+    # with open('TPP_game/country_codes.txt', 'r') as file:
+    #     COUNTRY_LIST = [line.strip() for line in file]
 
     ### Treatments
 
@@ -39,6 +46,15 @@ class C(BaseConstants):
                         '3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
                         '3PC comp OUT OUT',
                         '3PC comp norm IN IN', '3PC comp norm OUT OUT']
+
+    ## 3) Country - partner
+
+    # Define number of trials for each trial type
+    number_trials_partner_dic_out = 2 # dictator role
+    number_trials_partner_in_out = 3
+    number_trials_partner_out_in = 3
+    number_trials_partner_out_out_homog = 3
+    number_trials_partner_out_out_heterog = 3
 
     # total_endowment = 30
     # receiver_endowment = 0
@@ -72,6 +88,61 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
+
+    ### Make immutable variables for partner-country block
+
+    # Make country list without current country
+    country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != C.CURRENT_COUNTRY]
+
+    # Make all possible combinations
+    combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
+
+    # Filter IN-IN trials, because every participant needs to see one IN-IN trial as punisher
+    combinations = [entry for entry in combinations if not entry[0] == entry[1] == C.CURRENT_COUNTRY]
+
+    # Filter different trial types
+    trials_partner_in_out = [entry for entry in combinations if entry[0] == C.CURRENT_COUNTRY]
+    trials_partner_out_in = [entry for entry in combinations if entry[1] == C.CURRENT_COUNTRY]
+    trials_partner_out_out_homog = [entry for entry in combinations if
+                                    (entry[0] != C.CURRENT_COUNTRY and entry[1] != C.CURRENT_COUNTRY and entry[0] ==
+                                     entry[1])]
+    trials_partner_out_out_heterog = [entry for entry in combinations if
+                                      (entry[0] != C.CURRENT_COUNTRY and entry[1] != C.CURRENT_COUNTRY and entry[0] !=
+                                       entry[1])]
+
+
+    # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
+    country_list_no_current_editable = country_list_no_current.copy()
+    trials_partner_in_out_editable = trials_partner_in_out.copy()
+    trials_partner_out_in_editable = trials_partner_out_in.copy()
+    trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
+    trials_partner_out_out_heterog_editable = trials_partner_out_out_heterog.copy()
+
+    # Make sampling function to sample without replacement
+    def sample_trials_partner(pool, num_trials, pool_name):
+        # If empty, refill from the original pool
+        print("pool used ", pool)
+        # There are problems with eval(poolname), therefore assign original pool manually
+        if pool_name == 'country_list_no_current': pool_original = country_list_no_current
+        if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
+        if pool_name == 'trials_partner_in_out': pool_original = trials_partner_in_out
+        if pool_name == 'trials_partner_out_out_homog': pool_original = trials_partner_out_out_homog
+        if pool_name == 'trials_partner_out_out_heterog': pool_original = trials_partner_out_out_heterog
+        # If pool is depleted, refresh
+        if len(pool) < num_trials:
+            # print("country_list_no_current ", country_list_no_current)
+            pool = pool_original.copy()
+            #pool = eval(pool_name).copy()
+            print("pool refreshed, pool ", pool)
+        # Otherwise, keep sampling without replacement
+        trials = random.sample(pool, num_trials)
+        print("trials chosen ", trials)
+        for trial in trials:
+            pool.remove(trial)
+        return trials, pool
+
+    ### Loop through participants to create randomization
+
     if subsession.round_number == 1:
         for player in subsession.get_players():
             participant = player.participant
@@ -93,7 +164,9 @@ def creating_session(subsession):
 
             #print('set treatment_order_baseline to', participant.treatment_order_baseline)
 
+
             ## 2) Ingroup - outgroup trials
+
             trials_3PP_INOUT_current = random.sample(C.trials_3PP_INOUT, len(C.trials_3PP_INOUT))
             trials_3PR_INOUT_current = random.sample(C.trials_3PR_INOUT, len(C.trials_3PR_INOUT))
             trials_3PC_INOUT_current = random.sample(C.trials_3PC_INOUT, len(C.trials_3PC_INOUT))
@@ -105,18 +178,48 @@ def creating_session(subsession):
 
             #print('set treatment_order_INOUT to', participant.treatment_order_INOUT)
 
+
             ## 3) Country partners
 
+            # a) Dictator role
+
+            trials_partner_dic_out_current, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable, C.number_trials_partner_dic_out, "country_list_no_current")
+
+            # b) Punisher role
+
+            trials_partner_in_in_current = [(C.CURRENT_COUNTRY, C.CURRENT_COUNTRY)]
+            trials_partner_in_out_current, trials_partner_in_out_editable = sample_trials_partner(trials_partner_in_out_editable, C.number_trials_partner_in_out, "trials_partner_in_out")
+            trials_partner_out_in_current, trials_partner_out_in_editable = sample_trials_partner(trials_partner_out_in_editable, C.number_trials_partner_out_in, "trials_partner_out_in")
+            trials_partner_out_out_homog_current, trials_partner_out_out_homog_editable = sample_trials_partner(trials_partner_out_out_homog_editable, C.number_trials_partner_out_out_homog, "trials_partner_out_out_homog")
+            trials_partner_out_out_heterog_current, trials_partner_out_out_heterog_editable = sample_trials_partner(trials_partner_out_out_heterog_editable, C.number_trials_partner_out_out_heterog, "trials_partner_out_out_heterog")
+
+            # c) Merge trials
+            treatment_order_partner = trials_partner_dic_out_current + trials_partner_in_in_current + trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
+
+            # Add 3PP treatment identifier for referring to treatment and flatten list (tuples produce errors)
+            treatment_order_partner = [
+                " ".join(tup) + " 3PP country" if isinstance(tup, tuple) else tup
+                for tup in treatment_order_partner
+            ]
+
+            # Shuffle the merged list
+            random.shuffle(treatment_order_partner)
+
+
             ## 4) Put all treatment orders together
-            participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT
+            participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + treatment_order_partner
+            #participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT
+            #participant.treatment_order = treatment_order_partner
             print('set treatment_order to', participant.treatment_order)
 
-            ## 5) Put instruction round before trials from new treatment type
-            # participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
-            #                                  trials_3PR_current[0], trials_3PC_current[0],
-            #                                  trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0]]
 
-            participant.instruction_round = [trials_3PP_current[0]]
+            ## 5) Put instruction round before trials from new treatment type
+            participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
+                                             trials_3PR_current[0], trials_3PC_current[0],
+                                             trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0],
+                                             participant.treatment_order[len(participant.treatment_order_baseline + participant.treatment_order_INOUT)]]
+
+    #breakpoint()
 
     for player in subsession.get_players():
         #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
@@ -213,7 +316,7 @@ class TPPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         # return player.treatment == "3PP punish" or player.treatment == "2PP punish" or player.treatment == '3PR reward' or player.treatment == '3PC comp'
-        return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment) and "norm" not in player.treatment
+        return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment or "3PP country" in player.treatment) and "norm" not in player.treatment
     form_model = 'player'
     form_fields = ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
     @staticmethod
@@ -222,7 +325,7 @@ class TPPage(Page):
             text_action = "take away"
             text_receiver = "from Person A"
             image = 'baseline/2PP punish.png'
-        if "3PP punish" in player.treatment:
+        if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             text_action = "take away"
             text_receiver = "from Person A"
             image = 'baseline/3PP punish.png'
@@ -234,8 +337,6 @@ class TPPage(Page):
             text_action = "give"
             text_receiver = "to Person B"
             image = 'baseline/3PC comp.png'
-
-        print('Generating image path and round number - 1', image, player.round_number - 1)
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -253,6 +354,13 @@ class TPPage(Page):
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
+            
+        # For partner country trials, extract countries of dictator and recipient
+        if "3PP country" in player.treatment:
+            dic_identity = player.treatment[:2]
+            recip_identity = player.treatment[3:5]
+
+        print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return dict(
             TP_decisions=[
@@ -362,7 +470,7 @@ class DictatorPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         # return player.treatment == "3PP give" or player.treatment == "0DG give" or player.treatment == "2PP give" or player.treatment == "3PR give" or player.treatment == "3PC give"
-        return "give" in player.treatment and "norm" not in player.treatment
+        return ("give" in player.treatment or player.treatment in C.COUNTRY_LIST) and "norm" not in player.treatment
 
     form_model = 'player'
     form_fields = ['dic_decision1']  # , 'decision2']
@@ -373,7 +481,6 @@ class DictatorPage(Page):
         image = 'baseline/{}.png'.format(player.treatment)
         image = image.replace(" IN", "")
         image = image.replace(" OUT", "")
-        print('Generating image path and round number - 1', image, player.round_number - 1)
 
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
@@ -385,6 +492,14 @@ class DictatorPage(Page):
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
+
+        # For partner country trials, extract countries of recipient (dictator is participant from current country
+        if player.treatment in C.COUNTRY_LIST:
+            dic_identity = C.CURRENT_COUNTRY
+            recip_identity = player.treatment
+            image = 'baseline/3PP give.png'
+
+        print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
                 'treatment': player.treatment,
@@ -471,6 +586,6 @@ class instructionPage(Page):
             'treatment_type': treatment_type
         }
 
-#page_sequence = [instructionPage, baselinePage, Results]
 page_sequence = [instructionPage, DictatorPage, TPPage, DictatorNormPage, TPNormPage]
+#page_sequence = [DictatorPage, TPPage]
 #page_sequence = [TPPage]

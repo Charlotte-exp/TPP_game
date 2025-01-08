@@ -37,7 +37,7 @@
 
         Dupdate = TP_decision.dictator_keeps - (count * TP_eff)
 
-        if (Dupdate < 0 && (current_treatment.includes("punish"))) { // if Dupdate is less than 0 & we are in punishment condition
+        if (Dupdate < 0 && (current_treatment.includes("punish") || current_treatment.includes("3PP country") )) { // if Dupdate is less than 0 & we are in punishment condition
             dictator_recipient_TPeffectUpdate = dictator_recipient_TPeffectUpdate + Dupdate // Set dictator_recipient_TPeffectUpdate to max endowment (not more)
             Dupdate = 0; // Set Dupdate to 0 if it's less than 0
     }
@@ -206,6 +206,7 @@ $(document).ready(function () {
     }
 
     // deactive punishment that would generate negative values
+
     let numbersToDisable = [];
     TP_decisions.forEach(TP_decision => {
         DPpossible = Math.ceil(TP_decision.dictator_keeps/3);
@@ -215,7 +216,7 @@ $(document).ready(function () {
 
         //Deactivate numbers only in punishment conditions
         //if (current_treatment == "3PP punish" || current_treatment == "2PP punish") { // leave dictator coins if 3PR or 3PC
-        if (current_treatment.includes("punish")) {
+        if (current_treatment.includes("punish") || current_treatment.includes("3PP country") ) {
                 deactivateNumbers(numbersToDisable, TP_decision.index);
         }
     });
@@ -661,8 +662,6 @@ $(document).ready(function () {
 
     {% endif %}
 
-<!--    <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
-
     <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
     <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
@@ -677,7 +676,7 @@ $(document).ready(function () {
 
 
 
-    {% if "punish" in player.treatment %}
+    {% if "punish" in player.treatment or "3PP country" in player.treatment %}
 
         <span class='coinstack coinstackDDes' data-index="{{ TP_decision.index }}"></span>
 
@@ -700,44 +699,6 @@ $(document).ready(function () {
         <div class="coin-count-labelTP3PC" id="countTP3PC" data-index="{{ TP_decision.index }}"></div>
 
     {% endif %}
-
-
-<!--&lt;!&ndash;    Adjust location of TP coin stack depending on 2PP vs 3PP&ndash;&gt;-->
-<!--    {% if player.treatment == "3PP punish" or player.treatment == "3PR reward" or player.treatment == "3PC comp" %}-->
-
-<!--    <span class='coinstack coinstackTP'>-->
-<!--    </span>-->
-
-<!--    <div class="coin-count-labelTP" id="countTP"></div>-->
-
-<!--{% endif %}-->
-
-<!--    {% if player.treatment == "2PP punish" %}-->
-
-<!--    <span class='coinstack coinstackTP2PP'>-->
-<!--    </span>-->
-
-<!--    <div class="coin-count-labelTP2PP" id="countTP2PP"></div>-->
-
-<!--{% endif %}-->
-
-    <!--    Add symbol for giving or taking-->
-
-<!--    {% if "3PP punish" in player.treatment%}-->
-<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>-->
-<!--{% endif %}-->
-
-<!--    {% if "reward" in player.treatment %}-->
-<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>-->
-<!--{% endif %}-->
-
-<!--    {% if "comp" in player.treatment %}-->
-<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>-->
-<!--{% endif %}-->
-
-<!--     {% if "2PP punish" in player.treatment %}-->
-<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>-->
-<!--{% endif %}-->
 
     {% if "3PP" in player.treatment %}
         <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
