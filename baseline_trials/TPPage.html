@@ -43,7 +43,7 @@
     }
 
         if (current_treatment.includes("reward") || current_treatment.includes("comp")) { // leave dictator coins if 3PR or 3PC
-            Dupdate = dictator
+            Dupdate = TP_decision.dictator_keeps
     }
 
         // Clear existing stacks
@@ -97,7 +97,7 @@
     $(document).on('mouseenter', '.number', function () {
         const value = $(this).data('value'); // Get the number value
         const index = $(this).data('index'); // Get the index of the element
-        //console.log('Hover triggered. Value:', value, 'Index:', index);
+        console.log('Hover triggered. Value:', value, 'Index:', index);
         updateCoinStack(value, index);
     });
 
@@ -730,13 +730,15 @@ $(document).ready(function () {
     </div>
  <br>
 
+    <hr>
+
 </div>
 {% endfor %}
 
     <br>
 
    <div style="display: flex; justify-content: flex-end">
-        <button type="button" id="submit-button">Submit</button>
+        <button type="button" id="submit-button">Next</button>
     </div>
 
 
