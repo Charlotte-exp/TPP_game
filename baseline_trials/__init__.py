@@ -317,19 +317,19 @@ class TPPage(Page):
         if "2PP punish" in player.treatment:
             text_action = "take away"
             text_receiver = "from Person A"
-            image = 'baseline/2PP punish.png'
+            image = 'global/treatments/2PP punish.png'
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             text_action = "take away"
             text_receiver = "from Person A"
-            image = 'baseline/3PP punish.png'
+            image = 'global/treatments/3PP punish.png'
         if "reward" in player.treatment:
             text_action = "give"
             text_receiver = "to Person A"
-            image = 'baseline/3PR reward.png'
+            image = 'global/treatments/3PP punish.png'
         if "comp" in player.treatment:
             text_action = "give"
             text_receiver = "to Person B"
-            image = 'baseline/3PC comp.png'
+            image = 'global/treatments/3PC comp.png'
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -414,19 +414,19 @@ class TPNormPage(Page):
         if "2PP punish" in player.treatment:
             text_action = "take away"
             text_receiver = "from Person A"
-            image = 'baseline/2PP punish.png'
+            image = 'global/treatments/2PP punish.png'
         if "3PP punish" in player.treatment:
             text_action = "take away"
             text_receiver = "from Person A"
-            image = 'baseline/3PP punish.png'
+            image = 'global/treatments/3PP punish.png'
         if "reward" in player.treatment:
             text_action = "give"
             text_receiver = "to Person A"
-            image = 'baseline/3PR reward.png'
+            image = 'global/treatments/3PP punish.png'
         if "comp" in player.treatment:
             text_action = "give"
             text_receiver = "to Person B"
-            image = 'baseline/3PC comp.png'
+            image = 'global/treatments/3PC comp.png'
 
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
@@ -475,10 +475,14 @@ class DictatorPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         # text = "How much do you give to Person B?"
-        image = 'baseline/{}.png'.format(player.treatment)
+        image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" IN", "")
         image = image.replace(" OUT", "")
         image = image.replace(" norm", "")
+
+        # 3PR trials get same image as 3PP
+        if "3PR" in player.treatment:
+            image = 'global/treatments/3PP punish.png'
 
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
@@ -495,7 +499,7 @@ class DictatorPage(Page):
         if player.treatment in C.COUNTRY_LIST:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = player.treatment
-            image = 'baseline/3PP give.png'
+            image = 'global/treatments/3PP give.png'
 
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
@@ -525,7 +529,7 @@ class instructionPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         # text = "How socially acceptable is it to give"
-        image = 'baseline/{}.png'.format(player.treatment)
+        image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         print('Generating image path and round number - 1', image, player.round_number - 1)
