@@ -35,6 +35,7 @@ $(document).ready(function () {
     receiverCountry = "{{ recip_identity }}"
     dictatorCountry = "{{ dic_identity }}"
 
+    role_switch_true = "{{ role_switch_true }}"
 
     /////////
     // script
@@ -456,10 +457,19 @@ $(document).ready(function () {
         {{ formfield_errors 'dic_decision1' }}
     {% endif %}
 
+    {% if role_switch_true == True %}
+
+    <p style="text-align: center;">
+    <b style="color: red;">ROLE SWITCH! You are now Person A!</b>
+</p>
+
+    {% endif %}
+
 
 <div class='responsive-div'>
 
 <div class='container'>
+
 
     {% if dic_identity != "baseline"%}
 
@@ -472,6 +482,10 @@ $(document).ready(function () {
     {% endif %}
 
     <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+    <p>
+    <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:-18%;">YOU</b>
+</p>
 
     <span class='coinstack coinstackD'>
     </span>

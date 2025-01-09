@@ -1,48 +1,36 @@
 import random
 
-print(random.sample([1, 2, 3], 3)[1])
-
-
-
-
-
-### Generate trial structure
-
-# ## 1) Baseline trials
-# trials_DG = random.sample(['DG give', 'DG give norm'], 2)
-# trials_3PP = random.sample(['3PP give', '3PP punish', '3PP punish norm'], 3)
-# trials_2PP = random.sample(['2PP give', '2PP punish', '2PP punish norm'], 3)
-# trials_3PR = random.sample(['3PR give',  '3PR reward', '3PR reward norm'], 3)
-# trials_3PC = random.sample(['3PC give', '3PC comp', '3PC comp norm'], 3)
-# order_baseline = random.sample([trials_3PP, trials_2PP, trials_3PR, trials_3PC], 4)
-# order_baseline_flat = [item for sublist in order_baseline for item in sublist] # Flatten the nested lists
-# trials_baseline = trials_DG + order_baseline_flat
-#
-# ## 2) Ingroup - outgroup trials
-# trials_3PP_INOUT = random.sample(['3PP give IN', '3PP give OUT', '3PP give norm IN', '3PP give norm OUT',
-#                     '3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN', '3PP punish OUT OUT',
-#                     '3PP punish norm IN IN', '3PP punish norm OUT OUT'], 10)
-# trials_3PR_INOUT = random.sample(['3PR give IN', '3PR give OUT', '3PR give norm IN', '3PR give norm OUT',
-#                     '3PR punish IN IN', '3PR punish IN OUT', '3PR punish OUT IN', '3PR punish OUT OUT',
-#                     '3PR punish norm IN IN', '3PR punish norm OUT OUT'], 10)
-# trials_3PC_INOUT = random.sample(['3PC give IN', '3PC give OUT', '3PC give norm IN', '3PC give norm OUT',
-#                     '3PC punish IN IN', '3PC punish IN OUT', '3PC punish OUT IN', '3PC punish OUT OUT',
-#                     '3PC punish norm IN IN', '3PC punish norm OUT OUT'], 10)
-# order_INOUT = random.sample([trials_3PP_INOUT, trials_3PR_INOUT, trials_3PC_INOUT], 3)
-# order_INOUT_flat = [item for sublist in order_INOUT for item in sublist] # Flatten the nested lists
-
-## 3) Partner country trials
-
 CURRENT_COUNTRY = 'us'
-
-# # Load country codes
-# with open('TPP_game/country_codes.txt', 'r') as file:
-#     COUNTRY_LIST = [line.strip() for line in file]
 
 COUNTRY_LIST = ['us', 'ae', 'bl']
 
+treatment_order = [
+    '0DG give', '0DG give norm', '3PR give', '3PR reward', '3PR reward norm',
+    '3PP punish', '3PP punish norm', '3PP give', '2PP punish', '2PP punish norm',
+    '2PP give', '3PC comp', '3PC comp norm', '3PC give', '3PP punish OUT OUT',
+    '3PP punish norm IN IN', '3PP punish norm OUT OUT', '3PP punish OUT IN',
+    '3PP punish IN OUT', '3PP punish IN IN', '3PP give OUT', '3PP give IN',
+    '3PC give OUT', '3PC give IN', '3PC comp IN OUT', '3PC comp norm IN IN',
+    '3PC comp OUT OUT', '3PC comp OUT IN', '3PC comp norm OUT OUT',
+    '3PC comp IN IN', 'fr', 'ad', 'de de 3PP country', 'fr ae 3PP country',
+    'us us 3PP country', 'fr bl 3PP country', 'us fr 3PP country', 'de us 3PP country',
+    'ad us 3PP country', 'bl us 3PP country', 'us bl 3PP country', 'ad ad 3PP country',
+    'ad de 3PP country', 'us ae 3PP country', 'fr fr 3PP country'
+]
 
-print("3PP" in  ('us bl 3PP'))
+# Target keyword to match
+target_keyword = "give"
+
+positions = [
+treatment_order[i]
+    for i in range(1, len(treatment_order))
+    if ("give" in treatment_order[i] and "give" not in treatment_order[i-1]) or
+       ("give" not in treatment_order[i] and "give" in treatment_order[i-1])
+]
+
+print(positions)
+
+print("test", [1,2] + [2] )
 
 
 country_list_no_current = [entry for entry in COUNTRY_LIST if entry != CURRENT_COUNTRY]
