@@ -17,11 +17,8 @@ $(document).ready(function () {
 
     total_endowment = {{ C.total_endowment }}
 
-    receiver = {{ C.norm_strategy_dic_gives }} // The receiver gets however much the dictator gives
-    dictator = total_endowment - receiver
-
-    //TP = {{ C.TP_points }} // punishment points
-    //TP_eff = {{ C.TP_effectiveness }} // punishment effectiveness
+    receiver_endowment = {{ C.norm_strategy_dic_gives }} // The receiver gets however much the dictator gives
+    dictator = total_endowment - receiver_endowment
 
     // country pictures from https://github.com/irixapps/World-Flags/tree/master
     // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -47,38 +44,19 @@ $(document).ready(function () {
     for (let i = 0; i < dictator; i++) {
         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
     }
-    // for (let i = 0; i < TP; i++) {
-    //     $('.coinstackTP').append('<div class="coinown"></div>');
-    // }
-    for (let i = 0; i < receiver; i++) {
+    for (let i = 0; i < receiver_endowment; i++) {
         $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
     }
 
     // Initialize the number labels
-    //$('#countTP').text(`${TP}`);
     $('#countD').text(`${dictator}`);
-    // $('#countDDes').text(`${dictator_destroyed}`);
-    $('#countR').text(`${receiver}`);
+    $('#countR').text(`${receiver_endowment}`);
 
     function deactivateNumbers(numbersToDisable) {
         numbersToDisable.forEach(num => {
             $('.number[data-value="' + num + '"]').addClass('disabled');
         });
     }
-
-    // // deactive punishment that would generate negative values
-    // DPpossible = Math.ceil(dictator/3);
-    // let list = [];
-    // for (let i = DPpossible+1; i <= TP; i++) {
-    //     list.push(i);
-    // }
-    // deactivateNumbers(list);
-
-    // // add hover event listener to numbers
-    // $('.number').hover(function () {
-    //     const value = $(this).data('value'); // Get the number value
-    //     updateCoinStack(value); // Update the coin stack
-    // });
 
     $('.number').on('click', function () {
         // Remove 'selected' class from all buttons
@@ -100,43 +78,6 @@ $(document).ready(function () {
 
         console.log(dictator)
     });
-    //
-    // // Submit button click handler
-    // $('#submit-button').on('click', function () {
-    //     // Submit the form
-    //     $('form').submit();
-    // });
-    //
-    // // update coin stacks to original state when mouse leaves number area
-    // $('.number-row').mouseleave(function () {
-    //     updateCoinStack(dictator);
-    // });
-    //
-    // // function to update the coin stack
-    // function updateCoinStack(count) {
-    //     // Clear existing coins in coinstack1
-    //
-    //     //TPupdate = TP - count
-    //     Dupdate = total_endowment - count
-    //     Rupdate = receiver_endowment + count
-    //
-    //
-    //     //$('.coinstackTP').empty();
-    //     $('.coinstackR').empty();
-    //     $('.coinstackD').empty();
-    //
-    //     // Add the specified number of coins
-    //     for (let i = 0; i < Rupdate; i++) {
-    //         $('.coinstackR').append('<div class="coin" style="left:85%;"></div>');
-    //     }
-    //     // for (let i = 0; i < TPupdate; i++) {
-    //     //     $('.coinstackTP').append('<div class="coinown"></div>');
-    //     // }
-    //
-    //     for (let i = 0; i < Dupdate; i++) {
-    //         $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
-    //     }
-    // }
 
 });
 </script>
@@ -398,11 +339,7 @@ $(document).ready(function () {
 
     {% endif %}
 
-<!--    <img src='/static/baseline/3PP give.png' style='width:27vw; position:absolute; left:-25%; top:3vw'>-->
-
     <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-    <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
     <span class='coinstack coinstackD'>
     </span>
@@ -413,27 +350,6 @@ $(document).ready(function () {
     </span>
 
     <div class="coin-count-labelR" id="countR"></div>
-
-    <!--
-    <span class='coinstack coinstackTP'>
-    </span>
-    -->
-
-<!--        {% if "3PP" in player.treatment %}-->
-<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 52%; left: 15%;">-</span>-->
-<!--{% endif %}-->
-
-<!--    {% if "3PR" in player.treatment %}-->
-<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 15%;">+</span>-->
-<!--{% endif %}-->
-
-<!--    {% if "3PC" in player.treatment %}-->
-<!--    <span style="color: green; position: absolute; font-size: 2vw; top: 52%; left: 87%;">+</span>-->
-<!--{% endif %}-->
-
-<!--     {% if "2PP" in player.treatment %}-->
-<!--    <span style="color: red; position: absolute; font-size: 2vw; top: 3%; left: 50%;">-</span>-->
-<!--{% endif %}-->
 
    {% if "3PP" in player.treatment %}
     <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
@@ -454,54 +370,6 @@ $(document).ready(function () {
 </div>
 
     <p> How <b style="color: red;">socially acceptable</b> is it to give {{ C.norm_strategy_dic_gives }} points to Person B? </p>
-
-<!--<div class='numbers'>-->
-<!--   <div class="number-row">-->
-<!--        <div class="number" data-value="0">0</div>-->
-<!--        <div class="number" data-value="1">1</div>-->
-<!--        <div class="number" data-value="2">2</div>-->
-<!--        <div class="number" data-value="3">3</div>-->
-<!--        <div class="number" data-value="4">4</div>-->
-<!--        <div class="number" data-value="5">5</div>-->
-<!--        <div class="number" data-value="6">6</div>-->
-<!--        <div class="number" data-value="7">7</div>-->
-<!--        <div class="number" data-value="8">8</div>-->
-<!--        <div class="number" data-value="9">9</div>-->
-<!--        <div class="number" data-value="10">10</div>-->
-<!--        <div class="number" data-value="11">11</div>-->
-<!--        <div class="number" data-value="12">12</div>-->
-<!--        <div class="number" data-value="13">13</div>-->
-<!--        <div class="number" data-value="14">14</div>-->
-<!--        <div class="number" data-value="15">15</div>-->
-<!--        <div class="number" data-value="16">16</div>-->
-<!--        <div class="number" data-value="17">17</div>-->
-<!--        <div class="number" data-value="18">18</div>-->
-<!--        <div class="number" data-value="19">19</div>-->
-<!--        <div class="number" data-value="20">20</div>-->
-<!--        <div class="number" data-value="21">21</div>-->
-<!--        <div class="number" data-value="22">22</div>-->
-<!--        <div class="number" data-value="23">23</div>-->
-<!--        <div class="number" data-value="24">24</div>-->
-<!--        <div class="number" data-value="25">25</div>-->
-<!--        <div class="number" data-value="26">26</div>-->
-<!--        <div class="number" data-value="27">27</div>-->
-<!--        <div class="number" data-value="28">28</div>-->
-<!--        <div class="number" data-value="29">29</div>-->
-<!--        <div class="number" data-value="30">30</div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--    <div class='numbers'>-->
-<!--   <div class="number-row">-->
-<!--        <div class="number" data-value="very socially unacceptable">very socially<br>unacceptable</div>-->
-<!--        <div class="number" data-value="socially unacceptable">socially<br>unacceptable</div>-->
-<!--       <div class="number" data-value="slightly socially unacceptable">slightly socially<br>unacceptable</div>-->
-<!--       <div class="number" data-value="slightly socially acceptable">slightly socially<br>acceptable</div>-->
-<!--       <div class="number" data-value="socially acceptable">socially<br>acceptable</div>-->
-<!--       <div class="number" data-value="very socially acceptable">very socially<br>acceptable</div>-->
-<!--    </div>-->
-<!--</div>-->
-
 
 
     <div class='numbers'>

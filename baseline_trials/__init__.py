@@ -22,6 +22,21 @@ class C(BaseConstants):
     # with open('TPP_game/country_codes.txt', 'r') as file:
     #     COUNTRY_LIST = [line.strip() for line in file]
 
+    total_endowment = 12
+    dictator_keeps_1 = total_endowment  # everything
+    dictator_keeps_2 = total_endowment * (3 / 4)  # three quarters
+    dictator_keeps_3 = total_endowment * (2 / 3)  # two thirds
+    dictator_keeps_4 = total_endowment * (1 / 2)  # half
+    punishment_points = total_endowment * (1 / 3)
+
+    receiver_endowment = 0
+    TP_points = 4
+    TP_effectiveness = 3
+    dictator_keeps = 8  # Should eventually be list: [30, 25, 20, 15]
+    norm_strategy_dic_gives = 2  # Should eventually be list: [0, 5, 10, 15] : different levels of dictator giving
+    norm_strategy_dic_gives_binary = 3  # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
+    norm_strategy_punish_norm = 1  # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
+
     ### Treatments
 
     ## 1) Baseline
@@ -56,29 +71,7 @@ class C(BaseConstants):
     number_trials_partner_out_out_homog = 3
     number_trials_partner_out_out_heterog = 3
 
-    # total_endowment = 30
-    # receiver_endowment = 0
-    # TP_points = 10
-    # TP_effectiveness = 3
-    # dictator_keeps = 23  # Should eventually be list: [30, 25, 20, 15]
-    # norm_strategy_dic_gives = 5 # Should eventually be list: [0, 5, 10, 15] : different levels of dictator giving
-    # norm_strategy_dic_gives_binary = 10 # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
-    # norm_strategy_punish_norm = 3 # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
-    total_endowment = 12
-    dictator_keeps_1 = total_endowment  # everything
-    dictator_keeps_2 = total_endowment * (3 / 4)  # three quarters
-    dictator_keeps_3 = total_endowment * (2 / 3)  # two thirds
-    dictator_keeps_4 = total_endowment * (1 / 2)  # half
-    punishment_points = total_endowment * (1 / 3)
 
-
-    receiver_endowment = 0
-    TP_points = 4
-    TP_effectiveness = 3
-    dictator_keeps = 8  # Should eventually be list: [30, 25, 20, 15]
-    norm_strategy_dic_gives = 2  # Should eventually be list: [0, 5, 10, 15] : different levels of dictator giving
-    norm_strategy_dic_gives_binary = 3  # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
-    norm_strategy_punish_norm = 1  # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
 
 
 
@@ -469,11 +462,15 @@ class TPNormPage(Page):
 class DictatorPage(Page):
     @staticmethod
     def is_displayed(player: Player):
-        # return player.treatment == "3PP give" or player.treatment == "0DG give" or player.treatment == "2PP give" or player.treatment == "3PR give" or player.treatment == "3PC give"
-        return ("give" in player.treatment or player.treatment in C.COUNTRY_LIST) and "norm" not in player.treatment
+        return ("give" in player.treatment or player.treatment in C.COUNTRY_LIST) #and "norm" not in player.treatment
 
     form_model = 'player'
-    form_fields = ['dic_decision1']  # , 'decision2']
+
+    def get_form_fields(player: Player):
+        if "norm" in player.treatment:
+            return ['dic_norm_decision1']
+        else:
+            return ['dic_decision1']
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -481,6 +478,7 @@ class DictatorPage(Page):
         image = 'baseline/{}.png'.format(player.treatment)
         image = image.replace(" IN", "")
         image = image.replace(" OUT", "")
+        image = image.replace(" norm", "")
 
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
@@ -505,60 +503,13 @@ class DictatorPage(Page):
                 'treatment': player.treatment,
                 'dic_identity': dic_identity,
                 'recip_identity': recip_identity,
-                # 'treatment_text': text,
                 'image': image,
                 'dic_decision1': player.dic_decision1,
-                # 'decision2': player.decision2,
-                # 'receiver_country': player.receiver_country
+                'dic_norm_decision1': player.dic_norm_decision1,
             }
+
     def before_next_page(player: Player, timeout_happened):
         player.payoff = C.total_endowment - player.dic_decision1
-
-
-class DictatorNormPage(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        # return player.treatment == "3PP give norm" or player.treatment == "0DG give norm" or player.treatment == "2PP give norm"
-        return "give" in player.treatment and "norm" in player.treatment
-
-    form_model = 'player'
-    form_fields = ['dic_norm_decision1']
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        # text = "How socially acceptable is it to give"
-        image = 'baseline/{}.png'.format(player.treatment)
-        image = image.replace(" norm", "")
-        image = image.replace(" IN", "")
-        image = image.replace(" OUT", "")
-
-        print('Generating image path and round number - 1', image, player.round_number - 1)
-
-        # For INOUT trials, check identity of recipient
-        if player.treatment[-3:] == "OUT":
-            recip_identity = "out"
-            dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
-        if player.treatment[-3:] == " IN":
-            recip_identity = C.CURRENT_COUNTRY
-            dic_identity = C.CURRENT_COUNTRY
-
-        if "OUT" not in player.treatment and "IN" not in player.treatment:
-            dic_identity = "baseline"
-            recip_identity = "baseline"
-
-        return {
-            'treatment': player.treatment,
-            'dic_identity': dic_identity,
-            'recip_identity': recip_identity,
-            # 'treatment_text': text,
-            'image': image,
-            'dic_norm_decision1': player.dic_norm_decision1,
-            # 'decision2': player.decision2,
-            # 'receiver_country': player.receiver_country
-        }
-    # def before_next_page(player: Player, timeout_happened):
-    #     player.payoff = C.total_endowment - player.dic_norm_decision1
-
 
 
 class Results(Page):
@@ -586,6 +537,6 @@ class instructionPage(Page):
             'treatment_type': treatment_type
         }
 
-page_sequence = [instructionPage, DictatorPage, TPPage, DictatorNormPage, TPNormPage]
+page_sequence = [instructionPage, DictatorPage, TPPage, TPNormPage]
 #page_sequence = [DictatorPage, TPPage]
 #page_sequence = [TPPage]
