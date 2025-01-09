@@ -12,7 +12,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 58 #14
+    NUM_ROUNDS = 44 #14
 
     CURRENT_COUNTRY = 'us' # CHANGE TO COUNTRY FOR THIS LINK
 
@@ -42,23 +42,27 @@ class C(BaseConstants):
     ## 1) Baseline
 
     trials_DG = ['0DG give', '0DG give norm']
-    trials_3PP = ['3PP give', '3PP punish', '3PP punish norm']
-    trials_2PP = ['2PP give', '2PP punish', '2PP punish norm']
-    trials_3PR = ['3PR give', '3PR reward', '3PR reward norm']
-    trials_3PC = ['3PC give', '3PC comp', '3PC comp norm']
+    trials_3PP_DIC = ['3PP give']
+    trials_3PP_TP = ['3PP punish', '3PP punish norm']
+    trials_2PP_DIC = ['2PP give']
+    trials_2PP_TP = ['2PP punish', '2PP punish norm']
+    trials_3PR_DIC = ['3PR give']
+    trials_3PR_TP = ['3PR reward', '3PR reward norm']
+    trials_3PC_DIC = ['3PC give']
+    trials_3PC_TP = ['3PC comp', '3PC comp norm']
 
     ## 2) Ingroup - outgroup
 
-    trials_3PP_INOUT = ['3PP give IN', '3PP give OUT', '3PP give norm IN', '3PP give norm OUT',
-                        '3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
+    trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
+    trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
                         '3PP punish OUT OUT',
                         '3PP punish norm IN IN', '3PP punish norm OUT OUT']
-    trials_3PR_INOUT = ['3PR give IN', '3PR give OUT', '3PR give norm IN', '3PR give norm OUT',
-                        '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
-                        '3PR reward OUT OUT',
-                        '3PR reward norm IN IN', '3PR reward norm OUT OUT']
-    trials_3PC_INOUT = ['3PC give IN', '3PC give OUT', '3PC give norm IN', '3PC give norm OUT',
-                        '3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
+    # trials_3PR_INOUT = ['3PR give IN', '3PR give OUT',
+    #                     '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
+    #                     '3PR reward OUT OUT',
+    #                     '3PR reward norm IN IN', '3PR reward norm OUT OUT']
+    trials_3PC_INOUT_DIC = ['3PC give IN', '3PC give OUT']
+    trials_3PC_INOUT_TP = ['3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
                         '3PC comp OUT OUT',
                         '3PC comp norm IN IN', '3PC comp norm OUT OUT']
 
@@ -82,7 +86,7 @@ class Subsession(BaseSubsession):
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
 
-    ### Make immutable variables for partner-country block
+    ## Make immutable variables for partner-country block
 
     # Make country list without current country
     country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != C.CURRENT_COUNTRY]
@@ -145,31 +149,41 @@ def creating_session(subsession):
             ## 1) Baseline trials
 
             trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
-            trials_3PP_current = random.sample(C.trials_3PP, len(C.trials_3PP))
-            trials_2PP_current = random.sample(C.trials_2PP, len(C.trials_2PP))
-            trials_3PR_current = random.sample(C.trials_3PR, len(C.trials_3PR))
-            trials_3PC_current = random.sample(C.trials_3PC, len(C.trials_3PC))
+            # First randomize the TP trials
+            trials_3PP_TP_current = random.sample(C.trials_3PP_TP, len(C.trials_3PP_TP))
+            trials_2PP_TP_current = random.sample(C.trials_2PP_TP, len(C.trials_2PP_TP))
+            trials_3PR_TP_current = random.sample(C.trials_3PR_TP, len(C.trials_3PR_TP))
+            trials_3PC_TP_current = random.sample(C.trials_3PC_TP, len(C.trials_3PC_TP))
+            # Second, add DIC trial either before or after
+            trials_3PP_current = trials_3PP_TP_current + C.trials_3PP_DIC if random.choice([True, False]) else C.trials_3PP_DIC + trials_3PP_TP_current
+            trials_2PP_current = trials_2PP_TP_current + C.trials_2PP_DIC if random.choice([True, False]) else C.trials_2PP_DIC + trials_2PP_TP_current
+            trials_3PR_current = trials_3PR_TP_current + C.trials_3PR_DIC if random.choice([True, False]) else C.trials_3PR_DIC + trials_3PR_TP_current
+            trials_3PC_current = trials_3PC_TP_current + C.trials_3PC_DIC if random.choice([True, False]) else C.trials_3PC_DIC + trials_3PC_TP_current
+            # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
             order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
             order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
-            # Assign randomized list (DG always first)
+            # Complete randomized list (DG always first)
             participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
-            #participant.treatment_order_baseline  = trials_DG_current + trials_3PP_current
-
-            #print('set treatment_order_baseline to', participant.treatment_order_baseline)
 
 
             ## 2) Ingroup - outgroup trials
 
-            trials_3PP_INOUT_current = random.sample(C.trials_3PP_INOUT, len(C.trials_3PP_INOUT))
-            trials_3PR_INOUT_current = random.sample(C.trials_3PR_INOUT, len(C.trials_3PR_INOUT))
-            trials_3PC_INOUT_current = random.sample(C.trials_3PC_INOUT, len(C.trials_3PC_INOUT))
-
+            # First, randomize the DIC trials
+            trials_3PP_INOUT_DIC_current = random.sample(C.trials_3PP_INOUT_DIC, len(C.trials_3PP_INOUT_DIC))
+            trials_3PC_INOUT_DIC_current = random.sample(C.trials_3PC_INOUT_DIC, len(C.trials_3PC_INOUT_DIC))
+            # Second, randomize the TP trials
+            trials_3PP_INOUT_TP_current = random.sample(C.trials_3PP_INOUT_TP, len(C.trials_3PP_INOUT_TP))
+            trials_3PC_INOUT_TP_current = random.sample(C.trials_3PC_INOUT_TP, len(C.trials_3PC_INOUT_TP))
+            # Third, randomize order of DIC/TP
+            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_DIC_current if random.choice(
+                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_current
+            trials_3PC_INOUT_current = trials_3PC_INOUT_TP_current + trials_3PC_INOUT_DIC_current if random.choice(
+                [True, False]) else trials_3PC_INOUT_DIC_current + trials_3PC_INOUT_TP_current
+            # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
             order_INOUT = random.sample(
-                [trials_3PP_INOUT_current, trials_3PR_INOUT_current, trials_3PC_INOUT_current], 3)
+                [trials_3PP_INOUT_current, trials_3PC_INOUT_current], 2)
             order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
             participant.treatment_order_INOUT = order_INOUT_flat
-
-            #print('set treatment_order_INOUT to', participant.treatment_order_INOUT)
 
 
             ## 3) Country partners
@@ -186,31 +200,42 @@ def creating_session(subsession):
             trials_partner_out_out_homog_current, trials_partner_out_out_homog_editable = sample_trials_partner(trials_partner_out_out_homog_editable, C.number_trials_partner_out_out_homog, "trials_partner_out_out_homog")
             trials_partner_out_out_heterog_current, trials_partner_out_out_heterog_editable = sample_trials_partner(trials_partner_out_out_heterog_editable, C.number_trials_partner_out_out_heterog, "trials_partner_out_out_heterog")
 
-            # c) Merge trials
-            treatment_order_partner = trials_partner_dic_out_current + trials_partner_in_in_current + trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
+            # c) Merge and randomize order of trials within punisher role
+
+            trials_partner_TP_current = trials_partner_in_in_current + trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
 
             # Add 3PP treatment identifier for referring to treatment and flatten list (tuples produce errors)
-            treatment_order_partner = [
+            trials_partner_TP_current = [
                 " ".join(tup) + " 3PP country" if isinstance(tup, tuple) else tup
-                for tup in treatment_order_partner
+                for tup in trials_partner_TP_current
             ]
 
             # Shuffle the merged list
-            random.shuffle(treatment_order_partner)
+            random.shuffle(trials_partner_TP_current)
 
+            # d) Randomize order of DIC/TP
+            participant.treatment_order_partner = trials_partner_TP_current + trials_partner_dic_out_current if random.choice(
+                [True, False]) else trials_partner_dic_out_current + trials_partner_TP_current
 
             ## 4) Put all treatment orders together
-            participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + treatment_order_partner
-            #participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT
-            #participant.treatment_order = treatment_order_partner
+            participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
             print('set treatment_order to', participant.treatment_order)
+
+            # Check where role switches take place for announcements
+            participant.role_switch = [
+                participant.treatment_order[i]
+                for i in range(1, len(participant.treatment_order))
+                if ("give" in participant.treatment_order[i] and "give" not in participant.treatment_order[i - 1]) or
+                   ("give" not in participant.treatment_order[i] and "give" in participant.treatment_order[i - 1])
+            ]
 
 
             ## 5) Put instruction round before trials from new treatment type
             participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
                                              trials_3PR_current[0], trials_3PC_current[0],
-                                             trials_3PP_INOUT_current[0], trials_3PR_INOUT_current[0], trials_3PC_INOUT_current[0],
+                                             trials_3PP_INOUT_current[0], trials_3PC_INOUT_current[0],
                                              participant.treatment_order[len(participant.treatment_order_baseline + participant.treatment_order_INOUT)]]
+
 
     #breakpoint()
 
@@ -219,6 +244,7 @@ def creating_session(subsession):
         #player.treatment = player.participant.treatment_order_INOUT[player.round_number - 1] # For testing only INOUT
         player.treatment = player.participant.treatment_order[player.round_number - 1]
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+        player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         print('set treatment to', player.treatment)
 
 class Group(BaseGroup):
@@ -300,6 +326,7 @@ class Player(BasePlayer):
 
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
+    role_switch_true = models.BooleanField()
     #dictator_country = models.StringField()
     #receiver_country = models.StringField()
 
@@ -392,6 +419,7 @@ class TPPage(Page):
             treatment_text_action=text_action,
             treatment_text_receiver=text_receiver,
             image=image,
+            role_switch_true = player.role_switch_true,
             )
 
     def before_next_page(player: Player, timeout_happened):
@@ -482,7 +510,7 @@ class DictatorPage(Page):
 
         # 3PR trials get same image as 3PP
         if "3PR" in player.treatment:
-            image = 'global/treatments/3PP punish.png'
+            image = 'global/treatments/3PP give.png'
 
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
@@ -510,6 +538,7 @@ class DictatorPage(Page):
                 'image': image,
                 'dic_decision1': player.dic_decision1,
                 'dic_norm_decision1': player.dic_norm_decision1,
+                'role_switch_true': player.role_switch_true,
             }
 
     def before_next_page(player: Player, timeout_happened):
