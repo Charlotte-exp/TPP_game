@@ -72,7 +72,7 @@
         dic_norm_decisions.forEach((dic_norm_decision) => {
             const index = dic_norm_decision.index;
             const dictatorKeeps = dic_norm_decision.dictator_keeps;
-            const receiverGets = dic_norm_decision.receiver;
+            const receiverGets = dic_norm_decision.receiver_gets;
 
             // Fill initial coin stacks and number labels
             if (current_treatment.includes("norm") ) { // in norm condition
@@ -564,7 +564,7 @@
 
         </div>
 
-                <p> How <b style="color: red;">socially acceptable</b> is it to give {{ C.norm_strategy_dic_gives }} points to Person B? </p>
+                <p> How <b style="color: red;">socially acceptable</b> is it to give {{ dic_norm_decision.receiver_gets }} points to Person B? </p>
 
                 <div class='numbers'>
                     <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
