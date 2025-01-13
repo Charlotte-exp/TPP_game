@@ -10,12 +10,23 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script>
-$(document).ready(function () {
 
-    current_treatment = "{{ treatment }}";
+    /////////// global variables
 
-    // task variables
+    let dic_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    //console.log(`norm decisions values: ${dic_norm_decisions_stored}`);
+
+    var current_treatment = "{{ treatment }}";
+    //console.log("Current treatment:", current_treatment );
+
+    const TP_points = {{ C.TP_points }}; // punishment points
+    const TP_eff = {{ C.TP_effectiveness }}; // punishment or reward or victim compensation effectiveness
+
+    const dic_norm_decisions = {{ dic_norm_decisions | safe }};
+    console.log('Decisions:', {{ dic_norm_decisions | safe }});
 
     total_endowment = {{ C.total_endowment }}
 
@@ -26,149 +37,191 @@ $(document).ready(function () {
         receiver_endowment = {{ C.receiver_endowment }}
         // dependent variable
         var dictator = 0 //dictator gives
-    }
-
-
-    // country pictures from https://github.com/irixapps/World-Flags/tree/master
-    // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-
-    receiverCountry = "{{ recip_identity }}"
-    dictatorCountry = "{{ dic_identity }}"
-
-    role_switch_true = "{{ role_switch_true }}"
-
-    /////////
-    // script
-
-    $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
-    $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
-
-    $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
-    $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
-
-
-
-    if (current_treatment.includes("norm") ) { // in norm condition
-        for (let i = 0; i < dictator; i++) {
-            $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
-        }
-        for (let i = 0; i < receiver_endowment; i++) {
-            $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
         }
 
-        // Initialize the number labels
-        $('#countD').text(`${dictator}`);
-        $('#countR').text(`${receiver_endowment}`);
-    } else { // in dictator giving condition
-        for (let i = 0; i < total_endowment; i++) {
-            $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
+
+/////////// All the functions related to hovering and coinstacks/labels updating had to be moved out of the large parent function.
+// I do not know why but it works now
+
+
+
+
+
+////////////// function for displaying the task, numbers, and labels and managing the click event
+
+    $(document).ready(function () {
+
+
+        // country pictures from https://github.com/irixapps/World-Flags/tree/master
+        // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+        receiverCountry = "{{ recip_identity }}"
+        dictatorCountry = "{{ dic_identity }}"
+
+
+        /////////// script
+
+        $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
+        $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
+
+        $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
+        $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
+
+
+        // Initialize coin stacks and number labels for each decision
+        dic_norm_decisions.forEach((dic_norm_decision) => {
+            const index = dic_norm_decision.index;
+            const dictatorKeeps = dic_norm_decision.dictator_keeps;
+            const receiverGets = dic_norm_decision.receiver;
+
+            // Fill initial coin stacks and number labels
+            if (current_treatment.includes("norm") ) { // in norm condition
+
+                // dictator stack
+                for (let i = 0; i < dictatorKeeps; i++) {
+                    $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                }
+                // receiver stack
+                for (let i = 0; i < receiverGets; i++) {
+                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
+                }
+                // number labels
+                $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+                $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+
+            } else { // in dictator giving condition
+
+                // I think because of the loop without this the stack on page load is huge
+                $('.coinstackD').empty();
+                $('.coinstackR').empty();
+
+                // dictator stack
+                for (let i = 0; i < total_endowment; i++) {
+                    $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
+                }
+                // receiver stack
+                for (let i = 0; i < receiver_endowment; i++) {
+                    $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
+                }
+                // number labels
+                $('#countD').text(`${total_endowment}`);
+                $('#countR').text(`${receiver_endowment}`);
+
+                console.log('Total Endowment:', total_endowment);
+                console.log('Receiver Endowment:', receiver_endowment);
+            }
+        });
+
+        function deactivateNumbers(numbersToDisable) {
+            numbersToDisable.forEach(num => {
+                $('.number[data-value="' + num + '"]').addClass('disabled');
+            });
         }
-        for (let i = 0; i < receiver_endowment; i++) {
-            $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
-        }
 
-        // Initialize the number labels
-        $('#countD').text(`${total_endowment}`);
-        $('#countR').text(`${receiver_endowment}`);
-    }
+        if (!current_treatment.includes("norm") ) { // only in dictator giving conditions
+            // add hover event listener to numbers
+            $('.number').hover(function () {
+                const value = $(this).data('value'); // Get the number value
+                updateCoinStack(value); // Update the coin stack
+            });
 
-    function deactivateNumbers(numbersToDisable) {
-        numbersToDisable.forEach(num => {
-            $('.number[data-value="' + num + '"]').addClass('disabled');
-        });
-    }
+            $('.number').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $('.number').removeClass('selected');
 
-    if (!current_treatment.includes("norm") ) { // only in dictator giving conditions
-        // add hover event listener to numbers
-        $('.number').hover(function () {
-            const value = $(this).data('value'); // Get the number value
-            updateCoinStack(value); // Update the coin stack
-        });
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
 
-        $('.number').on('click', function () {
-            // Remove 'selected' class from all buttons
-            $('.number').removeClass('selected');
-
-            // Add 'selected' class to the clicked button
-            $(this).addClass('selected');
-
-            // Get the value of the clicked button
-            const value = $(this).data('value');
+                // Get the value of the clicked button
+                const value = $(this).data('value');
 
 
-            // Update the hidden input field
-            $('#selected-dic_decision1').val(value);
+                // Update the hidden input field
+                $('#selected-dic_decision1').val(value);
 
-            // Update the coin stack
-            updateCoinStack(value);
+                // Update the coin stack
+                updateCoinStack(value);
 
-            dictator = value
+                dictator = value
 
-            console.log(dictator)
-        });
+                console.log('Dictator decision:', dictator)
+            });
 
-        // Submit button click handler
-        $('#submit-button').on('click', function () {
-            // Submit the form
-            $('form').submit();
-        });
+            // Submit button click handler
+            $('#submit-button').on('click', function () {
+                // Submit the form
+                $('form').submit();
+            });
 
-        // update coin stacks to original state when mouse leaves number area
-        $('.number-row').mouseleave(function () {
-            updateCoinStack(dictator);
-        });
+            // update coin stacks to original state when mouse leaves number area
+            $('.number-row').mouseleave(function () {
+                updateCoinStack(dictator);
+            });
 
-        // function to update the coin stack
-        function updateCoinStack(count) {
-            // Clear existing coins in coinstack1
+            // function to update the coin stack
+            function updateCoinStack(count) {
+                // Clear existing coins in coinstacks
 
-            //TPupdate = TP - count
-            Dupdate = total_endowment - count
-            Rupdate = receiver_endowment + count
+                //TPupdate = TP - count
+                Dupdate = total_endowment - count
+                Rupdate = receiver_endowment + count
 
+                //$('.coinstackTP').empty();
+                $('.coinstackR').empty();
+                $('.coinstackD').empty();
 
-            //$('.coinstackTP').empty();
-            $('.coinstackR').empty();
-            $('.coinstackD').empty();
+                // Add the specified number of coins
+                for (let i = 0; i < Rupdate; i++) {
+                    $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
+                }
 
-            // Add the specified number of coins
-            for (let i = 0; i < Rupdate; i++) {
-                $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
+                for (let i = 0; i < Dupdate; i++) {
+                    $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
+                }
+
+                // Update the number labels
+                $('#countD').text(`${Dupdate}`);
+                $('#countR').text(`${Rupdate}`);
             }
 
+        } else { // in norm conditions
 
-            for (let i = 0; i < Dupdate; i++) {
-                $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
-            }
+            $('.norm').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $(this).closest('.number-row').find('.norm').removeClass('selected');
 
-            // Update the number labels
-            $('#countD').text(`${Dupdate}`);
-            $('#countR').text(`${Rupdate}`);
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
+
+                // Get the value of the clicked button
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the hidden input field
+                $(`#selected-norm-${index}`).val(value);
+
+                // Update the corresponding punishment value in the array
+                dic_norm_decisions_stored[index - 1] = value;
+
+                // This is usually done by the coinstack logic somewhere
+                // since we don't update coinstacks for norms we need to add this
+                // maybe we don't even need the stored array...
+                dic_norm_decisions[index - 1].dic_norm_decision = value;
+
+                // Debugging
+                //console.log(`Updated norm decision at index ${index}: ${value}`);
+                console.log('dict norm Decisions:', dic_norm_decisions);
+                console.log(`norm decision values list: ${dic_norm_decisions_stored}`);
+            });
+
+            // Submit button click handler
+            $('#submit-button').on('click', function () {
+                // Submit the form
+                $('form').submit();
+            });
         }
-
-    } else { // in norm conditions
-
-        $('.norm').on('click', function () {
-        // Remove 'selected' class from all buttons
-        $('.norm').removeClass('selected');
-
-        // Add 'selected' class to the clicked button
-        $(this).addClass('selected');
-
-        // Get the value of the clicked button
-        const value = $(this).data('value');
-
-        // Update the hidden input field
-        $('#selected-dic_norm_decision1').val(value);
-
-        dictator = value
-
-        console.log(dictator)
     });
 
-    }
-
-});
 </script>
 
 
@@ -447,122 +500,151 @@ $(document).ready(function () {
 
     {% if "norm" in player.treatment %}
         <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="dic_norm_decision1" id="selected-dic_norm_decision1">
+        <input type="hidden" name="dic_norm_decision1" id="selected-norm-1">
+        <input type="hidden" name="dic_norm_decision2" id="selected-norm-2">
+        <input type="hidden" name="dic_norm_decision3" id="selected-norm-3">
+        <input type="hidden" name="dic_norm_decision4" id="selected-norm-4">
 
         {{ formfield_errors 'dic_norm_decision1' }}
+        {{ formfield_errors 'dic_norm_decision2' }}
+        {{ formfield_errors 'dic_norm_decision3' }}
+        {{ formfield_errors 'dic_norm_decision4' }}
+
     {% else %}
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="dic_decision1" id="selected-dic_decision1">
 
         {{ formfield_errors 'dic_decision1' }}
-    {% endif %}
-
-    {% if role_switch_true == True %}
-
-    <p style="text-align: center;">
-    <b style="color: red;">ROLE SWITCH! You are now Person A!</b>
-</p>
 
     {% endif %}
-
-
-<div class='responsive-div'>
-
-<div class='container'>
-
-
-    {% if dic_identity != "baseline"%}
-
-    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
-
-    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
-    {% endif %}
-
-    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-    <p>
-    <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:-18%;">YOU</b>
-</p>
-
-    <span class='coinstack coinstackD'>
-    </span>
-
-    <div class="coin-count-labelD" id="countD"></div>
-
-    <span class='coinstack coinstackR'>
-    </span>
-
-    <div class="coin-count-labelR" id="countR"></div>
-
-    {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
-    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
-{% endif %}
-
-    {% if "3PR" in player.treatment %}
-    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
-{% endif %}
-
-    {% if "3PC" in player.treatment %}
-    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
-{% endif %}
-
-    {% if "2PP" in player.treatment %}
-    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
-{% endif %}
-
-
-</div>
 
 
     {% if "norm" in player.treatment %}
+        {% for dic_norm_decision in dic_norm_decisions %}
+        <div class='responsive-div'>
 
-        <p> How <b style="color: red;">socially acceptable</b> is it to give {{ C.norm_strategy_dic_gives }} points to Person B? </p>
+        <div class='container' data-index="{{ dic_norm_decision.index }}">
 
-        <div class='numbers'>
-            <div class="number-row">
-                <div class="norm" data-value="0">very socially<br>unacceptable</div>
-                <div class="norm" data-value="1">socially<br>unacceptable</div>
-                <div class="norm" data-value="2">slightly socially<br>unacceptable</div>
-                <div class="norm" data-value="3">slightly socially<br>acceptable</div>
-                <div class="norm" data-value="4">socially<br>acceptable</div>
-                <div class="norm" data-value="5">very socially<br>acceptable</div>
-            </div>
+            {% if dic_identity != "baseline"%}
+
+            <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+            <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+
+            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+            {% endif %}
+
+            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+            <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
+
+            <div class="coin-count-labelD" id="countD" data-index="{{ dic_norm_decision.index }}"></div>
+
+            <span class='coinstack coinstackR' data-index="{{ dic_norm_decision.index }}"></span>
+
+            <div class="coin-count-labelR" id="countR" data-index="{{ dic_norm_decision.index }}"></div>
+
+            {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+            {% endif %}
+
+            {% if "3PR" in player.treatment %}
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+            {% endif %}
+
+            {% if "3PC" in player.treatment %}
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+            {% endif %}
+
+            {% if "2PP" in player.treatment %}
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+            {% endif %}
+
+
         </div>
 
+                <p> How <b style="color: red;">socially acceptable</b> is it to give {{ C.norm_strategy_dic_gives }} points to Person B? </p>
+
+                <div class='numbers'>
+                    <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
+                        <div class="norm" data-value="0" data-index="{{ dic_norm_decision.index }}">very socially<br>unacceptable</div>
+                        <div class="norm" data-value="1" data-index="{{ dic_norm_decision.index }}">socially<br>unacceptable</div>
+                        <div class="norm" data-value="2" data-index="{{ dic_norm_decision.index }}">slightly socially<br>unacceptable</div>
+                        <div class="norm" data-value="3" data-index="{{ dic_norm_decision.index }}">slightly socially<br>acceptable</div>
+                        <div class="norm" data-value="4" data-index="{{ dic_norm_decision.index }}">socially<br>acceptable</div>
+                        <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">very socially<br>acceptable</div>
+                    </div>
+                </div>
+        <hr>
+
+        </div>
+        {% endfor %}
+
     {% else %}
+
+        <div class='responsive-div'>
+
+        <div class='container'>
+
+            {% if dic_identity != "baseline"%}
+
+            <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+            <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+
+            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+            {% endif %}
+
+            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+            <span class='coinstack coinstackD'></span>
+
+            <div class="coin-count-labelD" id="countD"></div>
+
+            <span class='coinstack coinstackR'></span>
+
+            <div class="coin-count-labelR" id="countR"></div>
+
+            {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+            {% endif %}
+
+            {% if "3PR" in player.treatment %}
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+            {% endif %}
+
+            {% if "3PC" in player.treatment %}
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+            {% endif %}
+
+            {% if "2PP" in player.treatment %}
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+            {% endif %}
+
+        </div>
 
         <p> How many points do you <b style="color: red;">give</b> to Person B? </p>
 
         <div class='numbers'>
            <div class="number-row">
-                <div class="number" data-value="0">0</div>
-                <div class="number" data-value="1">1</div>
-                <div class="number" data-value="2">2</div>
-                <div class="number" data-value="3">3</div>
-                <div class="number" data-value="4">4</div>
-                <div class="number" data-value="5">5</div>
-                <div class="number" data-value="6">6</div>
-                <div class="number" data-value="7">7</div>
-                <div class="number" data-value="8">8</div>
-                <div class="number" data-value="9">9</div>
-                <div class="number" data-value="10">10</div>
-                <div class="number" data-value="11">11</div>
-                <div class="number" data-value="12">12</div>
+                {{ for num in endowments }}
+                <div class="number" data-value="{{ num }}">{{ num }}</div>
+                {{ endfor }}
             </div>
         </div>
 
     {% endif %}
 
-
-
 </div>
+
 
 <br>
 
-   {{ next_button }}
+   <div style="display: flex; justify-content: flex-end">
+        <button type="button" id="submit-button">Next</button>
+    </div>
 
 
 </form>

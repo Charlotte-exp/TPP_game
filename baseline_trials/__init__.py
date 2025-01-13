@@ -255,17 +255,39 @@ class Player(BasePlayer):
     #dictator_amount = models.IntegerField(min=0, max=10)
     dic_decision1 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'], [11, f'value 11'], [12, f'value 12'], [13, f'value 13'], [14, f'value 14'], [15, f'value 15'],
-            [16, f'value 16'], [17, f'value 17'], [18, f'value 18'], [19, f'value 19'], [20, f'value 20'], [21, f'value 21'], [22, f'value 22'], [23, f'value 23'], [24, f'value 24'], [25, f'value 25'],
-            [26, f'value 26'], [27, f'value 27'], [28, f'value 28'], [29, f'value 29'], [30, f'value 30'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     dic_norm_decision1 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    dic_norm_decision2 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    dic_norm_decision3 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    dic_norm_decision4 = models.IntegerField(
         initial=0,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
@@ -496,7 +518,7 @@ class DictatorPage(Page):
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['dic_norm_decision1']
+            return ['dic_norm_decision1', 'dic_norm_decision2', 'dic_norm_decision3', 'dic_norm_decision4']
         else:
             return ['dic_decision1']
 
@@ -531,15 +553,45 @@ class DictatorPage(Page):
 
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
-        return {
-                'treatment': player.treatment,
-                'dic_identity': dic_identity,
-                'recip_identity': recip_identity,
-                'image': image,
-                'dic_decision1': player.dic_decision1,
-                'dic_norm_decision1': player.dic_norm_decision1,
-                'role_switch_true': player.role_switch_true,
-            }
+        return dict(
+            dic_norm_decisions=[
+                dict(
+                    index=1,
+                    dic_norm_decision=player.dic_norm_decision1,
+                    dictator_keeps=C.dictator_keeps_1,
+                    receiver=C.total_endowment - C.dictator_keeps_1,
+                ),
+                dict(
+                    index=2,
+                    dic_norm_decision=player.dic_norm_decision2,
+                    dictator_keeps=C.dictator_keeps_2,
+                    receiver=C.total_endowment - C.dictator_keeps_2,
+                ),
+                dict(
+                    index=3,
+                    dic_norm_decision=player.dic_norm_decision3,
+                    dictator_keeps=C.dictator_keeps_3,
+                    receiver=C.total_endowment - C.dictator_keeps_3,
+                ),
+                dict(
+                    index=4,
+                    dic_norm_decision=player.dic_norm_decision4,
+                    dictator_keeps=C.dictator_keeps_4,
+                    receiver=C.total_endowment - C.dictator_keeps_4,
+                ),
+            ],
+            #receiver_country=player.receiver_country,
+            #dictator_country=player.dictator_country,
+            treatment=player.treatment,
+            receiver_endowment=C.receiver_endowment,
+            TP_effectiveness=C.TP_effectiveness,
+            endowments=range(0, int(C.total_endowment) + 1),
+            dic_identity=dic_identity,
+            recip_identity=recip_identity,
+            dic_decision1=player.dic_norm_decision1,
+            image=image,
+            role_switch_true = player.role_switch_true,
+            )
 
     def before_next_page(player: Player, timeout_happened):
         player.payoff = C.total_endowment - player.dic_decision1
