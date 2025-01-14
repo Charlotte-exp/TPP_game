@@ -32,7 +32,7 @@ class C(BaseConstants):
     receiver_endowment = 0
     TP_points = 4
     TP_effectiveness = 3
-    dictator_keeps = 8  # Should eventually be list: [30, 25, 20, 15]
+    # dictator_keeps = 8  # Should eventually be list: [30, 25, 20, 15] --> Charlotte changed to dictator_keeps_1, dictator_keeps_2, ...
     norm_strategy_dic_gives = 2  # Should eventually be list: [0, 5, 10, 15] : different levels of dictator giving
     norm_strategy_dic_gives_binary = 3  # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
     norm_strategy_punish_norm = 1  # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
@@ -358,9 +358,17 @@ class TPPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         # return player.treatment == "3PP punish" or player.treatment == "2PP punish" or player.treatment == '3PR reward' or player.treatment == '3PC comp'
-        return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment or "3PP country" in player.treatment) and "norm" not in player.treatment
+        return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment or "3PP country" in player.treatment) #and "norm" not in player.treatment
     form_model = 'player'
-    form_fields = ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
+
+    def get_form_fields(player: Player):
+        if "norm" in player.treatment:
+            return ['TP_norm_decision1']
+        else:
+            return ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
+
+    #form_fields = ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
+
     @staticmethod
     def vars_for_template(player: Player):
         if "2PP punish" in player.treatment:
@@ -379,6 +387,7 @@ class TPPage(Page):
             text_action = "give"
             text_receiver = "to Person B"
             image = 'global/treatments/3PC comp.png'
+
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -442,6 +451,7 @@ class TPPage(Page):
             treatment_text_receiver=text_receiver,
             image=image,
             role_switch_true = player.role_switch_true,
+            TP_norm_decision1 = player.TP_norm_decision1,
             )
 
     def before_next_page(player: Player, timeout_happened):
@@ -449,65 +459,65 @@ class TPPage(Page):
         player.payoff = C.TP_points - player.TP_decision1
 
 
-class TPNormPage(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        # return player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm"  or player.treatment == '3PR reward norm' or player.treatment == '3PC comp norm'
-        return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment) and "norm" in player.treatment
-
-    form_model = 'player'
-    form_fields = ['TP_norm_decision1']
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        # text1 = "How socially acceptable is it to punish"
-        if "2PP punish" in player.treatment:
-            text_action = "take away"
-            text_receiver = "from Person A"
-            image = 'global/treatments/2PP punish.png'
-        if "3PP punish" in player.treatment:
-            text_action = "take away"
-            text_receiver = "from Person A"
-            image = 'global/treatments/3PP punish.png'
-        if "reward" in player.treatment:
-            text_action = "give"
-            text_receiver = "to Person A"
-            image = 'global/treatments/3PP punish.png'
-        if "comp" in player.treatment:
-            text_action = "give"
-            text_receiver = "to Person B"
-            image = 'global/treatments/3PC comp.png'
-
-        print('Generating image path and round number - 1', image, player.round_number - 1)
-
-        # For INOUT trials, check identity of dictator and recipient
-        if "IN IN" in player.treatment:
-            dic_identity = C.CURRENT_COUNTRY
-            recip_identity = C.CURRENT_COUNTRY
-        if "IN OUT" in player.treatment:
-            dic_identity = C.CURRENT_COUNTRY
-            recip_identity = "out"
-        if "OUT IN" in player.treatment:
-            dic_identity = "out"
-            recip_identity = C.CURRENT_COUNTRY
-        if "OUT OUT" in player.treatment:
-            dic_identity = "out"
-            recip_identity = "out"
-        if "OUT" not in player.treatment and "IN" not in player.treatment:
-            dic_identity = "baseline"
-            recip_identity = "baseline"
-
-        return {
-            'treatment': player.treatment,
-            'dic_identity': dic_identity,
-            'recip_identity': recip_identity,
-            'treatment_text_action': text_action,
-            'treatment_text_receiver': text_receiver,
-            'image': image,
-            'TP_norm_decision1': player.TP_norm_decision1,
-            # 'decision2': player.decision2,
-            # 'receiver_country': player.receiver_country
-        }
+# class TPNormPage(Page):
+#     @staticmethod
+#     def is_displayed(player: Player):
+#         # return player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm"  or player.treatment == '3PR reward norm' or player.treatment == '3PC comp norm'
+#         return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment) and "norm" in player.treatment
+#
+#     form_model = 'player'
+#     form_fields = ['TP_norm_decision1']
+#
+#     @staticmethod
+#     def vars_for_template(player: Player):
+#         # text1 = "How socially acceptable is it to punish"
+#         if "2PP punish" in player.treatment:
+#             text_action = "take away"
+#             text_receiver = "from Person A"
+#             image = 'global/treatments/2PP punish.png'
+#         if "3PP punish" in player.treatment:
+#             text_action = "take away"
+#             text_receiver = "from Person A"
+#             image = 'global/treatments/3PP punish.png'
+#         if "reward" in player.treatment:
+#             text_action = "give"
+#             text_receiver = "to Person A"
+#             image = 'global/treatments/3PP punish.png'
+#         if "comp" in player.treatment:
+#             text_action = "give"
+#             text_receiver = "to Person B"
+#             image = 'global/treatments/3PC comp.png'
+#
+#         print('Generating image path and round number - 1', image, player.round_number - 1)
+#
+#         # For INOUT trials, check identity of dictator and recipient
+#         if "IN IN" in player.treatment:
+#             dic_identity = C.CURRENT_COUNTRY
+#             recip_identity = C.CURRENT_COUNTRY
+#         if "IN OUT" in player.treatment:
+#             dic_identity = C.CURRENT_COUNTRY
+#             recip_identity = "out"
+#         if "OUT IN" in player.treatment:
+#             dic_identity = "out"
+#             recip_identity = C.CURRENT_COUNTRY
+#         if "OUT OUT" in player.treatment:
+#             dic_identity = "out"
+#             recip_identity = "out"
+#         if "OUT" not in player.treatment and "IN" not in player.treatment:
+#             dic_identity = "baseline"
+#             recip_identity = "baseline"
+#
+#         return {
+#             'treatment': player.treatment,
+#             'dic_identity': dic_identity,
+#             'recip_identity': recip_identity,
+#             'treatment_text_action': text_action,
+#             'treatment_text_receiver': text_receiver,
+#             'image': image,
+#             'TP_norm_decision1': player.TP_norm_decision1,
+#             # 'decision2': player.decision2,
+#             # 'receiver_country': player.receiver_country
+#         }
 
 class DictatorPage(Page):
     @staticmethod
@@ -622,6 +632,6 @@ class instructionPage(Page):
             'treatment_type': treatment_type
         }
 
-page_sequence = [instructionPage, DictatorPage, TPPage, TPNormPage]
+page_sequence = [instructionPage, DictatorPage, TPPage] #TPNormPage
 #page_sequence = [DictatorPage, TPPage]
 #page_sequence = [TPPage]
