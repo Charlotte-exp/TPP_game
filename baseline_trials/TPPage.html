@@ -101,30 +101,33 @@
         //console.log('updateCoinStack called with:', { count, index });
     }
 
-    // Hover function calling updateCoinStack
-    $(document).on('mouseenter', '.number', function () {
-        const value = $(this).data('value'); // Get the number value
-        const index = $(this).data('index'); // Get the index of the element
-        console.log('Hover triggered. Value:', value, 'Index:', index);
-        updateCoinStack(value, index);
-    });
+    if (!current_treatment.includes("norm") ) { // only in TP conditions
 
-    // Function to restore the clicked or initial state of the row
-    function restoreRowState(index) {
-        const clickedValue = TP_decisions_stored[index - 1];
-        if (clickedValue > 0) {
-            updateCoinStack(clickedValue, index); // Restore to the clicked state
-        } else {
-            const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
-            updateCoinStack(0, index); // Restore to the initial state
+        // Hover function calling updateCoinStack
+        $(document).on('mouseenter', '.number', function () {
+            const value = $(this).data('value'); // Get the number value
+            const index = $(this).data('index'); // Get the index of the element
+            console.log('Hover triggered. Value:', value, 'Index:', index);
+            updateCoinStack(value, index);
+        });
+
+        // Function to restore the clicked or initial state of the row
+        function restoreRowState(index) {
+            const clickedValue = TP_decisions_stored[index - 1];
+            if (clickedValue > 0) {
+                updateCoinStack(clickedValue, index); // Restore to the clicked state
+            } else {
+                const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
+                updateCoinStack(0, index); // Restore to the initial state
+            }
+            //console.log(`Restored row ${index} to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
         }
-        //console.log(`Restored row ${index} to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
-    }
 
-    $(document).on('mouseleave', '.number-row', function () {
-        const index = $(this).data('index');
-        restoreRowState(index);
-    });
+        $(document).on('mouseleave', '.number-row', function () {
+            const index = $(this).data('index');
+            restoreRowState(index);
+        });
+    }
 
 ////////////// function for displaying the task, numbers, and labels and managing the click event
 $(document).ready(function () {
@@ -149,8 +152,19 @@ $(document).ready(function () {
     $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
     $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
+    // Norm variables; Will need to be changed for multiple decisions
+    if (current_treatment.includes("norm") ) { // in norm condition
+        total_endowment = {{C.total_endowment }}
+        receiver = {{ C.norm_strategy_dic_gives_binary }} // The receiver gets however much the dictator gives
+        TP_points_assigned = {{ C.norm_strategy_punish_norm }} // punishment points assigned by punisher
+        TP = TP_points - TP_points_assigned // punishment points
+        dictator_recipient_TPeffect = TP_points_assigned * TP_eff
+        dictator_kept = total_endowment - receiver
+        dictator = dictator_kept - dictator_recipient_TPeffect
+        document.getElementById("dictator_recipient_TPeffect").textContent = dictator_recipient_TPeffect;
+    }
 
-    // Initialize coin stacks for each decision
+    // Initialize coin stacks for each TP decision
     TP_decisions.forEach((TP_decision) => {
         const index = TP_decision.index;
         const dictatorKeeps = TP_decision.dictator_keeps;
@@ -200,61 +214,123 @@ $(document).ready(function () {
     });
 
 
+    // Initialize coin stacks for TP NORM decisions, and then collect responses
+    if (current_treatment.includes("norm") ) { // in norm condition
+
+        for (let i = 0; i < dictator; i++) {
+            $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
+        }
+        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+            $('.coinstackDDes').append('<div class="coin_destroyed" style="left:19%;"></div>');
+        }
+        for (let i = 0; i < TP; i++) {
+            $('.coinstackTP').append('<div class="coinown" style="left:75%;"></div>');
+        }
+        for (let i = 0; i < receiver; i++) {
+            $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
+        }
+
+        // Make another coin stack for punisher in 2PP: different location
+        for (let i = 0; i < TP; i++) {
+            $('.coinstackTP2PP').append('<div class="coinown2PP" style="left:83%;"></div>');
+        }
+        // Make another coin stack for DG reward in 3PR: different location
+        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+            $('.coinstackTP3PR').append('<div class="coinown3PR" style="left:7%;"></div>');
+        }
+        // Make another coin stack for recipient compensation in 3PC: different location
+        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+            $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:102%;"></div>');
+        }
+
+        // Initialize the number labels
+        $('#countTP').text(`${TP}`);
+        $('#countD').text(`${dictator}`);
+        $('#countDDes').text(`${dictator_recipient_TPeffect}`);
+        $('#countR').text(`${receiver}`);
+        $('#countTP2PP').text(`${TP}`);
+        $('#countTP3PR').text(`${dictator_recipient_TPeffect}`);
+        $('#countTP3PC').text(`${dictator_recipient_TPeffect}`);
+
+        // Collect responses
+        $('.norm').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $('.norm').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+
+            // Update the hidden input field
+            $('#selected-TP_norm_decision1').val(value);
+
+            // // Update the coin stack
+            // updateCoinStack(value);
+
+            dictator = value
+
+            console.log("dictator", dictator)
+    });
+
+    }
+
     function deactivateNumbers(numbersToDisable, index) {
         numbersToDisable.forEach(num => {
             $('.number[data-value="' + num + '"][data-index="' + index + '"]').addClass('disabled');
         });
     }
 
-    // deactive punishment that would generate negative values
+    if (!current_treatment.includes("norm") ) { // only in TP conditions
+        // deactive punishment that would generate negative values
+        let numbersToDisable = [];
+        TP_decisions.forEach(TP_decision => {
+            DPpossible = Math.ceil(TP_decision.dictator_keeps / 3);
+            for (let i = DPpossible + 1; i <= TP_points; i++) {
+                numbersToDisable.push(i);
+            }
 
-    let numbersToDisable = [];
-    TP_decisions.forEach(TP_decision => {
-        DPpossible = Math.ceil(TP_decision.dictator_keeps/3);
-        for (let i = DPpossible+1; i <= TP_points; i++) {
-            numbersToDisable.push(i);
-        }
-
-        //Deactivate numbers only in punishment conditions
-        //if (current_treatment == "3PP punish" || current_treatment == "2PP punish") { // leave dictator coins if 3PR or 3PC
-        if (current_treatment.includes("punish") || current_treatment.includes("3PP country") ) {
+            //Deactivate numbers only in punishment conditions
+            //if (current_treatment == "3PP punish" || current_treatment == "2PP punish") { // leave dictator coins if 3PR or 3PC
+            if (current_treatment.includes("punish") || current_treatment.includes("3PP country")) {
                 deactivateNumbers(numbersToDisable, TP_decision.index);
-        }
-    });
+            }
+        });
 
-    $('.number').on('click', function () {
-        // Remove 'selected' class from all buttons
-        $(this).closest('.number-row').find('.number').removeClass('selected');
+        $('.number').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.number-row').find('.number').removeClass('selected');
 
-        // Add 'selected' class to the clicked button
-        $(this).addClass('selected');
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
 
-        // Get the value of the clicked button
-        const value = $(this).data('value');
-        const index = $(this).data('index');
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+            const index = $(this).data('index');
 
-        // Update the corresponding punishment value in the array
-        TP_decisions_stored[index - 1] = value;
+            // Update the corresponding punishment value in the array
+            TP_decisions_stored[index - 1] = value;
 
-        // Update the hidden input field
-        $(`#selected-number-${index}`).val(value);
+            // Update the hidden input field
+            $(`#selected-number-${index}`).val(value);
 
-        // Update the coin stack
-        updateCoinStack(value, index);
+            // Update the coin stack
+            updateCoinStack(value, index);
 
 
-        // Debugging
-        //console.log('Index:', index);
-        console.log('Value:', value);
-        //console.log('TP Decisions:', TP_decisions);
-        //console.log(`Punishment values: ${TP_decisions_stored}`);
-    });
-
-    // Submit button click handler
-    $('#submit-button').on('click', function () {
-        // Submit the form
-        $('form').submit();
-    });
+            // Debugging
+            //console.log('Index:', index);
+            console.log('Value:', value);
+            //console.log('TP Decisions:', TP_decisions);
+            //console.log(`Punishment values: ${TP_decisions_stored}`);
+        });
+    }
+        // Submit button click handler
+        $('#submit-button').on('click', function () {
+            // Submit the form
+            $('form').submit();
+        });
 
 });
 </script>
@@ -272,9 +348,12 @@ $(document).ready(function () {
 
     .number-row {
         justify-content: center;
-          display: flex;
-          margin-top:3vw;
-          gap: 1vw; /* Space between numbers scales with viewport width */
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
     }
 
     .number {
@@ -284,6 +363,23 @@ $(document).ready(function () {
         justify-content: center;
         align-items: center;
         font-size: 1.5vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
         border: 2px solid #000000;
         border-radius: 10%; /* Slightly rounded corners */
@@ -305,6 +401,26 @@ $(document).ready(function () {
     }
 
     .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .norm.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
         border: 2px solid #d3d3d3;
         color:#d3d3d3;
@@ -549,18 +665,6 @@ $(document).ready(function () {
     .coinown2PP:nth-child(2)   { top: 3.0vw; }
     .coinown2PP:nth-child(1)   { top: 3.3vw; }
 
-/*    .coinown3PR:nth-child(1)  { top: 3.3vw; }*/
-/*.coinown3PR:nth-child(2)  { top: 3vw; }*/
-/*.coinown3PR:nth-child(3)  { top: 2.7vw; }*/
-/*.coinown3PR:nth-child(4)   { top: 2.4vw; }*/
-/*.coinown3PR:nth-child(5)   { top: 2.1vw; }*/
-/*.coinown3PR:nth-child(6)   { top: 1.8vw; }*/
-/*.coinown3PR:nth-child(7)   { top: 1.5vw; }*/
-/*.coinown3PR:nth-child(8)   { top: 1.2vw; }*/
-/*.coinown3PR:nth-child(9)   { top: 0.9vw; }*/
-/*.coinown3PR:nth-child(10)   { top: 0.6vw; }*/
-/*.coinown3PR:nth-child(11)   { top: 0.3vw; }*/
-/*.coinown3PR:nth-child(12)   { top: 0vw; }*/
 
     .coinown3PR:nth-child(1)  { top: 15.8vw; }
 .coinown3PR:nth-child(2)  { top: 15.5vw; }
@@ -601,32 +705,7 @@ $(document).ready(function () {
 .coin_destroyed:nth-child(2)   { top: 0.3vw; }
 .coin_destroyed:nth-child(1)   { top: 0vw; }
 
-/*    .coin_destroyed:nth-child(1)  { top: 15.8vw; }*/
-/*.coin_destroyed:nth-child(2)  { top: 15.5vw; }*/
-/*.coin_destroyed:nth-child(3)  { top: 15.2vw; }*/
-/*.coin_destroyed:nth-child(4)   { top: 14.9vw; }*/
-/*.coin_destroyed:nth-child(5)   { top: 14.6vw; }*/
-/*.coin_destroyed:nth-child(6)   { top: 14.3vw; }*/
-/*.coin_destroyed:nth-child(7)   { top: 14.0vw; }*/
-/*.coin_destroyed:nth-child(8)   { top: 13.7vw; }*/
-/*.coin_destroyed:nth-child(9)   { top: 13.4vw; }*/
-/*.coin_destroyed:nth-child(10)   { top: 13.1vw; }*/
-/*.coin_destroyed:nth-child(11)   { top: 12.8vw; }*/
-/*.coin_destroyed:nth-child(12)   { top: 12.5vw; }*/
 
-
-/*.coin_destroyed:nth-child(12)   { top: 3.1vw; }*/
-/*.coin_destroyed:nth-child(11)   { top: 3.5vw; }*/
-/*.coin_destroyed:nth-child(10)   { top: 3.8vw; }*/
-/*.coin_destroyed:nth-child(9)   { top: 4.1vw; }*/
-/*.coin_destroyed:nth-child(8)   { top: 4.4vw; }*/
-/*.coin_destroyed:nth-child(7)   { top: 4.7vw; }*/
-/*.coin_destroyed:nth-child(6)   { top: 5.0vw; }*/
-/*.coin_destroyed:nth-child(5)   { top: 5.3vw; }*/
-/*.coin_destroyed:nth-child(4)   { top: 5.6vw; }*/
-/*.coin_destroyed:nth-child(3)  { top: 5.9vw; }*/
-/*.coin_destroyed:nth-child(2)  { top: 6.2vw; }*/
-/*.coin_destroyed:nth-child(1)  { top: 16.5vw; }*/
 
 </style>
 </head>
@@ -635,6 +714,15 @@ $(document).ready(function () {
 <body>
 
     <form method="post">
+
+        {% if "norm" in player.treatment %}
+
+        <input type="hidden" name="TP_norm_decision1" id="selected-TP_norm_decision1">
+
+        {{ formfield_errors 'TP_norm_decision1' }}
+
+        {% else %}
+
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="TP_decision1" id="selected-number-1">
         <input type="hidden" name="TP_decision2" id="selected-number-2">
@@ -646,114 +734,230 @@ $(document).ready(function () {
         {{ formfield_errors 'TP_decision3' }}
         {{ formfield_errors 'TP_decision4' }}
 
+        {% endif %}
+
     {% if role_switch_true == True %}
 
     <p style="text-align: center;">
-    <b style="color: red;">ROLE SWITCH! You are now Person A!</b>
+    <b style="color: red;">ROLE SWITCH! You are now Person 3!</b>
 </p>
 
     {% endif %}
 
-{% for TP_decision in TP_decisions %}
-<div class='responsive-div'>
 
-    <div class='container' data-index="{{ TP_decision.index }}">
+    {% if "norm" in player.treatment %}
 
-        {% if dic_identity != "baseline"%}
+        <div class='responsive-div'>
 
-        <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-        <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+        <div class='container'>
 
-        <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-        <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+    {% if dic_identity != "baseline"%}
 
-        {% endif %}
+    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-        <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-
-        <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
-
-        <span class='coinstack coinstackD' data-index="{{ TP_decision.index }}"></span>
-
-        <div class="coin-count-labelD" id="countD" data-index="{{ TP_decision.index }}"></div>
-
-        <span class='coinstack coinstackR' data-index="{{ TP_decision.index }}"></span>
-
-        <div class="coin-count-labelR" id="countR" data-index="{{ TP_decision.index }}"></div>
+    {% endif %}
 
 
+    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
-        {% if "punish" in player.treatment or "3PP country" in player.treatment %}
 
-            <span class='coinstack coinstackDDes' data-index="{{ TP_decision.index }}"></span>
+    <span class='coinstack coinstackD'>
+    </span>
 
-            <div class="coin-count-labelDDes" id="countDDes" data-index="{{ TP_decision.index }}"></div>
+    <div class="coin-count-labelD" id="countD"></div>
 
-        {% endif %}
 
-         {% if "reward" in player.treatment %}
+    <span class='coinstack coinstackR'>
+    </span>
 
-            <span class='coinstack coinstackTP3PR' data-index="{{ TP_decision.index }}"></span>
+    <div class="coin-count-labelR" id="countR"></div>
 
-            <div class="coin-count-labelTP3PR" id="countTP3PR" data-index="{{ TP_decision.index }}"></div>
 
-        {% endif %}
 
-        {% if "comp" in player.treatment %}
+    {% if "punish" in player.treatment %}
 
-            <span class='coinstack coinstackTP3PC' data-index="{{ TP_decision.index }}"></span>
+    <span class='coinstack coinstackDDes'>
+    </span>
 
-            <div class="coin-count-labelTP3PC" id="countTP3PC" data-index="{{ TP_decision.index }}"></div>
+    <div class="coin-count-labelDDes" id="countDDes"></div>
 
-        {% endif %}
+{% endif %}
 
-        {% if "3PP" in player.treatment %}
-            <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
-        {% endif %}
+     {% if "reward" in player.treatment %}
 
-        {% if "3PR" in player.treatment %}
-            <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
-        {% endif %}
+    <span class='coinstack coinstackTP3PR'>
+    </span>
 
-        {% if "3PC" in player.treatment %}
-            <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
-        {% endif %}
+    <div class="coin-count-labelTP3PR" id="countTP3PR"></div>
+
+{% endif %}
+
+    {% if "comp" in player.treatment %}
+
+    <span class='coinstack coinstackTP3PC'>
+    </span>
+
+    <div class="coin-count-labelTP3PC" id="countTP3PC"></div>
+
+{% endif %}
+
+
+    {% if "3PP" in player.treatment %}
+    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+{% endif %}
+
+    {% if "3PR" in player.treatment %}
+    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+{% endif %}
+
+    {% if "3PC" in player.treatment %}
+    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+{% endif %}
 
     {% if "2PP" in player.treatment %}
-        <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+{% endif %}
 
-         <p>
-    <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:101%;">YOU</b>
-</p>
+
+
+
+</div>
+
+
+
+     <p> How <b style="color: red;">socially acceptable</b> is it to <b style="color: red;">{{ treatment_text_action }}</b> <span id="dictator_recipient_TPeffect"></span> points {{ treatment_text_receiver }}? </p>
+
+
+
+    <div class='numbers'>
+    <div class="number-row">
+        <div class="norm" data-value="0">very socially<br>unacceptable</div>
+        <div class="norm" data-value="1">socially<br>unacceptable</div>
+        <div class="norm" data-value="2">slightly socially<br>unacceptable</div>
+        <div class="norm" data-value="3">slightly socially<br>acceptable</div>
+        <div class="norm" data-value="4">socially<br>acceptable</div>
+        <div class="norm" data-value="5">very socially<br>acceptable</div>
+    </div>
+</div>
+
+
+
+        <hr>
+</div>
+
+
 
     {% else %}
 
-    <p>
-    <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:46%;">YOU</b>
-</p>
-
-    {% endif %}
-
-    </div>
 
 
-        <p> How much do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </p>
 
-        <div class='numbers'>
-            <div class="number-row" data-index="{{ TP_decision.index }}" data-input="selected-number-{{ TP_decision.index }}">
-                {{ for num in TP_points }}
-                <div class="number" data-value="{{ num }}" data-index="{{ TP_decision.index }}">{{ num }}</div>
-                {{ endfor }}
+        {% for TP_decision in TP_decisions %}
+        <div class='responsive-div'>
+
+            <div class='container' data-index="{{ TP_decision.index }}">
+
+                {% if dic_identity != "baseline"%}
+
+                <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+
+                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+                {% endif %}
+
+                <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+
+                <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
+
+                <span class='coinstack coinstackD' data-index="{{ TP_decision.index }}"></span>
+
+                <div class="coin-count-labelD" id="countD" data-index="{{ TP_decision.index }}"></div>
+
+                <span class='coinstack coinstackR' data-index="{{ TP_decision.index }}"></span>
+
+                <div class="coin-count-labelR" id="countR" data-index="{{ TP_decision.index }}"></div>
+
+
+
+                {% if "punish" in player.treatment or "3PP country" in player.treatment %}
+
+                    <span class='coinstack coinstackDDes' data-index="{{ TP_decision.index }}"></span>
+
+                    <div class="coin-count-labelDDes" id="countDDes" data-index="{{ TP_decision.index }}"></div>
+
+                {% endif %}
+
+                 {% if "reward" in player.treatment %}
+
+                    <span class='coinstack coinstackTP3PR' data-index="{{ TP_decision.index }}"></span>
+
+                    <div class="coin-count-labelTP3PR" id="countTP3PR" data-index="{{ TP_decision.index }}"></div>
+
+                {% endif %}
+
+                {% if "comp" in player.treatment %}
+
+                    <span class='coinstack coinstackTP3PC' data-index="{{ TP_decision.index }}"></span>
+
+                    <div class="coin-count-labelTP3PC" id="countTP3PC" data-index="{{ TP_decision.index }}"></div>
+
+                {% endif %}
+
+                {% if "3PP" in player.treatment %}
+                    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+                {% endif %}
+
+                {% if "3PR" in player.treatment %}
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+                {% endif %}
+
+                {% if "3PC" in player.treatment %}
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+                {% endif %}
+
+            {% if "2PP" in player.treatment %}
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+
+                 <p>
+            <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:101%;">YOU</b>
+        </p>
+
+            {% else %}
+
+            <p>
+            <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:46%;">YOU</b>
+        </p>
+
+            {% endif %}
+
             </div>
-        </div>
 
-     <br>
-      
-    <hr>
 
-    </div>
-    {% endfor %}
+                <p> How much do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </p>
+
+                <div class='numbers'>
+                    <div class="number-row" data-index="{{ TP_decision.index }}" data-input="selected-number-{{ TP_decision.index }}">
+                        {{ for num in TP_points }}
+                        <div class="number" data-value="{{ num }}" data-index="{{ TP_decision.index }}">{{ num }}</div>
+                        {{ endfor }}
+                    </div>
+                </div>
+
+             <br>
+
+            <hr>
+
+            </div>
+            {% endfor %}
+
+        {% endif %}
 
         <br>
 
