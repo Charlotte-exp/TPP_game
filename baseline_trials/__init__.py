@@ -252,7 +252,13 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    #dictator_amount = models.IntegerField(min=0, max=10)
+
+    treatment = models.StringField()
+    instruction_round_true = models.BooleanField()
+    role_switch_true = models.BooleanField()
+    #dictator_country = models.StringField()
+    #receiver_country = models.StringField()
+
     dic_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
@@ -298,40 +304,28 @@ class Player(BasePlayer):
     )
     TP_decision1 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision2 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision3 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision4 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-            [6, f'value 6'], [7, f'value 7'], [8, f'value 8'], [9, f'value 9'], [10, f'value 10'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
@@ -345,12 +339,33 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-
-    treatment = models.StringField()
-    instruction_round_true = models.BooleanField()
-    role_switch_true = models.BooleanField()
-    #dictator_country = models.StringField()
-    #receiver_country = models.StringField()
+    TP_norm_decision2 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    TP_norm_decision3 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    TP_norm_decision4 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
 
 
 # PAGES
@@ -363,11 +378,9 @@ class TPPage(Page):
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['TP_norm_decision1']
+            return ['TP_norm_decision1', 'TP_norm_decision2', 'TP_norm_decision3', 'TP_norm_decision4']
         else:
             return ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
-
-    #form_fields = ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -440,6 +453,32 @@ class TPPage(Page):
                     receiver=C.total_endowment - C.dictator_keeps_4,
                 ),
             ],
+            TP_norm_decisions=[
+                dict(
+                    index=1,
+                    TP_norm_decision=player.TP_norm_decision1,
+                    dictator_keeps=C.dictator_keeps_1,
+                    receiver=C.total_endowment - C.dictator_keeps_1,
+                ),
+                dict(
+                    index=2,
+                    TP_norm_decision=player.TP_norm_decision2,
+                    dictator_keeps=C.dictator_keeps_2,
+                    receiver=C.total_endowment - C.dictator_keeps_2,
+                ),
+                dict(
+                    index=3,
+                    TP_norm_decision=player.TP_norm_decision3,
+                    dictator_keeps=C.dictator_keeps_3,
+                    receiver=C.total_endowment - C.dictator_keeps_3,
+                ),
+                dict(
+                    index=4,
+                    TP_norm_decision=player.TP_norm_decision4,
+                    dictator_keeps=C.dictator_keeps_4,
+                    receiver=C.total_endowment - C.dictator_keeps_4,
+                ),
+            ],
             #receiver_country=player.receiver_country,
             #dictator_country=player.dictator_country,
             TP_points=range(0, int(C.TP_points) + 1),
@@ -451,7 +490,6 @@ class TPPage(Page):
             treatment_text_receiver=text_receiver,
             image=image,
             role_switch_true = player.role_switch_true,
-            TP_norm_decision1 = player.TP_norm_decision1,
             )
 
     def before_next_page(player: Player, timeout_happened):

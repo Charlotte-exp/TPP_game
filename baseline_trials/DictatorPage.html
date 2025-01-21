@@ -51,7 +51,6 @@
 
     $(document).ready(function () {
 
-
         // country pictures from https://github.com/irixapps/World-Flags/tree/master
         // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
@@ -61,9 +60,11 @@
 
         /////////// script
 
+        // get flags
         $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
         $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
 
+        // get maps
         $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
         $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
@@ -134,7 +135,6 @@
 
                 // Get the value of the clicked button
                 const value = $(this).data('value');
-
 
                 // Update the hidden input field
                 $('#selected-dic_decision1').val(value);
@@ -526,23 +526,19 @@
         <div class='container' data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
+                <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-            <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-            <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
-
-            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
+                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
             {% endif %}
 
             <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
             <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
-
             <div class="coin-count-labelD" id="countD" data-index="{{ dic_norm_decision.index }}"></div>
 
             <span class='coinstack coinstackR' data-index="{{ dic_norm_decision.index }}"></span>
-
             <div class="coin-count-labelR" id="countR" data-index="{{ dic_norm_decision.index }}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
