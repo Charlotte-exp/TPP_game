@@ -32,11 +32,10 @@
     console.log('Norm decisions:', {{ TP_norm_decisions | safe }});
 
 
+/////////// All the functions (for TP_decisions) related to hovering and coinstacks/labels updating
+/////////// had to be moved out of the large parent function.
 
-/////////// All the functions related to hovering and coinstacks/labels updating had to be moved out of the large parent function.
-// I do not know why but it works now
-
-    // function to update the coin stack
+    // function to update the coin stack (TP_decisions only)
     function updateCoinStack(count, index) {
 
         const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
@@ -159,7 +158,7 @@
         $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
 
-        // only in TP conditions
+        // only in TP_decision conditions
         if (!current_treatment.includes("norm") ) {
 
             // Initialize coin stacks for each TP decision
@@ -206,9 +205,9 @@
                 $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
                 $('#countTP2PP[data-index="' + index + '"]').text(`${TP_points}`);
                 // You can also initialize other labels like countDDes, countTP3PR, etc. if needed
-                // $('#countDDes[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-                // $('#countTP3PR[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-                // $('#countTP3PC[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+                $('#countDDes[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+                $('#countTP3PR[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+                $('#countTP3PC[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
             });
 
             // deactive punishment that would generate negative values
@@ -258,31 +257,32 @@
         // Also includes response collection (different function for TP decision)
         if (current_treatment.includes("norm") ) { // in norm condition
 
-            // norm variables
-            total_endowment = {{C.total_endowment }}
-            receiver = {{ C.norm_strategy_dic_gives_binary }} // The receiver gets however much the dictator gives
-            TP_points_assigned = {{ C.norm_strategy_punish_norm }} // punishment points assigned by punisher
-            TP = TP_points - TP_points_assigned // punishment points
-            dictator_recipient_TPeffect = TP_points_assigned * TP_eff
-            dictator_kept = total_endowment - receiver
-            dictator = dictator_kept - dictator_recipient_TPeffect
-            document.getElementById("dictator_recipient_TPeffect").textContent = dictator_recipient_TPeffect;
+            // Is this for the text?
+            //document.getElementById("norm_fixed_amount").textContent = norm_fixed_amount;
 
             TP_norm_decisions.forEach((TP_norm_decision) => {
                 const index = TP_norm_decision.index;
-                const dictatorKeeps = TP_norm_decision.dictator_keeps;
+                let dictatorKeeps = TP_norm_decision.dictator_keeps;
                 const receiverGets = TP_norm_decision.receiver;
+                const norm_TP_points = {{ C.norm_fixed_TP_points }}
+
+                // leave dictator coins if 3PR or 3PC, remove the norm_TP_points if 2PP or 3PP
+                if (current_treatment.includes("reward") || current_treatment.includes("comp")) {
+                    dictatorKeeps = TP_norm_decision.dictator_keeps
+                } else if (current_treatment.includes("punish") || current_treatment.includes("3PP country")) {
+                    dictatorKeeps = TP_norm_decision.dictator_keeps-norm_TP_points
+                }
 
                     // dictator stack
                     for (let i = 0; i < dictatorKeeps; i++) {
                         $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
                     }
                     // red stack (destructed coins)
-                    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+                    for (let i = 0; i < norm_TP_points; i++) {
                         $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
                     }
                     // punisher stack
-                    for (let i = 0; i < TP_points; i++) {
+                    for (let i = 0; i < norm_TP_points; i++) {
                         $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
                     }
                     // receiver stack
@@ -296,27 +296,27 @@
                         $(`.coinstackTP2PP[data-index="${index}"]`).append('<div class="coinown2PP" style="left:83%;"></div>');
                     }
                     // DG reward in 3PR
-                    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+                    for (let i = 0; i < TP_points; i++) {
                         $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
                     }
                     // recipient compensation in 3PC
-                    for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+                    for (let i = 0; i < TP_points; i++) {
                         $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
                     }
 
                     // number labels
-                    $('#countTP[data-index="' + index + '"]').text(`${TP_points}`);
+                    $('#countTP[data-index="' + index + '"]').text(`${norm_TP_points}`);
                     $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
                     $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
-                    $('#countTP2PP[data-index="' + index + '"]').text(`${TP_points}`);
-                    $('#countDDes[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-                    $('#countTP3PR[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-                    $('#countTP3PC[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+                    $('#countTP2PP[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countDDes[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countTP3PR[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countTP3PC[data-index="' + index + '"]').text(`${norm_TP_points}`);
 
                     //Debugging
                     //console.log('Dictator stack - Index:', index, 'Coins:', dictatorKeeps);
                     //console.log('Receiver stack - Index:', index, 'Coins:', receiverGets);
-                    //console.log('TP Effect - Index:', index, 'Effect:', dictator_recipient_TPeffect);
+                    //console.log('Norm fixed amount - Index:', index, 'Effect:', norm_fixed_amount);
 
             });
 
@@ -839,7 +839,7 @@
 
                 <p> How <b style="color: red;">socially acceptable</b> is it to
                     <b style="color: red;">{{ treatment_text_action }}</b>
-                    <span id="dictator_recipient_TPeffect"></span> points {{ treatment_text_receiver }}?
+                    {{ C.norm_fixed_TP_points }} points {{ treatment_text_receiver }}?
                 </p>
 
             <div class='numbers'>

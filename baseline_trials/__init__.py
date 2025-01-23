@@ -22,16 +22,17 @@ class C(BaseConstants):
     # with open('TPP_game/country_codes.txt', 'r') as file:
     #     COUNTRY_LIST = [line.strip() for line in file]
 
+    # Variables for decision scenarios
     total_endowment = 12
+    receiver_endowment = 0
     dictator_keeps_1 = total_endowment  # everything
     dictator_keeps_2 = total_endowment * (3 / 4)  # three quarters
     dictator_keeps_3 = total_endowment * (2 / 3)  # two thirds
     dictator_keeps_4 = total_endowment * (1 / 2)  # half
-    punishment_points = total_endowment * (1 / 3)
+    TP_points = total_endowment * (1 / 3)  # points available for punishment
+    TP_effectiveness = 3  # multiplier
+    norm_fixed_TP_points = 3 # fixed amount that was taken away/rewarded/compensated for norm decisions
 
-    receiver_endowment = 0
-    TP_points = 4
-    TP_effectiveness = 3
     # dictator_keeps = 8  # Should eventually be list: [30, 25, 20, 15] --> Charlotte changed to dictator_keeps_1, dictator_keeps_2, ...
     norm_strategy_dic_gives = 2  # Should eventually be list: [0, 5, 10, 15] : different levels of dictator giving
     norm_strategy_dic_gives_binary = 3  # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
@@ -544,69 +545,8 @@ class TPPage(Page):
             )
 
     def before_next_page(player: Player, timeout_happened):
-        #player.payoff = 10 - player.TP_decision1
         player.payoff = C.TP_points - player.TP_decision1
 
-
-# class TPNormPage(Page):
-#     @staticmethod
-#     def is_displayed(player: Player):
-#         # return player.treatment == "3PP punish norm" or player.treatment == "2PP punish norm"  or player.treatment == '3PR reward norm' or player.treatment == '3PC comp norm'
-#         return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment) and "norm" in player.treatment
-#
-#     form_model = 'player'
-#     form_fields = ['TP_norm_decision1']
-#
-#     @staticmethod
-#     def vars_for_template(player: Player):
-#         # text1 = "How socially acceptable is it to punish"
-#         if "2PP punish" in player.treatment:
-#             text_action = "take away"
-#             text_receiver = "from Person A"
-#             image = 'global/treatments/2PP punish.png'
-#         if "3PP punish" in player.treatment:
-#             text_action = "take away"
-#             text_receiver = "from Person A"
-#             image = 'global/treatments/3PP punish.png'
-#         if "reward" in player.treatment:
-#             text_action = "give"
-#             text_receiver = "to Person A"
-#             image = 'global/treatments/3PP punish.png'
-#         if "comp" in player.treatment:
-#             text_action = "give"
-#             text_receiver = "to Person B"
-#             image = 'global/treatments/3PC comp.png'
-#
-#         print('Generating image path and round number - 1', image, player.round_number - 1)
-#
-#         # For INOUT trials, check identity of dictator and recipient
-#         if "IN IN" in player.treatment:
-#             dic_identity = C.CURRENT_COUNTRY
-#             recip_identity = C.CURRENT_COUNTRY
-#         if "IN OUT" in player.treatment:
-#             dic_identity = C.CURRENT_COUNTRY
-#             recip_identity = "out"
-#         if "OUT IN" in player.treatment:
-#             dic_identity = "out"
-#             recip_identity = C.CURRENT_COUNTRY
-#         if "OUT OUT" in player.treatment:
-#             dic_identity = "out"
-#             recip_identity = "out"
-#         if "OUT" not in player.treatment and "IN" not in player.treatment:
-#             dic_identity = "baseline"
-#             recip_identity = "baseline"
-#
-#         return {
-#             'treatment': player.treatment,
-#             'dic_identity': dic_identity,
-#             'recip_identity': recip_identity,
-#             'treatment_text_action': text_action,
-#             'treatment_text_receiver': text_receiver,
-#             'image': image,
-#             'TP_norm_decision1': player.TP_norm_decision1,
-#             # 'decision2': player.decision2,
-#             # 'receiver_country': player.receiver_country
-#         }
 
 class DictatorPage(Page):
     @staticmethod
@@ -702,7 +642,7 @@ class Results(Page):
 
 
 page_sequence = [Consent,
-                 Introduciton,
+                 Introduction,
                  instructionPage,
                  DictatorPage,
                  TPPage
