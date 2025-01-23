@@ -29,22 +29,7 @@
     console.log('Decisions:', {{ dic_norm_decisions | safe }});
 
     total_endowment = {{ C.total_endowment }}
-
-    if (current_treatment.includes("norm") ) { // in norm condition
-        receiver_endowment = {{ C.norm_strategy_dic_gives }} // The receiver gets however much the dictator gives
-        dictator = total_endowment - receiver_endowment
-    } else {// in dictator giving condition
-        receiver_endowment = {{ C.receiver_endowment }}
-        // dependent variable
-        var dictator = 0 //dictator gives
-        }
-
-
-/////////// All the functions related to hovering and coinstacks/labels updating had to be moved out of the large parent function.
-// I do not know why but it works now
-
-
-
+    receiver_endowment = {{ C.receiver_endowment }}
 
 
 ////////////// function for displaying the task, numbers, and labels and managing the click event

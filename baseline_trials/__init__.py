@@ -33,15 +33,9 @@ class C(BaseConstants):
     TP_effectiveness = 3  # multiplier
     norm_fixed_TP_points = 3 # fixed amount that was taken away/rewarded/compensated for norm decisions
 
-    # dictator_keeps = 8  # Should eventually be list: [30, 25, 20, 15] --> Charlotte changed to dictator_keeps_1, dictator_keeps_2, ...
-    norm_strategy_dic_gives = 2  # Should eventually be list: [0, 5, 10, 15] : different levels of dictator giving
-    norm_strategy_dic_gives_binary = 3  # Should eventually be list: ??? [0, 10]? Selfish or less selfish dictator
-    norm_strategy_punish_norm = 1  # Should eventually be list with 3-4 scenarios: ??? [0, 3, 7, 10]?
-
-    ### Treatments
+    ### Treatments ###
 
     ## 1) Baseline
-
     trials_DG = ['0DG give', '0DG give norm']
     trials_3PP_DIC = ['3PP give']
     trials_3PP_TP = ['3PP punish', '3PP punish norm']
@@ -53,7 +47,6 @@ class C(BaseConstants):
     trials_3PC_TP = ['3PC comp', '3PC comp norm']
 
     ## 2) Ingroup - outgroup
-
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
                         '3PP punish OUT OUT',
@@ -68,16 +61,12 @@ class C(BaseConstants):
                         '3PC comp norm IN IN', '3PC comp norm OUT OUT']
 
     ## 3) Country - partner
-
     # Define number of trials for each trial type
     number_trials_partner_dic_out = 2 # dictator role
     number_trials_partner_in_out = 3
     number_trials_partner_out_in = 3
     number_trials_partner_out_out_homog = 3
     number_trials_partner_out_out_heterog = 3
-
-
-
 
 
 class Subsession(BaseSubsession):
