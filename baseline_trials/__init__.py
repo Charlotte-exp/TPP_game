@@ -368,7 +368,58 @@ class Player(BasePlayer):
     )
 
 
-# PAGES
+######## PAGES ########
+
+class Consent(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.round_number == 1:
+            return True
+        else:
+            return False
+
+    def vars_for_template(player: Player):
+        return {
+            'participation_fee': player.session.config['participation_fee'],
+        }
+
+class Introduction(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.round_number == 1:
+            return True
+        else:
+            return False
+
+    def vars_for_template(player: Player):
+        return {
+            'participation_fee': player.session.config['participation_fee'],
+        }
+
+class instructionPage(Page):
+    # print('player.participant.instruction_round', player.participant.instruction_round)
+    @staticmethod
+    def is_displayed(player: Player):
+        # return player.round_number == 1
+        return player.instruction_round_true
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        # text = "How socially acceptable is it to give"
+        image = 'global/treatments/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
+        treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
+        print('Generating image path and round number - 1', image, player.round_number - 1)
+
+        return {
+            'treatment': player.treatment,
+            # 'treatment_text': text,
+            'image': image,
+            'treatment_type': treatment_type
+        }
+
 class TPPage(Page):
     @staticmethod
     def is_displayed(player: Player):
@@ -648,28 +699,11 @@ class DictatorPage(Page):
 class Results(Page):
     pass
 
-class instructionPage(Page):
-    # print('player.participant.instruction_round', player.participant.instruction_round)
-    @staticmethod
-    def is_displayed(player: Player):
-        # return player.round_number == 1
-        return player.instruction_round_true
 
-    @staticmethod
-    def vars_for_template(player: Player):
-        # text = "How socially acceptable is it to give"
-        image = 'global/treatments/{}.png'.format(player.treatment)
-        image = image.replace(" norm", "")
-        treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
-        print('Generating image path and round number - 1', image, player.round_number - 1)
 
-        return {
-            'treatment': player.treatment,
-            # 'treatment_text': text,
-            'image': image,
-            'treatment_type': treatment_type
-        }
-
-page_sequence = [instructionPage, DictatorPage, TPPage] #TPNormPage
-#page_sequence = [DictatorPage, TPPage]
-#page_sequence = [TPPage]
+page_sequence = [Consent,
+                 Introduciton,
+                 instructionPage,
+                 DictatorPage,
+                 TPPage
+                 ]

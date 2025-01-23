@@ -1,0 +1,48 @@
+{% block title %}
+
+    <div style="display: flex; justify-content: flex-end">
+        <img src="{{ static 'intro_deception/mpi.png'}}" width="auto" height="100"/>
+    </div>
+
+    Welcome
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div>
+    <p>
+        We are researchers at the Univeristy of Zürich, Switzerland, studying human decision-making.
+    </p>
+    <p>
+        For your participation in this brief study, you will earn {{ participation_fee }} for simply taking part.
+        You will be making one or more decisions which can earn you additional money in the form of a bonus
+        and possibly influence the bonuses of other participants.
+    </p>
+    <p>
+        Your participation in this study is completely voluntary.
+        You may refuse to participate without penalty or loss of benefit to which you may otherwise be entitled.
+    </p>
+    <p>
+        By clicking the “I Consent” button, you confirm that you have read the description of this study and that you give my consent to participate.
+    </p>
+    <p>
+        For questions, concerns, or suggestions about this research, please contact: <br>
+        <a href="mailto:coop@evolbio.mpg.de"> coop@evolbio.mpg.de </a>
+    </p>
+    <p>
+        Dr. Charlotte Rossetti & Dr. Caroline Graf <br>
+        Univeristy of Zürich, Switzerland <br>
+        <img src="{{ static 'intro_deception/signature.png'}}" width="auto" height="100"/>
+    </p>
+</div>
+
+    <p>
+        <div style="display: flex; justify-content: flex-end">
+        {% next_button %}
+        </div>
+    </p>
+
+{% endblock %}
