@@ -16,7 +16,9 @@
 /////////// global variables
 
     let TP_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    let TP_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
     //console.log(`Punishment values: ${TP_decisions_stored}`);
+    //console.log(`Norm values: ${TP_norm_decisions_stored}`);
 
     var current_treatment = "{{ treatment }}";
     //console.log("Current treatment:", current_treatment );
@@ -25,14 +27,15 @@
     const TP_eff = {{ C.TP_effectiveness }}; // punishment or reward or victim compensation effectiveness
 
     const TP_decisions = {{ TP_decisions | safe }};
-    //console.log('Decisions:', {{ TP_decisions | safe }});
+    const TP_norm_decisions = {{ TP_norm_decisions | safe }};
+    //console.log('TP decisions:', {{ TP_decisions | safe }});
+    console.log('Norm decisions:', {{ TP_norm_decisions | safe }});
 
 
+/////////// All the functions (for TP_decisions) related to hovering and coinstacks/labels updating
+/////////// had to be moved out of the large parent function.
 
-/////////// All the functions related to hovering and coinstacks/labels updating had to be moved out of the large parent function.
-// I do not know why but it works now
-
-    // function to update the coin stack
+    // function to update the coin stack (TP_decisions only)
     function updateCoinStack(count, index) {
 
         const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
@@ -51,288 +54,314 @@
             Dupdate = TP_decision.dictator_keeps
     }
 
-        // Clear existing stacks
-        $(`.coinstackTP[data-index="${index}"]`).empty();
-        //console.log('Cleared coinstackTP for index:', index);
-        $(`.coinstackD[data-index="${index}"]`).empty();
-        //console.log('Cleared coinstackD for index:', index);
-        $(`.coinstackDDes[data-index="${index}"]`).empty();
-        //console.log('Cleared coinstackDDes for index:', index);
-        $(`.coinstackTP2PP[data-index="${index}"]`).empty();
-        $(`.coinstackTP3PR[data-index="${index}"]`).empty();
-        $(`.coinstackTP3PC[data-index="${index}"]`).empty();
+        // Only updates in TP decision condition
+        if (!current_treatment.includes("norm") ) {
+            // Clear existing stacks
+            $(`.coinstackTP[data-index="${index}"]`).empty();
+            //console.log('Cleared coinstackTP for index:', index);
+            $(`.coinstackD[data-index="${index}"]`).empty();
+            //console.log('Cleared coinstackD for index:', index);
+            $(`.coinstackDDes[data-index="${index}"]`).empty();
+            //console.log('Cleared coinstackDDes for index:', index);
+            $(`.coinstackTP2PP[data-index="${index}"]`).empty();
+            $(`.coinstackTP3PR[data-index="${index}"]`).empty();
+            $(`.coinstackTP3PC[data-index="${index}"]`).empty();
 
-        // Add the specified number of coins
-        for (let i = 0; i < TPupdate; i++) {
-            $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>');
+            // Add the specified number of coins
+            for (let i = 0; i < TPupdate; i++) {
+                $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>');
+            }
+
+            for (let i = 0; i < Dupdate; i++) {
+                $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+            }
+
+            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
+                $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:19%;"></div>');
+            }
+
+            // Update other stacks for subconditions: 2PP, 2PR, 3PC
+            for (let i = 0; i < TPupdate; i++) {
+                $(`.coinstackTP2PP[data-index="${index}"]`).append('<div class="coinown2PP" style="left:83%;"></div>');
+            }
+
+            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
+                $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
+            }
+
+            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
+                $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
+            }
+
+            // Update the number labels
+            $(`#countTP[data-index="${index}"]`).text(`${TPupdate}`);
+            //console.log('coin number for index:', index);
+            $(`#countD[data-index="${index}"]`).text(`${Dupdate}`);
+            $(`#countDDes[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+            $(`#countTP2PP[data-index="${index}"]`).text(`${TPupdate}`);
+            $(`#countTP3PR[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+            $(`#countTP3PC[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
         }
-
-        for (let i = 0; i < Dupdate; i++) {
-            $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
-        }
-
-        for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-            $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:19%;"></div>');
-        }
-
-        // Update other stacks for subconditions: 2PP, 2PR, 3PC
-        for (let i = 0; i < TPupdate; i++) {
-            $(`.coinstackTP2PP[data-index="${index}"]`).append('<div class="coinown2PP" style="left:83%;"></div>');
-        }
-
-        for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-            $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
-        }
-
-        for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-            $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
-        }
-
-        // Update the number labels
-        $(`#countTP[data-index="${index}"]`).text(`${TPupdate}`);
-        //console.log('coin number for index:', index);
-        $(`#countD[data-index="${index}"]`).text(`${Dupdate}`);
-        $(`#countDDes[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
-        $(`#countTP2PP[data-index="${index}"]`).text(`${TPupdate}`);
-        $(`#countTP3PR[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
-        $(`#countTP3PC[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
 
         //Debugging
         //console.log('updateCoinStack called with:', { count, index });
     }
 
-    if (!current_treatment.includes("norm") ) { // only in TP conditions
+    // Hover function calling updateCoinStack
+    $(document).on('mouseenter', '.number', function () {
+        const value = $(this).data('value'); // Get the number value
+        const index = $(this).data('index'); // Get the index of the element
+        console.log('Hover triggered. Value:', value, 'Index:', index);
+        updateCoinStack(value, index);
+    });
 
-        // Hover function calling updateCoinStack
-        $(document).on('mouseenter', '.number', function () {
-            const value = $(this).data('value'); // Get the number value
-            const index = $(this).data('index'); // Get the index of the element
-            console.log('Hover triggered. Value:', value, 'Index:', index);
-            updateCoinStack(value, index);
-        });
-
-        // Function to restore the clicked or initial state of the row
-        function restoreRowState(index) {
-            const clickedValue = TP_decisions_stored[index - 1];
-            if (clickedValue > 0) {
-                updateCoinStack(clickedValue, index); // Restore to the clicked state
-            } else {
-                const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
-                updateCoinStack(0, index); // Restore to the initial state
-            }
-            //console.log(`Restored row ${index} to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
+    // Function to restore the clicked or initial state of the row
+    function restoreRowState(index) {
+        const clickedValue = TP_decisions_stored[index - 1];
+        if (clickedValue > 0) {
+            updateCoinStack(clickedValue, index); // Restore to the clicked state
+        } else {
+            const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
+            updateCoinStack(0, index); // Restore to the initial state
         }
-
-        $(document).on('mouseleave', '.number-row', function () {
-            const index = $(this).data('index');
-            restoreRowState(index);
-        });
+        //console.log(`Restored row ${index} to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
     }
+
+    $(document).on('mouseleave', '.number-row', function () {
+        const index = $(this).data('index');
+        restoreRowState(index);
+    });
+
 
 ////////////// function for displaying the task, numbers, and labels and managing the click event
-$(document).ready(function () {
+    $(document).ready(function () {
 
-    dictator_recipient_TPeffect = 0 // dictator or recipient points that are destroyed by punishment or added by reward/compensation
+        dictator_recipient_TPeffect = 0 // dictator or recipient points that are destroyed by punishment or added by reward/compensation
 
-    // country pictures from https://github.com/irixapps/World-Flags/tree/master
-    // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+        // country pictures from https://github.com/irixapps/World-Flags/tree/master
+        // naming convention: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-    receiverCountry = "{{ recip_identity }}"
-    dictatorCountry = "{{ dic_identity }}"
+        receiverCountry = "{{ recip_identity }}"
+        dictatorCountry = "{{ dic_identity }}"
 
-    role_switch_true = "{{ role_switch_true }}"
+        role_switch_true = "{{ role_switch_true }}"
 
-    /////////////// script
 
-    // get flags
-    $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
-    $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
+        /////////////// script
 
-    // get maps
-    $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
-    $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
+        // get flags
+        $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
+        $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
 
-    // Norm variables; Will need to be changed for multiple decisions
-    if (current_treatment.includes("norm") ) { // in norm condition
-        total_endowment = {{C.total_endowment }}
-        receiver = {{ C.norm_strategy_dic_gives_binary }} // The receiver gets however much the dictator gives
-        TP_points_assigned = {{ C.norm_strategy_punish_norm }} // punishment points assigned by punisher
-        TP = TP_points - TP_points_assigned // punishment points
-        dictator_recipient_TPeffect = TP_points_assigned * TP_eff
-        dictator_kept = total_endowment - receiver
-        dictator = dictator_kept - dictator_recipient_TPeffect
-        document.getElementById("dictator_recipient_TPeffect").textContent = dictator_recipient_TPeffect;
-    }
+        // get maps
+        $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
+        $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
-    // Initialize coin stacks for each TP decision
-    TP_decisions.forEach((TP_decision) => {
-        const index = TP_decision.index;
-        const dictatorKeeps = TP_decision.dictator_keeps;
-        const receiverGets = TP_decision.receiver;
 
-        // Fill initial coin stacks
-        // dictator stack
-        for (let i = 0; i < dictatorKeeps; i++) {
-            $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+        // only in TP_decision conditions
+        if (!current_treatment.includes("norm") ) {
+
+            // Initialize coin stacks for each TP decision
+            TP_decisions.forEach((TP_decision) => {
+                const index = TP_decision.index;
+                const dictatorKeeps = TP_decision.dictator_keeps;
+                const receiverGets = TP_decision.receiver;
+
+                // Fill initial coin stacks
+                // dictator stack
+                for (let i = 0; i < dictatorKeeps; i++) {
+                    $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                }
+                // red stack (destructed coins)
+                for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+                    $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
+                }
+                // punisher stack
+                for (let i = 0; i < TP_points; i++) {
+                    $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
+                }
+                // receiver stack
+                for (let i = 0; i < receiverGets; i++) {
+                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
+                }
+
+                // Extra stacks in different locations
+                // punisher in 2PP punisher stack
+                for (let i = 0; i < TP_points; i++) {
+                    $(`.coinstackTP2PP[data-index="${index}"]`).append('<div class="coinown2PP" style="left:83%;"></div>');
+                }
+                // DG reward in 3PR
+                for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+                    $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
+                }
+                // recipient compensation in 3PC
+                for (let i = 0; i < dictator_recipient_TPeffect; i++) {
+                    $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
+                }
+
+                // Initialize number labels
+                $('#countTP[data-index="' + index + '"]').text(`${TP_points}`);
+                $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+                $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+                $('#countTP2PP[data-index="' + index + '"]').text(`${TP_points}`);
+                // You can also initialize other labels like countDDes, countTP3PR, etc. if needed
+                $('#countDDes[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+                $('#countTP3PR[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+                $('#countTP3PC[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
+            });
+
+            // deactive punishment that would generate negative values
+            let numbersToDisable = [];
+            TP_decisions.forEach(TP_decision => {
+                DPpossible = Math.ceil(TP_decision.dictator_keeps / 3);
+                for (let i = DPpossible + 1; i <= TP_points; i++) {
+                    numbersToDisable.push(i);
+                }
+
+                //Deactivate numbers only in punishment conditions
+                //if (current_treatment == "3PP punish" || current_treatment == "2PP punish") { // leave dictator coins if 3PR or 3PC
+                if (current_treatment.includes("punish") || current_treatment.includes("3PP country")) {
+                    deactivateNumbers(numbersToDisable, TP_decision.index);
+                }
+            });
+
+            $('.number').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $(this).closest('.number-row').find('.number').removeClass('selected');
+
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
+
+                // Get the value of the clicked button
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the corresponding punishment value in the array
+                TP_decisions_stored[index - 1] = value;
+
+                // Update the hidden input field
+                $(`#selected-number-${index}`).val(value);
+
+                // Update the coin stack
+                updateCoinStack(value, index);
+
+
+                // Debugging
+                //console.log(`Updated decision at index ${index}: ${value}`);
+                //console.log('TP Decisions:', TP_decisions);
+                //console.log(`Punishment values: ${TP_decisions_stored}`);
+            });
         }
-        // red stack (destructed coins)
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
+
+        // Fill initial coin stacks and number labels for each TP NORM question
+        // Also includes response collection (different function for TP decision)
+        if (current_treatment.includes("norm") ) { // in norm condition
+
+            // Is this for the text?
+            //document.getElementById("norm_fixed_amount").textContent = norm_fixed_amount;
+
+            TP_norm_decisions.forEach((TP_norm_decision) => {
+                const index = TP_norm_decision.index;
+                let dictatorKeeps = TP_norm_decision.dictator_keeps;
+                const receiverGets = TP_norm_decision.receiver;
+                const norm_TP_points = {{ C.norm_fixed_TP_points }}
+
+                // leave dictator coins if 3PR or 3PC, remove the norm_TP_points if 2PP or 3PP
+                if (current_treatment.includes("reward") || current_treatment.includes("comp")) {
+                    dictatorKeeps = TP_norm_decision.dictator_keeps
+                } else if (current_treatment.includes("punish") || current_treatment.includes("3PP country")) {
+                    dictatorKeeps = TP_norm_decision.dictator_keeps-norm_TP_points
+                }
+
+                    // dictator stack
+                    for (let i = 0; i < dictatorKeeps; i++) {
+                        $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                    }
+                    // red stack (destructed coins)
+                    for (let i = 0; i < norm_TP_points; i++) {
+                        $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:19%;"></div>');
+                    }
+                    // punisher stack
+                    for (let i = 0; i < norm_TP_points; i++) {
+                        $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
+                    }
+                    // receiver stack
+                    for (let i = 0; i < receiverGets; i++) {
+                        $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
+                    }
+
+                    // Extra stacks in different locations
+                    // punisher in 2PP punisher stack
+                    for (let i = 0; i < TP_points; i++) {
+                        $(`.coinstackTP2PP[data-index="${index}"]`).append('<div class="coinown2PP" style="left:83%;"></div>');
+                    }
+                    // DG reward in 3PR
+                    for (let i = 0; i < TP_points; i++) {
+                        $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
+                    }
+                    // recipient compensation in 3PC
+                    for (let i = 0; i < TP_points; i++) {
+                        $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
+                    }
+
+                    // number labels
+                    $('#countTP[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+                    $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+                    $('#countTP2PP[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countDDes[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countTP3PR[data-index="' + index + '"]').text(`${norm_TP_points}`);
+                    $('#countTP3PC[data-index="' + index + '"]').text(`${norm_TP_points}`);
+
+                    //Debugging
+                    //console.log('Dictator stack - Index:', index, 'Coins:', dictatorKeeps);
+                    //console.log('Receiver stack - Index:', index, 'Coins:', receiverGets);
+                    //console.log('Norm fixed amount - Index:', index, 'Effect:', norm_fixed_amount);
+
+            });
+
+            // Collect responses
+            $('.norm').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $(this).closest('.number-row').find('.norm').removeClass('selected');
+
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
+
+                // Get the value of the clicked button
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the corresponding punishment value in the array
+                TP_norm_decisions_stored[index - 1] = value;
+
+                // Update the hidden input field
+                $(`#selected-norm-${index}`).val(value);
+
+                // No need to update coinstacks with norms...
+                updateCoinStack(value, index);
+
+                // Debugging
+                //console.log(`Updated norm decision at index ${index}: ${value}`);
+                //console.log('TP norm Decisions:', TP_norm_decisions);
+                //console.log(`Norm values: ${TP_norm_decisions_stored}`);
+            });
         }
-        // punisher stack
-        for (let i = 0; i < TP_points; i++) {
-            $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>></div>');
-        }
-        // receiver stack
-        for (let i = 0; i < receiverGets; i++) {
-            $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
+
+        function deactivateNumbers(numbersToDisable, index) {
+            numbersToDisable.forEach(num => {
+                $('.number[data-value="' + num + '"][data-index="' + index + '"]').addClass('disabled');
+            });
         }
 
-        // Extra stacks in different locations
-        // punisher in 2PP punisher stack
-        for (let i = 0; i < TP_points; i++) {
-            $(`.coinstackTP2PP[data-index="${index}"]`).append('<div class="coinown2PP" style="left:83%;"></div>');
-        }
-        // DG reward in 3PR
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
-        }
-        // recipient compensation in 3PC
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
-        }
 
-        // Initialize number labels
-        $('#countTP[data-index="' + index + '"]').text(`${TP_points}`);
-        $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
-        $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
-        $('#countTP2PP[data-index="' + index + '"]').text(`${TP_points}`);
-        // You can also initialize other labels like countDDes, countTP3PR, etc. if needed
-        // $('#countDDes[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-        // $('#countTP3PR[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-        // $('#countTP3PC[data-index="' + index + '"]').text(`${dictator_recipient_TPeffect}`);
-    });
-
-
-    // Initialize coin stacks for TP NORM decisions, and then collect responses
-    if (current_treatment.includes("norm") ) { // in norm condition
-
-        for (let i = 0; i < dictator; i++) {
-            $('.coinstackD').append('<div class="coin" style="left:19%;"></div>');
-        }
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $('.coinstackDDes').append('<div class="coin_destroyed" style="left:19%;"></div>');
-        }
-        for (let i = 0; i < TP; i++) {
-            $('.coinstackTP').append('<div class="coinown" style="left:75%;"></div>');
-        }
-        for (let i = 0; i < receiver; i++) {
-            $('.coinstackR').append('<div class="coin" style="left:83%;"></div>');
-        }
-
-        // Make another coin stack for punisher in 2PP: different location
-        for (let i = 0; i < TP; i++) {
-            $('.coinstackTP2PP').append('<div class="coinown2PP" style="left:83%;"></div>');
-        }
-        // Make another coin stack for DG reward in 3PR: different location
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $('.coinstackTP3PR').append('<div class="coinown3PR" style="left:7%;"></div>');
-        }
-        // Make another coin stack for recipient compensation in 3PC: different location
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:102%;"></div>');
-        }
-
-        // Initialize the number labels
-        $('#countTP').text(`${TP}`);
-        $('#countD').text(`${dictator}`);
-        $('#countDDes').text(`${dictator_recipient_TPeffect}`);
-        $('#countR').text(`${receiver}`);
-        $('#countTP2PP').text(`${TP}`);
-        $('#countTP3PR').text(`${dictator_recipient_TPeffect}`);
-        $('#countTP3PC').text(`${dictator_recipient_TPeffect}`);
-
-        // Collect responses
-        $('.norm').on('click', function () {
-            // Remove 'selected' class from all buttons
-            $('.norm').removeClass('selected');
-
-            // Add 'selected' class to the clicked button
-            $(this).addClass('selected');
-
-            // Get the value of the clicked button
-            const value = $(this).data('value');
-
-            // Update the hidden input field
-            $('#selected-TP_norm_decision1').val(value);
-
-            // // Update the coin stack
-            // updateCoinStack(value);
-
-            dictator = value
-
-            console.log("dictator", dictator)
-    });
-
-    }
-
-    function deactivateNumbers(numbersToDisable, index) {
-        numbersToDisable.forEach(num => {
-            $('.number[data-value="' + num + '"][data-index="' + index + '"]').addClass('disabled');
-        });
-    }
-
-    if (!current_treatment.includes("norm") ) { // only in TP conditions
-        // deactive punishment that would generate negative values
-        let numbersToDisable = [];
-        TP_decisions.forEach(TP_decision => {
-            DPpossible = Math.ceil(TP_decision.dictator_keeps / 3);
-            for (let i = DPpossible + 1; i <= TP_points; i++) {
-                numbersToDisable.push(i);
-            }
-
-            //Deactivate numbers only in punishment conditions
-            //if (current_treatment == "3PP punish" || current_treatment == "2PP punish") { // leave dictator coins if 3PR or 3PC
-            if (current_treatment.includes("punish") || current_treatment.includes("3PP country")) {
-                deactivateNumbers(numbersToDisable, TP_decision.index);
-            }
-        });
-
-        $('.number').on('click', function () {
-            // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.number').removeClass('selected');
-
-            // Add 'selected' class to the clicked button
-            $(this).addClass('selected');
-
-            // Get the value of the clicked button
-            const value = $(this).data('value');
-            const index = $(this).data('index');
-
-            // Update the corresponding punishment value in the array
-            TP_decisions_stored[index - 1] = value;
-
-            // Update the hidden input field
-            $(`#selected-number-${index}`).val(value);
-
-            // Update the coin stack
-            updateCoinStack(value, index);
-
-
-            // Debugging
-            //console.log('Index:', index);
-            console.log('Value:', value);
-            //console.log('TP Decisions:', TP_decisions);
-            //console.log(`Punishment values: ${TP_decisions_stored}`);
-        });
-    }
         // Submit button click handler
         $('#submit-button').on('click', function () {
             // Submit the form
             $('form').submit();
         });
 
-});
+    });
 </script>
 
 
@@ -717,9 +746,15 @@ $(document).ready(function () {
 
         {% if "norm" in player.treatment %}
 
-        <input type="hidden" name="TP_norm_decision1" id="selected-TP_norm_decision1">
+        <input type="hidden" name="TP_norm_decision1" id="selected-norm-1">
+        <input type="hidden" name="TP_norm_decision2" id="selected-norm-2">
+        <input type="hidden" name="TP_norm_decision3" id="selected-norm-3">
+        <input type="hidden" name="TP_norm_decision4" id="selected-norm-4">
 
         {{ formfield_errors 'TP_norm_decision1' }}
+        {{ formfield_errors 'TP_norm_decision2' }}
+        {{ formfield_errors 'TP_norm_decision3' }}
+        {{ formfield_errors 'TP_norm_decision4' }}
 
         {% else %}
 
@@ -736,178 +771,130 @@ $(document).ready(function () {
 
         {% endif %}
 
-    {% if role_switch_true == True %}
+        {% if role_switch_true == True %}
 
-    <p style="text-align: center;">
-    <b style="color: red;">ROLE SWITCH! You are now Person 3!</b>
-</p>
+        <p style="text-align: center;">
+            <b style="color: red;">ROLE SWITCH! You are now Person 3!</b>
+        </p>
 
-    {% endif %}
+        {% endif %}
 
 
-    {% if "norm" in player.treatment %}
+        {% if "norm" in player.treatment %}
 
+        {% for TP_norm_decision in TP_norm_decisions %}
         <div class='responsive-div'>
-
-        <div class='container'>
-
-    {% if dic_identity != "baseline"%}
-
-    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
-
-    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
-    {% endif %}
-
-
-    <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-    <span class='coinstack coinstackD'>
-    </span>
-
-    <div class="coin-count-labelD" id="countD"></div>
-
-
-    <span class='coinstack coinstackR'>
-    </span>
-
-    <div class="coin-count-labelR" id="countR"></div>
-
-
-
-    {% if "punish" in player.treatment %}
-
-    <span class='coinstack coinstackDDes'>
-    </span>
-
-    <div class="coin-count-labelDDes" id="countDDes"></div>
-
-{% endif %}
-
-     {% if "reward" in player.treatment %}
-
-    <span class='coinstack coinstackTP3PR'>
-    </span>
-
-    <div class="coin-count-labelTP3PR" id="countTP3PR"></div>
-
-{% endif %}
-
-    {% if "comp" in player.treatment %}
-
-    <span class='coinstack coinstackTP3PC'>
-    </span>
-
-    <div class="coin-count-labelTP3PC" id="countTP3PC"></div>
-
-{% endif %}
-
-
-    {% if "3PP" in player.treatment %}
-    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
-{% endif %}
-
-    {% if "3PR" in player.treatment %}
-    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
-{% endif %}
-
-    {% if "3PC" in player.treatment %}
-    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
-{% endif %}
-
-    {% if "2PP" in player.treatment %}
-    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
-{% endif %}
-
-
-
-
-</div>
-
-
-
-     <p> How <b style="color: red;">socially acceptable</b> is it to <b style="color: red;">{{ treatment_text_action }}</b> <span id="dictator_recipient_TPeffect"></span> points {{ treatment_text_receiver }}? </p>
-
-
-
-    <div class='numbers'>
-    <div class="number-row">
-        <div class="norm" data-value="0">very socially<br>unacceptable</div>
-        <div class="norm" data-value="1">socially<br>unacceptable</div>
-        <div class="norm" data-value="2">slightly socially<br>unacceptable</div>
-        <div class="norm" data-value="3">slightly socially<br>acceptable</div>
-        <div class="norm" data-value="4">socially<br>acceptable</div>
-        <div class="norm" data-value="5">very socially<br>acceptable</div>
-    </div>
-</div>
-
-
-
-        <hr>
-</div>
-
-
-
-    {% else %}
-
-
-
-
-        {% for TP_decision in TP_decisions %}
-        <div class='responsive-div'>
-
-            <div class='container' data-index="{{ TP_decision.index }}">
+            <div class='container' data-index="{{ TP_norm_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
+                    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-                <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-                <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
-
-                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
+                    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
                 {% endif %}
 
                 <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
+                <span class='coinstack coinstackD' data-index="{{ TP_norm_decision.index }}"></span>
+                <div class="coin-count-labelD" id="countD" data-index="{{ TP_norm_decision.index }}"></div>
+
+                <span class='coinstack coinstackR' data-index="{{ TP_norm_decision.index }}"></span>
+                <div class="coin-count-labelR" id="countR" data-index="{{ TP_norm_decision.index }}"></div>
+
+
+                {% if "punish" in player.treatment %}
+                    <span class='coinstack coinstackDDes' data-index="{{ TP_norm_decision.index }}"></span>
+                    <div class="coin-count-labelDDes" id="countDDes" data-index="{{ TP_norm_decision.index }}"></div>
+                {% endif %}
+
+                {% if "reward" in player.treatment %}
+                    <span class='coinstack coinstackTP3PR' data-index="{{ TP_norm_decision.index }}"></span>
+                    <div class="coin-count-labelTP3PR" id="countTP3PR" data-index="{{ TP_norm_decision.index }}"></div>
+                {% endif %}
+
+                {% if "comp" in player.treatment %}
+                    <span class='coinstack coinstackTP3PC' data-index="{{ TP_norm_decision.index }}"></span>
+                    <div class="coin-count-labelTP3PC" id="countTP3PC" data-index="{{ TP_norm_decision.index }}"></div>
+                {% endif %}
+
+
+                {% if "3PP" in player.treatment %}
+                    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+                {% endif %}
+
+                {% if "3PR" in player.treatment %}
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+                {% endif %}
+
+                {% if "3PC" in player.treatment %}
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+                {% endif %}
+
+                {% if "2PP" in player.treatment %}
+                    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+                {% endif %}
+
+            </div>
+
+                <p> How <b style="color: red;">socially acceptable</b> is it to
+                    <b style="color: red;">{{ treatment_text_action }}</b>
+                    {{ C.norm_fixed_TP_points }} points {{ treatment_text_receiver }}?
+                </p>
+
+            <div class='numbers'>
+                <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
+                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>unacceptable</div>
+                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>unacceptable</div>
+                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>unacceptable</div>
+                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>acceptable</div>
+                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>acceptable</div>
+                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
+                </div>
+            </div>
+        <br>
+        <hr>
+        </div>
+        {% endfor %}
+
+        {% else %}
+
+        {% for TP_decision in TP_decisions %}
+        <div class='responsive-div'>
+            <div class='container' data-index="{{ TP_decision.index }}">
+
+                {% if dic_identity != "baseline"%}
+                    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+
+                    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+                {% endif %}
+
+                <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
                 <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
                 <span class='coinstack coinstackD' data-index="{{ TP_decision.index }}"></span>
-
                 <div class="coin-count-labelD" id="countD" data-index="{{ TP_decision.index }}"></div>
 
                 <span class='coinstack coinstackR' data-index="{{ TP_decision.index }}"></span>
-
                 <div class="coin-count-labelR" id="countR" data-index="{{ TP_decision.index }}"></div>
 
 
-
                 {% if "punish" in player.treatment or "3PP country" in player.treatment %}
-
                     <span class='coinstack coinstackDDes' data-index="{{ TP_decision.index }}"></span>
-
                     <div class="coin-count-labelDDes" id="countDDes" data-index="{{ TP_decision.index }}"></div>
-
                 {% endif %}
 
-                 {% if "reward" in player.treatment %}
-
+                {% if "reward" in player.treatment %}
                     <span class='coinstack coinstackTP3PR' data-index="{{ TP_decision.index }}"></span>
-
                     <div class="coin-count-labelTP3PR" id="countTP3PR" data-index="{{ TP_decision.index }}"></div>
-
                 {% endif %}
 
                 {% if "comp" in player.treatment %}
-
                     <span class='coinstack coinstackTP3PC' data-index="{{ TP_decision.index }}"></span>
-
                     <div class="coin-count-labelTP3PC" id="countTP3PC" data-index="{{ TP_decision.index }}"></div>
-
                 {% endif %}
 
                 {% if "3PP" in player.treatment %}
@@ -922,23 +909,18 @@ $(document).ready(function () {
                     <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
                 {% endif %}
 
-            {% if "2PP" in player.treatment %}
-                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
-
-                 <p>
-            <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:101%;">YOU</b>
-        </p>
-
-            {% else %}
-
-            <p>
-            <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:46%;">YOU</b>
-        </p>
-
-            {% endif %}
+                {% if "2PP" in player.treatment %}
+                    <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+                    <p>
+                        <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:101%;">YOU</b>
+                    </p>
+                {% else %}
+                    <p>
+                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:46%;">YOU</b>
+                    </p>
+                {% endif %}
 
             </div>
-
 
                 <p> How much do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </p>
 
@@ -949,21 +931,17 @@ $(document).ready(function () {
                         {{ endfor }}
                     </div>
                 </div>
-
-             <br>
-
+            <br>
             <hr>
-
-            </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
 
         {% endif %}
 
         <br>
-
        <div style="display: flex; justify-content: flex-end">
             <button type="button" id="submit-button">Next</button>
-        </div>
+       </div>
 
     </form>
 
