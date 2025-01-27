@@ -499,11 +499,9 @@
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="dic_norm_decision1" id="selected-norm-1">
         <input type="hidden" name="dic_norm_decision2" id="selected-norm-2">
-        <input type="hidden" name="dic_norm_decision3" id="selected-norm-3">
 
         {{ formfield_errors 'dic_norm_decision1' }}
         {{ formfield_errors 'dic_norm_decision2' }}
-        {{ formfield_errors 'dic_norm_decision3' }}
 
     {% else %}
         <!-- Add hidden input to store the selected value -->
@@ -567,6 +565,7 @@
                     <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">very socially<br>acceptable</div>
                 </div>
             </div>
+        <br>
         <hr>
 
         </div>
@@ -576,27 +575,23 @@
 
         <div class='responsive-div'>
 
-        <div class='container'>
+        <div class='container {% if player.treatment not in ["3PP", "3PR", "3PC"] %}short-container{% endif %}'>
 
             {% if dic_identity != "baseline"%}
+                <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-            <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-            <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
-
-            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
+                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
             {% endif %}
 
             <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
             <span class='coinstack coinstackD'></span>
-
-            <div class="coin-count-labelD" id="countD"></div>
+            <div class="coin-count-labelD" id="countD" style="{% if player.treatment not in ['3PP', '3PR', '3PC'] %}top: 55%;{% else %}top: 50%;{% endif %}"></div>
 
             <span class='coinstack coinstackR'></span>
-
-            <div class="coin-count-labelR" id="countR"></div>
+            <div class="coin-count-labelR" id="countR" style="{% if player.treatment not in ['3PP', '3PR', '3PC'] %}top: 55%;{% else %}top: 50%;{% endif %}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
@@ -625,8 +620,7 @@
                 {{ endfor }}
             </div>
         </div>
-
-</div>
+        </div>
 
     {% endif %}
 

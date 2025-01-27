@@ -748,22 +748,18 @@
 
         <input type="hidden" name="TP_norm_decision1" id="selected-norm-1">
         <input type="hidden" name="TP_norm_decision2" id="selected-norm-2">
-        <input type="hidden" name="TP_norm_decision3" id="selected-norm-3">
 
         {{ formfield_errors 'TP_norm_decision1' }}
         {{ formfield_errors 'TP_norm_decision2' }}
-        {{ formfield_errors 'TP_norm_decision3' }}
 
         {% else %}
 
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="TP_decision1" id="selected-number-1">
         <input type="hidden" name="TP_decision2" id="selected-number-2">
-        <input type="hidden" name="TP_decision3" id="selected-number-3">
 
         {{ formfield_errors 'TP_decision1' }}
         {{ formfield_errors 'TP_decision2' }}
-        {{ formfield_errors 'TP_decision3' }}
 
         {% endif %}
 
@@ -848,8 +844,8 @@
                     <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
                 </div>
             </div>
-        <br>
         <hr>
+        <br>
         </div>
         {% endfor %}
 
@@ -927,8 +923,8 @@
                         {{ endfor }}
                     </div>
                 </div>
-            <br>
             <hr>
+            <br>
         </div>
         {% endfor %}
 

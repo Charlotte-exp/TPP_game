@@ -25,9 +25,9 @@ class C(BaseConstants):
     # Variables for decision scenarios
     total_endowment = 12
     receiver_endowment = 0
-    dictator_keeps_1 = total_endowment  # everything
-    dictator_keeps_2 = total_endowment * (3 / 4)  # three quarters
-    dictator_keeps_3 = total_endowment * (1 / 2)  # half (for rearding
+    dictator_keeps_everything = total_endowment  # everything
+    dictator_keeps_3quarters = total_endowment * (3 / 4)  # three quarters
+    dictator_keeps_half = total_endowment * (1 / 2)  # half (for rearding
     TP_points = total_endowment * (1 / 3)  # points available for punishment
     TP_effectiveness = 3  # multiplier
     norm_fixed_TP_points = 3 # fixed amount that was taken away/rewarded/compensated for norm decisions
@@ -393,9 +393,9 @@ class TPPage(Page):
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['TP_norm_decision1', 'TP_norm_decision2', 'TP_norm_decision3']
+            return ['TP_norm_decision1', 'TP_norm_decision2']
         else:
-            return ['TP_decision1', 'TP_decision2', 'TP_decision3']
+            return ['TP_decision1', 'TP_decision2']
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -403,18 +403,26 @@ class TPPage(Page):
             text_action = "take away"
             text_receiver = "from Person A"
             image = 'global/treatments/2PP punish.png'
+            dictator_keeps_1 = C.dictator_keeps_everything
+            dictator_keeps_2 = C.dictator_keeps_3quarters
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             text_action = "take away"
             text_receiver = "from Person A"
             image = 'global/treatments/3PP punish.png'
+            dictator_keeps_1 = C.dictator_keeps_everything
+            dictator_keeps_2 = C.dictator_keeps_3quarters
         if "reward" in player.treatment:
             text_action = "give"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
+            dictator_keeps_1 = C.dictator_keeps_3quarters
+            dictator_keeps_2 = C.dictator_keeps_half
         if "comp" in player.treatment:
             text_action = "give"
             text_receiver = "to Person B"
             image = 'global/treatments/3PC comp.png'
+            dictator_keeps_1 = C.dictator_keeps_everything
+            dictator_keeps_2 = C.dictator_keeps_3quarters
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -437,6 +445,8 @@ class TPPage(Page):
         if "3PP country" in player.treatment:
             dic_identity = player.treatment[:2]
             recip_identity = player.treatment[3:5]
+            dictator_keeps_1 = C.dictator_keeps_everything
+            dictator_keeps_2 = C.dictator_keeps_3quarters
 
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
@@ -445,40 +455,28 @@ class TPPage(Page):
                 dict(
                     index=1,
                     TP_decision=player.TP_decision1,
-                    dictator_keeps=C.dictator_keeps_1,
-                    receiver=C.total_endowment - C.dictator_keeps_1,
+                    dictator_keeps=dictator_keeps_1,
+                    receiver=C.total_endowment - dictator_keeps_1,
                 ),
                 dict(
                     index=2,
                     TP_decision=player.TP_decision2,
-                    dictator_keeps=C.dictator_keeps_2,
-                    receiver=C.total_endowment - C.dictator_keeps_2,
-                ),
-                dict(
-                    index=3,
-                    TP_decision=player.TP_decision3,
-                    dictator_keeps=C.dictator_keeps_3,
-                    receiver=C.total_endowment - C.dictator_keeps_3,
+                    dictator_keeps=dictator_keeps_2,
+                    receiver=C.total_endowment - dictator_keeps_2,
                 ),
             ],
             TP_norm_decisions=[
                 dict(
                     index=1,
                     TP_norm_decision=player.TP_norm_decision1,
-                    dictator_keeps=C.dictator_keeps_1,
-                    receiver=C.total_endowment - C.dictator_keeps_1,
+                    dictator_keeps=dictator_keeps_1,
+                    receiver=C.total_endowment - dictator_keeps_1,
                 ),
                 dict(
                     index=2,
                     TP_norm_decision=player.TP_norm_decision2,
-                    dictator_keeps=C.dictator_keeps_2,
-                    receiver=C.total_endowment - C.dictator_keeps_2,
-                ),
-                dict(
-                    index=3,
-                    TP_norm_decision=player.TP_norm_decision3,
-                    dictator_keeps=C.dictator_keeps_3,
-                    receiver=C.total_endowment - C.dictator_keeps_3,
+                    dictator_keeps=dictator_keeps_2,
+                    receiver=C.total_endowment - dictator_keeps_2,
                 ),
             ],
             TP_points=range(0, int(C.TP_points) + 1),
@@ -505,7 +503,7 @@ class DictatorPage(Page):
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['dic_norm_decision1', 'dic_norm_decision2', 'dic_norm_decision3']
+            return ['dic_norm_decision1', 'dic_norm_decision2']
         else:
             return ['dic_decision1']
 
@@ -520,6 +518,11 @@ class DictatorPage(Page):
         # 3PR trials get same image as 3PP
         if "3PR" in player.treatment:
             image = 'global/treatments/3PP give.png'
+            dictator_keeps_1 = C.dictator_keeps_3quarters
+            dictator_keeps_2 = C.dictator_keeps_half
+        else:
+            dictator_keeps_1 = C.dictator_keeps_everything
+            dictator_keeps_2 = C.dictator_keeps_3quarters
 
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
@@ -545,20 +548,14 @@ class DictatorPage(Page):
                 dict(
                     index=1,
                     dic_norm_decision=player.dic_norm_decision1,
-                    dictator_keeps=C.dictator_keeps_1,
-                    receiver_gets=int(C.total_endowment - C.dictator_keeps_1),
+                    dictator_keeps=dictator_keeps_1,
+                    receiver_gets=int(C.total_endowment - dictator_keeps_1),
                 ),
                 dict(
                     index=2,
                     dic_norm_decision=player.dic_norm_decision2,
-                    dictator_keeps=C.dictator_keeps_2,
-                    receiver_gets=int(C.total_endowment - C.dictator_keeps_2),
-                ),
-                dict(
-                    index=3,
-                    dic_norm_decision=player.dic_norm_decision3,
-                    dictator_keeps=C.dictator_keeps_3,
-                    receiver_gets=int(C.total_endowment - C.dictator_keeps_3),
+                    dictator_keeps=dictator_keeps_2,
+                    receiver_gets=int(C.total_endowment - dictator_keeps_2),
                 ),
             ],
             treatment=player.treatment,
