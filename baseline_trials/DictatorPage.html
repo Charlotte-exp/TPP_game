@@ -321,6 +321,15 @@
         position:relative;
     }
 
+    .short-container {
+        width:45%;
+        height:15vw;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
@@ -340,6 +349,9 @@
         transform: scale(2); /* Scale to 60% for even smaller screens */
       }
       .container {
+          margin-left:1vw;
+      }
+      .short.container {
           margin-left:1vw;
       }
       .numbers {
@@ -487,13 +499,9 @@
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="dic_norm_decision1" id="selected-norm-1">
         <input type="hidden" name="dic_norm_decision2" id="selected-norm-2">
-        <input type="hidden" name="dic_norm_decision3" id="selected-norm-3">
-        <input type="hidden" name="dic_norm_decision4" id="selected-norm-4">
 
         {{ formfield_errors 'dic_norm_decision1' }}
         {{ formfield_errors 'dic_norm_decision2' }}
-        {{ formfield_errors 'dic_norm_decision3' }}
-        {{ formfield_errors 'dic_norm_decision4' }}
 
     {% else %}
         <!-- Add hidden input to store the selected value -->
@@ -508,7 +516,8 @@
         {% for dic_norm_decision in dic_norm_decisions %}
         <div class='responsive-div'>
 
-        <div class='container' data-index="{{ dic_norm_decision.index }}">
+        <div class='container {% if player.treatment not in ["3PP give", "3PR give", "3PC give"] %}short-container{% endif %}'
+             data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
                 <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
@@ -521,10 +530,14 @@
             <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
             <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
-            <div class="coin-count-labelD" id="countD" data-index="{{ dic_norm_decision.index }}"></div>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"
+                 data-index="{{ dic_norm_decision.index }}"></div>
 
             <span class='coinstack coinstackR' data-index="{{ dic_norm_decision.index }}"></span>
-            <div class="coin-count-labelR" id="countR" data-index="{{ dic_norm_decision.index }}"></div>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"
+                 data-index="{{ dic_norm_decision.index }}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
@@ -545,18 +558,19 @@
 
         </div>
 
-                <p> How <b style="color: red;">socially acceptable</b> is it to give {{ dic_norm_decision.receiver_gets }} points to Person B? </p>
+            <p> How <b style="color: red;">socially acceptable</b> is it to give {{ dic_norm_decision.receiver_gets }} points to Person B? </p>
 
-                <div class='numbers'>
-                    <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
-                        <div class="norm" data-value="0" data-index="{{ dic_norm_decision.index }}">very socially<br>unacceptable</div>
-                        <div class="norm" data-value="1" data-index="{{ dic_norm_decision.index }}">socially<br>unacceptable</div>
-                        <div class="norm" data-value="2" data-index="{{ dic_norm_decision.index }}">slightly socially<br>unacceptable</div>
-                        <div class="norm" data-value="3" data-index="{{ dic_norm_decision.index }}">slightly socially<br>acceptable</div>
-                        <div class="norm" data-value="4" data-index="{{ dic_norm_decision.index }}">socially<br>acceptable</div>
-                        <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">very socially<br>acceptable</div>
-                    </div>
+            <div class='numbers'>
+                <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
+                    <div class="norm" data-value="0" data-index="{{ dic_norm_decision.index }}">very socially<br>unacceptable</div>
+                    <div class="norm" data-value="1" data-index="{{ dic_norm_decision.index }}">socially<br>unacceptable</div>
+                    <div class="norm" data-value="2" data-index="{{ dic_norm_decision.index }}">slightly socially<br>unacceptable</div>
+                    <div class="norm" data-value="3" data-index="{{ dic_norm_decision.index }}">slightly socially<br>acceptable</div>
+                    <div class="norm" data-value="4" data-index="{{ dic_norm_decision.index }}">socially<br>acceptable</div>
+                    <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">very socially<br>acceptable</div>
                 </div>
+            </div>
+        <br>
         <hr>
 
         </div>
@@ -566,27 +580,25 @@
 
         <div class='responsive-div'>
 
-        <div class='container'>
+        <div class='container {% if player.treatment not in ["3PP give", "3PR give", "3PC give"] %}short-container{% endif %}'>
 
             {% if dic_identity != "baseline"%}
+                <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
+                <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
 
-            <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-            <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
-
-            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
+                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
             {% endif %}
 
             <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
             <span class='coinstack coinstackD'></span>
-
-            <div class="coin-count-labelD" id="countD"></div>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"></div>
 
             <span class='coinstack coinstackR'></span>
-
-            <div class="coin-count-labelR" id="countR"></div>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
@@ -615,8 +627,7 @@
                 {{ endfor }}
             </div>
         </div>
-
-</div>
+        </div>
 
     {% endif %}
 
