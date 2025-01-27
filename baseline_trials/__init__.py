@@ -27,8 +27,7 @@ class C(BaseConstants):
     receiver_endowment = 0
     dictator_keeps_1 = total_endowment  # everything
     dictator_keeps_2 = total_endowment * (3 / 4)  # three quarters
-    dictator_keeps_3 = total_endowment * (2 / 3)  # two thirds
-    dictator_keeps_4 = total_endowment * (1 / 2)  # half
+    dictator_keeps_3 = total_endowment * (1 / 2)  # half (for rearding
     TP_points = total_endowment * (1 / 3)  # points available for punishment
     TP_effectiveness = 3  # multiplier
     norm_fixed_TP_points = 3 # fixed amount that was taken away/rewarded/compensated for norm decisions
@@ -246,8 +245,6 @@ class Player(BasePlayer):
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
     role_switch_true = models.BooleanField()
-    #dictator_country = models.StringField()
-    #receiver_country = models.StringField()
 
     dic_decision1 = models.IntegerField(
         initial=0,
@@ -283,15 +280,6 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-    dic_norm_decision4 = models.IntegerField(
-        initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-        ],
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
     TP_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
@@ -307,13 +295,6 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision3 = models.IntegerField(
-        initial=0,
-        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-    TP_decision4 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         verbose_name='[Your decision]',
@@ -347,15 +328,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-    TP_norm_decision4 = models.IntegerField(
-        initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-        ],
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
+
 
 
 ######## PAGES ########
@@ -411,17 +384,18 @@ class instructionPage(Page):
         }
 
 class TPPage(Page):
+
     @staticmethod
     def is_displayed(player: Player):
         # return player.treatment == "3PP punish" or player.treatment == "2PP punish" or player.treatment == '3PR reward' or player.treatment == '3PC comp'
-        return ("punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment or "3PP country" in player.treatment) #and "norm" not in player.treatment
+        return "punish" in player.treatment or "reward" in player.treatment or "comp" in player.treatment or "3PP country" in player.treatment #and "norm" not in player.treatment
     form_model = 'player'
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['TP_norm_decision1', 'TP_norm_decision2', 'TP_norm_decision3', 'TP_norm_decision4']
+            return ['TP_norm_decision1', 'TP_norm_decision2', 'TP_norm_decision3']
         else:
-            return ['TP_decision1', 'TP_decision2', 'TP_decision3', 'TP_decision4']
+            return ['TP_decision1', 'TP_decision2', 'TP_decision3']
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -441,7 +415,6 @@ class TPPage(Page):
             text_action = "give"
             text_receiver = "to Person B"
             image = 'global/treatments/3PC comp.png'
-
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -487,12 +460,6 @@ class TPPage(Page):
                     dictator_keeps=C.dictator_keeps_3,
                     receiver=C.total_endowment - C.dictator_keeps_3,
                 ),
-                dict(
-                    index=4,
-                    TP_decision=player.TP_decision4,
-                    dictator_keeps=C.dictator_keeps_4,
-                    receiver=C.total_endowment - C.dictator_keeps_4,
-                ),
             ],
             TP_norm_decisions=[
                 dict(
@@ -513,17 +480,8 @@ class TPPage(Page):
                     dictator_keeps=C.dictator_keeps_3,
                     receiver=C.total_endowment - C.dictator_keeps_3,
                 ),
-                dict(
-                    index=4,
-                    TP_norm_decision=player.TP_norm_decision4,
-                    dictator_keeps=C.dictator_keeps_4,
-                    receiver=C.total_endowment - C.dictator_keeps_4,
-                ),
             ],
-            #receiver_country=player.receiver_country,
-            #dictator_country=player.dictator_country,
             TP_points=range(0, int(C.TP_points) + 1),
-            TP_effectiveness=C.TP_effectiveness,
             treatment=player.treatment,
             dic_identity=dic_identity,
             recip_identity=recip_identity,
@@ -538,6 +496,7 @@ class TPPage(Page):
 
 
 class DictatorPage(Page):
+
     @staticmethod
     def is_displayed(player: Player):
         return ("give" in player.treatment or player.treatment in C.COUNTRY_LIST) #and "norm" not in player.treatment
@@ -546,7 +505,7 @@ class DictatorPage(Page):
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['dic_norm_decision1', 'dic_norm_decision2', 'dic_norm_decision3', 'dic_norm_decision4']
+            return ['dic_norm_decision1', 'dic_norm_decision2', 'dic_norm_decision3']
         else:
             return ['dic_decision1']
 
@@ -579,7 +538,7 @@ class DictatorPage(Page):
             recip_identity = player.treatment
             image = 'global/treatments/3PP give.png'
 
-        print('Generating image path and round number - 1', image, player.round_number - 1)
+        # print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return dict(
             dic_norm_decisions=[
@@ -601,18 +560,8 @@ class DictatorPage(Page):
                     dictator_keeps=C.dictator_keeps_3,
                     receiver_gets=int(C.total_endowment - C.dictator_keeps_3),
                 ),
-                dict(
-                    index=4,
-                    dic_norm_decision=player.dic_norm_decision4,
-                    dictator_keeps=C.dictator_keeps_4,
-                    receiver_gets=int(C.total_endowment - C.dictator_keeps_4),
-                ),
             ],
-            #receiver_country=player.receiver_country,
-            #dictator_country=player.dictator_country,
             treatment=player.treatment,
-            receiver_endowment=C.receiver_endowment,
-            TP_effectiveness=C.TP_effectiveness,
             endowments=range(0, int(C.total_endowment) + 1),
             dic_identity=dic_identity,
             recip_identity=recip_identity,
