@@ -516,7 +516,8 @@
         {% for dic_norm_decision in dic_norm_decisions %}
         <div class='responsive-div'>
 
-        <div class='container {% if player.treatment not in ["3PP", "3PR", "3PC"] %}short-container{% endif %}' data-index="{{ dic_norm_decision.index }}">
+        <div class='container {% if player.treatment not in ["3PP give", "3PR give", "3PC give"] %}short-container{% endif %}'
+             data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
                 <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
@@ -529,10 +530,14 @@
             <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
             <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
-            <div class="coin-count-labelD" id="countD" style="{% if player.treatment not in ['3PP', '3PR', '3PC'] %}top: 55%;{% else %}top: 50%;{% endif %}" data-index="{{ dic_norm_decision.index }}"></div>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"
+                 data-index="{{ dic_norm_decision.index }}"></div>
 
             <span class='coinstack coinstackR' data-index="{{ dic_norm_decision.index }}"></span>
-            <div class="coin-count-labelR" id="countR" style="{% if player.treatment not in ['3PP', '3PR', '3PC'] %}top: 55%;{% else %}top: 50%;{% endif %}" data-index="{{ dic_norm_decision.index }}"></div>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"
+                 data-index="{{ dic_norm_decision.index }}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
@@ -575,7 +580,7 @@
 
         <div class='responsive-div'>
 
-        <div class='container {% if player.treatment not in ["3PP", "3PR", "3PC"] %}short-container{% endif %}'>
+        <div class='container {% if player.treatment not in ["3PP give", "3PR give", "3PC give"] %}short-container{% endif %}'>
 
             {% if dic_identity != "baseline"%}
                 <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
@@ -588,10 +593,12 @@
             <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
             <span class='coinstack coinstackD'></span>
-            <div class="coin-count-labelD" id="countD" style="{% if player.treatment not in ['3PP', '3PR', '3PC'] %}top: 55%;{% else %}top: 50%;{% endif %}"></div>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"></div>
 
             <span class='coinstack coinstackR'></span>
-            <div class="coin-count-labelR" id="countR" style="{% if player.treatment not in ['3PP', '3PR', '3PC'] %}top: 55%;{% else %}top: 50%;{% endif %}"></div>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">

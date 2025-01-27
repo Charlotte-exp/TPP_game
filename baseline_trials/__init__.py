@@ -4,6 +4,8 @@ import logging
 
 from otree.models import player
 
+from itertools import chain
+
 doc = """
 Your app description
 """
@@ -255,52 +257,50 @@ class Player(BasePlayer):
     )
     dic_norm_decision1 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     dic_norm_decision2 = models.IntegerField(
         initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-        ],
+        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-    dic_norm_decision3 = models.IntegerField(
-        initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-        ],
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-    TP_decision1 = models.IntegerField(
-        initial=0,
-        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-    TP_decision2 = models.IntegerField(
-        initial=0,
-        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-    TP_decision3 = models.IntegerField(
-        initial=0,
-        choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
+
+    if treatment == '3PC':
+        TP_decision1 = models.IntegerField(
+            initial=0,
+            choices = [(i, f'value {i}') for i in range(-C.total_endowment, C.total_endowment + 1) if i != 0],
+            verbose_name='[Your decision]',
+            widget=widgets.RadioSelect,
+            # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        )
+        TP_decision2 = models.IntegerField(
+            initial=0,
+            choices = [(i, f'value {i}') for i in range(-C.total_endowment, C.total_endowment + 1) if i != 0],
+            verbose_name='[Your decision]',
+            widget=widgets.RadioSelect,
+            # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        )
+    else:
+        TP_decision1 = models.IntegerField(
+            initial=0,
+            choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
+            verbose_name='[Your decision]',
+            widget=widgets.RadioSelect,
+            # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        )
+        TP_decision2 = models.IntegerField(
+            initial=0,
+            choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
+            verbose_name='[Your decision]',
+            widget=widgets.RadioSelect,
+            # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        )
+
     TP_norm_decision1 = models.IntegerField(
         initial=0,
         choices=[
@@ -311,15 +311,6 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_norm_decision2 = models.IntegerField(
-        initial=0,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
-        ],
-        verbose_name='[Your decision]',
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-    TP_norm_decision3 = models.IntegerField(
         initial=0,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
@@ -418,11 +409,17 @@ class TPPage(Page):
             dictator_keeps_1 = C.dictator_keeps_3quarters
             dictator_keeps_2 = C.dictator_keeps_half
         if "comp" in player.treatment:
-            text_action = "give"
-            text_receiver = "to Person B"
+            text_action = "give to or take away"
+            text_receiver = "from Person B"
             image = 'global/treatments/3PC comp.png'
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
+
+        if "3PC" in player.treatment:
+            #TP_points = range(int(-C.TP_points), int(C.TP_points) + 1)
+            TP_points = chain(range(int(-C.TP_points), 0), range(1, int(C.TP_points) + 1))  # without 0
+        else:
+            TP_points = range(0, int(C.TP_points) + 1),
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -479,7 +476,8 @@ class TPPage(Page):
                     receiver=C.total_endowment - dictator_keeps_2,
                 ),
             ],
-            TP_points=range(0, int(C.TP_points) + 1),
+            #TP_points=range(0, int(C.TP_points) + 1),
+            TP_points=TP_points,
             treatment=player.treatment,
             dic_identity=dic_identity,
             recip_identity=recip_identity,
