@@ -1,9 +1,36 @@
 {{ block title }}
 
+Introduction
+
 {{ endblock }}
 {{ block content }}
 
-Here are the intro and the general instructions.
+<div>
+    <p>
+        Welcome to this study on decision-making!
+    </p>
+    <p>
+        In addition to the payment you will receive for participating,
+        you can receive bonus points based on your decisions and the decisions of others in the study.
+        At the end, these points will be converted into real money using the following conversion rate:
+    </p>
+    <p>
+        1 point = {{ session.real_world_currency_per_point }}
+    </p>
+    <p>
+        Your anonymity is guaranteed during the whole study,
+        to both the other participants and the experimenters.
+        You will make decisions about different scenarios, and in different roles.
+        At the end of the study,
+        one scenario will be chosen at random, and you will be paid the bonus based on the decisions you and others made in that scenario,
+        depending on your role. Since you do not know which scenario counts for your extra points,
+        you should treat each scenario as if it would be the one that counts,
+    </p>
+    <p>
+        Please read the instructions carefully,
+        as your compensation from Toluna will be based on the points you receive during the study.
+    <p>
+</div>
 
     <div style="display: flex; justify-content: flex-end">
       {% next_button %}
