@@ -415,11 +415,11 @@ class TPPage(Page):
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
 
-        if "3PC" in player.treatment:
-            #TP_points = range(int(-C.TP_points), int(C.TP_points) + 1)
-            TP_points = chain(range(int(-C.TP_points), 0), range(1, int(C.TP_points) + 1))  # without 0
-        else:
-            TP_points = range(0, int(C.TP_points) + 1),
+        # if "3PC" in player.treatment:
+        #     #TP_points = range(int(-C.TP_points), int(C.TP_points) + 1)
+        #     TP_points = chain(range(int(-C.TP_points), 0), range(1, int(C.TP_points) + 1))  # without 0
+        # else:
+        #     TP_points = range(0, int(C.TP_points) + 1),
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -476,8 +476,8 @@ class TPPage(Page):
                     receiver=C.total_endowment - dictator_keeps_2,
                 ),
             ],
-            #TP_points=range(0, int(C.TP_points) + 1),
-            TP_points=TP_points,
+            TP_points=range(0, int(C.TP_points) + 1),
+            #TP_points=TP_points,
             treatment=player.treatment,
             dic_identity=dic_identity,
             recip_identity=recip_identity,
