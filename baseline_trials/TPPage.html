@@ -476,6 +476,15 @@
         position:relative;
     }
 
+    .short-container {
+        width:45%;
+        height:15vw;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
@@ -776,7 +785,7 @@
 
         {% for TP_norm_decision in TP_norm_decisions %}
         <div class='responsive-div'>
-            <div class='container' data-index="{{ TP_norm_decision.index }}">
+            <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" data-index="{{ TP_norm_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
                     <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
@@ -789,14 +798,20 @@
                 <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
                 <span class='coinstack coinstackD' data-index="{{ TP_norm_decision.index }}"></span>
-                <div class="coin-count-labelD" id="countD" data-index="{{ TP_norm_decision.index }}"></div>
+                <div class="coin-count-labelD"
+                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                     id="countD" data-index="{{ TP_norm_decision.index }}"></div>
 
                 <span class='coinstack coinstackR' data-index="{{ TP_norm_decision.index }}"></span>
-                <div class="coin-count-labelR" id="countR" data-index="{{ TP_norm_decision.index }}"></div>
+                <div class="coin-count-labelR"
+                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                     id="countR" data-index="{{ TP_norm_decision.index }}"></div>
 
 
                 {% if "punish" in player.treatment %}
-                    <span class='coinstack coinstackDDes' data-index="{{ TP_norm_decision.index }}"></span>
+                    <span class='coinstack coinstackDDes'
+                      style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                          data-index="{{ TP_norm_decision.index }}"></span>
                     <div class="coin-count-labelDDes" id="countDDes" data-index="{{ TP_norm_decision.index }}"></div>
                 {% endif %}
 
@@ -853,7 +868,7 @@
 
         {% for TP_decision in TP_decisions %}
         <div class='responsive-div'>
-            <div class='container' data-index="{{ TP_decision.index }}">
+            <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" data-index="{{ TP_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
                     <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
@@ -868,10 +883,14 @@
                 <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
                 <span class='coinstack coinstackD' data-index="{{ TP_decision.index }}"></span>
-                <div class="coin-count-labelD" id="countD" data-index="{{ TP_decision.index }}"></div>
+                <div class="coin-count-labelD"
+                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                     id="countD" data-index="{{ TP_decision.index }}"></div>
 
                 <span class='coinstack coinstackR' data-index="{{ TP_decision.index }}"></span>
-                <div class="coin-count-labelR" id="countR" data-index="{{ TP_decision.index }}"></div>
+                <div class="coin-count-labelR"
+                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                     id="countR" data-index="{{ TP_decision.index }}"></div>
 
 
                 {% if "punish" in player.treatment or "3PP country" in player.treatment %}
