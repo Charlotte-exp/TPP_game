@@ -756,19 +756,19 @@
         {% if "norm" in player.treatment %}
 
         <input type="hidden" name="TP_norm_decision1" id="selected-norm-1">
-        <input type="hidden" name="TP_norm_decision2" id="selected-norm-2">
 
         {{ formfield_errors 'TP_norm_decision1' }}
-        {{ formfield_errors 'TP_norm_decision2' }}
 
         {% else %}
 
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="TP_decision1" id="selected-number-1">
         <input type="hidden" name="TP_decision2" id="selected-number-2">
+        <input type="hidden" name="TP_decision3" id="selected-number-3">
 
         {{ formfield_errors 'TP_decision1' }}
         {{ formfield_errors 'TP_decision2' }}
+        {{ formfield_errors 'TP_decision3' }}
 
         {% endif %}
 
