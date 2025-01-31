@@ -498,10 +498,8 @@
     {% if "norm" in player.treatment %}
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="dic_norm_decision1" id="selected-norm-1">
-        <input type="hidden" name="dic_norm_decision2" id="selected-norm-2">
 
         {{ formfield_errors 'dic_norm_decision1' }}
-        {{ formfield_errors 'dic_norm_decision2' }}
 
     {% else %}
         <!-- Add hidden input to store the selected value -->
@@ -516,7 +514,7 @@
         {% for dic_norm_decision in dic_norm_decisions %}
         <div class='responsive-div'>
 
-        <div class='container {% if player.treatment not in ["3PP give", "3PR give", "3PC give"] %}short-container{% endif %}'
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}"
              data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
@@ -531,12 +529,12 @@
 
             <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
             <div class="coin-count-labelD" id="countD"
-                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 55%;{% endif %}"
                  data-index="{{ dic_norm_decision.index }}"></div>
 
             <span class='coinstack coinstackR' data-index="{{ dic_norm_decision.index }}"></span>
             <div class="coin-count-labelR" id="countR"
-                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 55%;{% endif %}"
                  data-index="{{ dic_norm_decision.index }}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
@@ -580,7 +578,8 @@
 
         <div class='responsive-div'>
 
-        <div class='container {% if player.treatment not in ["3PP give", "3PR give", "3PC give"] %}short-container{% endif %}'>
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+
 
             {% if dic_identity != "baseline"%}
                 <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
@@ -594,11 +593,11 @@
 
             <span class='coinstack coinstackD'></span>
             <div class="coin-count-labelD" id="countD"
-                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"></div>
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 55%;{% endif %}"></div>
 
             <span class='coinstack coinstackR'></span>
             <div class="coin-count-labelR" id="countR"
-                 style="{% if player.treatment not in ['3PP give', '3PR give', '3PC give'] %}top: 55%;{% endif %}"></div>
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 55%;{% endif %}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
