@@ -14,11 +14,22 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 44 #14
+    NUM_ROUNDS = 41 #14
 
-    CURRENT_COUNTRY = 'us' # CHANGE TO COUNTRY FOR THIS LINK
+    import csv
 
-    COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
+    CURRENT_COUNTRY = 'ch' # CHANGE TO COUNTRY FOR THIS LINK
+
+    with open('_static/global/country_codes.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile)  # Create reader object
+        next(reader)  # Skip the header
+        countries = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
+
+    COUNTRY_LIST = list(countries.keys())
+    #COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
+
+    CURRENT_COUNTRYNAME = countries.get(CURRENT_COUNTRY)
+
 
     # # Load country codes
     # with open('TPP_game/country_codes.txt', 'r') as file:
@@ -29,10 +40,10 @@ class C(BaseConstants):
     receiver_endowment = 0
     dictator_keeps_everything = total_endowment  # everything
     dictator_keeps_3quarters = total_endowment * (3 / 4)  # three quarters
-    dictator_keeps_half = total_endowment * (1 / 2)  # half (for rearding
+    dictator_keeps_half = total_endowment * (1 / 2)  # half (for rewarding
     TP_points = total_endowment * (1 / 3)  # points available for punishment
     TP_effectiveness = 3  # multiplier
-    norm_fixed_TP_points = 3 # fixed amount that was taken away/rewarded/compensated for norm decisions
+    norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
 
     ### Treatments ###
 
@@ -45,7 +56,7 @@ class C(BaseConstants):
     trials_3PR_DIC = ['3PR give']
     trials_3PR_TP = ['3PR reward', '3PR reward norm']
     trials_3PC_DIC = ['3PC give']
-    trials_3PC_TP = ['3PC comp', '3PC comp norm']
+    trials_3PC_TP = ['3PC comp']
 
     ## 2) Ingroup - outgroup
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
@@ -58,8 +69,7 @@ class C(BaseConstants):
     #                     '3PR reward norm IN IN', '3PR reward norm OUT OUT']
     trials_3PC_INOUT_DIC = ['3PC give IN', '3PC give OUT']
     trials_3PC_INOUT_TP = ['3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
-                        '3PC comp OUT OUT',
-                        '3PC comp norm IN IN', '3PC comp norm OUT OUT']
+                        '3PC comp OUT OUT']
 
     ## 3) Country - partner
     # Define number of trials for each trial type
@@ -101,6 +111,7 @@ def creating_session(subsession):
 
     # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
     country_list_no_current_editable = country_list_no_current.copy()
+    country_list_no_current_editable = [item + " 3PP DIC country" for item in country_list_no_current_editable]
     trials_partner_in_out_editable = trials_partner_in_out.copy()
     trials_partner_out_in_editable = trials_partner_out_in.copy()
     trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
@@ -235,6 +246,7 @@ def creating_session(subsession):
         #player.treatment = player.participant.treatment_order_INOUT[player.round_number - 1] # For testing only INOUT
         player.treatment = player.participant.treatment_order[player.round_number - 1]
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+        player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         print('set treatment to', player.treatment)
 
@@ -246,6 +258,7 @@ class Player(BasePlayer):
 
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
+    first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
 
     dic_decision1 = models.IntegerField(
@@ -341,12 +354,20 @@ class instructionPage(Page):
         image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
+        first_block_2PP_true = player.first_block_2PP_true
+        block2 = "OUT" in player.treatment or "IN" in player.treatment
+        block3 = "country" in player.treatment
+        current_country = C.CURRENT_COUNTRYNAME
         print('Generating image path and round number - 1', image, player.round_number - 1)
 
         return {
             'treatment': player.treatment,
             # 'treatment_text': text,
             'image': image,
+            'first_block_2PP_true': first_block_2PP_true,
+            'block2': block2,
+            'block3': block3,
+            'current_country': current_country,
             'treatment_type': treatment_type
         }
 
@@ -367,7 +388,7 @@ class TPPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         if "2PP punish" in player.treatment:
-            text_action = "take away"
+            text_action = "remove"
             text_receiver = "from Person A"
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
@@ -377,7 +398,7 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
-            text_action = "take away"
+            text_action = "remove"
             text_receiver = "from Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -391,7 +412,7 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
         if "comp" in player.treatment:
-            text_action = "give to or take away"
+            text_action = "give to or remove"
             text_receiver = "from Person B"
             image = 'global/treatments/3PC comp.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -485,7 +506,7 @@ class DictatorPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return ("give" in player.treatment or player.treatment in C.COUNTRY_LIST) #and "norm" not in player.treatment
+        return ("give" in player.treatment or "3PP DIC country" in player.treatment) #and "norm" not in player.treatment
 
     form_model = 'player'
 
@@ -524,9 +545,9 @@ class DictatorPage(Page):
             recip_identity = "baseline"
 
         # For partner country trials, extract countries of recipient (dictator is participant from current country
-        if player.treatment in C.COUNTRY_LIST:
+        if "3PP DIC country" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
-            recip_identity = player.treatment
+            recip_identity = player.treatment.replace(" 3PP DIC country", "")
             image = 'global/treatments/3PP give.png'
 
         # print('Generating image path and round number - 1', image, player.round_number - 1)

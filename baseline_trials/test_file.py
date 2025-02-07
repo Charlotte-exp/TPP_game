@@ -1,134 +1,24 @@
 import random
+import csv
 
-CURRENT_COUNTRY = 'us'
+CURRENT_COUNTRY = 'CHE'
 
 COUNTRY_LIST = ['us', 'ae', 'bl']
 
-treatment_order = [
-    '0DG give', '0DG give norm', '3PR give', '3PR reward', '3PR reward norm',
-    '3PP punish', '3PP punish norm', '3PP give', '2PP punish', '2PP punish norm',
-    '2PP give', '3PC comp', '3PC comp norm', '3PC give', '3PP punish OUT OUT',
-    '3PP punish norm IN IN', '3PP punish norm OUT OUT', '3PP punish OUT IN',
-    '3PP punish IN OUT', '3PP punish IN IN', '3PP give OUT', '3PP give IN',
-    '3PC give OUT', '3PC give IN', '3PC comp IN OUT', '3PC comp norm IN IN',
-    '3PC comp OUT OUT', '3PC comp OUT IN', '3PC comp norm OUT OUT',
-    '3PC comp IN IN', 'fr', 'ad', 'de de 3PP country', 'fr ae 3PP country',
-    'us us 3PP country', 'fr bl 3PP country', 'us fr 3PP country', 'de us 3PP country',
-    'ad us 3PP country', 'bl us 3PP country', 'us bl 3PP country', 'ad ad 3PP country',
-    'ad de 3PP country', 'us ae 3PP country', 'fr fr 3PP country'
-]
-
-# Target keyword to match
-target_keyword = "give"
-
-positions = [
-treatment_order[i]
-    for i in range(1, len(treatment_order))
-    if ("give" in treatment_order[i] and "give" not in treatment_order[i-1]) or
-       ("give" not in treatment_order[i] and "give" in treatment_order[i-1])
-]
-
-print(positions)
-
-print("test", [1,2] + [2] )
-
-
-country_list_no_current = [entry for entry in COUNTRY_LIST if entry != CURRENT_COUNTRY]
-
-print(country_list_no_current)
-
-
-# Make all possible combinations
-combinations = [(x, y) for x in COUNTRY_LIST for y in COUNTRY_LIST]
-
-#print(combinations)
-
-test = [entry for entry in COUNTRY_LIST if entry != CURRENT_COUNTRY]
+print(COUNTRY_LIST[2] )
 
 
 
-# Add info on homogenous or heterogeneous outgroups
-combinations = [(x, y, x == y) for x, y in combinations]
+with open('_static/global/country_codes.csv', newline='', encoding='utf-8') as csvfile:
+    reader = csv.reader(csvfile)  # Create reader object
+    next(reader)  # Skip the header
+    data = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
 
-# Every participant should get specific KINDS of trials
+# Extract columns as lists
+COUNTRY_LIST = list(data.values())  # Second column
 
+print(COUNTRY_LIST)
 
+CURRENT_COUNTRYNAME = data.get("CHE")
 
-
-
-# Add trial types
-in_out_trials = [entry for entry in combinations if entry[0] == CURRENT_COUNTRY]
-out_in_trials = [entry for entry in combinations if entry[1] == CURRENT_COUNTRY]
-out_out_homog_trials = [entry for entry in combinations if (entry[0] != CURRENT_COUNTRY and entry[1] != CURRENT_COUNTRY and entry[2] ) ]
-out_out_heterog_trials = [entry for entry in combinations if (entry[0] != CURRENT_COUNTRY and entry[1] != CURRENT_COUNTRY and entry[2] == False ) ]
-
-
-def sample_trials_partner(pool, num_trials, pool_name):
-    # If empty, refill from the original pool
-    if len(pool) < num_trials:
-        pool = eval(pool_name).copy()
-    # Otherwise, keep sampling without replacement
-    trials = random.sample(pool, num_trials)
-    for trial in trials:
-        pool.remove(trial)
-    return trials, pool
-
-
-# a) Dictator role
-
-number_trials_partner_dic_out = 2
-
-
-# Make country list without current country
-country_list_no_current = [entry for entry in COUNTRY_LIST if entry != CURRENT_COUNTRY]
-country_list_no_current_editable = country_list_no_current.copy()
-
-
-trials_partner_dic_out_current, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable,
-                                                       number_trials_partner_dic_out, "country_list_no_current")
-
-#print(trials_partner_dic_out_current)
-
-trials_partner_dic_out_current2, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable,
-                                                       number_trials_partner_dic_out, "country_list_no_current")
-
-#print(trials_partner_dic_out_current2)
-
-trials_partner_dic_out_current3, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable,
-                                                       number_trials_partner_dic_out, "country_list_no_current")
-
-#print(trials_partner_dic_out_current3)
-
-trials_partner_dic_out_current4, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable,
-                                                       number_trials_partner_dic_out, "country_list_no_current")
-
-#print(trials_partner_dic_out_current4)
-
-trials_partner_dic_out_current5, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable,
-                                                       number_trials_partner_dic_out, "country_list_no_current")
-
-#print(trials_partner_dic_out_current5)
-
-
-
-
-# print(in_out_trials)
-# print(out_in_trials)
-# print(out_out_homog_trials)
-# print(out_out_heterog_trials)
-
-
-# Sample
-
-# Figure out how to distribute across participants the different combos. Perhaps load from csv generated by R.
-
-
-#  =
-# trials_3PP_INOUT = random.sample(['3PP give IN', '3PP give OUT', '3PP give IN norm', '3PP give OUT norm',
-#                     '3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN', '3PP punish OUT OUT',
-#                     '3PP punish IN IN norm', '3PP punish OUT OUT norm'], 10)
-#
-# order_INOUT = random.sample([trials_3PP_INOUT, trials_3PR_INOUT, trials_3PC_INOUT], 3)
-# order_INOUT_flat = [item for sublist in order_INOUT for item in sublist] # Flatten the nested lists
-
-
+print(CURRENT_COUNTRYNAME)
