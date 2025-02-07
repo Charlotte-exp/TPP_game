@@ -3,34 +3,293 @@
 {{ endblock }}
 {{ block content }}
 
-Here are the instructions for condition {{ treatment_type }}.
 
     {{ if treatment_type == '0DG' }}
 
+        <p>In each decision situation, you will be paired with a different study participant. You will also be assigned a role for every decision (for example, Person A or Person B).</p>
+
+        <p>The decision situation will look like this:</p>
+
+        <p>[image with role labels]</p>
+
+        <p><strong>Person A</strong> receives 12 points.<br>
+        <strong>Person B</strong> receives 0 points.</p>
+
+        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep. Person B does not make a decision.</p>
+
+        <hr>
+
+        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. You will decide how many points to give to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>
+
+        <p>[Dictator game trial]</p>
+
+        <p><strong>Once clicked on a number:</strong><br>
+        You have decided to give <strong>[dic_give]</strong> point(s) to Person B and keep <strong>[12 - dic_give]</strong> point(s) for yourself.</p>
+
+        <p>In this example, you were assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.</p>
+
+        <hr>
+
+        <p>You will also make a decision about the social acceptability of Person A’s decisions. You will be shown different possible decisions of Person A. Then you decide how socially acceptable this decision is, among the following options:</p>
+
+        <ul>
+            <li>Very socially <strong>un</strong>acceptable</li>
+            <li>Socially <strong>un</strong>acceptable</li>
+            <li>Slightly socially <strong>un</strong>acceptable</li>
+            <li>Slightly socially acceptable</li>
+            <li>Socially acceptable</li>
+            <li>Very socially acceptable</li>
+        </ul>
+
+        <p>Importantly, you will receive 12 additional points if your decision is the same as the most common decision among all other people in {{current_country}} taking part in this study.</p>
+
+        <p>In this practice exercise, we would like you to decide how socially acceptable it is for Person A to give <strong> <span id="randomNumber1"></span> </strong> point(s) to Person B. Please click on one of the six buttons.</p>
+
+        <p>[Dictator norm trial]</p>
+
+        <p><strong>Once clicked on a button:</strong><br>
+        You have decided that Person A giving <strong> <span class="randomNumber1"></span> </strong> point(s) to Person B is <strong>[practice_norm_decision]</strong>.</p>
+
+        <p>If most other participants in this study also chose <strong>[practice_norm_decision]</strong>, you would receive 12 points.</p>
+
 
     {{ endif }}
 
-    {{ if treatment_type == '2PP' }}
+
+    {{ if player.round_number == 3 }}
+
+        <p>The decisions you just made are called <strong>Stage 1</strong>.</p>
+
+        <p>In all following decisions, there are <strong>two stages</strong>. You will see different variations of the same situation, which will all have two stages.</p>
+
+        <p><strong>Stage 1</strong> always looks like the decision you just made:</p>
+
+        <p>[image with role labels]</p>
+
+        <p><strong>Person A</strong> receives 12 points.<br>
+        <strong>Person B</strong> receives 0 points.</p>
+
+        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep.</p>
+
+        <p>After Person A makes a decision, <strong>Stage 2</strong> begins.</p>
+
+        {{ if treatment_type == '2PP' }}
+
+            <p>In Stage 2, Person B will be able to make a decision:
+            <strong>Person B</strong> will decide whether to change the points of Person A.
+            The possible choices of Person B will be explained below.</p>
+
+            <p>[image with role labels]</p>
+
+        {{ else }}
+
+            <p>In Stage 2, you will be joined by a <strong>third person: Person C.
+            Person C</strong> will decide whether to change the points of Person A or Person B.
+            The possible choices of Person C will be explained below.</p>
+
+            <p>[image with role labels]</p>
+
+        {{ endif }}
+
+        <p>The decision situation will always have these two stages: <strong>Stage 1</strong> and <strong>Stage 2</strong>.</p>
+
+        <hr>
 
 
     {{ endif }}
 
-    {{ if treatment_type == '3PP' }}
+
+    {{ if treatment_type == '2PP' and player.round_number < 14 }}
+
+        <p>In the next decisions, you will be paired with one other participant. There are <strong>two</strong> roles: Person A and Person B.</p>
+
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1).</p>
+
+        <p>In Stage 2, <strong>Person B</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. For every <strong>1 point</strong> Person B uses, <strong>3 points</strong> will be removed from Person A.</p>
+
+        <hr>
+
+        <p>In this practice exercise, you are Person B, which is indicated by the red rectangle. In Stage 1, Person A kept <span class="randomNumber2_diff"></span> point(s) and gave <span class="randomNumber2"></span> point(s) to you. Now you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+
+        <p>[2PP punish trial]</p>
+
+        <p>[Once clicked on number: ] You have decided to remove xxx point(s) from Person A.</p>
+
+        <p>In this example, Person A gave <span class="randomNumber2"></span> point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
+
+        <p>As before, you will also sometimes be assigned to the role of Person A.</p>
+
+        <p>Additionally, you will make a decision about the social acceptability of Person B’s decision to remove points from Person A.</p>
+
 
 
     {{ endif }}
 
-    {{ if treatment_type == '3PR' }}
+
+
+    {{ if treatment_type == '3PP' and player.round_number < 14 }}
+
+        {{ if first_block_2PP_true == True and player.round_number == 6 }}
+            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
+            <p>[image with role labels]</p>
+            <hr>
+
+        {{ endif }}
+
+        <p>In the next decisions, you will be paired with two other participants. There are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
+
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. For every <strong>1 point</strong> Person C uses, Person A will lose <strong>3 points</strong>.</p>
+
+        <hr>
+
+        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> <span class="randomNumber3_diff"></span> </strong> point(s) and gave <strong> <span class="randomNumber3"></span> </strong> point(s) to Person B. </p>
+
+        <p>Now, you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+
+        <p>[3PP punish trial]</p>
+
+        <p>[Once clicked on a number:]<br>
+        You have decided to remove xxx point(s) from Person A.</p>
+
+        <p>In this example, Person A gave <strong> <span class="randomNumber3"></span> </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+
+        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+
+        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to remove points from Person A.</p>
 
 
     {{ endif }}
 
-    {{ if treatment_type == '3PC' }}
+
+
+    {{ if treatment_type == '3PR' and player.round_number < 14 }}
+
+        {{ if first_block_2PP_true == True and player.round_number == 6 }}
+            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
+            <p>[image with role labels]</p>
+            <hr>
+
+        {{ endif }}
+
+        <p>In the next decisions, you will be paired with two other participants. There are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
+
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. Person C receives 4 points and can use these points to give points to Person A. For every <strong>1 point</strong> Person C uses, Person A will receive <strong>3 points</strong>.</p>
+
+        <hr>
+
+        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> <span class="randomNumber4_diff"></span> </strong> point(s) and gave <strong> <span class="randomNumber4"></span> </strong> point(s) to Person B. </p>
+
+        <p>Now, you decide how many points to give to Person A. For every 1 point you use, Person A will receive 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
+
+        <p>[3PR reward trial]</p>
+
+        <p>[Once clicked on a number:]<br>
+        You have decided to give xxx point(s) to Person A.</p>
+
+        <p>In this example, Person A gave <strong> <span class="randomNumber4"></span> </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+
+        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+
+        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to give points to Person A.</p>
+
+    {{ endif }}
+
+
+
+    {{ if treatment_type == '3PC' and player.round_number < 14 }}
+
+        {{ if first_block_2PP_true == True and player.round_number == 6 }}
+            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
+            <p>[image with role labels]</p>
+            <hr>
+
+        {{ endif }}
+
+        <p>In the next decisions, you will be paired with two other participants. There are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
+
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A OR give points to Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. For every <strong>1 point</strong> Person C uses, Person A will lose <strong>3 points</strong> OR Person B will receive <strong>3 points</strong>.</p>
+
+        <hr>
+
+        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> <span class="randomNumber5_diff"></span> </strong> point(s) and gave <strong> <span class="randomNumber5"></span> </strong> point(s) to Person B. </p>
+
+        <p>Now, you decide how many points to remove from Person A OR give to Person B. For every 1 point you use, Person A will lose 3 points OR Person B will receive 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
+
+        <p>[3PC comp/pun trial]</p>
+
+        <p>[Once clicked on a number:]<br>
+        You have decided to [give/remove] xxx point(s) to Person [A/B].</p>
+
+        <p>In this example, Person A gave <strong> <span class="randomNumber5"></span> </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+
+        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+
 
 
     {{ endif }}
 
-    {{ if treatment_type == '3PP Country' }}
+
+
+    {{ if block2 == True and player.round_number == 15 }}
+
+        <p>In the next part, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know if the other participants also live in {{current_country}} or in one of the 40 countries around the globe which also participate in this study:</p>
+
+        <p>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </p>
+
+        <p>Here is an example:</p>
+
+        <p>[Picture of punish trial with flags and map, no practice trial]</p>
+
+        <p>In this example, you are <strong>Person C</strong>, which is indicated by the red rectangle. Person A lives in {{current_country}} and Person B lives in one of the 40 countries which also participate in this study.</p>
+
+        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+
+        <hr>
+
+    {{ endif }}
+
+
+    {{ if block2 == True and treatment_type == '3PP' }}
+
+        <p>In the next decisions, you will know if the other participants also live in {{current_country}} or in one of the 40 countries which also participate in this study.</p>
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. For every <strong>1 point</strong> Person C uses, <strong>3 points</strong> will be removed from Person A.</p>
+
+    {{ endif }}
+
+
+    {{ if block2 == True and treatment_type == '3PC' }}
+
+        <p>In the next decisions, you will know if the other participants also live in {{current_country}} or in one of the 40 countries which also participate in this study.</p>
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. For every <strong>1 point</strong> Person C uses, Person A will lose <strong>3 points</strong> OR Person B will receive <strong>3 points</strong>.</p>
+
+    {{ endif }}
+
+
+    {{ if block3 == True }}
+
+        <p>In the next part, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know <strong>in which specific country</strong> both of the other participants live.</p>
+
+        <p>[Picture of punish trial with flags and map, no practice trial]</p>
+
+        <p>In this example, you are Person C, which is indicated by the red rectangle. Person A lives in Japan and Person B lives in Brazil.</p>
+
+        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+
+        <hr>
+
+        <p>In the next decisions, you will know in which country the two other participants live.</p>
+
+        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. For every <strong>1 point</strong> Person C uses, <strong>3 points</strong> will be removed from Person A.</p>
 
 
     {{ endif }}
@@ -39,5 +298,27 @@ Here are the instructions for condition {{ treatment_type }}.
     <div style="display: flex; justify-content: flex-end">
       {% next_button %}
     </div>
+
+
+<script>
+    let randomNum1 = Math.floor(Math.random() * 7); // Generate once
+    document.querySelectorAll(".randomNumber1").forEach(el => el.textContent = randomNum1);
+    let randomNum2 = Math.floor(Math.random() * 7); // Generate once
+    document.querySelectorAll(".randomNumber2").forEach(el => el.textContent = randomNum2);
+    let randomNum2_diff = 12 - randomNum2
+    document.querySelectorAll(".randomNumber2_diff").forEach(el => el.textContent = randomNum2_diff);
+    let randomNum3 = Math.floor(Math.random() * 7); // Generate once
+    document.querySelectorAll(".randomNumber3").forEach(el => el.textContent = randomNum3);
+    let randomNum3_diff = 12 - randomNum3
+    document.querySelectorAll(".randomNumber3_diff").forEach(el => el.textContent = randomNum3_diff);
+    let randomNum4 = Math.floor(Math.random() * 7); // Generate once
+    document.querySelectorAll(".randomNumber4").forEach(el => el.textContent = randomNum4);
+    let randomNum4_diff = 12 - randomNum4
+    document.querySelectorAll(".randomNumber4_diff").forEach(el => el.textContent = randomNum4_diff);
+    let randomNum5 = Math.floor(Math.random() * 7); // Generate once
+    document.querySelectorAll(".randomNumber5").forEach(el => el.textContent = randomNum5);
+    let randomNum5_diff = 12 - randomNum5
+    document.querySelectorAll(".randomNumber5_diff").forEach(el => el.textContent = randomNum5_diff);
+</script>
 
 {{ endblock }}
