@@ -23,12 +23,12 @@ class C(BaseConstants):
     with open('_static/global/country_codes.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile)  # Create reader object
         next(reader)  # Skip the header
-        countries = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
+        COUNTRIES = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
 
-    COUNTRY_LIST = list(countries.keys())
+    COUNTRY_LIST = list(COUNTRIES.keys())
     #COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
 
-    CURRENT_COUNTRYNAME = countries.get(CURRENT_COUNTRY)
+    CURRENT_COUNTRYNAME = COUNTRIES.get(CURRENT_COUNTRY)
 
 
     # # Load country codes
@@ -39,8 +39,8 @@ class C(BaseConstants):
     total_endowment = 12
     receiver_endowment = 0
     dictator_keeps_everything = total_endowment  # everything
-    dictator_keeps_3quarters = total_endowment * (3 / 4)  # three quarters
-    dictator_keeps_half = total_endowment * (1 / 2)  # half (for rewarding
+    dictator_keeps_3quarters = int(total_endowment * (3 / 4))  # three quarters
+    dictator_keeps_half = int(total_endowment * (1 / 2))  # half (for rewarding
     TP_points = total_endowment * (1 / 3)  # points available for punishment
     TP_effectiveness = 3  # multiplier
     norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
@@ -389,6 +389,7 @@ class TPPage(Page):
     def vars_for_template(player: Player):
         if "2PP punish" in player.treatment:
             text_action = "remove"
+            text_action_person = "for Person B"
             text_receiver = "from Person A"
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
@@ -399,6 +400,7 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             text_action = "remove"
+            text_action_person = "for Person C"
             text_receiver = "from Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -406,6 +408,7 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "reward" in player.treatment:
             text_action = "give"
+            text_action_person = "for Person C"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -413,6 +416,7 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "comp" in player.treatment:
             text_action = "give to or remove"
+            text_action_person = "for Person C"
             text_receiver = "from Person B"
             image = 'global/treatments/3PC comp.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -420,6 +424,7 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PR reward norm" in player.treatment:
             text_action = "give"
+            text_action_person = "for Person C"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_half
@@ -435,23 +440,35 @@ class TPPage(Page):
         if "IN IN" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = C.CURRENT_COUNTRY
+            dic_identity_country = C.CURRENT_COUNTRYNAME
+            recip_identity_country = C.CURRENT_COUNTRYNAME
         if "IN OUT" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = "out"
+            dic_identity_country = C.CURRENT_COUNTRYNAME
+            recip_identity_country = "one of 40 countries"
         if "OUT IN" in player.treatment:
             dic_identity = "out"
             recip_identity = C.CURRENT_COUNTRY
+            dic_identity_country = "one of 40 countries"
+            recip_identity_country = C.CURRENT_COUNTRYNAME
         if "OUT OUT" in player.treatment:
             dic_identity = "out"
             recip_identity = "out"
+            dic_identity_country = "one of 40 countries"
+            recip_identity_country = "one of 40 countries"
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
+            recip_identity_country = "baseline"
+            dic_identity_country = "baseline"
             
         # For partner country trials, extract countries of dictator and recipient
         if "3PP country" in player.treatment:
             dic_identity = player.treatment[:2]
             recip_identity = player.treatment[3:5]
+            dic_identity_country = C.COUNTRIES.get(dic_identity)
+            recip_identity_country = C.COUNTRIES.get(recip_identity)
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
@@ -492,7 +509,10 @@ class TPPage(Page):
             treatment=player.treatment,
             dic_identity=dic_identity,
             recip_identity=recip_identity,
+            dic_identity_country=dic_identity_country,
+            recip_identity_country=recip_identity_country,
             treatment_text_action=text_action,
+            treatment_text_action_person=text_action_person,
             treatment_text_receiver=text_receiver,
             image=image,
             role_switch_true = player.role_switch_true,
@@ -533,21 +553,41 @@ class DictatorPage(Page):
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
 
+        # For baseline trials, add condition text for "Keep in mind" text
+        if "2PP" in player.treatment:
+            text_action = "Person B can remove points from you"
+        elif "3PP" in player.treatment:
+            text_action = "Person C can remove points from you"
+        elif "3PR" in player.treatment:
+            text_action = "Person C can give points to you"
+        elif "3PC" in player.treatment:
+            text_action = "Person C can remove points from you or give points to Person B"
+        else:
+            text_action = "TEST"
+
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
             recip_identity = "out"
             dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
+            recip_identity_country = "one of 40 countries"
+            dic_identity_country = C.CURRENT_COUNTRYNAME
         if player.treatment[-3:] == " IN":
             recip_identity = C.CURRENT_COUNTRY
             dic_identity = C.CURRENT_COUNTRY
+            recip_identity_country = C.CURRENT_COUNTRYNAME
+            dic_identity_country = C.CURRENT_COUNTRYNAME
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
+            recip_identity_country = "baseline"
+            dic_identity_country = "baseline"
 
         # For partner country trials, extract countries of recipient (dictator is participant from current country
         if "3PP DIC country" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = player.treatment.replace(" 3PP DIC country", "")
+            dic_identity_country = C.CURRENT_COUNTRYNAME
+            recip_identity_country = C.COUNTRIES.get(recip_identity)
             image = 'global/treatments/3PP give.png'
 
         # print('Generating image path and round number - 1', image, player.round_number - 1)
@@ -565,8 +605,11 @@ class DictatorPage(Page):
             endowments=range(0, int(C.total_endowment) + 1),
             dic_identity=dic_identity,
             recip_identity=recip_identity,
+            dic_identity_country=dic_identity_country,
+            recip_identity_country=recip_identity_country,
             dic_decision1=player.dic_norm_decision1,
             image=image,
+            treatment_text_action=text_action,
             role_switch_true = player.role_switch_true,
             )
 

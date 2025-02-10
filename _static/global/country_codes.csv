@@ -5,7 +5,6 @@ au,Australia
 at,Austria
 be,Belgium
 bo,Bolivia
-bo,Bolivia
 br,Brazil
 bg,Bulgaria
 ca,Canada
@@ -14,9 +13,9 @@ cn,China
 co,Colombia
 cr,Costa Rica
 hr,Croatia
-cz,Czech Republic
+cz,the Czech Republic
 dk,Denmark
-do,Dominican Republic
+do,the Dominican Republic
 ec,Ecuador
 eg,Egypt
 sv,El Salvador
@@ -36,25 +35,23 @@ it,Italy
 jp,Japan
 kz,Kazakhstan
 ke,Kenya
-kr,Korea
-kr,Korea
+kr,South Korea
 lv,Latvia
 lt,Lithuania
 my,Malaysia
 mx,Mexico
 ma,Morocco
-nl,Netherlands
+nl,the Netherlands
 nz,New Zealand
 ng,Nigeria
 no,Norway
 pk,Pakistan
 pe,Peru
-ph,Philippines
+ph,the Philippines
 pl,Poland
 pt,Portugal
 pr,Puerto Rico
 ro,Romania
-ru,Russia
 ru,Russia
 sa,Saudi Arabia
 sg,Singapore
@@ -64,15 +61,12 @@ es,Spain
 se,Sweden
 ch,Switzerland
 tw,Taiwan
-tw,Taiwan
 th,Thailand
 tr,Turkey
-ae,UAE
+ae,the United Arab Emirates
 ua,Ukraine
-gb,United Kingdom
-us,United States
+gb,the United Kingdom
+us,the United States
 uy,Uruguay
 ve,Venezuela
-ve,Venezuela
-vn,Vietnam
 vn,Vietnam
