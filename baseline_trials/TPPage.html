@@ -182,7 +182,7 @@
                 }
                 // receiver stack
                 for (let i = 0; i < receiverGets; i++) {
-                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
+                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:50%;"></div>');
                 }
 
                 // Extra stacks in different locations
@@ -287,7 +287,7 @@
                     }
                     // receiver stack
                     for (let i = 0; i < receiverGets; i++) {
-                        $(`.coinstackR[data-index="${index}"]`).append('<div class="coin" style="left:83%;"></div>');
+                        $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:50%;"></div>');
                     }
 
                     // Extra stacks in different locations
@@ -535,6 +535,18 @@
         transform: translateX(-50%);
     }
 
+    .coinR {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
     .coin_destroyed {
         width: 1.8vw; /* Coins take the full width of the stack container */
         min-width:10px;
@@ -622,9 +634,9 @@
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
-    left: 73%; /* Center horizontally */
+    left: 60%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
+    top: 13%; /* Move up; adjust value as needed */
     text-align: center; /* Align text */
 }
 
@@ -680,6 +692,19 @@
     .coin:nth-child(3)   { top: 8.7vw; }
     .coin:nth-child(2)   { top: 9.0vw; }
     .coin:nth-child(1)   { top: 9.3vw; }
+
+    .coinR:nth-child(12)  { top: 1.0vw; }
+    .coinR:nth-child(11)  { top: 1.3vw; }
+    .coinR:nth-child(10)  { top: 1.6vw; }
+    .coinR:nth-child(9)   { top: 1.9vw; }
+    .coinR:nth-child(8)   { top: 2.2vw; }
+    .coinR:nth-child(7)   { top: 2.5vw; }
+    .coinR:nth-child(6)   { top: 2.8vw; }
+    .coinR:nth-child(5)   { top: 3.1vw; }
+    .coinR:nth-child(4)   { top: 3.4vw; }
+    .coinR:nth-child(3)   { top: 3.7vw; }
+    .coinR:nth-child(2)   { top: 4.0vw; }
+    .coinR:nth-child(1)   { top: 4.3vw; }
 
     .coinown:nth-child(10)  { top: 18.8vw; }
     .coinown:nth-child(9)   { top: 19.1vw; }
@@ -788,14 +813,41 @@
             <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" data-index="{{ TP_norm_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
-                    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-                    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+                    <img src="" style='width:50%; position:absolute; right:17.5vw' class='dictatorCountry'>
+                    <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
 
                     <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
                     <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
                 {% endif %}
 
                 <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                {% if "0DG" in player.treatment or "2PP" in player.treatment %}
+                    <p>
+                        <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    </p>
+
+                    <p>
+                        <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
+                    </p>
+
+                {% else %}
+
+                    <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    </p>
+
+                    <p>
+                        <b style="position: absolute; top: 36%; right:-27%;">PERSON B</b>
+                    </p>
+
+                    {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
+                        <p>
+                            <b style="position: absolute; top: 85%; left:40%;">PERSON C</b>
+                        </p>
+                    {% endif %}
+
+                {% endif %}
 
                 <span class='coinstack coinstackD' data-index="{{ TP_norm_decision.index }}"></span>
                 <div class="coin-count-labelD"
@@ -804,7 +856,7 @@
 
                 <span class='coinstack coinstackR' data-index="{{ TP_norm_decision.index }}"></span>
                 <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
                      id="countR" data-index="{{ TP_norm_decision.index }}"></div>
 
 
@@ -840,6 +892,13 @@
 
                 {% if "2PP" in player.treatment %}
                     <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+                    <p>
+                        <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:101%;">YOU</b>
+                    </p>
+                {% else %}
+                    <p>
+                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:46%;">YOU</b>
+                    </p>
                 {% endif %}
 
             </div>
@@ -871,14 +930,41 @@
             <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" data-index="{{ TP_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
-                    <img src="" style='width:50%; position:absolute; right:16vw' class='dictatorCountry'>
-                    <img src="" style='width:50%; position:absolute; left:16vw' class='receiverCountry'>
+                    <img src="" style='width:50%; position:absolute; right:17.5vw' class='dictatorCountry'>
+                    <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
 
                     <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
                     <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
                 {% endif %}
 
                 <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                {% if "0DG" in player.treatment or "2PP" in player.treatment %}
+                    <p>
+                        <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    </p>
+
+                    <p>
+                        <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
+                    </p>
+
+                {% else %}
+
+                    <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    </p>
+
+                    <p>
+                        <b style="position: absolute; top: 36%; right:-27%;">PERSON B</b>
+                    </p>
+
+                    {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
+                        <p>
+                            <b style="position: absolute; top: 85%; left:40%;">PERSON C</b>
+                        </p>
+                    {% endif %}
+
+                {% endif %}
 
                 <!-- <img src='/static/baseline/3PP punish.png' style='width:27vw; position:absolute; left:20%; top:3vw'>  -->
 
@@ -889,7 +975,7 @@
 
                 <span class='coinstack coinstackR' data-index="{{ TP_decision.index }}"></span>
                 <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
+                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
                      id="countR" data-index="{{ TP_decision.index }}"></div>
 
 
@@ -923,7 +1009,7 @@
                 {% if "2PP" in player.treatment %}
                     <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
                     <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 25.5%; left:101%;">YOU</b>
+                        <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:101%;">YOU</b>
                     </p>
                 {% else %}
                     <p>
