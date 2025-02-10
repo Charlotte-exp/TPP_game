@@ -42,6 +42,8 @@
         receiverCountry = "{{ recip_identity }}"
         dictatorCountry = "{{ dic_identity }}"
 
+        role_switch_true = "{{ role_switch_true }}"
+
 
         /////////// script
 
@@ -488,18 +490,19 @@
     .coin:nth-child(2)   { top: 9.0vw; }
     .coin:nth-child(1)   { top: 9.3vw; }
 
-    .coinR:nth-child(12)  { top: 1.0vw; }
-    .coinR:nth-child(11)  { top: 1.3vw; }
-    .coinR:nth-child(10)  { top: 1.6vw; }
-    .coinR:nth-child(9)   { top: 1.9vw; }
-    .coinR:nth-child(8)   { top: 2.2vw; }
-    .coinR:nth-child(7)   { top: 2.5vw; }
-    .coinR:nth-child(6)   { top: 2.8vw; }
-    .coinR:nth-child(5)   { top: 3.1vw; }
-    .coinR:nth-child(4)   { top: 3.4vw; }
-    .coinR:nth-child(3)   { top: 3.7vw; }
-    .coinR:nth-child(2)   { top: 4.0vw; }
-    .coinR:nth-child(1)   { top: 4.3vw; }
+    .coinR:nth-child(12)  { top: 1.3vw; }
+    .coinR:nth-child(11)  { top: 1.6vw; }
+    .coinR:nth-child(10)   { top: 1.9vw; }
+    .coinR:nth-child(9)   { top: 2.2vw; }
+    .coinR:nth-child(8)   { top: 2.5vw; }
+    .coinR:nth-child(7)   { top: 2.8vw; }
+    .coinR:nth-child(6)   { top: 3.1vw; }
+    .coinR:nth-child(5)   { top: 3.4vw; }
+    .coinR:nth-child(4)   { top: 3.7vw; }
+    .coinR:nth-child(3)   { top: 4.0vw; }
+    .coinR:nth-child(2)   { top: 4.3vw; }
+    .coinR:nth-child(1)  { top: 4.6vw; }
+
 
     .coinown:nth-child(10)  { top: 20.6vw; left:58% }
     .coinown:nth-child(9)   { top: 20.9vw; left:58% }
@@ -531,6 +534,14 @@
         <input type="hidden" name="dic_decision1" id="selected-dic_decision1">
 
         {{ formfield_errors 'dic_decision1' }}
+
+    {% endif %}
+
+    {% if role_switch_true == True %}
+
+        <p style="text-align: center;">
+            <b style="color: red;">ROLE SWITCH! You are now Person A!</b>
+        </p>
 
     {% endif %}
 
@@ -571,19 +582,20 @@
                  data-index="{{ dic_norm_decision.index }}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
-                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
             {% endif %}
 
             {% if "3PR" in player.treatment %}
-                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 15%;">
             {% endif %}
 
             {% if "3PC" in player.treatment %}
-                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 84%;">
             {% endif %}
 
             {% if "2PP" in player.treatment %}
-                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 46%;">
+                <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 28%;">
             {% endif %}
 
             {% if "2PP" in player.treatment or "0DG" in player.treatment %}
@@ -671,19 +683,20 @@
                  style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
 
             {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
-                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 55%; left: 12%;">
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
             {% endif %}
 
             {% if "3PR" in player.treatment %}
-                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 15%;">
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 15%;">
             {% endif %}
 
             {% if "3PC" in player.treatment %}
-                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 2vw; top: 55%; left: 84%;">
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 84%;">
             {% endif %}
 
             {% if "2PP" in player.treatment %}
-                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 2vw; top: 5%; left: 46%;">
+                <img src="/static/global/minus_button.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 46%;">
+                <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 28%;">
             {% endif %}
 
             {% if "2PP" in player.treatment or "0DG" in player.treatment %}
@@ -698,7 +711,16 @@
 
         </div>
 
-        <p> How many points do you <b style="color: red;">give</b> to Person B? </p>
+        {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment%}
+            <p style="font-size: 14px;"> You live in {{dic_identity_country}} and Person B lives in {{ recip_identity_country }}. </p>
+        {% endif %}
+
+        <p> <strong> How many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
+
+        {% if not "0DG" in player.treatment %}
+            <p style="font-size: 14px;"> Keep in mind that {{treatment_text_action}} in Stage 2. </p>
+        {% endif %}
+
 
         <div class='numbers'>
            <div class="number-row">
@@ -714,7 +736,14 @@
 <br>
 
    <div style="display: flex; justify-content: flex-end">
-        <button type="button" id="submit-button">Next</button>
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            Next
+        </button>
     </div>
 
 
