@@ -1,0 +1,553 @@
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+
+    /////////// global variables
+
+    let universal_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    //console.log(`norm decisions values: ${dic_norm_decisions_stored}`);
+
+    var current_treatment = "{{ treatment }}";
+    //console.log("Current treatment:", current_treatment );
+
+    const universal_norm_decisions = {{ universal_norm_decisions | safe }};
+    console.log('Decisions:', {{ universal_norm_decisions | safe }});
+
+    total_endowment = {{ C.total_endowment }}
+    receiver_endowment = {{ C.receiver_endowment }}
+
+
+////////////// function for displaying the task, numbers, and labels and managing the click event
+
+    $(document).ready(function () {
+
+                // Initialize coin stacks and number labels for each decision
+        universal_norm_decisions.forEach((universal_norm_decision) => {
+            const index = universal_norm_decision.index;
+            const dictatorKeeps = universal_norm_decision.dictator_keeps;
+            const receiverGets = universal_norm_decision.receiver_gets;
+
+            // Fill initial coin stacks and number labels (norm condition)
+
+                // dictator stack
+                for (let i = 0; i < dictatorKeeps; i++) {
+                    $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                }
+                // receiver stack
+                for (let i = 0; i < receiverGets; i++) {
+                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:50%;"></div>');
+                }
+                // number labels
+                $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+                $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+
+        });
+
+        //Select norm button that participant selected (universal norm -> show previous norm)
+        $(".recorded_norm[data-value='{{recorded_norm_num}}']").addClass("selected");
+
+        // Set the default display text of the clicked number
+        $('#selected-number-display').text('___');
+
+        //Actions on click: NUMBER OF COUNTRIES AGREEING
+        $('.number').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.number-row-close').find('.number').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+            const index = $(this).data('index');
+
+            // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
+            $(".number").each(function () {
+                if (parseInt($(this).attr("data-value")) <= value) {
+                    $(this).addClass("selected");
+                }
+            });
+
+            // Update the hidden input field
+            $(`#selected-number-${index}`).val(value);
+
+            // Update the corresponding punishment value in the array
+            universal_norm_decisions_stored[index - 1] = value;
+
+            // This is usually done by the coinstack logic somewhere
+            // since we don't update coinstacks for norms we need to add this
+            // maybe we don't even need the stored array...
+            universal_norm_decisions[index - 1].universal_norm_decision = value;
+
+            // Update the display text the clicked number
+            $('#selected-number-display').text('' + value);
+
+
+            // Debugging
+            //console.log(`Updated norm decision at index ${index}: ${value}`);
+            console.log('universal norm Decisions:', universal_norm_decisions);
+            console.log(`universal norm decision values list: ${universal_norm_decisions_stored}`);
+        });
+
+        //Actions on click: ALTERNATIVE NORM MEASURE
+        $('.norm').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.number-row').find('.norm').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+            // const index = $(this).data('index');
+
+            // Update the hidden input field
+            $('#selected-universal-norm-decision2').val(value);
+
+            // // Update the hidden input field
+            // $(`#selected-number-${index}`).val(value);
+            // // This is usually done by the coinstack logic somewhere
+            // // since we don't update coinstacks for norms we need to add this
+            // // maybe we don't even need the stored array...
+            // universal_norm_decisions[index - 1].universal_norm_decision = value;
+
+
+            // Debugging
+            //console.log(`Updated norm decision at index ${index}: ${value}`);
+        });
+
+        // Submit button click handler
+        $('#submit-button').on('click', function () {
+            // Submit the form
+            $('form').submit();
+        });
+    });
+
+</script>
+
+
+<style>
+
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin-top: 4vw;
+        background-color: #f4f4f4;
+    }
+
+    .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number-row-close {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number-row-static {
+        justify-content: center;
+        display: flex;
+        margin-top:-2vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number {
+        width: 2.5vw; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .recorded_norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .norm {
+        width: 4vw; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .recorded_norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      /*border:1px solid black;*/
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .container {
+        width:45%;
+        height:25vw;
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .short-container {
+        width:45%;
+        height:15vw;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
+    @media (max-width: 1200px) {
+      .responsive-div {
+        transform: scale(1.0); /* Scale to 80% for smaller screens */
+      }
+      .container {
+          margin-left:10vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:6vw;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .responsive-div {
+        transform: scale(2); /* Scale to 60% for even smaller screens */
+      }
+      .container {
+          margin-left:1vw;
+      }
+      .short.container {
+          margin-left:1vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:-3.2vw;
+      }
+      .number {
+          font-size:2vw;
+          border-width:1px;
+      }
+    }
+
+    .coin {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinR {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin-count-labelD {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+
+    .coin-count-labelR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 60%; /* Center horizontally, previously 73 */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 13%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+
+
+    .coin:nth-child(12)  { top: 6.0vw; }
+    .coin:nth-child(11)  { top: 6.3vw; }
+    .coin:nth-child(10)  { top: 6.6vw; }
+    .coin:nth-child(9)   { top: 6.9vw; }
+    .coin:nth-child(8)   { top: 7.2vw; }
+    .coin:nth-child(7)   { top: 7.5vw; }
+    .coin:nth-child(6)   { top: 7.8vw; }
+    .coin:nth-child(5)   { top: 8.1vw; }
+    .coin:nth-child(4)   { top: 8.4vw; }
+    .coin:nth-child(3)   { top: 8.7vw; }
+    .coin:nth-child(2)   { top: 9.0vw; }
+    .coin:nth-child(1)   { top: 9.3vw; }
+
+    .coinR:nth-child(12)  { top: 1.3vw; }
+    .coinR:nth-child(11)  { top: 1.6vw; }
+    .coinR:nth-child(10)   { top: 1.9vw; }
+    .coinR:nth-child(9)   { top: 2.2vw; }
+    .coinR:nth-child(8)   { top: 2.5vw; }
+    .coinR:nth-child(7)   { top: 2.8vw; }
+    .coinR:nth-child(6)   { top: 3.1vw; }
+    .coinR:nth-child(5)   { top: 3.4vw; }
+    .coinR:nth-child(4)   { top: 3.7vw; }
+    .coinR:nth-child(3)   { top: 4.0vw; }
+    .coinR:nth-child(2)   { top: 4.3vw; }
+    .coinR:nth-child(1)  { top: 4.6vw; }
+
+
+</style>
+</head>
+
+
+<body>
+
+<form method="post">
+
+
+        <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="universal_norm_decision1" id="selected-number-1">
+
+        {{ formfield_errors 'universal_norm_decision1' }}
+
+
+        {% for universal_norm_decision in universal_norm_decisions %}
+        <div class='responsive-div'>
+
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %} short-container {% endif %}"
+             data-index="{{ universal_norm_decision.index }}">
+
+            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+            <p>
+                <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+            </p>
+
+            <p>
+                <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
+            </p>
+
+            <span class='coinstack coinstackD' data-index="{{ universal_norm_decision.index }}"></span>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %}top: 55%;{% endif %}"
+                 data-index="{{ universal_norm_decision.index }}"></div>
+
+            <span class='coinstack coinstackR' data-index="{{ universal_norm_decision.index }}"></span>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"
+                 data-index="{{ universal_norm_decision.index }}"></div>
+
+        </div>
+
+
+                <div class="number-row-static" >
+                    <div class="recorded_norm" data-value="0" >very socially<br>unacceptable</div>
+                    <div class="recorded_norm" data-value="1" >socially<br>unacceptable</div>
+                    <div class="recorded_norm" data-value="2" >slightly socially<br>unacceptable</div>
+                    <div class="recorded_norm" data-value="3" >slightly socially<br>acceptable</div>
+                    <div class="recorded_norm" data-value="4" >socially<br>acceptable</div>
+                    <div class="recorded_norm" data-value="5" >very socially<br>acceptable</div>
+                </div>
+
+
+            <br>
+
+            <hr>
+
+            <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}. </p>
+
+            <p> <strong> Out of the 40 countries participating in this study, in how many countries do <b style="color: red;">most people also believe</b> that it is <b style="color: red;">{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}? </strong> </p>
+
+
+            <div class='numbers'>
+                    <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-number-{{ universal_norm_decision.index }}">
+                        {{ for num in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40] }}
+                        <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
+                        {{ endfor }}
+                    </div>
+                </div>
+
+        <br>
+
+        <p style="font-size: 14px;" > You believe that in <span id="selected-number-display">None</span> out of 40 countries, most people also believe that it is {{recorded_norm}} to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
+
+
+
+        <br>
+        <hr>
+
+        </div>
+        {% endfor %}
+
+
+
+    <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="universal_norm_decision2" id="selected-universal-norm-decision2">
+
+        {{ formfield_errors 'universal_norm_decision2' }}
+
+
+        <div class='responsive-div'>
+
+
+            <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b></strong>?  </p>
+
+            <div class='numbers'>
+                <div class="number-row" data-input="selected-number-2">
+                    <div class="norm" data-value="0" >none</div>
+                    <div class="norm" data-value="1" >few</div>
+                    <div class="norm" data-value="2" >some</div>
+                    <div class="norm" data-value="3" >many</div>
+                    <div class="norm" data-value="4" >most</div>
+                    <div class="norm" data-value="5" >all</div>
+                </div>
+            </div>
+
+
+
+
+        <br>
+        <hr>
+
+        </div>
+
+
+
+<br>
+
+   <div style="display: flex; justify-content: flex-end">
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            Next
+        </button>
+    </div>
+
+
+</form>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+{{ endblock }}
