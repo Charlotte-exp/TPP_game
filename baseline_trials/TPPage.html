@@ -229,7 +229,7 @@
             // deactive punishment that would generate negative values
             let numbersToDisable = [];
             TP_decisions.forEach(TP_decision => {
-                DPpossible = Math.ceil(TP_decision.dictator_keeps / 3);
+                DPpossible = Math.ceil(TP_decision.dictator_keeps / TP_eff);
                 for (let i = DPpossible + 1; i <= TP_points; i++) {
                     numbersToDisable.push(i);
                 }
