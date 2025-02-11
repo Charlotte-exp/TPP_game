@@ -7,18 +7,17 @@ COUNTRY_LIST = ['us', 'ae', 'bl']
 
 print(COUNTRY_LIST[2] )
 
-
-
 with open('_static/global/country_codes.csv', newline='', encoding='utf-8') as csvfile:
     reader = csv.reader(csvfile)  # Create reader object
     next(reader)  # Skip the header
-    data = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
+    COUNTRIES = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
 
-# Extract columns as lists
-COUNTRY_LIST = list(data.values())  # Second column
+COUNTRY_LIST = list(COUNTRIES.keys())
 
-print(COUNTRY_LIST)
+x = list(range(len(COUNTRY_LIST) + 1))
 
-CURRENT_COUNTRYNAME = data.get("CHE")
+print(x)
 
-print(CURRENT_COUNTRYNAME)
+total_endowment = 12
+
+print(range(total_endowment + 1))

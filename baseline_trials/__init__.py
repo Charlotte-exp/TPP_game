@@ -14,7 +14,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 41 #14
+    NUM_ROUNDS = 42 #14
 
     import csv
 
@@ -48,7 +48,7 @@ class C(BaseConstants):
     ### Treatments ###
 
     ## 1) Baseline
-    trials_DG = ['0DG give', '0DG give norm']
+    trials_DG = ['0DG give', '0DG give norm', 'universal norm']
     trials_3PP_DIC = ['3PP give']
     trials_3PP_TP = ['3PP punish', '3PP punish norm']
     trials_2PP_DIC = ['2PP give']
@@ -150,7 +150,8 @@ def creating_session(subsession):
 
             ## 1) Baseline trials
 
-            trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
+            # CHANGE THIS BACK TO RANDOMIZED!!! trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
+            trials_DG_current = C.trials_DG  # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
             # First randomize the TP trials
             trials_3PP_TP_current = random.sample(C.trials_3PP_TP, len(C.trials_3PP_TP))
             trials_2PP_TP_current = random.sample(C.trials_2PP_TP, len(C.trials_2PP_TP))
@@ -260,6 +261,7 @@ class Player(BasePlayer):
     instruction_round_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
+    #recorded_norm = models.IntegerField()
 
     dic_decision1 = models.IntegerField(
         initial=0,
@@ -304,6 +306,13 @@ class Player(BasePlayer):
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    universal_norm_decision1 = models.IntegerField(
+        initial=0,
+        choices=[(i, f'value {i}') for i in range(len(C.COUNTRY_LIST) + 1)],
         verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
@@ -353,12 +362,13 @@ class instructionPage(Page):
         # text = "How socially acceptable is it to give"
         image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
+        image = image.replace("universal norm", "0DG give")
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
         block2 = "OUT" in player.treatment or "IN" in player.treatment
         block3 = "country" in player.treatment
         current_country = C.CURRENT_COUNTRYNAME
-        print('Generating image path and round number - 1', image, player.round_number - 1)
+        print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
         return {
             'treatment': player.treatment,
@@ -473,7 +483,7 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
 
-        print('Generating image path and round number - 1', image, player.round_number - 1)
+        print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
         return dict(
             TP_decisions=[
@@ -617,6 +627,48 @@ class DictatorPage(Page):
         player.payoff = C.total_endowment - player.dic_decision1
 
 
+
+class UniversalNormPage(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return "universal norm" in player.treatment
+
+    print('in UniversalNormPage')
+
+    form_model = 'player'
+
+    def get_form_fields(player: Player):
+        return ['universal_norm_decision1']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        image = 'global/treatments/0DG give.png'
+        dictator_keeps_1 = C.dictator_keeps_everything
+        recorded_norm_num = max([p.dic_norm_decision1 for p in player.in_rounds(1, 2)])
+        norm_ratings = ['very socially unacceptable', 'socially unacceptable', 'slightly socially unacceptable', 'slightly socially acceptable', 'socially acceptable', 'very socially acceptable']
+        recorded_norm = norm_ratings[recorded_norm_num]
+
+        print('univnormpage Generating image path and round number - 1', image, player.round_number - 1)
+
+        return dict(
+            universal_norm_decisions=[ # keep the dict for now in case we decide we need more than 1
+                dict(
+                    index=1,
+                    universal_norm_decision=player.universal_norm_decision1,
+                    dictator_keeps=dictator_keeps_1,
+                    receiver_gets=int(C.total_endowment - dictator_keeps_1),
+                ),
+            ],
+            treatment=player.treatment,
+            endowments=range(0, int(C.total_endowment) + 1),
+            universal_norm_decision1=player.universal_norm_decision1,
+            image=image,
+            recorded_norm_num=recorded_norm_num,
+            recorded_norm=recorded_norm,
+            )
+
+
 class Results(Page):
     pass
 
@@ -625,6 +677,7 @@ class Results(Page):
 page_sequence = [Consent,
                  Introduction,
                  instructionPage,
+                 UniversalNormPage,
                  DictatorPage,
                  TPPage
                  ]
