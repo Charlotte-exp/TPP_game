@@ -48,7 +48,7 @@ class C(BaseConstants):
     ### Treatments ###
 
     ## 1) Baseline
-    trials_DG = ['0DG give', '0DG give norm', 'universal norm']
+    trials_DG = ['0DG give', '0DG give norm']
     trials_3PP_DIC = ['3PP give']
     trials_3PP_TP = ['3PP punish', '3PP punish norm']
     trials_2PP_DIC = ['2PP give']
@@ -120,7 +120,7 @@ def creating_session(subsession):
     # Make sampling function to sample without replacement
     def sample_trials_partner(pool, num_trials, pool_name):
         # If empty, refill from the original pool
-        print("pool used ", pool)
+        #print("pool used ", pool)
         # There are problems with eval(poolname), therefore assign original pool manually
         if pool_name == 'country_list_no_current': pool_original = country_list_no_current
         if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
@@ -132,10 +132,10 @@ def creating_session(subsession):
             # print("country_list_no_current ", country_list_no_current)
             pool = pool_original.copy()
             #pool = eval(pool_name).copy()
-            print("pool refreshed, pool ", pool)
+            #print("pool refreshed, pool ", pool)
         # Otherwise, keep sampling without replacement
         trials = random.sample(pool, num_trials)
-        print("trials chosen ", trials)
+        #print("trials chosen ", trials)
         for trial in trials:
             pool.remove(trial)
         return trials, pool
@@ -150,8 +150,7 @@ def creating_session(subsession):
 
             ## 1) Baseline trials
 
-            # CHANGE THIS BACK TO RANDOMIZED!!! trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
-            trials_DG_current = C.trials_DG  # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
+            trials_DG_current = random.sample(C.trials_DG, len(C.trials_DG)) # Randomize the order of give, punish, norm per treatment type (DG, 3PP, 2PP, 3PR, 3PC)
             # First randomize the TP trials
             trials_3PP_TP_current = random.sample(C.trials_3PP_TP, len(C.trials_3PP_TP))
             trials_2PP_TP_current = random.sample(C.trials_2PP_TP, len(C.trials_2PP_TP))
@@ -217,8 +216,13 @@ def creating_session(subsession):
             random.shuffle(trials_partner_TP_current)
 
             # d) Randomize order of DIC/TP
-            participant.treatment_order_partner = trials_partner_TP_current + trials_partner_dic_out_current if random.choice(
+            treatment_order_partner_no_univ_norm = trials_partner_TP_current + trials_partner_dic_out_current if random.choice(
                 [True, False]) else trials_partner_dic_out_current + trials_partner_TP_current
+
+            # e) Randomize order of universal norm: Either first in block or last in block
+            trials_partner_universal_norm = ['universal norm']
+            participant.treatment_order_partner = treatment_order_partner_no_univ_norm + trials_partner_universal_norm if random.choice(
+                [True, False]) else trials_partner_universal_norm + treatment_order_partner_no_univ_norm
 
             ## 4) Put all treatment orders together
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
@@ -249,7 +253,6 @@ def creating_session(subsession):
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
-        print('set treatment to', player.treatment)
 
 class Group(BaseGroup):
     pass
@@ -261,7 +264,6 @@ class Player(BasePlayer):
     instruction_round_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
-    #recorded_norm = models.IntegerField()
 
     dic_decision1 = models.IntegerField(
         initial=0,
@@ -317,7 +319,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-
+    universal_norm_decision2 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
 
 
 ######## PAGES ########
@@ -368,7 +378,7 @@ class instructionPage(Page):
         block2 = "OUT" in player.treatment or "IN" in player.treatment
         block3 = "country" in player.treatment
         current_country = C.CURRENT_COUNTRYNAME
-        print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
+        #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
         return {
             'treatment': player.treatment,
@@ -483,7 +493,7 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
 
-        print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
+        #print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
         return dict(
             TP_decisions=[
@@ -617,7 +627,7 @@ class DictatorPage(Page):
             recip_identity=recip_identity,
             dic_identity_country=dic_identity_country,
             recip_identity_country=recip_identity_country,
-            dic_decision1=player.dic_norm_decision1,
+            dic_decision1=player.dic_decision1,
             image=image,
             treatment_text_action=text_action,
             role_switch_true = player.role_switch_true,
@@ -634,12 +644,10 @@ class UniversalNormPage(Page):
     def is_displayed(player: Player):
         return "universal norm" in player.treatment
 
-    print('in UniversalNormPage')
-
     form_model = 'player'
 
     def get_form_fields(player: Player):
-        return ['universal_norm_decision1']
+        return ['universal_norm_decision1', 'universal_norm_decision2']
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -649,7 +657,7 @@ class UniversalNormPage(Page):
         norm_ratings = ['very socially unacceptable', 'socially unacceptable', 'slightly socially unacceptable', 'slightly socially acceptable', 'socially acceptable', 'very socially acceptable']
         recorded_norm = norm_ratings[recorded_norm_num]
 
-        print('univnormpage Generating image path and round number - 1', image, player.round_number - 1)
+        #print('univnormpage Generating image path and round number - 1', image, player.round_number - 1)
 
         return dict(
             universal_norm_decisions=[ # keep the dict for now in case we decide we need more than 1
@@ -663,6 +671,7 @@ class UniversalNormPage(Page):
             treatment=player.treatment,
             endowments=range(0, int(C.total_endowment) + 1),
             universal_norm_decision1=player.universal_norm_decision1,
+            universal_norm_decision2=player.universal_norm_decision2,
             image=image,
             recorded_norm_num=recorded_norm_num,
             recorded_norm=recorded_norm,

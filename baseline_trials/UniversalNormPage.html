@@ -56,15 +56,15 @@
         });
 
         //Select norm button that participant selected (universal norm -> show previous norm)
-        $(".norm[data-value='{{recorded_norm_num}}']").addClass("selected");
+        $(".recorded_norm[data-value='{{recorded_norm_num}}']").addClass("selected");
 
         // Set the default display text of the clicked number
         $('#selected-number-display').text('___');
 
-        //Actions on click
+        //Actions on click: NUMBER OF COUNTRIES AGREEING
         $('.number').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.number').removeClass('selected');
+            $(this).closest('.number-row-close').find('.number').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -101,6 +101,33 @@
             console.log(`universal norm decision values list: ${universal_norm_decisions_stored}`);
         });
 
+        //Actions on click: ALTERNATIVE NORM MEASURE
+        $('.norm').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.number-row').find('.norm').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+            // const index = $(this).data('index');
+
+            // Update the hidden input field
+            $('#selected-universal-norm-decision2').val(value);
+
+            // // Update the hidden input field
+            // $(`#selected-number-${index}`).val(value);
+            // // This is usually done by the coinstack logic somewhere
+            // // since we don't update coinstacks for norms we need to add this
+            // // maybe we don't even need the stored array...
+            // universal_norm_decisions[index - 1].universal_norm_decision = value;
+
+
+            // Debugging
+            //console.log(`Updated norm decision at index ${index}: ${value}`);
+        });
+
         // Submit button click handler
         $('#submit-button').on('click', function () {
             // Submit the form
@@ -122,6 +149,16 @@
     }
 
     .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number-row-close {
         justify-content: center;
         display: flex;
         margin-top:3vw;
@@ -150,6 +187,22 @@
         font-size: 1.5vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
         border: 2px solid #000000;
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .recorded_norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
         border-radius: 10%; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
@@ -157,8 +210,8 @@
     }
 
     .norm {
-        width: 6vw; /* Width scales with viewport width */
-        height: 5vw; /* Height scales with viewport width */
+        width: 4vw; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
         flex-direction: column;
         text-align: center; /* Center-aligns the text */
         display: flex;
@@ -202,6 +255,10 @@
     }
 
     .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .recorded_norm.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
@@ -395,35 +452,26 @@
 
 
                 <div class="number-row-static" >
-                    <div class="norm" data-value="0" >very socially<br>unacceptable</div>
-                    <div class="norm" data-value="1" >socially<br>unacceptable</div>
-                    <div class="norm" data-value="2" >slightly socially<br>unacceptable</div>
-                    <div class="norm" data-value="3" >slightly socially<br>acceptable</div>
-                    <div class="norm" data-value="4" >socially<br>acceptable</div>
-                    <div class="norm" data-value="5" >very socially<br>acceptable</div>
+                    <div class="recorded_norm" data-value="0" >very socially<br>unacceptable</div>
+                    <div class="recorded_norm" data-value="1" >socially<br>unacceptable</div>
+                    <div class="recorded_norm" data-value="2" >slightly socially<br>unacceptable</div>
+                    <div class="recorded_norm" data-value="3" >slightly socially<br>acceptable</div>
+                    <div class="recorded_norm" data-value="4" >socially<br>acceptable</div>
+                    <div class="recorded_norm" data-value="5" >very socially<br>acceptable</div>
                 </div>
 
 
             <br>
 
-            <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
+            <hr>
 
-            <p> <strong> Out of the 40 participating countries, in how many countries do <b style="color: red;">most people also believe</b> that it is <b style="color: red;">{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}? </strong> </p>
+            <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}. </p>
 
-<!--            <div class='numbers'>-->
-<!--                <div class="number-row" data-index="{{ universal_norm_decision.index }}" data-input="selected-norm-{{ universal_norm_decision.index }}">-->
-<!--                    <div class="norm" data-value="0" data-index="{{ universal_norm_decision.index }}">very socially<br>unacceptable</div>-->
-<!--                    <div class="norm" data-value="1" data-index="{{ universal_norm_decision.index }}">socially<br>unacceptable</div>-->
-<!--                    <div class="norm" data-value="2" data-index="{{ universal_norm_decision.index }}">slightly socially<br>unacceptable</div>-->
-<!--                    <div class="norm" data-value="3" data-index="{{ universal_norm_decision.index }}">slightly socially<br>acceptable</div>-->
-<!--                    <div class="norm" data-value="4" data-index="{{ universal_norm_decision.index }}">socially<br>acceptable</div>-->
-<!--                    <div class="norm" data-value="5" data-index="{{ universal_norm_decision.index }}">very socially<br>acceptable</div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <p> <strong> Out of the 40 countries participating in this study, in how many countries do <b style="color: red;">most people also believe</b> that it is <b style="color: red;">{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}? </strong> </p>
 
 
             <div class='numbers'>
-                    <div class="number-row" data-index="{{ universal_norm_decision.index }}" data-input="selected-number-{{ universal_norm_decision.index }}">
+                    <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-number-{{ universal_norm_decision.index }}">
                         {{ for num in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40] }}
                         <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
                         {{ endfor }}
@@ -441,6 +489,40 @@
 
         </div>
         {% endfor %}
+
+
+
+    <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="universal_norm_decision2" id="selected-universal-norm-decision2">
+
+        {{ formfield_errors 'universal_norm_decision2' }}
+
+
+        <div class='responsive-div'>
+
+
+            <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b></strong>?  </p>
+
+            <div class='numbers'>
+                <div class="number-row" data-input="selected-number-2">
+                    <div class="norm" data-value="0" >none</div>
+                    <div class="norm" data-value="1" >few</div>
+                    <div class="norm" data-value="2" >some</div>
+                    <div class="norm" data-value="3" >many</div>
+                    <div class="norm" data-value="4" >most</div>
+                    <div class="norm" data-value="5" >all</div>
+                </div>
+            </div>
+
+
+
+
+        <br>
+        <hr>
+
+        </div>
+
+
 
 <br>
 
