@@ -376,7 +376,7 @@ class instructionPage(Page):
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
         block2 = "OUT" in player.treatment or "IN" in player.treatment
-        block3 = "country" in player.treatment
+        block3 = "country" in player.treatment or "universal norm" in player.treatment
         current_country = C.CURRENT_COUNTRYNAME
         #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
