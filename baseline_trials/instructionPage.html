@@ -3,6 +3,545 @@
 {{ endblock }}
 {{ block content }}
 
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+
+    /////////// global variables
+
+    const TP_points = {{ C.TP_points }}; // punishment points
+    const TP_eff = {{ C.TP_effectiveness }}; // punishment or reward or victim compensation effectiveness
+
+    total_endowment = {{ C.total_endowment }}
+    receiver_endowment = {{ C.receiver_endowment }}
+
+    var current_treatment = "{{ treatment_type }}";
+    var current_round_number = "{{ player.round_number }}";
+
+
+
+////////////// function for displaying the task, numbers, and labels and managing the click event
+
+    $(document).ready(function () {
+
+        // // get flags
+        // $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
+        // $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
+        //
+        // // get maps
+        // $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
+        // $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
+
+        // Set the default display text of the clicked number
+        $('#trial-dic1-display').text('___');
+        $('#trial-dic2-display').text('___');
+        $('#trial-norm1-display').text('___________________');
+        $('#trial-norm2-display').text('___________________');
+
+        // Define labels of appropriateness for displaying clicked norm
+        const valueToLabel = {
+            0: "very socially unacceptable",
+            1: "socially unacceptable",
+            2: "slightly socially unacceptable",
+            3: "slightly socially acceptable",
+            4: "socially acceptable",
+            5: "very socially acceptable"
+        };
+
+        // Set the dictator and receiver coins for norm test rounds, depending on condition
+        if (current_treatment.includes("0DG") ) {
+            coins =  "{{ random_trial_numbers.0 }}"
+            coins_diff = "{{ random_trial_numbers_diff.0 }}"
+        }
+        else if (current_treatment.includes("2PP") && current_round_number < 14){
+            coins =  "{{ random_trial_numbers.1 }}"
+            coins_diff = "{{ random_trial_numbers_diff.1 }}"
+        }
+        else if (current_treatment.includes("3PP") && current_round_number < 14){
+            coins =  "{{ random_trial_numbers.2 }}"
+            coins_diff = "{{ random_trial_numbers_diff.2 }}"
+        }
+        else if (current_treatment.includes("3PR") && current_round_number < 14){
+            coins =  "{{ random_trial_numbers.3 }}"
+            coins_diff = "{{ random_trial_numbers_diff.3 }}"
+        }
+        else if (current_treatment.includes("3PC") && current_round_number < 14){
+            coins =  "{{ random_trial_numbers.4 }}"
+            coins_diff = "{{ random_trial_numbers_diff.4 }}"
+        }
+        else {
+            coins =  999
+            coins_diff = 999
+        }
+
+        console.log('coins', coins)
+        console.log('coins_diff', coins_diff)
+
+        // Fill initial coin stacks and number labels
+
+        // dictator stack static (for static display of role labels)
+        for (let i = 0; i < total_endowment; i++) {
+            $(`.coinstackD-static`).append('<div class="coin" style="left:14%;"></div>');
+        }
+        // dictator stack
+        for (let i = 0; i < total_endowment; i++) {
+            $(`.coinstackD`).append('<div class="coin" style="left:14%;"></div>');
+        }
+        // receiver stack
+        for (let i = 0; i < receiver_endowment; i++) {
+            $(`.coinstackR`).append('<div class="coinR" style="left:50%;"></div>');
+        }
+        // dictator stack static for norm
+        for (let i = 0; i < coins_diff; i++) {
+            $(`.coinstackD-static-norm`).append('<div class="coin" style="left:14%;"></div>');
+        }
+        // receiver stack static for norm
+        for (let i = 0; i < coins; i++) {
+            $(`.coinstackR-static-norm`).append('<div class="coinR" style="left:50%;"></div>');
+        }
+        // number labels
+        $('#countD').text(`${total_endowment}`);
+        $('#countD-static').text(`${total_endowment}`);
+        $('#countR').text(`${receiver_endowment}`);
+        $('#countD-static-norm').text(`${coins_diff}`);
+        $('#countR-static-norm').text(`${coins}`);
+
+        console.log('coinstackD', ($('.coinstackD')))
+        console.log('coinstackD-static', ($('.coinstackD-static')))
+
+        // // I think because of the loop without this the stack on page load is huge
+        // $('.coinstackD').empty();
+        // $('.coinstackR').empty();
+
+
+        function deactivateNumbers(numbersToDisable) {
+            numbersToDisable.forEach(num => {
+                $('.number[data-value="' + num + '"]').addClass('disabled');
+            });
+        }
+
+        // add hover event listener to numbers
+        $('.number').hover(function () {
+            const value = $(this).data('value'); // Get the number value
+            updateCoinStack(value); // Update the coin stack
+        });
+
+        let dictator = null; // Declare at the top
+
+        $('.number').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $('.number').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+
+            console.log('Click value:', value)
+
+            // // Update the hidden input field
+            // $('#selected-dic_decision1').val(value);
+
+            // Update the display text the clicked number
+            $('#trial-dic1-display').text('' + value);
+            $('#trial-dic2-display').text('' + 12 - value);
+
+            // Update the coin stack
+            updateCoinStack(value);
+
+            dictator = value
+
+            console.log('Dictator decision:', dictator)
+        });
+
+        // Submit button click handler
+        $('#submit-button').on('click', function () {
+            // Submit the form
+            $('form').submit();
+        });
+
+        // update coin stacks to original state when mouse leaves number area
+        $('.number-row').mouseleave(function () {
+            updateCoinStack(dictator);
+        });
+
+        // function to update the coin stack
+        function updateCoinStack(count) {
+            // Clear existing coins in coinstacks
+
+            //TPupdate = TP - count
+            Dupdate = total_endowment - count
+            Rupdate = receiver_endowment + count
+
+            //$('.coinstackTP').empty();
+            $('.coinstackR').empty();
+            $('.coinstackD').empty();
+
+            // Add the specified number of coins
+            for (let i = 0; i < Rupdate; i++) {
+                $('.coinstackR').append('<div class="coinR" style="left:50%;"></div>'); // previously: left:83
+            }
+
+            for (let i = 0; i < Dupdate; i++) {
+                $('.coinstackD').append('<div class="coin" style="left:14%;"></div>');
+            }
+
+            // console.log('coinstackD updateCoinStack', ($('.coinstackD')))
+            // console.log('coinstackD-static updateCoinStack', ($('.coinstackD-static')))
+
+            // Update the number labels
+            $('#countD').text(`${Dupdate}`);
+            $('#countR').text(`${Rupdate}`);
+        }
+
+
+
+        $('.norm').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.number-row').find('.norm').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+
+            // Get the label from the mapping
+            const label = valueToLabel[value];
+
+            // Update the display text the clicked number
+            $('#trial-norm1-display').text('' + label);
+            $('#trial-norm2-display').text('"' + label + '"');
+
+        });
+
+
+        // }
+    });
+
+</script>
+
+
+<style>
+
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin-top: 4vw;
+        background-color: #f4f4f4;
+    }
+
+    .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:1vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number {
+        width: 2.5vw; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      /*border:1px solid black;*/
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .container {
+        width:45%;
+        height:25vw;
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .short-container {
+        width:45%;
+        height:15vw;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
+    }
+
+    @media (max-width: 1200px) {
+      .responsive-div {
+        transform: scale(1.0); /* Scale to 80% for smaller screens */
+      }
+      .container {
+          margin-left:10vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:6vw;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .responsive-div {
+        transform: scale(2); /* Scale to 60% for even smaller screens */
+      }
+      .container {
+          margin-left:1vw;
+      }
+      .short.container {
+          margin-left:1vw;
+      }
+      .numbers {
+          position:absolute;
+          transform: scale(0.95);
+          left:-3.2vw;
+      }
+      .number {
+          font-size:2vw;
+          border-width:1px;
+      }
+    }
+
+    .coin-stack {
+        position: absolute;
+        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
+        max-width: 100px; /* Ensure coins don't get too big */
+    }
+
+    .coin {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinR {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin-count-labelD {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 24%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelD-static {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 24%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelD-static-norm {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 24%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelR-static-norm {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 60%; /* Center horizontally, previously 73 */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 13%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelDDes {
+    font-size: 1.2rem;
+    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 0%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 60%; /* Center horizontally, previously 73 */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 13%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 85%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 80%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+    .coin-count-labelTP2PP {
+    font-size: 1.2rem;
+    color: darkred; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 73%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 8%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
+
+    .coin:nth-child(12)  { top: 6.0vw; }
+    .coin:nth-child(11)  { top: 6.3vw; }
+    .coin:nth-child(10)  { top: 6.6vw; }
+    .coin:nth-child(9)   { top: 6.9vw; }
+    .coin:nth-child(8)   { top: 7.2vw; }
+    .coin:nth-child(7)   { top: 7.5vw; }
+    .coin:nth-child(6)   { top: 7.8vw; }
+    .coin:nth-child(5)   { top: 8.1vw; }
+    .coin:nth-child(4)   { top: 8.4vw; }
+    .coin:nth-child(3)   { top: 8.7vw; }
+    .coin:nth-child(2)   { top: 9.0vw; }
+    .coin:nth-child(1)   { top: 9.3vw; }
+
+    .coinR:nth-child(12)  { top: 1.3vw; }
+    .coinR:nth-child(11)  { top: 1.6vw; }
+    .coinR:nth-child(10)   { top: 1.9vw; }
+    .coinR:nth-child(9)   { top: 2.2vw; }
+    .coinR:nth-child(8)   { top: 2.5vw; }
+    .coinR:nth-child(7)   { top: 2.8vw; }
+    .coinR:nth-child(6)   { top: 3.1vw; }
+    .coinR:nth-child(5)   { top: 3.4vw; }
+    .coinR:nth-child(4)   { top: 3.7vw; }
+    .coinR:nth-child(3)   { top: 4.0vw; }
+    .coinR:nth-child(2)   { top: 4.3vw; }
+    .coinR:nth-child(1)  { top: 4.6vw; }
+
+
+</style>
+</head>
+
+
+<body>
+
+<form method="post">
 
     {{ if treatment_type == '0DG' }}
 
@@ -10,7 +549,23 @@
 
         <p>The decision situation will look like this:</p>
 
-        <p>[image with role labels]</p>
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static" id="countD-static"
+                     style="top: 55%; "></div>
+
+        </div>
 
         <p><strong>Person A</strong> receives 12 points.<br>
         <strong>Person B</strong> receives 0 points.</p>
@@ -19,12 +574,47 @@
 
         <hr>
 
-        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. You will decide how many points to give to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>
+        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. You will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>
 
-        <p>[Dictator game trial]</p>
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
-        <p><strong>Once clicked on a number:</strong><br>
-        You have decided to give <strong>[dic_give]</strong> point(s) to Person B and keep <strong>[12 - dic_give]</strong> point(s) for yourself.</p>
+            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>
+                </p>
+
+                <span class='coinstackD' ></span>
+                <div class="coin-count-labelD" id="countD"
+                     style="top: 55%; "></div>
+
+                <span class='coinstackR' ></span>
+                <div class="coin-count-labelR" id="countR"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
+
+        </div>
+
+        <p> <strong> How many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
+
+        <div class='numbers'>
+           <div class="number-row">
+                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
+                <div class="number" data-value="{{ num }}">{{ num }}</div>
+                {{ endfor }}
+            </div>
+        </div>
+
+        <br>
+
+        <p>You have decided to give <strong> <span id="trial-dic1-display"></span> </strong> point(s) to Person B and keep <strong><span id="trial-dic2-display"></span></strong> point(s) for yourself.</p>
 
         <p>In this example, you were assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.</p>
 
@@ -41,16 +631,50 @@
             <li>Very socially acceptable</li>
         </ul>
 
-        <p>Importantly, you will receive 12 additional points if your decision is the same as the most common decision among all other people in {{current_country}} taking part in this study.</p>
+        <p>Importantly, you will receive 12 additional points if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>
 
-        <p>In this practice exercise, we would like you to decide how socially acceptable it is for Person A to give <strong> <span id="randomNumber1"></span> </strong> point(s) to Person B. Please click on one of the six buttons.</p>
+        <p> In this practice exercise, we would like you to decide how <b style="color: red;">socially acceptable</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>
 
-        <p>[Dictator norm trial]</p>
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
-        <p><strong>Once clicked on a button:</strong><br>
-        You have decided that Person A giving <strong> <span class="randomNumber1"></span> </strong> point(s) to Person B is <strong>[practice_norm_decision]</strong>.</p>
+            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
-        <p>If most other participants in this study also chose <strong>[practice_norm_decision]</strong>, you would receive 12 points.</p>
+                <p>
+                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>
+                </p>
+
+                <span class='coinstackD-static-norm' ></span>
+                <div class="coin-count-labelD-static-norm" id="countD-static-norm"
+                     style="top: 55%; "></div>
+
+                <span class='coinstackR-static-norm' ></span>
+                <div class="coin-count-labelR-static-norm" id="countR-static-norm"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
+
+        </div>
+
+        <div class='numbers'>
+                <div class="number-row" >
+                    <div class="norm" data-value="0" >very socially<br>unacceptable</div>
+                    <div class="norm" data-value="1" >socially<br>unacceptable</div>
+                    <div class="norm" data-value="2" >slightly socially<br>unacceptable</div>
+                    <div class="norm" data-value="3" >slightly socially<br>acceptable</div>
+                    <div class="norm" data-value="4" >socially<br>acceptable</div>
+                    <div class="norm" data-value="5" >very socially<br>acceptable</div>
+                </div>
+            </div>
+
+        <p> <br> You have decided that Person A giving <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B is <strong> <span id="trial-norm1-display"></span> </strong>.</p>
+
+        <p>If most other participants in {{current_country}} also choose <strong><span id="trial-norm2-display"></span></strong>, you would receive 12 points.</p>
 
 
     {{ endif }}
@@ -109,13 +733,13 @@
 
         <hr>
 
-        <p>In this practice exercise, you are Person B, which is indicated by the red rectangle. In Stage 1, Person A kept <span class="randomNumber2_diff"></span> point(s) and gave <span class="randomNumber2"></span> point(s) to you. Now you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+        <p>In this practice exercise, you are Person B, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you. Now you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
 
         <p>[2PP punish trial]</p>
 
         <p>[Once clicked on number: ] You have decided to remove xxx point(s) from Person A.</p>
 
-        <p>In this example, Person A gave <span class="randomNumber2"></span> point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
+        <p>In this example, Person A gave {{random_trial_numbers.1}} point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
 
         <p>As before, you will also sometimes be assigned to the role of Person A.</p>
 
@@ -144,7 +768,7 @@
 
         <hr>
 
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> <span class="randomNumber3_diff"></span> </strong> point(s) and gave <strong> <span class="randomNumber3"></span> </strong> point(s) to Person B. </p>
+        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>
 
         <p>Now, you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
 
@@ -153,7 +777,7 @@
         <p>[Once clicked on a number:]<br>
         You have decided to remove xxx point(s) from Person A.</p>
 
-        <p>In this example, Person A gave <strong> <span class="randomNumber3"></span> </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+        <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
 
         <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
 
@@ -181,7 +805,7 @@
 
         <hr>
 
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> <span class="randomNumber4_diff"></span> </strong> point(s) and gave <strong> <span class="randomNumber4"></span> </strong> point(s) to Person B. </p>
+        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.3}} </strong> point(s) and gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. </p>
 
         <p>Now, you decide how many points to give to Person A. For every 1 point you use, Person A will receive 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
 
@@ -190,7 +814,7 @@
         <p>[Once clicked on a number:]<br>
         You have decided to give xxx point(s) to Person A.</p>
 
-        <p>In this example, Person A gave <strong> <span class="randomNumber4"></span> </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+        <p>In this example, Person A gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
 
         <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
 
@@ -217,7 +841,7 @@
 
         <hr>
 
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> <span class="randomNumber5_diff"></span> </strong> point(s) and gave <strong> <span class="randomNumber5"></span> </strong> point(s) to Person B. </p>
+        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.4}} </strong> point(s) and gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. </p>
 
         <p>Now, you decide how many points to remove from Person A OR give to Person B. For every 1 point you use, Person A will lose 3 points OR Person B will receive 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
 
@@ -226,7 +850,7 @@
         <p>[Once clicked on a number:]<br>
         You have decided to [give/remove] xxx point(s) to Person [A/B].</p>
 
-        <p>In this example, Person A gave <strong> <span class="randomNumber5"></span> </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+        <p>In this example, Person A gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
 
         <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
 
@@ -297,26 +921,12 @@
       {% next_button %}
     </div>
 
+</form>
 
-<script>
-    let randomNum1 = Math.floor(Math.random() * 7); // Generate once
-    document.querySelectorAll(".randomNumber1").forEach(el => el.textContent = randomNum1);
-    let randomNum2 = Math.floor(Math.random() * 7); // Generate once
-    document.querySelectorAll(".randomNumber2").forEach(el => el.textContent = randomNum2);
-    let randomNum2_diff = 12 - randomNum2
-    document.querySelectorAll(".randomNumber2_diff").forEach(el => el.textContent = randomNum2_diff);
-    let randomNum3 = Math.floor(Math.random() * 7); // Generate once
-    document.querySelectorAll(".randomNumber3").forEach(el => el.textContent = randomNum3);
-    let randomNum3_diff = 12 - randomNum3
-    document.querySelectorAll(".randomNumber3_diff").forEach(el => el.textContent = randomNum3_diff);
-    let randomNum4 = Math.floor(Math.random() * 7); // Generate once
-    document.querySelectorAll(".randomNumber4").forEach(el => el.textContent = randomNum4);
-    let randomNum4_diff = 12 - randomNum4
-    document.querySelectorAll(".randomNumber4_diff").forEach(el => el.textContent = randomNum4_diff);
-    let randomNum5 = Math.floor(Math.random() * 7); // Generate once
-    document.querySelectorAll(".randomNumber5").forEach(el => el.textContent = randomNum5);
-    let randomNum5_diff = 12 - randomNum5
-    document.querySelectorAll(".randomNumber5_diff").forEach(el => el.textContent = randomNum5_diff);
-</script>
+
+
+
+</body>
+</html>
 
 {{ endblock }}

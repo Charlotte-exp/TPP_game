@@ -369,10 +369,12 @@ class instructionPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        # text = "How socially acceptable is it to give"
         image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
         image = image.replace("universal norm", "0DG give")
+        image = image.replace("2PP", "2PP_2")
+        random_trial_numbers = random.choices(range(7), k=5) # Randomize numbers that are displayed in trial rounds
+        random_trial_numbers_diff = [12-value for value in random_trial_numbers]
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
         block2 = "OUT" in player.treatment or "IN" in player.treatment
@@ -384,6 +386,8 @@ class instructionPage(Page):
             'treatment': player.treatment,
             # 'treatment_text': text,
             'image': image,
+            'random_trial_numbers': random_trial_numbers,
+            'random_trial_numbers_diff': random_trial_numbers_diff,
             'first_block_2PP_true': first_block_2PP_true,
             'block2': block2,
             'block3': block3,
@@ -493,6 +497,8 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
 
+        image = image.replace("2PP", "2PP_2")
+
         #print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
         return dict(
@@ -563,6 +569,7 @@ class DictatorPage(Page):
         image = image.replace(" IN", "")
         image = image.replace(" OUT", "")
         image = image.replace(" norm", "")
+        image = image.replace("2PP", "2PP_2")
 
         # 3PR trials get same image as 3PP
         if "3PR" in player.treatment:

@@ -20,4 +20,7 @@ print(x)
 
 total_endowment = 12
 
-print(range(total_endowment + 1))
+x = random.choices(range(7), k=5)
+
+print(x)
+print([12-value for value in x])
