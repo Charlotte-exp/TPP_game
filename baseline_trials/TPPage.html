@@ -15,10 +15,8 @@
 
 /////////// global variables
 
-    let TP_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    //let TP_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
     let TP_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
-    //console.log(`Punishment values: ${TP_decisions_stored}`);
-    //console.log(`Norm values: ${TP_norm_decisions_stored}`);
 
     var current_treatment = "{{ treatment }}";
     //console.log("Current treatment:", current_treatment );
@@ -29,14 +27,19 @@
     const TP_decisions = {{ TP_decisions | safe }};
     const TP_norm_decisions = {{ TP_norm_decisions | safe }};
     //console.log('TP decisions:', {{ TP_decisions | safe }});
-    console.log('Norm decisions:', {{ TP_norm_decisions | safe }});
+    //console.log('Norm decisions:', {{ TP_norm_decisions | safe }});
+
+    // Store last clicked row type
+    let lastClickedRowType = null;
+    let lastClickedIndex = null;
+    let lastClickedValue = 0;
 
 
 /////////// All the functions (for TP_decisions) related to hovering and coinstacks/labels updating
 /////////// had to be moved out of the large parent function.
 
     // function to update the coin stack (TP_decisions only)
-    function updateCoinStack(count, index) {
+    function updateCoinStack(count, index, row) {
 
         const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
 
@@ -45,40 +48,46 @@
 
         Dupdate = TP_decision.dictator_keeps - (count * TP_eff)
 
-        if (Dupdate < 0 && (current_treatment.includes("punish") || current_treatment.includes("3PP country") )) { // if Dupdate is less than 0 & we are in punishment condition
+        if (Dupdate < 0 && (current_treatment.includes("punish") || current_treatment.includes("3PP country") || current_treatment.includes("comp"))) { // if Dupdate is less than 0 & we are in punishment condition
             dictator_recipient_TPeffectUpdate = dictator_recipient_TPeffectUpdate + Dupdate // Set dictator_recipient_TPeffectUpdate to max endowment (not more)
             Dupdate = 0; // Set Dupdate to 0 if it's less than 0
     }
 
-        if (current_treatment.includes("reward") || current_treatment.includes("comp")) { // leave dictator coins if 3PR or 3PC
+        if (current_treatment.includes("reward")) { // leave dictator coins if 3PR
             Dupdate = TP_decision.dictator_keeps
     }
 
         // Only updates in TP decision condition
         if (!current_treatment.includes("norm") ) {
             // Clear existing stacks
-            $(`.coinstackTP[data-index="${index}"]`).empty();
-            //console.log('Cleared coinstackTP for index:', index);
-            $(`.coinstackD[data-index="${index}"]`).empty();
-            //console.log('Cleared coinstackD for index:', index);
-            $(`.coinstackDDes[data-index="${index}"]`).empty();
-            $(`.coinstackDDes2PP[data-index="${index}"]`).empty();
-            //console.log('Cleared coinstackDDes for index:', index);
-            $(`.coinstackTP2PP[data-index="${index}"]`).empty();
-            $(`.coinstackTP3PR[data-index="${index}"]`).empty();
-            $(`.coinstackTP3PC[data-index="${index}"]`).empty();
+            if (row !== "compensate") {
+                $(`.coinstackTP[data-index="${index}"]`).empty();
+                //console.log('Cleared coinstackTP for index:', index);
+                $(`.coinstackD[data-index="${index}"]`).empty();
+                //console.log('Cleared coinstackD for index:', index);
+                $(`.coinstackDDes[data-index="${index}"]`).empty();
+                $(`.coinstackDDes2PP[data-index="${index}"]`).empty();
+                //console.log('Cleared coinstackDDes for index:', index);
+                $(`.coinstackTP2PP[data-index="${index}"]`).empty();
+                $(`.coinstackTP3PR[data-index="${index}"]`).empty();
+            }
+            if (row !== "punish") {
+                $(`.coinstackTP3PC[data-index="${index}"]`).empty();
+            }
 
             // Add the specified number of coins
-            for (let i = 0; i < TPupdate; i++) {
-                $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>');
-            }
+            if (row !== "compensate") { // prevent the punishment stacks update in compensation treatments only
+                for (let i = 0; i < TPupdate; i++) {
+                    $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>');
+                }
 
-            for (let i = 0; i < Dupdate; i++) {
-                $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
-            }
+                for (let i = 0; i < Dupdate; i++) {
+                    $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                }
 
-            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-                $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:-1%;"></div>');
+                for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
+                    $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:-1%;"></div>');
+                }
             }
 
             // Update other stacks for subconditions: 2PP, 2PR, 3PC
@@ -90,8 +99,10 @@
                 $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
             }
 
-            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-                $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
+            if (row !== "punish") {
+                for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
+                    $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
+                }
             }
 
             for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
@@ -99,41 +110,56 @@
             }
 
             // Update the number labels
-            $(`#countTP[data-index="${index}"]`).text(`${TPupdate}`);
-            //console.log('coin number for index:', index);
-            $(`#countD[data-index="${index}"]`).text(`${Dupdate}`);
-            $(`#countDDes[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
-            $(`#countDDes2PP[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
-            $(`#countTP2PP[data-index="${index}"]`).text(`${TPupdate}`);
-            $(`#countTP3PR[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
-            $(`#countTP3PC[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+            if (row !== "compensate") {
+                $(`#countTP[data-index="${index}"]`).text(`${TPupdate}`);
+                //console.log('coin number for index:', index);
+                $(`#countD[data-index="${index}"]`).text(`${Dupdate}`);
+                $(`#countDDes[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+                $(`#countDDes2PP[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+                $(`#countTP2PP[data-index="${index}"]`).text(`${TPupdate}`);
+                $(`#countTP3PR[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+            }
+            if (row !== "punish") {
+                $(`#countTP3PC[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
+            }
         }
 
         //Debugging
-        //console.log('updateCoinStack called with:', { count, index });
+        //console.log('updateCoinStack called with:', { count, index, row });
     }
 
-    // Hover function calling updateCoinStack
+    // Hover function calling updateCoinStack - Updates the hovered row and resets the other row
     $(document).on('mouseenter', '.number', function () {
-        const value = $(this).data('value'); // Get the number value
-        const index = $(this).data('index'); // Get the index of the element
-        console.log('Hover triggered. Value:', value, 'Index:', index);
-        updateCoinStack(value, index);
+        const value = $(this).data('value');  // Get number value
+        const index = $(this).data('index');  // Get the index
+        const row = $(this).closest('.number-row-comp').length ? "compensate" : "punish"; // Detect row type
+
+        //console.log('Hover triggered. Value:', value, 'Index:', index, 'Row:', row);
+
+        // Update the hovered stack
+        updateCoinStack(value, index, row);
+
+        // Reset the other stack while hovering
+        const otherRow = row === "punish" ? "compensate" : "punish";
+        updateCoinStack(0, index, otherRow);
     });
 
-    // Function to restore the clicked or initial state of the row
+    // Restore function - Ensures only one stack stays updated after hovering
     function restoreRowState(index) {
-        const clickedValue = TP_decisions_stored[index - 1];
-        if (clickedValue > 0) {
-            updateCoinStack(clickedValue, index); // Restore to the clicked state
+        if (lastClickedRowType && lastClickedIndex === index) {
+            updateCoinStack(lastClickedValue, index, lastClickedRowType); // Restore clicked stack
+            updateCoinStack(0, index, lastClickedRowType === "punish" ? "compensate" : "punish"); // Reset other stack
+            //console.log(`Restoring last clicked stack: ${lastClickedRowType} at index ${index}`);
         } else {
-            const TP_decision = TP_decisions.find((d) => d.index === parseInt(index, 10));
-            updateCoinStack(0, index); // Restore to the initial state
+            // Reset both if nothing was clicked
+            updateCoinStack(0, index, "punish");
+            updateCoinStack(0, index, "compensate");
+            //console.log(`Resetting both stacks at index ${index}`);
         }
-        //console.log(`Restored row ${index} to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
     }
 
-    $(document).on('mouseleave', '.number-row', function () {
+    // Mouse leave function - Ensures only one updated stack remains
+    $(document).on('mouseleave', '.number-row, .number-row-comp', function () {
         const index = $(this).data('index');
         restoreRowState(index);
     });
@@ -229,43 +255,56 @@
             // deactive punishment that would generate negative values
             let numbersToDisable = [];
             TP_decisions.forEach(TP_decision => {
+                // Calculate the maximum punishment value possible based on the dictator's kept coins
                 DPpossible = Math.ceil(TP_decision.dictator_keeps / TP_eff);
+
+                // Generate the numbers that should be disabled (punishment numbers that exceed possible value)
                 for (let i = DPpossible + 1; i <= TP_points; i++) {
-                    numbersToDisable.push(i);
+                    numbersToDisable.push(i); // Add all numbers that are larger than the max possible punishment value
                 }
 
-                //Deactivate numbers only in punishment conditions
-                //if (current_treatment == "3PP punish" || current_treatment == "2PP punish") { // leave dictator coins if 3PR or 3PC
-                if (current_treatment.includes("punish") || current_treatment.includes("3PP country")) {
-                    deactivateNumbers(numbersToDisable, TP_decision.index);
+                // Only deactivate numbers in the "punish" row for specific treatments (including "3PC comp")
+                if (current_treatment.includes("punish") || current_treatment == "3PC comp" || current_treatment.includes("3PP country")) {
+                    // Ensure we only disable punishment numbers for the "punish" row
+                    deactivateNumbers(numbersToDisable, TP_decision.index, "punish");
                 }
             });
 
+            // Click function - Stores last clicked stack and updates accordingly
             $('.number').on('click', function () {
                 // Remove 'selected' class from all buttons
-                $(this).closest('.number-row').find('.number').removeClass('selected');
+                $(this).closest('.numbers').find('.number').removeClass('selected');
 
                 // Add 'selected' class to the clicked button
                 $(this).addClass('selected');
 
-                // Get the value of the clicked button
+                // Get values
                 const value = $(this).data('value');
                 const index = $(this).data('index');
+                const row = $(this).closest('.number-row-comp').length ? "compensate" : "punish";
 
                 // Update the corresponding punishment value in the array
-                TP_decisions_stored[index - 1] = value;
+                //TP_decisions_stored[index - 1] = value;
 
                 // Update the hidden input field
                 $(`#selected-number-${index}`).val(value);
 
-                // Update the coin stack
-                updateCoinStack(value, index);
+                // Store clicked values
+                lastClickedRowType = row;
+                lastClickedIndex = index;
+                lastClickedValue = value;
 
+                // Update the clicked stack
+                updateCoinStack(value, index, row);
 
-                // Debugging
-                //console.log(`Updated decision at index ${index}: ${value}`);
-                //console.log('TP Decisions:', TP_decisions);
+                // Reset the other stack
+                const otherRow = row === "punish" ? "compensate" : "punish";
+                updateCoinStack(0, index, otherRow);
+
+                console.log(`Clicked decision at index ${index} (${row}): ${value}`);
                 //console.log(`Punishment values: ${TP_decisions_stored}`);
+                console.log(`After updating input: #selected-number-${index}, value:`, $(`#selected-number-${index}`).val()); // Log updated value
+
             });
         }
 
@@ -371,12 +410,15 @@
             });
         }
 
-        function deactivateNumbers(numbersToDisable, index) {
-            numbersToDisable.forEach(num => {
-                $('.number[data-value="' + num + '"][data-index="' + index + '"]').addClass('disabled');
-            });
+        function deactivateNumbers(numbersToDisable, index, row) {
+            // Only deactivate numbers for the "punish" row
+            if (row === "punish") {
+                numbersToDisable.forEach(num => {
+                    // Add 'disabled' class to numbers that are not allowed for the "punish" row
+                    $('.number[data-value="' + num + '"][data-index="' + index + '"][data-row="punish"]').addClass('disabled');  // Target only the "punish" row numbers
+                });
+            }
         }
-
 
         // Submit button click handler
         $('#submit-button').on('click', function () {
@@ -408,6 +450,16 @@
         align-items: center; /* Ensures proper vertical alignment */
     }
 
+    .number-row-comp {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
     .number {
         width: 3vw; /* Width scales with viewport width */
         height: 3vw; /* Height scales with viewport width */
@@ -424,6 +476,23 @@
     }
 
     .norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .comp-choices {
         width: 6vw; /* Width scales with viewport width */
         height: 5vw; /* Height scales with viewport width */
         flex-direction: column;
@@ -1046,7 +1115,7 @@
                      id="countR" data-index="{{ TP_decision.index }}"></div>
 
 
-                {% if "3PP" in player.treatment %}
+                {% if "3PP" in player.treatment or "3PC" in player.treatment %}
                     <span class='coinstack coinstackDDes' data-index="{{ TP_decision.index }}"></span>
                     <div class="coin-count-labelDDes" id="countDDes" data-index="{{ TP_decision.index }}"></div>
                 {% endif %}
@@ -1101,11 +1170,21 @@
                 <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
 
                 <div class='numbers'>
-                    <div class="number-row" data-index="{{ TP_decision.index }}" data-input="selected-number-{{ TP_decision.index }}">
+                    <div class="number-row" data-index="{{ TP_decision.index }}" data-row="punish" data-input="selected-number-{{ TP_decision.index }}">
                         {{ for num in TP_points }}
-                        <div class="number" data-value="{{ num }}" data-index="{{ TP_decision.index }}">{{ num }}</div>
+                        <div class="number" data-value="{{ num }}" data-row="punish" data-index="{{ TP_decision.index }}">{{ num }}</div>
                         {{ endfor }}
                     </div>
+                    <br>
+                    {% if "3PC" in player.treatment%}
+                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
+
+                    <div class="number-row-comp" data-index="{{ TP_decision.index }}" data-row="compensate" data-input="selected-action-{{ TP_decision.index }}">
+                        {{ for num in TP_points }}
+                        <div class="number" data-value="{{ num }}" data-row="compensate" data-index="{{ TP_decision.index }}">{{ num }}</div>
+                        {{ endfor }}
+                    </div>
+                    {% endif %}
                 </div>
 
             <hr>

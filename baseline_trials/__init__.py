@@ -261,6 +261,7 @@ class Player(BasePlayer):
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
 
+
     dic_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
