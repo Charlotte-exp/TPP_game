@@ -22,7 +22,8 @@
     total_endowment = {{ C.total_endowment }}
     receiver_endowment = {{ C.receiver_endowment }}
 
-    var current_treatment = "{{ treatment_type }}";
+    var current_treatment = "{{ treatment }}";
+    var current_treatment_short = "{{ treatment_type }}";
     var current_round_number = "{{ player.round_number }}";
 
 
@@ -31,13 +32,18 @@
 
     $(document).ready(function () {
 
-        // // get flags
-        // $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
-        // $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
-        //
-        // // get maps
-        // $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
-        // $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
+        if (current_treatment.includes("country") || current_treatment.includes("universal norm") || current_treatment.includes("OUT") || current_treatment.includes("IN") ) {
+            receiverCountry = "{{ recip_identity }}"
+            dictatorCountry = "{{ dic_identity }}"
+            // get flags
+            $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
+            $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
+
+            // get maps
+            $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
+            $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
+        }
+
 
         // Set the default display text of the clicked number
         $('#trial-dic1-display').text('___');
@@ -56,23 +62,23 @@
         };
 
         // Set the dictator and receiver coins for norm test rounds, depending on condition
-        if (current_treatment.includes("0DG") ) {
+        if (current_treatment_short.includes("0DG") ) {
             coins =  "{{ random_trial_numbers.0 }}"
             coins_diff = "{{ random_trial_numbers_diff.0 }}"
         }
-        else if (current_treatment.includes("2PP") && current_round_number < 14){
+        else if (current_treatment_short.includes("2PP") && current_round_number < 14){
             coins =  "{{ random_trial_numbers.1 }}"
             coins_diff = "{{ random_trial_numbers_diff.1 }}"
         }
-        else if (current_treatment.includes("3PP") && current_round_number < 14){
+        else if (current_treatment_short.includes("3PP") && current_round_number < 14){
             coins =  "{{ random_trial_numbers.2 }}"
             coins_diff = "{{ random_trial_numbers_diff.2 }}"
         }
-        else if (current_treatment.includes("3PR") && current_round_number < 14){
+        else if (current_treatment_short.includes("3PR") && current_round_number < 14){
             coins =  "{{ random_trial_numbers.3 }}"
             coins_diff = "{{ random_trial_numbers_diff.3 }}"
         }
-        else if (current_treatment.includes("3PC") && current_round_number < 14){
+        else if (current_treatment_short.includes("3PC") && current_round_number < 14){
             coins =  "{{ random_trial_numbers.4 }}"
             coins_diff = "{{ random_trial_numbers_diff.4 }}"
         }
@@ -107,11 +113,13 @@
             $(`.coinstackR-static-norm`).append('<div class="coinR" style="left:50%;"></div>');
         }
         // number labels
-        $('#countD').text(`${total_endowment}`);
-        $('#countD-static').text(`${total_endowment}`);
-        $('#countR').text(`${receiver_endowment}`);
-        $('#countD-static-norm').text(`${coins_diff}`);
-        $('#countR-static-norm').text(`${coins}`);
+        $('.coin-count-labelD').text(`${total_endowment}`);
+        $('.coin-count-labelD-static').text(`${total_endowment}`);
+        $('.coin-count-labelD-static2').text(`${total_endowment}`);
+        $('.coin-count-labelR').text(`${receiver_endowment}`);
+        $('.coin-count-labelD-static-norm').text(`${coins_diff}`);
+        $('.coin-count-labelR-static-norm').text(`${coins}`);
+
 
         console.log('coinstackD', ($('.coinstackD')))
         console.log('coinstackD-static', ($('.coinstackD-static')))
@@ -198,8 +206,10 @@
             // console.log('coinstackD-static updateCoinStack', ($('.coinstackD-static')))
 
             // Update the number labels
-            $('#countD').text(`${Dupdate}`);
-            $('#countR').text(`${Rupdate}`);
+            $('.coin-count-labelD').text(`${Dupdate}`);
+            $('.coin-count-labelR').text(`${Rupdate}`);
+
+
         }
 
 
@@ -447,6 +457,16 @@
     text-align: center; /* Align text */
 }
 
+    .coin-count-labelD-static2 {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 24%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 32%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
+
     .coin-count-labelD-static-norm {
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
@@ -562,7 +582,7 @@
                 </p>
 
                 <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static" id="countD-static"
+                <div class="coin-count-labelD-static"
                      style="top: 55%; "></div>
 
         </div>
@@ -593,11 +613,11 @@
                 </p>
 
                 <span class='coinstackD' ></span>
-                <div class="coin-count-labelD" id="countD"
+                <div class="coin-count-labelD"
                      style="top: 55%; "></div>
 
                 <span class='coinstackR' ></span>
-                <div class="coin-count-labelR" id="countR"
+                <div class="coin-count-labelR"
                  style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
 
         </div>
@@ -652,11 +672,11 @@
                 </p>
 
                 <span class='coinstackD-static-norm' ></span>
-                <div class="coin-count-labelD-static-norm" id="countD-static-norm"
+                <div class="coin-count-labelD-static-norm"
                      style="top: 55%; "></div>
 
                 <span class='coinstackR-static-norm' ></span>
-                <div class="coin-count-labelR-static-norm" id="countR-static-norm"
+                <div class="coin-count-labelR-static-norm"
                  style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
 
         </div>
@@ -688,12 +708,30 @@
 
         <p><strong>Stage 1</strong> always looks like the decision you just made:</p>
 
-        <p>[image with role labels]</p>
+        <div class="container short-container">
+
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static"
+                     style="top: 55%; "></div>
+
+        </div>
 
         <p><strong>Person A</strong> receives 12 points.<br>
         <strong>Person B</strong> receives 0 points.</p>
 
         <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep.</p>
+
+        <hr>
 
         <p>After Person A makes a decision, <strong>Stage 2</strong> begins.</p>
 
@@ -703,7 +741,25 @@
             <strong>Person B</strong> will decide whether to change the points of Person A.
             The possible choices of Person B will be explained below.</p>
 
-            <p>[image with role labels]</p>
+            <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+
+            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                </p>
+
+                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 13%; left: 23%;">
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 55%; "></div>
+
+        </div>
 
         {{ else }}
 
@@ -711,7 +767,27 @@
             Person C</strong> will decide whether to change the points of Person A or Person B.
             The possible choices of Person C will be explained below.</p>
 
-            <p>[image with role labels]</p>
+            <div class="container">
+
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 33%; "></div>
+
+        </div>
 
         {{ endif }}
 
@@ -725,7 +801,7 @@
 
     {{ if treatment_type == '2PP' and player.round_number < 14 }}
 
-        <p>In the next decisions, you will be paired with one other participant. There are <strong>two</strong> roles: Person A and Person B.</p>
+        <p>In the next decisions, there are <strong>two</strong> roles: Person A and Person B.</p>
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1).</p>
 
@@ -737,7 +813,7 @@
 
         <p>[2PP punish trial]</p>
 
-        <p>[Once clicked on number: ] You have decided to remove xxx point(s) from Person A.</p>
+        <p>You have decided to remove xxx point(s) from Person A.</p>
 
         <p>In this example, Person A gave {{random_trial_numbers.1}} point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
 
@@ -755,12 +831,34 @@
 
         {{ if first_block_2PP_true == True and player.round_number == 6 }}
             <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
-            <p>[image with role labels]</p>
+
+            <div class="container">
+
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 33%; "></div>
+
+        </div>
+
             <hr>
 
         {{ endif }}
 
-        <p>In the next decisions, you will be paired with two other participants. There are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
+        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
@@ -774,8 +872,7 @@
 
         <p>[3PP punish trial]</p>
 
-        <p>[Once clicked on a number:]<br>
-        You have decided to remove xxx point(s) from Person A.</p>
+        <p>You have decided to remove xxx point(s) from Person A.</p>
 
         <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
 
@@ -792,12 +889,34 @@
 
         {{ if first_block_2PP_true == True and player.round_number == 6 }}
             <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
-            <p>[image with role labels]</p>
+
+            <div class="container">
+
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 33%; "></div>
+
+        </div>
+
             <hr>
 
         {{ endif }}
 
-        <p>In the next decisions, you will be paired with two other participants. There are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
+        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
@@ -811,8 +930,7 @@
 
         <p>[3PR reward trial]</p>
 
-        <p>[Once clicked on a number:]<br>
-        You have decided to give xxx point(s) to Person A.</p>
+        <p>You have decided to give xxx point(s) to Person A.</p>
 
         <p>In this example, Person A gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
 
@@ -828,12 +946,34 @@
 
         {{ if first_block_2PP_true == True and player.round_number == 6 }}
             <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
-            <p>[image with role labels]</p>
+
+            <div class="container">
+
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 33%; "></div>
+
+        </div>
+
             <hr>
 
         {{ endif }}
 
-        <p>In the next decisions, you will be paired with two other participants. There are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
+        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
@@ -847,8 +987,7 @@
 
         <p>[3PC comp/pun trial]</p>
 
-        <p>[Once clicked on a number:]<br>
-        You have decided to [give/remove] xxx point(s) to Person [A/B].</p>
+        <p>You have decided to [give/remove] xxx point(s) to Person [A/B].</p>
 
         <p>In this example, Person A gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
 
@@ -860,17 +999,45 @@
 
 
 
-    {{ if block2 == True and player.round_number == 15 }}
+    {{ if block2 == True and player.round_number == 14 }}
 
-        <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know if the other participants also live in {{current_country}} or in one of the 40 countries around the globe which also participate in this study:</p>
+        <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know if the other participants also live in {{current_country}} or in one of 40 countries around the globe which also participate in this study:</p>
 
-        <p>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </p>
+        <p> <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </i> </p>
 
         <p>Here is an example:</p>
 
-        <p>[Picture of punish trial with flags and map, no practice trial]</p>
+        <div class="container">
 
-        <p>In this example, you are <strong>Person C</strong>, which is indicated by the red rectangle. Person A lives in {{current_country}} and Person B lives in one of the 40 countries which also participate in this study.</p>
+
+            <img src="" style='width:50%; position:absolute; right:17.5vw' class='dictatorCountry'>
+            <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
+
+            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 33%; "></div>
+
+        </div>
+
+        <p>In this example, you are <strong>Person C</strong>, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
 
         <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
 
@@ -899,13 +1066,41 @@
 
         <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know <strong>in which specific country</strong> both of the other participants live.</p>
 
-        <p>[Picture of punish trial with flags and map, no practice trial]</p>
+        <div class="container">
 
-        <p>In this example, you are Person C, which is indicated by the red rectangle. Person A lives in Japan and Person B lives in Brazil.</p>
+
+            <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
+            <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
+
+            <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
+            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                <p>
+                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                </p>
+
+                <span class='coinstackD-static' ></span>
+                <div class="coin-count-labelD-static2"
+                     style="top: 33%; "></div>
+
+        </div>
+
+        <p>In this example, you are Person C, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
 
         <p> As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
 
-        <p> Similarly as before, you will also sometimes be asked about the social acceptability of decisions.</p>
+        <p> Similarly as before, you will also sometimes be asked about the social acceptability of some decisions.</p>
 
         <hr>
 

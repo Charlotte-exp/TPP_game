@@ -375,6 +375,38 @@ class instructionPage(Page):
         image = image.replace("2PP", "2PP_2")
         random_trial_numbers = random.choices(range(7), k=5) # Randomize numbers that are displayed in trial rounds
         random_trial_numbers_diff = [12-value for value in random_trial_numbers]
+
+        if "IN" in player.treatment or "OUT" in player.treatment:
+            random_INOUT_IN_as_dic = random.choice([True, False])
+            if random_INOUT_IN_as_dic:
+                dic_identity = C.CURRENT_COUNTRY
+                recip_identity = "out"
+                dic_identity_country = C.CURRENT_COUNTRYNAME
+                recip_identity_country = "one of 40 countries which also participate in this study"
+            else:
+                dic_identity = "out"
+                recip_identity = C.CURRENT_COUNTRY
+                dic_identity_country = "one of 40 countries which also participate in this study"
+                recip_identity_country = C.CURRENT_COUNTRYNAME
+        elif "country" in player.treatment or "universal norm" in player.treatment:
+            random_partner_country_IN_as_dic = random.choice([True, False])
+            random_partner = random.choice(C.COUNTRY_LIST)
+            if random_partner_country_IN_as_dic:
+                dic_identity = C.CURRENT_COUNTRY
+                recip_identity = random_partner
+                dic_identity_country = C.CURRENT_COUNTRYNAME
+                recip_identity_country = C.COUNTRIES.get(random_partner)
+            else:
+                dic_identity = random_partner
+                recip_identity = C.CURRENT_COUNTRY
+                dic_identity_country = C.COUNTRIES.get(random_partner)
+                recip_identity_country = C.CURRENT_COUNTRYNAME
+        else:
+            dic_identity = "baseline"
+            recip_identity = "baseline"
+            recip_identity_country = "baseline"
+            dic_identity_country = "baseline"
+
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
         block2 = "OUT" in player.treatment or "IN" in player.treatment
@@ -388,6 +420,10 @@ class instructionPage(Page):
             'image': image,
             'random_trial_numbers': random_trial_numbers,
             'random_trial_numbers_diff': random_trial_numbers_diff,
+            'dic_identity':dic_identity,
+            'recip_identity':recip_identity,
+            'dic_identity_country':dic_identity_country,
+            'recip_identity_country':recip_identity_country,
             'first_block_2PP_true': first_block_2PP_true,
             'block2': block2,
             'block3': block3,
