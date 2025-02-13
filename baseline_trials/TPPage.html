@@ -1167,17 +1167,20 @@
 
                 <p style="font-size: 14px;"> Person A gave <strong> {{TP_decision.receiver}} </strong> point(s) to Person B and kept <strong> {{TP_decision.dictator_keeps}} </strong> point(s) for themselves. </p>
 
-                <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
-
                 <div class='numbers'>
+                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
+
                     <div class="number-row" data-index="{{ TP_decision.index }}" data-row="punish" data-input="selected-number-{{ TP_decision.index }}">
                         {{ for num in TP_points }}
                         <div class="number" data-value="{{ num }}" data-row="punish" data-index="{{ TP_decision.index }}">{{ num }}</div>
                         {{ endfor }}
                     </div>
+                    <div>
+                        <b>OR</b>
+                    </div>
                     <br>
                     {% if "3PC" in player.treatment%}
-                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
+                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action_comp }} </b>  {{ treatment_text_receiver_comp }}? </strong> </p>
 
                     <div class="number-row-comp" data-index="{{ TP_decision.index }}" data-row="compensate" data-input="selected-action-{{ TP_decision.index }}">
                         {{ for num in TP_points }}

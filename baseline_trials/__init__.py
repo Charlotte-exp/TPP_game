@@ -476,9 +476,12 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
         if "comp" in player.treatment:
-            text_action = "give to or remove"
+            text_action = "remove"
             text_action_person = "for Person C"
-            text_receiver = "from Person B"
+            text_receiver = "from Person A"
+            text_action_comp = "give"
+            text_action_person_comp = "for Person C"
+            text_receiver_comp = "to Person B"
             image = 'global/treatments/3PC comp.png'
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
@@ -577,6 +580,9 @@ class TPPage(Page):
             treatment_text_action=text_action,
             treatment_text_action_person=text_action_person,
             treatment_text_receiver=text_receiver,
+            treatment_text_action_comp=text_action_comp,
+            treatment_text_action_person_comp=text_action_person_comp,
+            treatment_text_receiver_comp=text_receiver_comp,
             image=image,
             role_switch_true = player.role_switch_true,
             )
