@@ -60,7 +60,7 @@
         // Only updates in TP decision condition
         if (!current_treatment.includes("norm") ) {
             // Clear existing stacks
-            if (row !== "compensate") {
+            if (row === "punish") {
                 $(`.coinstackTP[data-index="${index}"]`).empty();
                 //console.log('Cleared coinstackTP for index:', index);
                 $(`.coinstackD[data-index="${index}"]`).empty();
@@ -71,12 +71,15 @@
                 $(`.coinstackTP2PP[data-index="${index}"]`).empty();
                 $(`.coinstackTP3PR[data-index="${index}"]`).empty();
             }
-            if (row !== "punish") {
+            console.log(`Before update: Compensate Stack for Index ${index}:`,
+                $(`.coinstackTP3PC[data-index="${index}"]`).html()
+            );
+            if (row === "compensate") {
                 $(`.coinstackTP3PC[data-index="${index}"]`).empty();
             }
 
             // Add the specified number of coins
-            if (row !== "compensate") { // prevent the punishment stacks update in compensation treatments only
+            if (row === "punish") { // prevent the punishment stacks update in compensation treatments only
                 for (let i = 0; i < TPupdate; i++) {
                     $(`.coinstackTP[data-index="${index}"]`).append('<div class="coinown" style="left:75%;"></div>');
                 }
@@ -99,18 +102,20 @@
                 $(`.coinstackTP3PR[data-index="${index}"]`).append('<div class="coinown3PR" style="left:7%;"></div>');
             }
 
-            if (row !== "punish") {
+            if (row === "compensate") {
                 for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
                     $(`.coinstackTP3PC[data-index="${index}"]`).append('<div class="coinown3PC" style="left:102%;"></div>');
                 }
             }
-
+            console.log(`After update: Compensate Stack for Index ${index}:`,
+                $(`.coinstackTP3PC[data-index="${index}"]`).html()
+            );
             for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
                 $(`.coinstackDDes2PP[data-index="${index}"]`).append('<div class="coin_destroyed2PP" style="left:65%;"></div>');
             }
 
             // Update the number labels
-            if (row !== "compensate") {
+            if (row === "punish") {
                 $(`#countTP[data-index="${index}"]`).text(`${TPupdate}`);
                 //console.log('coin number for index:', index);
                 $(`#countD[data-index="${index}"]`).text(`${Dupdate}`);
@@ -119,13 +124,16 @@
                 $(`#countTP2PP[data-index="${index}"]`).text(`${TPupdate}`);
                 $(`#countTP3PR[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
             }
-            if (row !== "punish") {
+            if (row === "compensate") {
                 $(`#countTP3PC[data-index="${index}"]`).text(`${dictator_recipient_TPeffectUpdate}`);
             }
         }
 
         //Debugging
         //console.log('updateCoinStack called with:', { count, index, row });
+        console.log(`updateCoinStack called - Count: ${count}, Index: ${index}, Row: ${row}`);
+        console.log(`TP Points: ${TP_points}, TP Eff: ${TP_eff}, Dictator Keeps: ${TP_decision.dictator_keeps}`);
+        console.log(`Calculated TPupdate: ${TPupdate}, Dupdate: ${Dupdate}, dictator_recipient_TPeffectUpdate: ${dictator_recipient_TPeffectUpdate}`);
     }
 
     // Hover function calling updateCoinStack - Updates the hovered row and resets the other row
@@ -1180,17 +1188,20 @@
 
                 <p style="font-size: 14px;"> Person A gave <strong> {{TP_decision.receiver}} </strong> point(s) to Person B and kept <strong> {{TP_decision.dictator_keeps}} </strong> point(s) for themselves. </p>
 
-                <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
-
                 <div class='numbers'>
+                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
+
                     <div class="number-row" data-index="{{ TP_decision.index }}" data-row="punish" data-input="selected-number-{{ TP_decision.index }}">
                         {{ for num in TP_points }}
                         <div class="number" data-value="{{ num }}" data-row="punish" data-index="{{ TP_decision.index }}">{{ num }}</div>
                         {{ endfor }}
                     </div>
-                    <br>
                     {% if "3PC" in player.treatment%}
-                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
+                    <div>
+                        <b>OR</b>
+                    </div>
+                    <br>
+                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action_comp }} </b>  {{ treatment_text_receiver_comp }}? </strong> </p>
 
                     <div class="number-row-comp" data-index="{{ TP_decision.index }}" data-row="compensate" data-input="selected-action-{{ TP_decision.index }}">
                         {{ for num in TP_points }}
