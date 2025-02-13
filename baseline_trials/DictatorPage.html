@@ -581,7 +581,7 @@
                  style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"
                  data-index="{{ dic_norm_decision.index }}"></div>
 
-            {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
+            {% if "3PP" in player.treatment or "3PC" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
             {% endif %}
 
@@ -682,7 +682,7 @@
             <div class="coin-count-labelR" id="countR"
                  style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
 
-            {% if "3PP" in player.treatment or player.treatment in C.COUNTRY_LIST %}
+            {% if "3PP" in player.treatment or "3PC" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                 <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
             {% endif %}
 

@@ -86,7 +86,7 @@
                 }
 
                 for (let i = 0; i < DesRupdate; i++) {
-                    $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:-1%;"></div>');
+                    $(`.coinstackDDes[data-index="${index}"]`).append('<div class="coin_destroyed" style="left:5%;"></div>');
                 }
             }
 
@@ -739,9 +739,9 @@
     font-size: 1.2rem;
     color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
-    left: 9%; /* Center horizontally */
+    left: -4%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
-    top: 60%; /* Move up; adjust value as needed */
+    top: 56%; /* Move up; adjust value as needed */
     text-align: center; /* Align text */
 }
 
@@ -799,7 +799,7 @@
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
-    left: 113%; /* Center horizontally */
+    left: 111%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
     top: 56%; /* Move up; adjust value as needed */
     text-align: center; /* Align text */
@@ -880,18 +880,18 @@
 .coinown3PC:nth-child(11)   { top: 12.8vw; }
 .coinown3PC:nth-child(12)   { top: 12.5vw; }
 
-.coin_destroyed:nth-child(1)   { top: 16.4vw; }
-.coin_destroyed:nth-child(2)   { top: 16.1vw; }
-.coin_destroyed:nth-child(3)  { top: 15.8vw; }
-.coin_destroyed:nth-child(4)  { top: 15.5vw; }
-.coin_destroyed:nth-child(5)  { top: 15.2vw; }
-.coin_destroyed:nth-child(6)   { top: 14.9vw; }
-.coin_destroyed:nth-child(7)   { top: 14.6vw; }
-.coin_destroyed:nth-child(8)   { top: 14.3vw; }
-.coin_destroyed:nth-child(9)   { top: 14.0vw; }
-.coin_destroyed:nth-child(10)   { top: 13.7vw; }
-.coin_destroyed:nth-child(11)   { top: 13.4vw; }
-.coin_destroyed:nth-child(12)   { top: 13.1vw; }
+.coin_destroyed:nth-child(1)  { top: 15.8vw; }
+.coin_destroyed:nth-child(2)  { top: 15.5vw; }
+.coin_destroyed:nth-child(3)  { top: 15.2vw; }
+.coin_destroyed:nth-child(4)   { top: 14.9vw; }
+.coin_destroyed:nth-child(5)   { top: 14.6vw; }
+.coin_destroyed:nth-child(6)   { top: 14.3vw; }
+.coin_destroyed:nth-child(7)   { top: 14.0vw; }
+.coin_destroyed:nth-child(8)   { top: 13.7vw; }
+.coin_destroyed:nth-child(9)   { top: 13.4vw; }
+.coin_destroyed:nth-child(10)   { top: 13.1vw; }
+.coin_destroyed:nth-child(11)   { top: 12.8vw; }
+.coin_destroyed:nth-child(12)   { top: 12.5vw; }
 
 .coin_destroyed2PP:nth-child(12)  { top: -3.3vw; }
     .coin_destroyed2PP:nth-child(11)  { top: -3.0vw; }
@@ -1017,7 +1017,7 @@
 <!--                {% endif %}-->
 
 
-                {% if "3PP" in player.treatment %}
+                {% if "3PP" in player.treatment or "3PC" in player.treatment %}
                     <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
                 {% endif %}
 
@@ -1145,7 +1145,7 @@
                     <div class="coin-count-labelTP3PC" id="countTP3PC" data-index="{{ TP_decision.index }}"></div>
                 {% endif %}
 
-                {% if "3PP" in player.treatment %}
+                {% if "3PP" in player.treatment or "3PC" in player.treatment %}
                     <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
                 {% endif %}
 
