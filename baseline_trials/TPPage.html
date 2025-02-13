@@ -193,6 +193,9 @@
         $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'_map.png');
         $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'_map.png');
 
+        // Set the default display text for TP cost
+        $('#TP-cost-display').text('_');
+
 
         // only in TP_decision conditions
         if (!current_treatment.includes("norm") ) {
@@ -270,6 +273,11 @@
                 }
             });
 
+            // Formatting function to display TP cost nicely
+            function formatNumber(num) {
+                return Number.isInteger(num) ? num.toString() : num.toFixed(2);
+            }
+
             // Click function - Stores last clicked stack and updates accordingly
             $('.number').on('click', function () {
                 // Remove 'selected' class from all buttons
@@ -293,6 +301,11 @@
                 lastClickedRowType = row;
                 lastClickedIndex = index;
                 lastClickedValue = value;
+
+                costTP = formatNumber(value / 3)
+
+                // Update the display text for TP cost
+                $('#TP-cost-display').text('' + costTP );
 
                 // Update the clicked stack
                 updateCoinStack(value, index, row);
@@ -445,7 +458,7 @@
         display: flex;
         margin-top:3vw;
         /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        gap: 0.2vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
@@ -455,13 +468,13 @@
         display: flex;
         margin-top:3vw;
         /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        gap: 0.2vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
 
     .number {
-        width: 3vw; /* Width scales with viewport width */
+        width: 2.8vw; /* Width scales with viewport width */
         height: 3vw; /* Height scales with viewport width */
         display: flex;
         justify-content: center;
@@ -1186,6 +1199,10 @@
                     </div>
                     {% endif %}
                 </div>
+
+
+            <div data-index="{{ TP_decision.index }}"> <p style="font-size: 14px;"> This costs you <span id="TP-cost-display"></span> point(s).</p> </div>
+
 
             <hr>
             <br>
