@@ -269,7 +269,6 @@ class Player(BasePlayer):
     dic_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
@@ -277,7 +276,25 @@ class Player(BasePlayer):
     dic_norm_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
-        verbose_name='[Your decision]',
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+
+    punish_or_compensate1 = models.IntegerField(
+        initial=3,
+        choices=[[0, f'punish'], [1, f'compensate'],],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    punish_or_compensate2 = models.IntegerField(
+        initial=3,
+        choices=[[0, f'punish'], [1, f'compensate'], ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    punish_or_compensate3 = models.IntegerField(
+        initial=3,
+        choices=[[0, f'punish'], [1, f'compensate'], ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
@@ -285,21 +302,18 @@ class Player(BasePlayer):
     TP_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision2 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision3 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
@@ -309,14 +323,12 @@ class Player(BasePlayer):
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     universal_norm_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(len(C.COUNTRY_LIST) + 1)],
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
@@ -325,7 +337,6 @@ class Player(BasePlayer):
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
-        verbose_name='[Your decision]',
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
@@ -445,7 +456,12 @@ class TPPage(Page):
         if "norm" in player.treatment:
             return ['TP_norm_decision1']
         else:
-            return ['TP_decision1', 'TP_decision2', 'TP_decision3']
+            if "comp" in player.treatment:
+                return ['TP_decision1', 'TP_decision2', 'TP_decision3',
+                        'punish_or_compensate1', 'punish_or_compensate2', 'punish_or_compensate3']
+            else:
+                return ['TP_decision1', 'TP_decision2', 'TP_decision3']
+
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -493,13 +509,6 @@ class TPPage(Page):
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_half
-
-        ## forced compensation attempt (can delete if not using)
-        # if "3PC" in player.treatment:
-        #     #TP_points = range(int(-C.TP_points), int(C.TP_points) + 1)
-        #     TP_points = chain(range(int(-C.TP_points), 0), range(1, int(C.TP_points) + 1))  # without 0
-        # else:
-        #     TP_points = range(0, int(C.TP_points) + 1),
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -549,18 +558,21 @@ class TPPage(Page):
                     TP_decision=player.TP_decision1,
                     dictator_keeps=dictator_keeps_1,
                     receiver=C.total_endowment - dictator_keeps_1,
+                    **({"pun_or_comp": player.punish_or_compensate1} if "comp" in player.treatment else {}),
                 ),
                 dict(
                     index=2,
                     TP_decision=player.TP_decision2,
                     dictator_keeps=dictator_keeps_2,
                     receiver=C.total_endowment - dictator_keeps_2,
+                    **({"pun_or_comp": player.punish_or_compensate2} if "comp" in player.treatment else {}),
                 ),
                 dict(
                     index=3,
                     TP_decision=player.TP_decision3,
                     dictator_keeps=dictator_keeps_3,
                     receiver=C.total_endowment - dictator_keeps_3,
+                    **({"pun_or_comp": player.punish_or_compensate3} if "comp" in player.treatment else {}),
                 ),
             ],
             TP_norm_decisions=[
