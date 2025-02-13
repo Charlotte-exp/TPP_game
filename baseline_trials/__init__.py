@@ -43,6 +43,7 @@ class C(BaseConstants):
     dictator_keeps_half = int(total_endowment * (1 / 2))  # half (for rewarding
     TP_points = total_endowment # points available for punishment/rewarding
     TP_effectiveness = 1  # multiplier (currently not using a multiplier anymore so set to 1)
+    TP_cost = 3 # fraction of a full point the third party pays to punish/reward/compensate (here a third)
     norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
 
     ### Treatments ###
