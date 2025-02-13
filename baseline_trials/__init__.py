@@ -374,6 +374,7 @@ class instructionPage(Page):
         image = image.replace(" norm", "")
         image = image.replace("universal norm", "0DG give")
         image = image.replace("2PP", "2PP_2")
+        image = image.replace("3PR reward", "3PP punish")
         random_trial_numbers = random.choices(range(7), k=5) # Randomize numbers that are displayed in trial rounds
         random_trial_numbers_diff = [12-value for value in random_trial_numbers]
 
