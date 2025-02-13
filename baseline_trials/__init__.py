@@ -14,7 +14,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 42 #14
+    NUM_ROUNDS = 53
 
     import csv
 
@@ -47,7 +47,7 @@ class C(BaseConstants):
 
     ### Treatments ###
 
-    ## 1) Baseline
+    ## 1) Baseline (13 trials)
     trials_DG = ['0DG give', '0DG give norm']
     trials_3PP_DIC = ['3PP give']
     trials_3PP_TP = ['3PP punish', '3PP punish norm']
@@ -58,7 +58,7 @@ class C(BaseConstants):
     trials_3PC_DIC = ['3PC give']
     trials_3PC_TP = ['3PC comp']
 
-    ## 2) Ingroup - outgroup
+    ## 2) Ingroup - outgroup (14 trials)
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
                         '3PP punish OUT OUT',
@@ -71,13 +71,13 @@ class C(BaseConstants):
     trials_3PC_INOUT_TP = ['3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
                         '3PC comp OUT OUT']
 
-    ## 3) Country - partner
+    ## 3) Country - partner (26 trials: 5 * 5 + 1 universal norm)
     # Define number of trials for each trial type
-    number_trials_partner_dic_out = 2 # dictator role
-    number_trials_partner_in_out = 3
-    number_trials_partner_out_in = 3
-    number_trials_partner_out_out_homog = 3
-    number_trials_partner_out_out_heterog = 3
+    number_trials_partner_dic_out = 5 # dictator role
+    number_trials_partner_in_out = 5
+    number_trials_partner_out_in = 5
+    number_trials_partner_out_out_homog = 5
+    number_trials_partner_out_out_heterog = 5
 
 
 class Subsession(BaseSubsession):
@@ -196,7 +196,7 @@ def creating_session(subsession):
 
             # b) Punisher role
 
-            trials_partner_in_in_current = [(C.CURRENT_COUNTRY, C.CURRENT_COUNTRY)]
+            #trials_partner_in_in_current = [(C.CURRENT_COUNTRY, C.CURRENT_COUNTRY)] # redundant, already in INOUT
             trials_partner_in_out_current, trials_partner_in_out_editable = sample_trials_partner(trials_partner_in_out_editable, C.number_trials_partner_in_out, "trials_partner_in_out")
             trials_partner_out_in_current, trials_partner_out_in_editable = sample_trials_partner(trials_partner_out_in_editable, C.number_trials_partner_out_in, "trials_partner_out_in")
             trials_partner_out_out_homog_current, trials_partner_out_out_homog_editable = sample_trials_partner(trials_partner_out_out_homog_editable, C.number_trials_partner_out_out_homog, "trials_partner_out_out_homog")
@@ -204,7 +204,7 @@ def creating_session(subsession):
 
             # c) Merge and randomize order of trials within punisher role
 
-            trials_partner_TP_current = trials_partner_in_in_current + trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
+            trials_partner_TP_current = trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
 
             # Add 3PP treatment identifier for referring to treatment and flatten list (tuples produce errors)
             trials_partner_TP_current = [
