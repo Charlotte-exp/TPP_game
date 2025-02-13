@@ -541,7 +541,7 @@ class TPPage(Page):
 
         #print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
-        return dict(
+        result = dict(
             TP_decisions=[
                 dict(
                     index=1,
@@ -562,7 +562,7 @@ class TPPage(Page):
                     receiver=C.total_endowment - dictator_keeps_3,
                 ),
             ],
-            TP_norm_decisions=[ # keep the dict for now in case we decide we need more than 1
+            TP_norm_decisions=[
                 dict(
                     index=1,
                     TP_norm_decision=player.TP_norm_decision1,
@@ -571,7 +571,6 @@ class TPPage(Page):
                 ),
             ],
             TP_points=range(0, int(C.TP_points) + 1),
-            #TP_points=TP_points, ## for forced compensation
             treatment=player.treatment,
             dic_identity=dic_identity,
             recip_identity=recip_identity,
@@ -580,12 +579,16 @@ class TPPage(Page):
             treatment_text_action=text_action,
             treatment_text_action_person=text_action_person,
             treatment_text_receiver=text_receiver,
-            treatment_text_action_comp=text_action_comp,
-            treatment_text_action_person_comp=text_action_person_comp,
-            treatment_text_receiver_comp=text_receiver_comp,
             image=image,
-            role_switch_true = player.role_switch_true,
-            )
+            role_switch_true=player.role_switch_true,
+        )
+        # Conditionally add the extra variable
+        if "comp" in player.treatment:
+            result["treatment_text_action_comp"] = text_action_comp
+            result["treatment_text_action_person_comp"] = text_action_person_comp
+            result["treatment_text_receiver_comp"] = text_receiver_comp
+
+        return result
 
     def before_next_page(player: Player, timeout_happened):
         player.payoff = C.TP_points - player.TP_decision1
