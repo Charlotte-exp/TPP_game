@@ -1050,11 +1050,13 @@
         <p><strong>Person A</strong> receives 12 points.<br>
         <strong>Person B</strong> receives 0 points.</p>
 
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep. Person B does not make a decision.</p>
+        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep for themselves. Person B does not make a decision.</p>
 
         <hr>
 
-        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. You will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>
+        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. </p>
+
+        <p>Now, you will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>
 
         <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
@@ -1100,7 +1102,7 @@
 
         <hr>
 
-        <p>You will also make a decision about the social acceptability of Person A’s decisions. You will be shown different possible decisions of Person A. Then you decide how socially acceptable this decision is, among the following options:</p>
+        <p>You will also make a decision about the <b> social acceptability</b> of Person A’s decisions. You will be shown different possible decisions of Person A. Then you decide how socially acceptable this decision is, among the following options:</p>
 
         <ul>
             <li>Very socially <strong>un</strong>acceptable</li>
@@ -1111,9 +1113,9 @@
             <li>Very socially acceptable</li>
         </ul>
 
-        <p>Importantly, you will receive 12 additional points if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>
+        <p>Importantly, you will receive <b>12 additional points</b> if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>
 
-        <p> In this practice exercise, we would like you to decide how <b style="color: red;">socially acceptable</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>
+        <p> In this practice exercise, you will decide <b style="color: red;">how socially acceptable</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>
 
         <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
@@ -1164,9 +1166,9 @@
 
         <p>The decisions you just made are called <strong>Stage 1</strong>.</p>
 
-        <p>In all following decisions, there are <strong>two stages</strong>. You will see different variations of the same situation, which will all have two stages.</p>
+        <p>In all following decisions, there are <strong>two stages</strong>. </p>
 
-        <p><strong>Stage 1</strong> always looks like the decision you just made:</p>
+        <p>You will see different variations of <strong>Stage 2</strong>, but <strong>Stage 1</strong> will always look like the decision you just made:</p>
 
         <div class="container short-container">
 
@@ -1193,11 +1195,11 @@
 
         <hr>
 
-        <p>After Person A makes a decision, <strong>Stage 2</strong> begins.</p>
+        <p> <b>After</b> Person A makes a decision, <strong>Stage 2</strong> begins.</p>
 
         {{ if treatment_type == '2PP' }}
 
-            <p>In Stage 2, Person B will be able to make a decision:
+            <p>In <b>Stage 2</b>, Person B will be able to make a decision:
             <strong>Person B</strong> will decide whether to change the points of Person A.
             The possible choices of Person B will be explained below.</p>
 
@@ -1223,7 +1225,7 @@
 
         {{ else }}
 
-            <p>In Stage 2, you will be joined by a <strong>third person: Person C.
+            <p>In <b>Stage 2</b>, you will be joined by a <strong>third person: Person C.
             Person C</strong> will decide whether to change the points of Person A or Person B.
             The possible choices of Person C will be explained below.</p>
 
@@ -1265,11 +1267,15 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1).</p>
 
-        <p>In Stage 2, <strong>Person B</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. For every <strong>1 point</strong> Person B uses, <strong>3 points</strong> will be removed from Person A.</p>
+        <p>In Stage 2, <strong>Person B</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 
         <hr>
 
-        <p>In this practice exercise, you are Person B, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you. Now you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+        <p>In this practice exercise, you are <b>Person B</b>, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you.</p>
+
+        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. Removing <b>3 points</b> from Person A will cost you <b>1 point</b> (cost of removing 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+
+    <br>
 
 
     <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
@@ -1382,13 +1388,13 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. For every <strong>1 point</strong> Person C uses, Person A will lose <strong>3 points</strong>.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 
         <hr>
 
         <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>
 
-        <p>Now, you decide how many points to remove from Person A. For every 1 point you use, Person A will lose 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. Removing <b>3 points</b> from Person A will cost you <b>1 point</b> (cost of removing 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
 
         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
 
@@ -1504,13 +1510,13 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. Person C receives 4 points and can use these points to give points to Person A. For every <strong>1 point</strong> Person C uses, Person A will receive <strong>3 points</strong>.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. Person C receives 4 points and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = ⅓ points).</p>
 
         <hr>
 
         <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.3}} </strong> point(s) and gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. </p>
 
-        <p>Now, you decide how many points to give to Person A. For every 1 point you use, Person A will receive 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
+        <p>Now, you decide how many points to <b style="color: red;">give</b> to Person A. Giving <b>3 points</b> to Person A will cost you <b>1 point</b> (cost of giving 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
 
          <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
 
@@ -1631,13 +1637,13 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A OR give points to Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. For every <strong>1 point</strong> Person C uses, Person A will lose <strong>3 points</strong> OR Person B will receive <strong>3 points</strong>.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A OR give points to Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
 
         <hr>
 
         <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.4}} </strong> point(s) and gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. </p>
 
-        <p>Now, you decide how many points to remove from Person A OR give to Person B. For every 1 point you use, Person A will lose 3 points OR Person B will receive 3 points. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
+        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A OR <b style="color: red;">give</b> to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost you <b>1 point</b> (cost of removing/giving 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
 
         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
 
@@ -1772,7 +1778,7 @@
     {{ if block2 == True and treatment_type == '3PP' }}
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. For every <strong>1 point</strong> Person C uses, <strong>3 points</strong> will be removed from Person A.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 
     {{ endif }}
 
@@ -1780,7 +1786,7 @@
     {{ if block2 == True and treatment_type == '3PC' }}
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. For every <strong>1 point</strong> Person C uses, Person A will lose <strong>3 points</strong> OR Person B will receive <strong>3 points</strong>.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
 
     {{ endif }}
 
@@ -1829,7 +1835,7 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. For every <strong>1 point</strong> Person C uses, <strong>3 points</strong> will be removed from Person A.</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 
 
     {{ endif }}

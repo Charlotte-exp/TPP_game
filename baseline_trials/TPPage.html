@@ -954,14 +954,6 @@
 
         {% endif %}
 
-        {% if role_switch_true == True %}
-
-        <p style="text-align: center;">
-            <b style="color: red;">ROLE SWITCH! You are now Person C!</b>
-        </p>
-
-        {% endif %}
-
 
         {% if "norm" in player.treatment %}
 
@@ -1050,13 +1042,7 @@
                 {% if "2PP" in player.treatment %}
                     <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 46%;">
                     <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 28%;">
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:101%;">YOU</b>
-                    </p>
-                {% else %}
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:46%;">YOU</b>
-                    </p>
+
                 {% endif %}
 
             </div>
@@ -1068,7 +1054,7 @@
             <p style="font-size: 14px;"> Person A gave <strong> {{TP_norm_decision.receiver}} </strong> point(s) to Person B and kept <strong> {{TP_norm_decision.dictator_keeps}} </strong> point(s) for themselves. </p>
 
                 <p> <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
-                    <b style="color: red;">{{ treatment_text_action }} {{ C.norm_fixed_TP_points }} points </b>
+                    <b style="color: red;">{{ treatment_text_action }} points </b>
                      {{ treatment_text_receiver }}?</strong>
                 </p>
 
@@ -1088,6 +1074,29 @@
         {% endfor %}
 
         {% else %}
+
+        {% if role_switch_true == True %}
+
+            {% if "2PP" in player.treatment %}
+
+            <p style="text-align: center; ">
+                <b style="color: red;">Role switch! You are now Person B!</b>
+
+                <br>
+                <br>
+                <br>
+
+            </p>
+
+            {% else %}
+
+            <p style="text-align: center;">
+                <b style="color: red;">Role switch! You are now Person C!</b>
+            </p>
+
+            {% endif %}
+
+        {% endif %}
 
         {% for TP_decision in TP_decisions %}
         <div class='responsive-div'>

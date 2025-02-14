@@ -537,14 +537,6 @@
 
     {% endif %}
 
-    {% if role_switch_true == True %}
-
-        <p style="text-align: center; top: -5%; ">
-            <b style="color: red;">ROLE SWITCH! You are now Person A!</b>
-        </p>
-
-    {% endif %}
-
 
     {% if "norm" in player.treatment %}
         {% for dic_norm_decision in dic_norm_decisions %}
@@ -630,6 +622,15 @@
         {% endfor %}
 
     {% else %}
+
+            {% if role_switch_true == True %}
+
+                <p style="text-align: center; ">
+                    <b style="color: red;">Role switch! You are now Person A!</b>
+                </p>
+                <br>
+
+            {% endif %}
 
         <div class='responsive-div'>
 
