@@ -271,7 +271,7 @@ class Player(BasePlayer):
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        # error_messages={'required': 'You must select an option before continuing.'}, #does not display
     )
 
     dic_norm_decision1 = models.IntegerField(
