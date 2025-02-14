@@ -762,6 +762,12 @@ class UniversalNormPage(Page):
 class Results(Page):
     pass
 
+class ThanksPage(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+
 
 
 page_sequence = [Consent,
@@ -769,5 +775,6 @@ page_sequence = [Consent,
                  instructionPage,
                  UniversalNormPage,
                  DictatorPage,
-                 TPPage
+                 TPPage,
+                 ThanksPage
                  ]
