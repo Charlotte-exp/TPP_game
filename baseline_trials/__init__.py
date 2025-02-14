@@ -327,6 +327,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
+    TP_neg_norm_decision1 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+
     universal_norm_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(len(C.COUNTRY_LIST) + 1)],
@@ -455,7 +464,10 @@ class TPPage(Page):
 
     def get_form_fields(player: Player):
         if "norm" in player.treatment:
-            return ['TP_norm_decision1']
+            if "punish" or "reward" in player.treatment:
+                return ['TP_norm_decision1', 'TP_neg_norm_decision1']
+            else:
+                return ['TP_norm_decision1']
         else:
             if "comp" in player.treatment:
                 return ['TP_decision1', 'TP_decision2', 'TP_decision3',
@@ -580,6 +592,8 @@ class TPPage(Page):
                 dict(
                     index=1,
                     TP_norm_decision=player.TP_norm_decision1,
+                    #TP_neg_norm_decision=player.TP_neg_norm_decision1,
+                    **({"TP_neg_norm_decision": player.TP_neg_norm_decision1} if "reward" or "punish" in player.treatment else {}),
                     dictator_keeps=dictator_keeps_1,
                     receiver=C.total_endowment - dictator_keeps_1,
                 ),

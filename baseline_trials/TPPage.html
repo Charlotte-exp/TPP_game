@@ -17,6 +17,7 @@
 
     //let TP_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
     let TP_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    let TP_neg_norm_decisions_stored = [0, 0, 0, 0];
 
     var current_treatment = "{{ treatment }}";
     //console.log("Current treatment:", current_treatment );
@@ -268,7 +269,7 @@
                 }
 
                 // Only deactivate numbers in the "punish" row for specific treatments (including "3PC comp")
-                if (current_treatment.includes("punish") || current_treatment == "3PC comp" || current_treatment.includes("3PP country")) {
+                if (current_treatment.includes("punish") || current_treatment.includes("3PC comp") || current_treatment.includes("3PP country")) {
                     // Ensure we only disable punishment numbers for the "punish" row
                     deactivateNumbers(numbersToDisable, TP_decision.index, "punish");
                 }
@@ -400,7 +401,7 @@
 
             });
 
-            // Collect responses
+            // Collect responses for each separate question
             $('.norm').on('click', function () {
                 // Remove 'selected' class from all buttons
                 $(this).closest('.number-row').find('.norm').removeClass('selected');
@@ -418,13 +419,31 @@
                 // Update the hidden input field
                 $(`#selected-norm-${index}`).val(value);
 
-                // No need to update coinstacks with norms...
-                updateCoinStack(value, index);
+                // Debugging
+                //console.log(`Updated norm decision at index ${index}: ${value}`);
+                //console.log(`Norm values: ${TP_norm_decisions_stored}`);
+            });
+
+            $('.neg-norm').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $(this).closest('.number-row').find('.neg-norm').removeClass('selected');
+
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
+
+                // Get the value of the clicked button
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the corresponding punishment value in the array
+                TP_neg_norm_decisions_stored[index - 1] = value;
+
+                // Update the hidden input field
+                $(`#selected-neg-norm-${index}`).val(value);
 
                 // Debugging
                 //console.log(`Updated norm decision at index ${index}: ${value}`);
-                //console.log('TP norm Decisions:', TP_norm_decisions);
-                //console.log(`Norm values: ${TP_norm_decisions_stored}`);
+                //console.log(`neg Norm values: ${TP_neg_norm_decisions_stored}`);
             });
         }
 
@@ -459,7 +478,7 @@
     .number-row {
         justify-content: center;
         display: flex;
-        margin-top:3vw;
+        margin-top:1vw;
         /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
@@ -469,7 +488,7 @@
     .number-row-comp {
         justify-content: center;
         display: flex;
-        margin-top:3vw;
+        margin-top:1vw;
         /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
@@ -508,7 +527,7 @@
         transition: background-color 0.3s ease;
     }
 
-    .comp-choices {
+    .neg-norm {
         width: 6vw; /* Width scales with viewport width */
         height: 5vw; /* Height scales with viewport width */
         flex-direction: column;
@@ -558,6 +577,26 @@
     }
 
     .norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .neg-norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .neg-norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .neg-norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .neg-norm.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
         border: 2px solid #d3d3d3;
         color:#d3d3d3;
@@ -926,8 +965,14 @@
         {% if "norm" in player.treatment %}
 
         <input type="hidden" name="TP_norm_decision1" id="selected-norm-1">
-
         {{ formfield_errors 'TP_norm_decision1' }}
+
+            {% if "punish" in player.treatment or "reward" in player.treatment %}
+
+            <input type="hidden" name="TP_neg_norm_decision1" id="selected-neg-norm-1">
+            {{ formfield_errors 'TP_neg_norm_decision1' }}
+
+            {% endif %}
 
         {% else %}
 
@@ -935,7 +980,6 @@
         <input type="hidden" name="TP_decision1" id="selected-number-1">
         <input type="hidden" name="TP_decision2" id="selected-number-2">
         <input type="hidden" name="TP_decision3" id="selected-number-3">
-
         {{ formfield_errors 'TP_decision1' }}
         {{ formfield_errors 'TP_decision2' }}
         {{ formfield_errors 'TP_decision3' }}
@@ -945,7 +989,6 @@
             <input type="hidden" name="punish_or_compensate1" id="selected-action-1">
             <input type="hidden" name="punish_or_compensate2" id="selected-action-2">
             <input type="hidden" name="punish_or_compensate3" id="selected-action-3">
-
             {{ formfield_errors 'punish_or_compensate1' }}
             {{ formfield_errors 'punish_or_compensate2' }}
             {{ formfield_errors 'punish_or_compensate3' }}
@@ -1048,15 +1091,20 @@
             </div>
 
             {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment%}
-                <p style="font-size: 14px;"> Person A lives in {{ dic_identity_country }} and Person B lives in {{ recip_identity_country }}. </p>
+                <p style="font-size: 14px;">
+                    Person A lives in {{ dic_identity_country }} and Person B lives in {{ recip_identity_country }}.
+                </p>
             {% endif %}
 
-            <p style="font-size: 14px;"> Person A gave <strong> {{TP_norm_decision.receiver}} </strong> point(s) to Person B and kept <strong> {{TP_norm_decision.dictator_keeps}} </strong> point(s) for themselves. </p>
+            <p style="font-size: 14px;">
+                Person A gave <strong> {{TP_norm_decision.receiver}} </strong> point(s) to Person B
+                and kept <strong> {{TP_norm_decision.dictator_keeps}} </strong> point(s) for themselves.
+            </p>
 
-                <p> <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
-                    <b style="color: red;">{{ treatment_text_action }} points </b>
-                     {{ treatment_text_receiver }}?</strong>
-                </p>
+            <p>
+                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
+                <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
+            </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
@@ -1068,10 +1116,30 @@
                     <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
                 </div>
             </div>
+
+            {% if "punish" in player.treatment or "reward" in player.treatment %}
+            <br>
+            <p>
+                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to <u>not</u>
+                <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
+            </p>
+
+            <div class='numbers'>
+                <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-neg-norm-{{ TP_norm_decision.index }}">
+                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>unacceptable</div>
+                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>unacceptable</div>
+                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>unacceptable</div>
+                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>acceptable</div>
+                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>acceptable</div>
+                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
+                </div>
+            </div>
+            {% endif %}
         <hr>
         <br>
         </div>
         {% endfor %}
+
 
         {% else %}
 
@@ -1213,6 +1281,7 @@
                         {{ endfor }}
                     </div>
                     {% if "3PC" in player.treatment%}
+                    <br>
                     <div>
                         <b>OR</b>
                     </div>
