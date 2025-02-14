@@ -979,7 +979,7 @@
             {% if "punish" in player.treatment or "reward" in player.treatment %}
 
             <input type="hidden" name="TP_neg_norm_decision1" id="selected-neg-norm-1">
-            {{ formfield_errors 'TP_neg_norm_decision1' }}
+<!--            {{ formfield_errors 'TP_neg_norm_decision1' }}-->
 
             {% endif %}
 
@@ -999,9 +999,9 @@
             <input type="hidden" name="punish_or_compensate1" id="selected-action-1">
             <input type="hidden" name="punish_or_compensate2" id="selected-action-2">
             <input type="hidden" name="punish_or_compensate3" id="selected-action-3">
-            {{ formfield_errors 'punish_or_compensate1' }}
-            {{ formfield_errors 'punish_or_compensate2' }}
-            {{ formfield_errors 'punish_or_compensate3' }}
+<!--            {{ formfield_errors 'punish_or_compensate1' }}-->
+<!--            {{ formfield_errors 'punish_or_compensate2' }}-->
+<!--            {{ formfield_errors 'punish_or_compensate3' }}-->
 
             {% endif %}
 
@@ -1124,8 +1124,8 @@
             {% if "punish" in player.treatment or "reward" in player.treatment %}
             <br>
             <p>
-                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to <u>not</u>
-                <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
+                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
+                <b style="color: red;"> <u>not</u> {{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
             </p>
 
             <div class='numbers'>
@@ -1281,7 +1281,6 @@
                     {% if "3PC" in player.treatment%}
                     <br>
                     <div>
-                        <br>
                         <b>OR</b>
                     </div>
                     <br>
