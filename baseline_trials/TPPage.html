@@ -35,6 +35,13 @@
     let lastClickedIndex = null;
     let lastClickedValue = 0;
 
+    /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = 'Please make a decision to continue.'
+    }
+
 
 /////////// All the functions (for TP_decisions) related to hovering and coinstacks/labels updating
 /////////// had to be moved out of the large parent function.
@@ -927,7 +934,7 @@
 
         <input type="hidden" name="TP_norm_decision1" id="selected-norm-1">
 
-        {{ formfield_errors 'TP_norm_decision1' }}
+<!--        {{ formfield_errors 'TP_norm_decision1' }}-->
 
         {% else %}
 
@@ -936,9 +943,9 @@
         <input type="hidden" name="TP_decision2" id="selected-number-2">
         <input type="hidden" name="TP_decision3" id="selected-number-3">
 
-        {{ formfield_errors 'TP_decision1' }}
-        {{ formfield_errors 'TP_decision2' }}
-        {{ formfield_errors 'TP_decision3' }}
+<!--        {{ formfield_errors 'TP_decision1' }}-->
+<!--        {{ formfield_errors 'TP_decision2' }}-->
+<!--        {{ formfield_errors 'TP_decision3' }}-->
 
             {% if "comp" in player.treatment %}
 
@@ -1214,6 +1221,7 @@
                     </div>
                     {% if "3PC" in player.treatment%}
                     <div>
+                        <br>
                         <b>OR</b>
                     </div>
                     <br>
