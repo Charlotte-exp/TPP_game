@@ -42,6 +42,7 @@
             let dictator_recipient_TPeffectUpdate = count * TP_eff;
 
             let Dupdate = coins_diff - (count * TP_eff); // Assuming TP_decision.dictator_keeps = TP_points
+            Cupdate = count* TP_eff // compensation updating
 
             console.log('updateCoinStackTP TPupdate dictator_recipient_TPeffectUpdate Dupdate', TPupdate, dictator_recipient_TPeffectUpdate, Dupdate)
 
@@ -88,7 +89,7 @@
             }
 
             if (row !== "punish") {
-                for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
+                for (let i = 0; i < Cupdate; i++) {
                     $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:90%;"></div>');
                 }
             }
@@ -109,7 +110,7 @@
 
             }
             if (row !== "punish") {
-                $('#countTP3PC').text(`${dictator_recipient_TPeffectUpdate}`);
+                $('#countTP3PC').text(`${Cupdate}`);
             }
 
         }
@@ -1273,7 +1274,7 @@
 
         <p>In this practice exercise, you are <b>Person B</b>, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you.</p>
 
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. Removing <b>3 points</b> from Person A will cost you <b>1 point</b> (cost of removing 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
 
     <br>
 
@@ -1394,7 +1395,7 @@
 
         <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>
 
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. Removing <b>3 points</b> from Person A will cost you <b>1 point</b> (cost of removing 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
+        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
 
         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
 
@@ -1516,7 +1517,7 @@
 
         <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.3}} </strong> point(s) and gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. </p>
 
-        <p>Now, you decide how many points to <b style="color: red;">give</b> to Person A. Giving <b>3 points</b> to Person A will cost you <b>1 point</b> (cost of giving 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
+        <p>Now, you decide how many points to <b style="color: red;">give</b> to Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
 
          <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
 
@@ -1643,7 +1644,7 @@
 
         <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.4}} </strong> point(s) and gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. </p>
 
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A OR <b style="color: red;">give</b> to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost you <b>1 point</b> (cost of removing/giving 1 point = ⅓ points). To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
+        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A OR <b style="color: red;">give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
 
         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
 
@@ -1739,10 +1740,10 @@
         <div class="container">
 
 
-            <img src="" style='width:50%; position:absolute; right:17.5vw' class='dictatorCountry'>
+            <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
             <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
 
-            <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
+            <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
             <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
 
@@ -1777,7 +1778,7 @@
 
     {{ if block2 == True and treatment_type == '3PP' }}
 
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
         <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 
     {{ endif }}
@@ -1785,7 +1786,7 @@
 
     {{ if block2 == True and treatment_type == '3PC' }}
 
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
         <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
 
     {{ endif }}
@@ -1794,6 +1795,8 @@
     {{ if block3 == True }}
 
         <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know <strong>in which specific country</strong> both of the other participants live.</p>
+
+        <p>Here is an example:</p>
 
         <div class="container">
 
@@ -1825,7 +1828,7 @@
 
         </div>
 
-        <p>In this example, you are Person C, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
+        <p>In this example, you are <b>Person C</b>, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
 
         <p> As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
 
@@ -1833,7 +1836,7 @@
 
         <hr>
 
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
+        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
         <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 

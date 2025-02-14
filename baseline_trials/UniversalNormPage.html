@@ -465,9 +465,13 @@
 
             <hr>
 
-            <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}. </p>
+            <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }} for themselves. </p>
 
-            <p> <strong> Out of the 40 countries participating in this study, in how many countries do <b style="color: red;">most people also believe</b> that it is <b style="color: red;">{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }}? </strong> </p>
+            <p> <strong> Out of the 40 countries participating in this study, in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong></p>
+
+            <p style="font-size: 14px;"> As before, you will receive <b>12 additional points</b> if you select the correct number of countries
+                where most people also consider it <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B.
+                To make a decision, click on a number. </p>
 
 
             <div class='numbers'>
@@ -480,7 +484,7 @@
 
         <br>
 
-        <p style="font-size: 14px;" > You believe that in <span id="selected-number-display"> </span> out of 40 countries, most people also believe that it is {{recorded_norm}} to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
+        <p style="font-size: 14px;" > You believe that in <b> <span id="selected-number-display"> </span> out of 40 countries</b>, most people also believe that it is <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
 
 
 
@@ -501,7 +505,7 @@
         <div class='responsive-div'>
 
 
-            <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b></strong>?  </p>
+            <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b>  to give 0 points to Person B? </strong>  </p>
 
             <div class='numbers'>
                 <div class="number-row" data-input="selected-number-2">
