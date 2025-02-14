@@ -112,7 +112,7 @@ def creating_session(subsession):
 
     # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
     country_list_no_current_editable = country_list_no_current.copy()
-    country_list_no_current_editable = [item + " 3PP DIC country" for item in country_list_no_current_editable]
+    country_list_no_current_editable = [item + " 3PP give country" for item in country_list_no_current_editable]
     trials_partner_in_out_editable = trials_partner_in_out.copy()
     trials_partner_out_in_editable = trials_partner_out_in.copy()
     trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
@@ -626,7 +626,7 @@ class DictatorPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return ("give" in player.treatment or "3PP DIC country" in player.treatment) #and "norm" not in player.treatment
+        return ("give" in player.treatment or "3PP give country" in player.treatment) #and "norm" not in player.treatment
 
     form_model = 'player'
 
@@ -684,9 +684,9 @@ class DictatorPage(Page):
             dic_identity_country = "baseline"
 
         # For partner country trials, extract countries of recipient (dictator is participant from current country
-        if "3PP DIC country" in player.treatment:
+        if "3PP give country" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
-            recip_identity = player.treatment.replace(" 3PP DIC country", "")
+            recip_identity = player.treatment.replace(" 3PP give country", "")
             dic_identity_country = C.CURRENT_COUNTRYNAME
             recip_identity_country = C.COUNTRIES.get(recip_identity)
             image = 'global/treatments/3PP give.png'
