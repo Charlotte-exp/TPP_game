@@ -44,7 +44,7 @@
             let Dupdate = coins_diff - (count * TP_eff); // Assuming TP_decision.dictator_keeps = TP_points
             Cupdate = count* TP_eff // compensation updating
 
-            console.log('updateCoinStackTP TPupdate dictator_recipient_TPeffectUpdate Dupdate', TPupdate, dictator_recipient_TPeffectUpdate, Dupdate)
+            console.log('updateCoinStackTP  Dupdate', Dupdate)
 
 
             if (Dupdate < 0 && (current_treatment.includes("punish") || current_treatment.includes("3PP country") || current_treatment.includes("comp"))) {
@@ -52,7 +52,7 @@
                 Dupdate = 0;
             }
 
-            if (current_treatment.includes("reward")) {
+            if (current_treatment.includes("3PR")) {
                 Dupdate = coins_diff; // Leave dictator coins unchanged in 3PR
             }
 
@@ -78,6 +78,8 @@
                     $('.coinstackDDes').append('<div class="coin_destroyed" style="left:5%;"></div>');
                 }
             }
+
+            console.log('Dupdate', Dupdate)
 
             // Update other stacks for subconditions: 2PP, 2PR, 3PC
             for (let i = 0; i < TPupdate; i++) {
