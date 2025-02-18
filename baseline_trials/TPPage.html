@@ -184,7 +184,7 @@
         receiverCountry = "{{ recip_identity }}"
         dictatorCountry = "{{ dic_identity }}"
 
-        role_switch_true = "{{ role_switch_true }}"
+        // role_switch_true = "{{ role_switch_true }}"
 
         if (receiverCountry == "out") {
             receiverCountryName = "one of 40 countries"
@@ -1106,36 +1106,36 @@
             </p>
 
             <p>
-                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
+                <strong>How <b style="color: red;">socially appropriate</b> is it {{treatment_text_action_person}} to
                 <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
-                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>unacceptable</div>
-                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>unacceptable</div>
-                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>unacceptable</div>
-                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>acceptable</div>
-                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>acceptable</div>
-                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
+                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>inappropriate</div>
+                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>inappropriate</div>
+                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>inappropriate</div>
+                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>appropriate</div>
+                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>appropriate</div>
+                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>appropriate</div>
                 </div>
             </div>
 
             {% if "punish" in player.treatment or "reward" in player.treatment %}
             <br>
             <p>
-                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
+                <strong>How <b style="color: red;">socially appropriate</b> is it {{treatment_text_action_person}} to
                 <b style="color: red;"> <u>not</u> {{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-neg-norm-{{ TP_norm_decision.index }}">
-                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>unacceptable</div>
-                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>unacceptable</div>
-                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>unacceptable</div>
-                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>acceptable</div>
-                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>acceptable</div>
-                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
+                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>inappropriate</div>
+                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>inappropriate</div>
+                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>inappropriate</div>
+                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>appropriate</div>
+                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>appropriate</div>
+                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>appropriate</div>
                 </div>
             </div>
             {% endif %}
@@ -1147,28 +1147,28 @@
 
         {% else %}
 
-        {% if role_switch_true == True %}
+<!--        {% if role_switch_true == True %}-->
 
-            {% if "2PP" in player.treatment %}
+<!--            {% if "2PP" in player.treatment %}-->
 
-            <p style="text-align: center; ">
-                <b style="color: red;">Role switch! You are now Person B!</b>
+<!--            <p style="text-align: center; ">-->
+<!--                <b style="color: red;">Role switch! You are now Person B!</b>-->
 
-                <br>
-                <br>
-                <br>
+<!--                <br>-->
+<!--                <br>-->
+<!--                <br>-->
 
-            </p>
+<!--            </p>-->
 
-            {% else %}
+<!--            {% else %}-->
 
-            <p style="text-align: center;">
-                <b style="color: red;">Role switch! You are now Person C!</b>
-            </p>
+<!--            <p style="text-align: center;">-->
+<!--                <b style="color: red;">Role switch! You are now Person C!</b>-->
+<!--            </p>-->
 
-            {% endif %}
+<!--            {% endif %}-->
 
-        {% endif %}
+<!--        {% endif %}-->
 
         {% for TP_decision in TP_decisions %}
         <div class='responsive-div'>

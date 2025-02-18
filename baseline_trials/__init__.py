@@ -238,11 +238,17 @@ def creating_session(subsession):
             ]
 
 
-            ## 5) Put instruction round before trials from new treatment type
+            ## 5) Put instruction round and comprehension questions
+            # Instructions before trials from new treatment type
             participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
                                              trials_3PR_current[0], trials_3PC_current[0],
                                              trials_3PP_INOUT_current[0], trials_3PC_INOUT_current[0],
                                              participant.treatment_order[len(participant.treatment_order_baseline + participant.treatment_order_INOUT)]]
+            # Comprehension questions before first punishment trial (either 2PP or 3PP), reward and comp/punish trial
+            round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
+            participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
+            print('set instruction_round to', participant.instruction_round)
+            print('set comprehension to', participant.comprehension)
 
 
     #breakpoint()
@@ -252,6 +258,7 @@ def creating_session(subsession):
         #player.treatment = player.participant.treatment_order_INOUT[player.round_number - 1] # For testing only INOUT
         player.treatment = player.participant.treatment_order[player.round_number - 1]
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+        player.comprehension_true = player.treatment in player.participant.comprehension
         player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
 
@@ -263,6 +270,7 @@ class Player(BasePlayer):
 
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
+    comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
 
@@ -451,6 +459,38 @@ class instructionPage(Page):
             'block2': block2,
             'block3': block3,
             'current_country': current_country,
+            'treatment_type': treatment_type
+        }
+
+
+class ComprehensionQuestionPage(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        # return player.round_number == 1
+        return player.instruction_round_true and player.comprehension_true
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        image = 'global/treatments/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
+        image = image.replace("universal norm", "0DG give")
+        image = image.replace("2PP", "2PP_2")
+        image = image.replace("3PR reward", "3PP punish")
+        random_trial_numbers = random.choices(range(7), k=5) # Randomize numbers that are displayed in trial rounds
+        random_trial_numbers_diff = [12-value for value in random_trial_numbers]
+
+
+        treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
+        first_block_2PP_true = player.first_block_2PP_true
+        #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
+
+        return {
+            'treatment': player.treatment,
+            # 'treatment_text': text,
+            'image': image,
+            'random_trial_numbers': random_trial_numbers,
+            'random_trial_numbers_diff': random_trial_numbers_diff,
+            'first_block_2PP_true': first_block_2PP_true,
             'treatment_type': treatment_type
         }
 
@@ -644,6 +684,7 @@ class DictatorPage(Page):
         image = image.replace(" OUT", "")
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
+        current_country = C.CURRENT_COUNTRYNAME
 
         # 3PR trials get same image as 3PP
         if "3PR" in player.treatment:
@@ -710,6 +751,7 @@ class DictatorPage(Page):
             recip_identity_country=recip_identity_country,
             dic_decision1=player.dic_decision1,
             image=image,
+            current_country=current_country,
             treatment_text_action=text_action,
             role_switch_true = player.role_switch_true,
             )
@@ -773,8 +815,9 @@ class ThanksPage(Page):
 page_sequence = [Consent,
                  Introduction,
                  instructionPage,
-                 UniversalNormPage,
+                 ComprehensionQuestionPage,
                  DictatorPage,
                  TPPage,
+                 UniversalNormPage,
                  ThanksPage
                  ]

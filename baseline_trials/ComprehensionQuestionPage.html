@@ -192,12 +192,12 @@
 
         // Define labels of appropriateness for displaying clicked norm
         const valueToLabel = {
-            0: "very socially inappropriate",
-            1: "socially inappropriate",
-            2: "slightly socially inappropriate",
-            3: "slightly socially appropriate",
-            4: "socially appropriate",
-            5: "very socially appropriate"
+            0: "very socially unacceptable",
+            1: "socially unacceptable",
+            2: "slightly socially unacceptable",
+            3: "slightly socially acceptable",
+            4: "socially acceptable",
+            5: "very socially acceptable"
         };
 
         // Set the dictator and receiver coins for norm test rounds, depending on condition
@@ -1025,144 +1025,6 @@
 <body>
 
 <form method="post">
-
-    {{ if treatment_type == '0DG' }}
-
-        <p>In each decision situation, you will be paired with a different study participant. You will also be assigned a role for every decision (for example, Person A or Person B).</p>
-
-        <p>The decision situation will look like this:</p>
-
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
-
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static"
-                     style="top: 55%; "></div>
-
-        </div>
-
-        <p><strong>Person A</strong> receives 12 points.<br>
-        <strong>Person B</strong> receives 0 points.</p>
-
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep for themselves. Person B does not make a decision.</p>
-
-<!--        <hr>-->
-
-<!--        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. </p>-->
-
-<!--        <p>Now, you will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>-->
-
-<!--        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">-->
-
-<!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
-
-<!--                <p>-->
-<!--                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>-->
-<!--                </p>-->
-
-<!--                <p>-->
-<!--                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>-->
-<!--                </p>-->
-
-<!--                <p>-->
-<!--                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>-->
-<!--                </p>-->
-
-<!--                <span class='coinstackD' ></span>-->
-<!--                <div class="coin-count-labelD"-->
-<!--                     style="top: 55%; "></div>-->
-
-<!--                <span class='coinstackR' ></span>-->
-<!--                <div class="coin-count-labelR"-->
-<!--                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>-->
-
-<!--        </div>-->
-
-<!--        <p> <strong> How many points do you <b style="color: red;">give</b> to Person B?</strong> </p>-->
-
-<!--        <div class='numbers'>-->
-<!--           <div class="number-row">-->
-<!--                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}-->
-<!--                <div class="number" data-value="{{ num }}">{{ num }}</div>-->
-<!--                {{ endfor }}-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <br>-->
-
-<!--        <p>You have decided to give <strong> <span id="trial-dic1-display"></span> </strong> point(s) to Person B and keep <strong><span id="trial-dic2-display"></span></strong> point(s) for yourself.</p>-->
-
-<!--        <p>In this example, you were assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.</p>-->
-
-<!--        <hr>-->
-
-<!--        <p>You will also make a decision about the <b> social acceptability</b> of Person A’s decisions. You will be shown different possible decisions of Person A. Then you decide how socially appropriate this decision is, among the following options:</p>-->
-
-<!--        <ul>-->
-<!--            <li>Very socially <strong>un</strong>appropriate</li>-->
-<!--            <li>Socially <strong>un</strong>appropriate</li>-->
-<!--            <li>Slightly socially <strong>un</strong>appropriate</li>-->
-<!--            <li>Slightly socially appropriate</li>-->
-<!--            <li>Socially appropriate</li>-->
-<!--            <li>Very socially appropriate</li>-->
-<!--        </ul>-->
-
-<!--        <p>Importantly, you will receive <b>12 additional points</b> if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>-->
-
-<!--        <p> In this practice exercise, you will decide <b style="color: red;">how socially appropriate</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>-->
-
-<!--        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">-->
-
-<!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
-
-<!--                <p>-->
-<!--                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>-->
-<!--                </p>-->
-
-<!--                <p>-->
-<!--                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>-->
-<!--                </p>-->
-
-<!--                <p>-->
-<!--                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>-->
-<!--                </p>-->
-
-<!--                <span class='coinstackD-static-norm' ></span>-->
-<!--                <div class="coin-count-labelD-static-norm"-->
-<!--                     style="top: 55%; "></div>-->
-
-<!--                <span class='coinstackR-static-norm' ></span>-->
-<!--                <div class="coin-count-labelR-static-norm"-->
-<!--                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>-->
-
-<!--        </div>-->
-
-<!--        <div class='numbers'>-->
-<!--                <div class="number-row" >-->
-<!--                    <div class="norm" data-value="0" >very socially<br>inappropriate</div>-->
-<!--                    <div class="norm" data-value="1" >socially<br>inappropriate</div>-->
-<!--                    <div class="norm" data-value="2" >slightly socially<br>inappropriate</div>-->
-<!--                    <div class="norm" data-value="3" >slightly socially<br>appropriate</div>-->
-<!--                    <div class="norm" data-value="4" >socially<br>appropriate</div>-->
-<!--                    <div class="norm" data-value="5" >very socially<br>appropriate</div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        <p> <br> You have decided that Person A giving <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B is <strong> <span id="trial-norm1-display"></span> </strong>.</p>-->
-
-<!--        <p>If most other participants in {{current_country}} also choose <strong><span id="trial-norm2-display"></span></strong>, you would receive 12 points.</p>-->
-
-
-    {{ endif }}
 
 
     {{ if player.round_number == 3 }}
