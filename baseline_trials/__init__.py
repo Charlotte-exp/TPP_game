@@ -665,6 +665,7 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
 
         image = image.replace("2PP", "2PP_2")
+        current_country = C.CURRENT_COUNTRYNAME
 
         #print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
@@ -713,6 +714,7 @@ class TPPage(Page):
             treatment_text_action_person2=text_action_person2,
             treatment_text_receiver=text_receiver,
             image=image,
+            current_country=current_country,
             role_switch_true=player.role_switch_true,
         )
         # Conditionally add the extra variable
