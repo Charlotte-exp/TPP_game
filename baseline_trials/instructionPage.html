@@ -234,7 +234,7 @@
 
         // dictator stack static (for static display of role labels)
         for (let i = 0; i < total_endowment; i++) {
-            $(`.coinstackD-static`).append('<div class="coin" style="left:14%;"></div>');
+            $(`.coinstackD-static`).append('<div class="coin" style="left:14%; "></div>');
         }
         // dictator stack
         for (let i = 0; i < total_endowment; i++) {
@@ -624,11 +624,22 @@
 
     .short-container {
         width:45%;
-        height:15vw;  # shorter for dictator
+        height:8.5vw;  # shorter for dictator
         margin-left:auto;
         margin-right:auto;
+        margin-top:1.5vw;
         border:0px solid black;
         position:relative;
+    }
+
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
     }
 
     @media (max-width: 1200px) {
@@ -914,18 +925,18 @@
 }
 
 
-    .coin:nth-child(12)  { top: 6.0vw; }
-    .coin:nth-child(11)  { top: 6.3vw; }
-    .coin:nth-child(10)  { top: 6.6vw; }
-    .coin:nth-child(9)   { top: 6.9vw; }
-    .coin:nth-child(8)   { top: 7.2vw; }
-    .coin:nth-child(7)   { top: 7.5vw; }
-    .coin:nth-child(6)   { top: 7.8vw; }
-    .coin:nth-child(5)   { top: 8.1vw; }
-    .coin:nth-child(4)   { top: 8.4vw; }
-    .coin:nth-child(3)   { top: 8.7vw; }
-    .coin:nth-child(2)   { top: 9.0vw; }
-    .coin:nth-child(1)   { top: 9.3vw; }
+    .coin:nth-child(12)  { top: 2.7vw; }
+    .coin:nth-child(11)  { top: 3.0vw; }
+    .coin:nth-child(10)  { top: 3.3vw; }
+    .coin:nth-child(9)   { top: 3.6vw; }
+    .coin:nth-child(8)   { top: 3.9vw; }
+    .coin:nth-child(7)   { top: 4.2vw; }
+    .coin:nth-child(6)   { top: 4.5vw; }
+    .coin:nth-child(5)   { top: 4.8vw; }
+    .coin:nth-child(4)   { top: 5.1vw; }
+    .coin:nth-child(3)   { top: 5.4vw; }
+    .coin:nth-child(2)   { top: 5.7vw; }
+    .coin:nth-child(1)   { top: 6.0vw; }
 
     .coinR:nth-child(12)  { top: 1.3vw; }
     .coinR:nth-child(11)  { top: 1.6vw; }
@@ -1034,19 +1045,19 @@
 
         <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
 
                 <span class='coinstackD-static' ></span>
                 <div class="coin-count-labelD-static"
-                     style="top: 55%; "></div>
+                     style="top: 60%; "></div>
 
         </div>
 
@@ -1175,26 +1186,25 @@
 
         <div class="container short-container">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
 
                 <span class='coinstackD-static' ></span>
                 <div class="coin-count-labelD-static"
-                     style="top: 55%; "></div>
+                     style="top: 60%; "></div>
 
         </div>
-
         <p><strong>Person A</strong> receives 12 points.<br>
         <strong>Person B</strong> receives 0 points.</p>
 
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep.</p>
+        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>
 
         <hr>
 
@@ -1202,27 +1212,28 @@
 
         {{ if treatment_type == '2PP' }}
 
-            <p>In <b>Stage 2</b>, Person B will be able to make a decision:
-            <strong>Person B</strong> will decide whether to change the points of Person A.
-            The possible choices of Person B will be explained below.</p>
+            <p>In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
 
             <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
-            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
 
-                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 13%; left: 23%;">
+                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 5%; left: 23%;">
+                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -18%; left: 40%;">
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 55%; "></div>
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 60%; "></div>-->
 
         </div>
 
@@ -1256,104 +1267,8 @@
 
         {{ endif }}
 
-        <p>The decision situation will always have these two stages: <strong>Stage 1</strong> and <strong>Stage 2</strong>.</p>
-
-        <hr>
-
 
     {{ endif }}
-
-
-    {{ if treatment_type == '2PP' and player.round_number < 14 }}
-
-        <p>In the next decisions, there are <strong>two</strong> roles: Person A and Person B.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1).</p>
-
-        <p>In Stage 2, <strong>Person B</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
-        <hr>
-
-        <p>In this practice exercise, you are <b>Person B</b>, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you.</p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
-
-    <br>
-
-
-    <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                    <p>
-                        <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                    </p>
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-                    <span class='coinstack coinstackDDes2PP' ></span>
-                    <div class="coin-count-labelDDes2PP" id="countDDes2PP" ></div>
-
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 39%;">
-                    <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 22%;">
-
-        <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:89%;">YOU</b>
-                    </p>
-
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
-        </div>
-
-
-        <br>
-
-        <p>You have decided to remove <strong> <span id="trial-2PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
-
-
-        <p>In this example, Person A gave {{random_trial_numbers.1}} point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A.</p>
-
-        <p>Additionally, you will make a decision about the social acceptability of Person B’s decision to remove points from Person A.</p>
-
-
-
-    {{ endif }}
-
 
 
     {{ if treatment_type == '3PP' and player.round_number < 14 }}
@@ -1399,7 +1314,7 @@
 
         <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
 
-        <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
+        <div class="container" >
 
                 <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
@@ -1521,7 +1436,7 @@
 
         <p>Now, you decide how many points to <b style="color: red;">give</b> to Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
 
-         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
+         <div class="container" >
 
                 <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
@@ -1648,7 +1563,7 @@
 
         <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A OR <b style="color: red;">give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
 
-        <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
+        <div class="container" >
 
                 <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
@@ -1845,6 +1760,7 @@
 
     {{ endif }}
 
+    <br>
 
     <div style="display: flex; justify-content: flex-end">
       {% next_button %}

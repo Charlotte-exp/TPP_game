@@ -62,8 +62,8 @@ class C(BaseConstants):
     ## 2) Ingroup - outgroup (14 trials)
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
-                        '3PP punish OUT OUT',
-                        '3PP punish norm IN IN', '3PP punish norm OUT OUT']
+                        '3PP punish OUT OUT']
+    trials_3PP_INOUT_TP_norm = ['3PP punish norm IN IN', '3PP punish norm OUT OUT']
     # trials_3PR_INOUT = ['3PR give IN', '3PR give OUT',
     #                     '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
     #                     '3PR reward OUT OUT',
@@ -162,24 +162,27 @@ def creating_session(subsession):
             trials_2PP_current = trials_2PP_TP_current + C.trials_2PP_DIC if random.choice([True, False]) else C.trials_2PP_DIC + trials_2PP_TP_current
             trials_3PR_current = trials_3PR_TP_current + C.trials_3PR_DIC if random.choice([True, False]) else C.trials_3PR_DIC + trials_3PR_TP_current
             trials_3PC_current = trials_3PC_TP_current + C.trials_3PC_DIC if random.choice([True, False]) else C.trials_3PC_DIC + trials_3PC_TP_current
-            # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
-            order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
-            order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
-            # Complete randomized list (DG always first)
-            participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
-
+            # # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER
+            # order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
+            # order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
+            # # Complete randomized list (DG always first)
+            # participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
+            participant.treatment_order_baseline = trials_DG_current + trials_2PP_current + trials_3PP_current + trials_3PR_current + trials_3PC_current
 
             ## 2) Ingroup - outgroup trials
 
             # First, randomize the DIC trials
             trials_3PP_INOUT_DIC_current = random.sample(C.trials_3PP_INOUT_DIC, len(C.trials_3PP_INOUT_DIC))
             trials_3PC_INOUT_DIC_current = random.sample(C.trials_3PC_INOUT_DIC, len(C.trials_3PC_INOUT_DIC))
-            # Second, randomize the TP trials
+            # Second, randomize the TP trials (UPDATE: Separately randomize norms and TP, so that they're not mixed
             trials_3PP_INOUT_TP_current = random.sample(C.trials_3PP_INOUT_TP, len(C.trials_3PP_INOUT_TP))
+            trials_3PP_INOUT_TP_norm_current = random.sample(C.trials_3PP_INOUT_TP_norm, len(C.trials_3PP_INOUT_TP_norm))
+            trials_3PP_INOUT_TP_full_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_TP_norm_current if random.choice(
+                [True, False]) else trials_3PP_INOUT_TP_norm_current + trials_3PP_INOUT_TP_current
             trials_3PC_INOUT_TP_current = random.sample(C.trials_3PC_INOUT_TP, len(C.trials_3PC_INOUT_TP))
             # Third, randomize order of DIC/TP
-            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_DIC_current if random.choice(
-                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_current
+            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_full_current + trials_3PP_INOUT_DIC_current if random.choice(
+                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_full_current
             trials_3PC_INOUT_current = trials_3PC_INOUT_TP_current + trials_3PC_INOUT_DIC_current if random.choice(
                 [True, False]) else trials_3PC_INOUT_DIC_current + trials_3PC_INOUT_TP_current
             # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
@@ -220,10 +223,9 @@ def creating_session(subsession):
             treatment_order_partner_no_univ_norm = trials_partner_TP_current + trials_partner_dic_out_current if random.choice(
                 [True, False]) else trials_partner_dic_out_current + trials_partner_TP_current
 
-            # e) Randomize order of universal norm: Either first in block or last in block
+            # e) Randomize order of universal norm: Either first in block or last in block (UPDATE: always last)
             trials_partner_universal_norm = ['universal norm']
-            participant.treatment_order_partner = treatment_order_partner_no_univ_norm + trials_partner_universal_norm if random.choice(
-                [True, False]) else trials_partner_universal_norm + treatment_order_partner_no_univ_norm
+            participant.treatment_order_partner = treatment_order_partner_no_univ_norm + trials_partner_universal_norm
 
             ## 4) Put all treatment orders together
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
@@ -273,6 +275,7 @@ class Player(BasePlayer):
     comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
+    comprehension_failed = models.LongStringField()
 
 
     dic_decision1 = models.IntegerField(
@@ -354,6 +357,30 @@ class Player(BasePlayer):
         initial=0,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension2PP = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension3PR = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension3PC = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
@@ -469,30 +496,61 @@ class ComprehensionQuestionPage(Page):
         # return player.round_number == 1
         return player.instruction_round_true and player.comprehension_true
 
+    form_model = 'player'
+
+    def get_form_fields(player: Player):
+        if "2PP" in player.treatment:
+            return ['comprehension2PP']
+        elif "3PR" in player.treatment:
+            return ['comprehension3PR']
+        else:
+            return ['comprehension3PC']
+
+    @staticmethod
+    def error_message(player: Player, values):
+        """
+        records the number of time the page was submitted with an error. which specific error is not recorded.
+        """
+        # Initialize comprehension_failed
+        player.comprehension_failed = "Failed: "
+
+        if "2PP" in player.treatment:
+            solutions = dict(comprehension2PP=2)
+        elif "3PR" in player.treatment:
+            solutions = dict(comprehension3PR=2)
+        else:
+            solutions = dict(comprehension3PC=2)
+
+        errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
+        if errors:
+            player.comprehension_failed = player.comprehension_failed + "2PP, "
+            print("player.comprehension_failed", player.comprehension_failed)
+            return errors
+
     @staticmethod
     def vars_for_template(player: Player):
         image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" norm", "")
-        image = image.replace("universal norm", "0DG give")
         image = image.replace("2PP", "2PP_2")
         image = image.replace("3PR reward", "3PP punish")
-        random_trial_numbers = random.choices(range(7), k=5) # Randomize numbers that are displayed in trial rounds
-        random_trial_numbers_diff = [12-value for value in random_trial_numbers]
-
-
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
+        correct_answers = [2,3,1]
+        unique_default = "defaulterror_" + str(player.session) + "_" + str(player.participant.id_in_session) + "_" + str(player.round_number)
         #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
-        return {
-            'treatment': player.treatment,
-            # 'treatment_text': text,
-            'image': image,
-            'random_trial_numbers': random_trial_numbers,
-            'random_trial_numbers_diff': random_trial_numbers_diff,
-            'first_block_2PP_true': first_block_2PP_true,
-            'treatment_type': treatment_type
-        }
+        return dict(
+            treatment=player.treatment,
+            comprehension2PP=player.comprehension2PP,
+            comprehension3PR=player.comprehension3PR,
+            comprehension3PC=player.comprehension3PC,
+            image=image,
+            unique_default=unique_default,
+            correct_answers=correct_answers,
+            first_block_2PP_true=first_block_2PP_true,
+            treatment_type=treatment_type,
+        )
+
 
 class TPPage(Page):
 
@@ -810,11 +868,11 @@ class ThanksPage(Page):
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+# Consent,
+#                  Introduction,
+#
 
-
-page_sequence = [Consent,
-                 Introduction,
-                 instructionPage,
+page_sequence = [instructionPage,
                  ComprehensionQuestionPage,
                  DictatorPage,
                  TPPage,

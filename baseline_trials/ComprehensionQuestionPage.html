@@ -1,5 +1,7 @@
 {{ block title }}
 
+Knowledge check
+
 {{ endblock }}
 {{ block content }}
 
@@ -16,429 +18,122 @@
 
     /////////// global variables
 
-    const TP_points = {{ C.TP_points }}; // punishment points
-    const TP_eff = {{ C.TP_effectiveness }}; // punishment or reward or victim compensation effectiveness
-
-    total_endowment = {{ C.total_endowment }}
-    receiver_endowment = {{ C.receiver_endowment }}
-
     var current_treatment = "{{ treatment }}";
-    var current_treatment_short = "{{ treatment_type }}";
-    var current_round_number = "{{ player.round_number }}";
-
-    // Store last clicked row type for TP
-    let lastClickedRowType = null;
-    let lastClickedValue = 0;
-
-    /// TP has some additional code here:
-    if (current_treatment_short.includes("2PP") || current_treatment_short.includes("3PP") || current_treatment_short.includes("3PR") || current_treatment_short.includes("3PC") && current_round_number < 14){
-
-        // Function to update the coin stack (TP_decisions only)
-        function updateCoinStackTP(count, row) {
-
-            console.log('updateCoinStackTP ', count)
-
-            const TPupdate = coins_diff - count;
-            let dictator_recipient_TPeffectUpdate = count * TP_eff;
-
-            let Dupdate = coins_diff - (count * TP_eff); // Assuming TP_decision.dictator_keeps = TP_points
-            Cupdate = count* TP_eff // compensation updating
-
-            console.log('updateCoinStackTP  Dupdate', Dupdate)
 
 
-            if (Dupdate < 0 && (current_treatment.includes("punish") || current_treatment.includes("3PP country") || current_treatment.includes("comp"))) {
-                dictator_recipient_TPeffectUpdate += Dupdate; // Prevent exceeding max endowment
-                Dupdate = 0;
-            }
+    //// error message handling for no-response versus incorrect-response
 
-            if (current_treatment.includes("3PR")) {
-                Dupdate = coins_diff; // Leave dictator coins unchanged in 3PR
-            }
+    var correct_answers = {{correct_answers}}
 
-            // Clear existing stacks
-            if (row !== "compensate") {
-                $('.coinstackTP, .coinstackD-TP, .coinstackDDes, .coinstackDDes2PP, .coinstackTP2PP, .coinstackTP3PR').empty();
-            }
-            if (row !== "punish") {
-                $('.coinstackTP3PC').empty();
-            }
+    const unique_default = "{{unique_default}}"
 
-            // Add the specified number of coins
-            if (row !== "compensate") {
-                for (let i = 0; i < TPupdate; i++) {
-                    $('.coinstackTP').append('<div class="coinown" style="left:75%;"></div>');
-                }
+    console.log("unique_default", unique_default)
 
-                for (let i = 0; i < Dupdate; i++) {
-                    $('.coinstackD-TP').append('<div class="coin" style="left:14%;"></div>');
-                }
+    if (!localStorage.getItem('unique_default')) {
+        localStorage.setItem('unique_default', 'Please make a decision to continue.');
+    }
 
-                for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-                    $('.coinstackDDes').append('<div class="coin_destroyed" style="left:5%;"></div>');
-                }
-            }
+    // Retrieve the stored value
+    let defaulterror = localStorage.getItem('unique_default');
 
-            console.log('Dupdate', Dupdate)
+    /// Function for showing customized error messages
+    let errorDiv = document.querySelector('.otree-form-errors');
 
-            // Update other stacks for subconditions: 2PP, 2PR, 3PC
-            for (let i = 0; i < TPupdate; i++) {
-                $('.coinstackTP2PP').append('<div class="coinown2PP" style="left:83%;"></div>');
-            }
+    console.log("Current defaulterror:", defaulterror );
 
-            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-                $('.coinstackTP3PR').append('<div class="coinown3PR" style="left:7%;"></div>');
-            }
-
-            if (row !== "punish") {
-                for (let i = 0; i < Cupdate; i++) {
-                    $('.coinstackTP3PC').append('<div class="coinown3PC" style="left:90%;"></div>');
-                }
-            }
-
-            for (let i = 0; i < dictator_recipient_TPeffectUpdate; i++) {
-                $('.coinstackDDes2PP').append('<div class="coin_destroyed2PP" style="left:55%;"></div>');
-            }
-
-            // Update the number labels
-            if (row !== "compensate") {
-                $('#countTP').text(`${TPupdate}`);
-                $('#countD').text(`${Dupdate}`);
-                $('#countDDes').text(`${dictator_recipient_TPeffectUpdate}`);
-                $('#countDDes2PP').text(`${dictator_recipient_TPeffectUpdate}`);
-                $('#countTP2PP').text(`${TPupdate}`);
-                $('#countTP3PR').text(`${dictator_recipient_TPeffectUpdate}`);
-                console.log('updateCoinStackTP dictator_recipient_TPeffectUpdate', dictator_recipient_TPeffectUpdate)
-
-            }
-            if (row !== "punish") {
-                $('#countTP3PC').text(`${Cupdate}`);
-            }
-
+    if (errorDiv) {
+            errorDiv.textContent = defaulterror
         }
 
 
-        // Hover function calling updateCoinStack - Updates the hovered row and resets the other row
-            $(document).on('mouseenter', '.number', function () {
-                const value = $(this).data('value');  // Get number value
-                const row = $(this).closest('.number-row-comp').length ? "compensate" : "punish"; // Detect row type
 
-                //console.log('Hover triggered. Value:', value, 'Index:', index, 'Row:', row);
-
-                // Update the hovered stack
-                updateCoinStackTP(value, row);
-
-                // Reset the other stack while hovering
-                const otherRow = row === "punish" ? "compensate" : "punish";
-                updateCoinStackTP(0, otherRow);
-            });
-
-
-
-            // Mouse leave function - Ensures only one updated stack remains
-            $(document).on('mouseleave', '.number-row, .number-row-comp', function () {
-                //const index = $(this).data('index');
-                //restoreRowState(index);
-                console.log('lastClickedRowType lastClickedValue', lastClickedRowType, lastClickedValue)
-                // Restore function - Ensures only one stack stays updated after hovering
-                if (lastClickedRowType) {
-                    updateCoinStackTP(lastClickedValue, lastClickedRowType); // Restore clicked stack
-                    updateCoinStackTP(0, lastClickedRowType === "punish" ? "compensate" : "punish"); // Reset other stack
-                    //console.log(`Restoring last clicked stack: ${lastClickedRowType} at index ${index}`);
-                } else {
-                    // Reset both if nothing was clicked
-                    updateCoinStackTP(0, "punish");
-                    updateCoinStackTP(0, "compensate");
-                    //console.log(`Resetting both stacks at index ${index}`);
-                }
-            });
-
-
-
-
-
-    }
 
 ////////////// function for displaying the task, numbers, and labels and managing the click event
 
     $(document).ready(function () {
 
-        if (current_treatment.includes("country") || current_treatment.includes("universal norm") || current_treatment.includes("OUT") || current_treatment.includes("IN") ) {
-            receiverCountry = "{{ recip_identity }}"
-            dictatorCountry = "{{ dic_identity }}"
-            // get flags
-            $('.receiverCountry').attr('src', '/static/global/flags/' + receiverCountry +'.png');
-            $('.dictatorCountry').attr('src', '/static/global/flags/' + dictatorCountry +'.png');
+                // Initialize coin stacks and number labels for each decision
+        // universal_norm_decisions.forEach((universal_norm_decision) => {
+        //     const index = universal_norm_decision.index;
+        //     const dictatorKeeps = universal_norm_decision.dictator_keeps;
+        //     const receiverGets = universal_norm_decision.receiver_gets;
+        //
+        //     // Fill initial coin stacks and number labels (norm condition)
+        //
+        //         // dictator stack
+        //         for (let i = 0; i < dictatorKeeps; i++) {
+        //             $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+        //         }
+        //         // receiver stack
+        //         for (let i = 0; i < receiverGets; i++) {
+        //             $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:50%;"></div>');
+        //         }
+        //         // number labels
+        //         $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+        //         $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+        //
+        // });
 
-            // get maps
-            $('.receiverCountryMap').attr('src', '/static/global/worldmap/' + receiverCountry +'.png');
-            $('.dictatorCountryMap').attr('src', '/static/global/worldmap/' + dictatorCountry +'.png');
-        }
+        //Actions on click: ALTERNATIVE NORM MEASURE
+        $('.comprehension_option').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.comprehension-row').find('.comprehension_option').removeClass('selected');
 
-        // Set the default display text for TP cost
-        $('#TP-cost-display').text('_');
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
 
-        // Set the default display text of the clicked number
-        $('#trial-dic1-display').text('___');
-        $('#trial-dic2-display').text('___');
-        $('#trial-norm1-display').text('___________________');
-        $('#trial-norm2-display').text('___________________');
-        $('#trial-2PP-display').text('___');
-        $('#trial-3PP-display').text('___');
-        $('#trial-3PR-display').text('___');
-        $('#trial-3PC-display').text('___');
-        $('#trial-3PC-row1-display').text('______');
-        $('#trial-3PC-row2-display').text('______');
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+            // const index = $(this).data('index');
 
-        // Define labels of appropriateness for displaying clicked norm
-        const valueToLabel = {
-            0: "very socially unacceptable",
-            1: "socially unacceptable",
-            2: "slightly socially unacceptable",
-            3: "slightly socially acceptable",
-            4: "socially acceptable",
-            5: "very socially acceptable"
-        };
-
-        // Set the dictator and receiver coins for norm test rounds, depending on condition
-        if (current_treatment_short.includes("0DG") ) {
-            coins =  "{{ random_trial_numbers.0 }}"
-            coins_diff = "{{ random_trial_numbers_diff.0 }}"
-        }
-        else if (current_treatment_short.includes("2PP") && current_round_number < 14){
-            coins =  "{{ random_trial_numbers.1 }}"
-            coins_diff = "{{ random_trial_numbers_diff.1 }}"
-        }
-        else if (current_treatment_short.includes("3PP") && current_round_number < 14){
-            coins =  "{{ random_trial_numbers.2 }}"
-            coins_diff = "{{ random_trial_numbers_diff.2 }}"
-        }
-        else if (current_treatment_short.includes("3PR") && current_round_number < 14){
-            coins =  "{{ random_trial_numbers.3 }}"
-            coins_diff = "{{ random_trial_numbers_diff.3 }}"
-        }
-        else if (current_treatment_short.includes("3PC") && current_round_number < 14){
-            coins =  "{{ random_trial_numbers.4 }}"
-            coins_diff = "{{ random_trial_numbers_diff.4 }}"
-        }
-        else {
-            coins =  999
-            coins_diff = 999
-        }
-
-        console.log('coins', coins)
-        console.log('coins_diff', coins_diff)
-
-        // Fill initial coin stacks and number labels
-        dictator_recipient_TPeffect = 0 // dictator or recipient points that are destroyed by punishment or added by reward/compensation
-
-        // dictator stack static (for static display of role labels)
-        for (let i = 0; i < total_endowment; i++) {
-            $(`.coinstackD-static`).append('<div class="coin" style="left:14%;"></div>');
-        }
-        // dictator stack
-        for (let i = 0; i < total_endowment; i++) {
-            $(`.coinstackD`).append('<div class="coin" style="left:14%;"></div>');
-        }
-        // receiver stack
-        for (let i = 0; i < receiver_endowment; i++) {
-            $(`.coinstackR`).append('<div class="coinR" style="left:50%;"></div>');
-        }
-        // dictator stack static for norm
-        for (let i = 0; i < coins_diff; i++) {
-            $(`.coinstackD-static-norm`).append('<div class="coin" style="left:14%;"></div>');
-        }
-        // receiver stack static for norm
-        for (let i = 0; i < coins; i++) {
-            $(`.coinstackR-static-norm`).append('<div class="coinR" style="left:50%;"></div>');
-        }
-        // dictator stacks dynamic for TP
-        for (let i = 0; i < coins_diff; i++) {
-            $(`.coinstackD-TP`).append('<div class="coin" style="left:14%;"></div>');
-        }
-        // receiver stacks dynamic for TP
-        for (let i = 0; i < coins; i++) {
-            $(`.coinstackR-TP`).append('<div class="coinR" style="left:50%;"></div>');
-        }
-
-        // Extra stacks in different locations
-        // punisher in 2PP punisher stack
-        for (let i = 0; i < TP_points; i++) {
-            $(`.coinstackTP2PP`).append('<div class="coinown2PP" style="left:83%;"></div>');
-        }
-        // DG reward in 3PR
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:7%;"></div>');
-        }
-        // recipient compensation in 3PC
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackTP3PC`).append('<div class="coinown3PC" style="left:90%;"></div>');
-        }
-        // Destroyed coins 2PP
-        for (let i = 0; i < dictator_recipient_TPeffect; i++) {
-            $(`.coinstackDDes2PP`).append('<div class="coinown" style="left:75%;"></div>></div>');
-        }
-
-        // number labels
-        //$('.coin-count-labelD').text(`${total_endowment}`);
-        $('.coin-count-labelD-static').text(`${total_endowment}`);
-        $('.coin-count-labelD-static2').text(`${total_endowment}`);
-        //$('.coin-count-labelR').text(`${receiver_endowment}`);
-        $('.coin-count-labelD-static-norm').text(`${coins_diff}`);
-        $('.coin-count-labelR-static-norm').text(`${coins}`);
-        $('.coin-count-labelD-TP').text(`${coins_diff}`);
-        $('.coin-count-labelR-TP').text(`${coins}`);
-
-        // Initialize number labels for TP (still non-class version
-        $('#countTP').text(`${TP_points}`);
-        $('#countD').text(`${coins_diff}`);
-        $('#countR').text(`${coins}`);
-        $('#countTP2PP').text(`${TP_points}`);
-        // You can also initialize other labels like countDDes, countTP3PR, etc. if needed
-        $('#countDDes').text(`${dictator_recipient_TPeffect}`);
-        $('#countDDes2PP').text(`${dictator_recipient_TPeffect}`);
-        $('#countTP3PR').text(`${dictator_recipient_TPeffect}`);
-        $('#countTP3PC').text(`${dictator_recipient_TPeffect}`);
-
-
-        console.log('coinstackD', ($('.coinstackD')))
-        console.log('coinstackD-static', ($('.coinstackD-static')))
-
-        // // I think because of the loop without this the stack on page load is huge
-        // $('.coinstackD').empty();
-        // $('.coinstackR').empty();
-
-        function deactivateNumbers(numbersToDisable, row) { //Removed index
-                // Only deactivate numbers for the "punish" row
-                if (row === "punish") {
-                    numbersToDisable.forEach(num => {
-                        // Add 'disabled' class to numbers that are not allowed for the "punish" row
-                        $('.number[data-value="' + num + '"][data-row="punish"]').addClass('disabled');
-                    });
-                }
+            // Update the hidden input fields
+            if (current_treatment.includes("2PP") ) { // in norm condition
+                $('#selected-comprehension2PP').val(value);
+                index=0;
             }
-
-        // deactive punishment that would generate negative values
-        let numbersToDisable = [];
-        // Calculate the maximum punishment value possible based on the dictator's kept coins
-        DPpossible = Math.ceil(coins_diff / TP_eff);
-
-        // Generate the numbers that should be disabled (punishment numbers that exceed possible value)
-        for (let i = DPpossible + 1; i <= TP_points; i++) {
-            numbersToDisable.push(i); // Add all numbers that are larger than the max possible punishment value
-            console.log('numbersToDisable', numbersToDisable)
-        }
-
-        // Only deactivate numbers in the "punish" row for specific treatments (including "3PC comp")
-        if (current_treatment.includes("2PP") || current_treatment.includes("3PP") || current_treatment.includes("3PC") ) {
-            // Ensure we only disable punishment numbers for the "punish" row
-            deactivateNumbers(numbersToDisable, "punish");
-        }
-
-        // Formatting function to display TP cost nicely
-            function formatNumber(num) {
-                return Number.isInteger(num) ? num.toString() : num.toFixed(2);
+            if (current_treatment.includes("3PR") ) { // in norm condition
+                $('#selected-comprehension3PR').val(value);
+                index=1;
+            }
+            if (current_treatment.includes("3PC") ) { // in norm condition
+                $('#selected-comprehension3PC').val(value);
+                index =2;
             }
 
 
-        ///// Only for dictator trials:
-        if (current_treatment_short.includes("0DG") ) { // For dictator giving
-
-            // add hover event listener to numbers
-            $('.number').hover(function () {
-                const value = $(this).data('value'); // Get the number value
-                updateCoinStack(value); // Update the coin stack
-            });
-
-            let dictator = null; // Initialize
-
-            $('.number').on('click', function () {
-                // Remove 'selected' class from all buttons
-                $('.number').removeClass('selected');
-
-                // Add 'selected' class to the clicked button
-                $(this).addClass('selected');
-
-                // Get the value of the clicked button
-                const value = $(this).data('value');
-
-                console.log('Click value:', value)
-
-                // // Update the hidden input field
-                // $('#selected-dic_decision1').val(value);
-
-                // Update the display text the clicked number
-                $('#trial-dic1-display').text('' + value);
-                $('#trial-dic2-display').text('' + 12 - value);
-
-                // Update the coin stack
-                updateCoinStack(value);
-
-                dictator = value
-
-                console.log('Dictator decision:', dictator)
-            });
-
-            // update coin stacks to original state when mouse leaves number area
-            $('.number-row').mouseleave(function () {
-                updateCoinStack(dictator);
-            });
-
-        }
-        else { // For TPs
-
-            // Click function - Stores last clicked stack and updates accordingly
-            $('.number').on('click', function () {
-                // Remove 'selected' class from all buttons in the same group
-                $(this).closest('.numbers').find('.number').removeClass('selected');
-
-                // Add 'selected' class to the clicked button
-                $(this).addClass('selected');
-
-                // Get values
-                const value = $(this).data('value');
-                const row = $(this).closest('.number-row-comp').length ? "compensate" : "punish";
-
-                // Update the hidden input field (without index)
-                $('.selected-number').val(value);
-
-                // Store clicked values
-                lastClickedRowType = row;
-                lastClickedValue = value;
-
-                costTP = formatNumber(value / 3);
-
-                // Update the display text for TP cost
-                $('#TP-cost-display').text('' + costTP);
-
-                // Update the display text the clicked number
-                $('#trial-2PP-display').text('' + value);
-                $('#trial-3PP-display').text('' + value);
-                $('#trial-3PR-display').text('' + value);
-                $('#trial-3PC-display').text('' + value);
-
-                // Extract the action from lastClickedRowType
-                if (lastClickedRowType === "punish") {
-                    $('#trial-3PC-row1-display').text('remove');
-                    $('#trial-3PC-row2-display').text('from Person A');
+            // Check if response is correct to update error message
+            if (value !== correct_answers[index] ) { // in norm condition
+                console.log("it thinks that value is not correct", value, correct_answers[index])
+                if (!errorDiv) { // If no errorDiv because not submitted yet, save incorrect response for error message
+                    defaulterror = 'This answer is wrong. Please select the correct answer.'
+                    localStorage.setItem('unique_default', defaulterror); // Save update
                 }
-
-                if (lastClickedRowType === "compensate") {
-                    $('#trial-3PC-row1-display').text('give');
-                    $('#trial-3PC-row2-display').text('to Person B');
+                else { // If form was already submitted, there is an error message already, that just needs to be updated
+                    errorDiv.textContent = 'This answer is wrong. Please select the correct answer.'
+                    // Reset style to default
+                    errorDiv.style.color = ''; // Remove any custom borders
+                    errorDiv.style.backgroundColor = ''; // Reset background color to the inherited/default value
+                    errorDiv.style.border = ''; // Remove any custom borders
                 }
+            }
+            else { // Change style to indicate correct response
+                errorDiv.textContent = 'Correct answer! Please press \'Next\'.'
+                errorDiv.style.color = 'green';  // Change text color to green
+                errorDiv.style.backgroundColor = 'lightgreen';  // Change background color to light green
+                errorDiv.style.border = '1px solid green';  // Optionally, add a green border
+            }
 
-                // Update the clicked stack
-                updateCoinStackTP(value, row);
+            // // Update the hidden input field
+            // $(`#selected-number-${index}`).val(value);
+            // // This is usually done by the coinstack logic somewhere
+            // // since we don't update coinstacks for norms we need to add this
+            // // maybe we don't even need the stored array...
+            // universal_norm_decisions[index - 1].universal_norm_decision = value;
 
-                // Reset the other stack
-                const otherRow = row === "punish" ? "compensate" : "punish";
-                updateCoinStackTP(0, otherRow);
 
-                console.log(`Clicked decision (${row}): ${value}`);
-            });
-
-        }
+            // Debugging
+            //console.log(`Updated norm decision at index ${index}: ${value}`);
+        });
 
         // Submit button click handler
         $('#submit-button').on('click', function () {
@@ -446,56 +141,8 @@
             $('form').submit();
         });
 
-        // function to update the coin stack
-        function updateCoinStack(count) {
-
-                //TPupdate = TP - count
-                Dupdate = total_endowment - count
-                Rupdate = receiver_endowment + count
-
-                //$('.coinstackTP').empty();
-                $('.coinstackR').empty();
-                $('.coinstackD').empty();
-
-                // Add the specified number of coins
-                for (let i = 0; i < Rupdate; i++) {
-                    $('.coinstackR').append('<div class="coinR" style="left:50%;"></div>'); // previously: left:83
-                }
-
-                for (let i = 0; i < Dupdate; i++) {
-                    $('.coinstackD').append('<div class="coin" style="left:14%;"></div>');
-                }
-
-                // Update the number labels
-                $('.coin-count-labelD').text(`${Dupdate}`);
-                $('.coin-count-labelR').text(`${Rupdate}`);
-
-        }
 
 
-
-
-        $('.norm').on('click', function () {
-            // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.norm').removeClass('selected');
-
-            // Add 'selected' class to the clicked button
-            $(this).addClass('selected');
-
-            // Get the value of the clicked button
-            const value = $(this).data('value');
-
-            // Get the label from the mapping
-            const label = valueToLabel[value];
-
-            // Update the display text the clicked number
-            $('#trial-norm1-display').text('' + label);
-            $('#trial-norm2-display').text('"' + label + '"');
-
-        });
-
-
-        // }
     });
 
 </script>
@@ -511,22 +158,30 @@
         background-color: #f4f4f4;
     }
 
-    .number-row {
+    .comprehension-row {
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        justify-content: center; /* Center the items */
+        margin-top: 0vw; /* Adjust the top margin */
+        gap: 0.5vw; /* Space between items */
+    }
+
+    .comprehension-row-close {
         justify-content: center;
         display: flex;
-        margin-top:1vw;
+        margin-top:3vw;
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.2vw; /* Space between numbers scales with viewport width */
+        gap: 0vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
 
-    .number-row-comp {
+    .comprehension-row-static {
         justify-content: center;
         display: flex;
-        margin-top:1vw;
-        /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
-        gap: 0.2vw; /* Space between numbers scales with viewport width */
+        margin-top:-2vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
@@ -540,15 +195,31 @@
         font-size: 1.5vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
         border: 2px solid #000000;
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .recorded_norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 2px solid #000000;
         border-radius: 10%; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
-    .norm {
-        width: 6vw; /* Width scales with viewport width */
-        height: 5vw; /* Height scales with viewport width */
+    .comprehension_option {
+        width: 90%; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
         flex-direction: column;
         text-align: center; /* Center-aligns the text */
         display: flex;
@@ -583,19 +254,23 @@
         pointer-events: none; /* Disable interactions */
     }
 
-    .norm:hover {
+    .comprehension_option:hover {
         background-color: #ffcc00; /* Change background color on hover */
     }
 
-    .norm:active {
+    .comprehension_option:active {
         background-color: #ffa500; /* Change background color on click */
     }
 
-    .norm.selected {
+    .comprehension_option.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .norm.disabled {
+    .recorded_norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .comprehension_option.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
         border: 2px solid #d3d3d3;
         color:#d3d3d3;
@@ -620,6 +295,16 @@
         margin-right:auto;
         border:0px solid black;
         position:relative;
+    }
+
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
     }
 
     .short-container {
@@ -666,12 +351,6 @@
       }
     }
 
-    .coin-stack {
-        position: absolute;
-        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
-        max-width: 100px; /* Ensure coins don't get too big */
-    }
-
     .coin {
         width: 1.8vw; /* Coins take the full width of the stack container */
         min-width:10px;
@@ -696,162 +375,16 @@
         transform: translateX(-50%);
     }
 
-    .coin_destroyed {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background-color: rgba(255, 0, 0, 0.15); /* Semi-transparent red (0.5 is 50% transparency) */
-        /*background: linear-gradient(145deg, #ffd700, #e6c200);*/
-        /*border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        /*box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);*/
-        position: absolute;
-        transform: translateX(-50%);
-}
-
-    .coin_destroyed2PP {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background-color: rgba(255, 0, 0, 0.15); /* Semi-transparent red (0.5 is 50% transparency) */
-        /*background: linear-gradient(145deg, #ffd700, #e6c200);*/
-        /*border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        /*box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);*/
-        position: absolute;
-        transform: translateX(-50%);
-}
-
-
-    .coinown {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinown2PP {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        /*border: 0.1vw solid #FFFFFF; !* Border size scales with the coin size *!*/
-        border: 0.1vw solid darkred; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinown3PR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinown3PC {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-
     .coin-count-labelD {
     font-size: 1.2rem;
     color: #333; /* Adjust color as needed */
     position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
+    left: 30%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for exact centering */
     top: 32%; /* Move up; adjust value as needed */
     text-align: center; /* Align text */
 }
 
-    .coin-count-labelD-static {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelD-static2 {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelD-static-norm {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelD-TP {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelR-static-norm {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelDDes {
-    font-size: 1.2rem;
-    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: -4%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 56%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelDDes2PP {
-    font-size: 1.2rem;
-    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 64%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: -10%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
 
     .coin-count-labelR {
     font-size: 1.2rem;
@@ -863,55 +396,6 @@
     text-align: center; /* Align text */
 }
 
-    .coin-count-labelR-TP {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelTP {
-    font-size: 1.2rem;
-    color: darkred; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 85%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 80%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelTP2PP {
-    font-size: 1.2rem;
-    color: darkred; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 73%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 8%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelTP3PR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: -4%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 56%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin-count-labelTP3PC {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 98%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 56%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
 
 
     .coin:nth-child(12)  { top: 6.0vw; }
@@ -940,83 +424,6 @@
     .coinR:nth-child(2)   { top: 4.3vw; }
     .coinR:nth-child(1)  { top: 4.6vw; }
 
-    .coinown:nth-child(10)  { top: 18.8vw; }
-    .coinown:nth-child(9)   { top: 19.1vw; }
-    .coinown:nth-child(8)   { top: 19.4vw; }
-    .coinown:nth-child(7)   { top: 19.7vw; }
-    .coinown:nth-child(6)   { top: 20.0vw; }
-    .coinown:nth-child(5)   { top: 20.3vw; }
-    .coinown:nth-child(4)   { top: 20.6vw; }
-    .coinown:nth-child(3)   { top: 20.9vw; }
-    .coinown:nth-child(2)   { top: 21.2vw; }
-    .coinown:nth-child(1)   { top: 21.5vw; }
-
-    .coinown2PP:nth-child(10)  { top: 0.6vw; }
-    .coinown2PP:nth-child(9)   { top: 0.9vw; }
-    .coinown2PP:nth-child(8)   { top: 1.2vw; }
-    .coinown2PP:nth-child(7)   { top: 1.5vw; }
-    .coinown2PP:nth-child(6)   { top: 1.8vw; }
-    .coinown2PP:nth-child(5)   { top: 2.1vw; }
-    .coinown2PP:nth-child(4)   { top: 2.4vw; }
-    .coinown2PP:nth-child(3)   { top: 2.7vw; }
-    .coinown2PP:nth-child(2)   { top: 3.0vw; }
-    .coinown2PP:nth-child(1)   { top: 3.3vw; }
-
-
-    .coinown3PR:nth-child(1)  { top: 15.8vw; }
-.coinown3PR:nth-child(2)  { top: 15.5vw; }
-.coinown3PR:nth-child(3)  { top: 15.2vw; }
-.coinown3PR:nth-child(4)   { top: 14.9vw; }
-.coinown3PR:nth-child(5)   { top: 14.6vw; }
-.coinown3PR:nth-child(6)   { top: 14.3vw; }
-.coinown3PR:nth-child(7)   { top: 14.0vw; }
-.coinown3PR:nth-child(8)   { top: 13.7vw; }
-.coinown3PR:nth-child(9)   { top: 13.4vw; }
-.coinown3PR:nth-child(10)   { top: 13.1vw; }
-.coinown3PR:nth-child(11)   { top: 12.8vw; }
-.coinown3PR:nth-child(12)   { top: 12.5vw; }
-
-.coinown3PC:nth-child(1)  { top: 15.8vw; }
-.coinown3PC:nth-child(2)  { top: 15.5vw; }
-.coinown3PC:nth-child(3)  { top: 15.2vw; }
-.coinown3PC:nth-child(4)   { top: 14.9vw; }
-.coinown3PC:nth-child(5)   { top: 14.6vw; }
-.coinown3PC:nth-child(6)   { top: 14.3vw; }
-.coinown3PC:nth-child(7)   { top: 14.0vw; }
-.coinown3PC:nth-child(8)   { top: 13.7vw; }
-.coinown3PC:nth-child(9)   { top: 13.4vw; }
-.coinown3PC:nth-child(10)   { top: 13.1vw; }
-.coinown3PC:nth-child(11)   { top: 12.8vw; }
-.coinown3PC:nth-child(12)   { top: 12.5vw; }
-
-
-.coin_destroyed:nth-child(1)  { top: 15.8vw; }
-.coin_destroyed:nth-child(2)  { top: 15.5vw; }
-.coin_destroyed:nth-child(3)  { top: 15.2vw; }
-.coin_destroyed:nth-child(4)   { top: 14.9vw; }
-.coin_destroyed:nth-child(5)   { top: 14.6vw; }
-.coin_destroyed:nth-child(6)   { top: 14.3vw; }
-.coin_destroyed:nth-child(7)   { top: 14.0vw; }
-.coin_destroyed:nth-child(8)   { top: 13.7vw; }
-.coin_destroyed:nth-child(9)   { top: 13.4vw; }
-.coin_destroyed:nth-child(10)   { top: 13.1vw; }
-.coin_destroyed:nth-child(11)   { top: 12.8vw; }
-.coin_destroyed:nth-child(12)   { top: 12.5vw; }
-
-.coin_destroyed2PP:nth-child(12)  { top: -3.3vw; }
-    .coin_destroyed2PP:nth-child(11)  { top: -3.0vw; }
-    .coin_destroyed2PP:nth-child(10)  { top: -2.7vw; }
-    .coin_destroyed2PP:nth-child(9)   { top: -2.4vw; }
-    .coin_destroyed2PP:nth-child(8)   { top: -2.1vw; }
-    .coin_destroyed2PP:nth-child(7)   { top: -1.8vw; }
-    .coin_destroyed2PP:nth-child(6)   { top: -1.5vw; }
-    .coin_destroyed2PP:nth-child(5)   { top: -1.2vw; }
-    .coin_destroyed2PP:nth-child(4)   { top: -0.9vw; }
-    .coin_destroyed2PP:nth-child(3)   { top: -0.6vw; }
-    .coin_destroyed2PP:nth-child(2)   { top: -0.3vw; }
-    .coin_destroyed2PP:nth-child(1)   { top: 0.0vw; }
-
-
 
 </style>
 </head>
@@ -1026,691 +433,139 @@
 
 <form method="post">
 
+     {% if "2PP" in player.treatment %}
+        <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="comprehension2PP" id="selected-comprehension2PP">
 
-    {{ if player.round_number == 3 }}
+<!--        {{ formfield_errors 'comprehension2PP' }}-->
 
-        <p>The decisions you just made are called <strong>Stage 1</strong>.</p>
+    {% elif "3PR" in player.treatment %}
+         <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="comprehension3PR" id="selected-comprehension3PR">
 
-        <p>In all following decisions, there are <strong>two stages</strong>. </p>
+<!--        {{ formfield_errors 'comprehension3PR' }}-->
 
-        <p>You will see different variations of <strong>Stage 2</strong>, but <strong>Stage 1</strong> will always look like the decision you just made:</p>
+    {% else %}
 
-        <div class="container short-container">
+     <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="comprehension3PC" id="selected-comprehension3PC">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+<!--        {{ formfield_errors 'comprehension3PC' }}-->
 
-                <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static"
-                     style="top: 55%; "></div>
-
-        </div>
-
-        <p><strong>Person A</strong> receives 12 points.<br>
-        <strong>Person B</strong> receives 0 points.</p>
-
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep.</p>
-
-        <hr>
-
-        <p> <b>After</b> Person A makes a decision, <strong>Stage 2</strong> begins.</p>
-
-        {{ if treatment_type == '2PP' }}
-
-            <p>In <b>Stage 2</b>, Person B will be able to make a decision:
-            <strong>Person B</strong> will decide whether to change the points of Person A.
-            The possible choices of Person B will be explained below.</p>
-
-            <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
-
-            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                </p>
-
-                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 13%; left: 23%;">
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 55%; "></div>
-
-        </div>
-
-        {{ else }}
-
-            <p>In <b>Stage 2</b>, you will be joined by a <strong>third person: Person C.
-            Person C</strong> will decide whether to change the points of Person A or Person B.
-            The possible choices of Person C will be explained below.</p>
-
-            <div class="container">
-
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
-
-        </div>
-
-        {{ endif }}
-
-        <p>The decision situation will always have these two stages: <strong>Stage 1</strong> and <strong>Stage 2</strong>.</p>
-
-        <hr>
+    {% endif %}
 
 
-    {{ endif }}
+    {% if "2PP" in player.treatment %}
 
+        <div class='responsive-div'>
 
-    {{ if treatment_type == '2PP' and player.round_number < 14 }}
+            <p> If <b>Person B</b> would remove <b>1 point</b> from <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
 
-        <p>In the next decisions, there are <strong>two</strong> roles: Person A and Person B.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1).</p>
-
-        <p>In Stage 2, <strong>Person B</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
-        <hr>
-
-        <p>In this practice exercise, you are <b>Person B</b>, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you.</p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
-
-    <br>
-
-
-    <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                    <p>
-                        <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                    </p>
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-                    <span class='coinstack coinstackDDes2PP' ></span>
-                    <div class="coin-count-labelDDes2PP" id="countDDes2PP" ></div>
-
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 39%;">
-                    <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 22%;">
-
-        <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:89%;">YOU</b>
-                    </p>
-
-
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-number-1">
+                    <div class="comprehension_option" data-value="0" >Person A would lose 3 point(s) and Person C would lose 0.33 point(s). </div>
+                    <div class="comprehension_option" data-value="1" >Person A would lose 3 point(s) and Person C would lose 1 point(s).</div>
+                    <div class="comprehension_option" data-value="2" >Person A would lose 1 point(s) and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension_option" data-value="3" >Person A would lose 1 point(s) and Person C would lose 1 point(s).</div>
+                </div>
             </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
-        </div>
-
 
         <br>
-
-        <p>You have decided to remove <strong> <span id="trial-2PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
-
-
-        <p>In this example, Person A gave {{random_trial_numbers.1}} point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A.</p>
-
-        <p>Additionally, you will make a decision about the social acceptability of Person B’s decision to remove points from Person A.</p>
-
-
-
-    {{ endif }}
-
-
-
-    {{ if treatment_type == '3PP' and player.round_number < 14 }}
-
-        {{ if first_block_2PP_true == True and player.round_number == 6 }}
-            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
-
-            <div class="container">
-
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
-
-        </div>
-
-            <hr>
-
-        {{ endif }}
-
-        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
         <hr>
 
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
-
-        <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-                    <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                    </p>
-
-                <span class='coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-
-                <span class='coinstack coinstackDDes' ></span>
-                <div class="coin-count-labelDDes" id="countDDes" ></div>
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
-
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>
-                    </p>
-
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
         </div>
 
+    <div class="reminder">
+
+                <p style="text-align: center; ">
+                    <b>Reminder</b>
+                </p>
+
+<!--                <p> There are <strong>two stages</strong>. </p>-->
+
+<!--                <p> <b> Stage 1: </b> </p>-->
+
+<!--                <div style="margin-left: 5%;">-->
+
+<!--                    <p><strong>Person A</strong> receives 12 points.<br>-->
+<!--                            <strong>Person B</strong> receives 0 points.</p>-->
+
+<!--                    <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>-->
+
+<!--                </div>-->
+
+<!--                <p> <b>Stage 2:</b> </p>-->
+
+                <div style="margin-left: 5%;">
+
+                    <p> <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+                    <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+                </div>
+            </div>
+
+    {% endif %}
+
+    {% if "3PR" in player.treatment %}
+
+
+        <div class='responsive-div'>
+
+            <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
+
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-number-1">
+                    <div class="comprehension_option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
+                    <div class="comprehension_option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
+                    <div class="comprehension_option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension_option" data-value="3" >Person A would gain 3 point(s) and Person C would lose 1 point(s).</div>
+                </div>
+            </div>
 
         <br>
-
-        <p>You have decided to remove <strong> <span id="trial-3PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
-
-
-
-        <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
-
-        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to remove points from Person A.</p>
-
-
-    {{ endif }}
-
-
-
-    {{ if treatment_type == '3PR' and player.round_number < 14 }}
-
-        {{ if first_block_2PP_true == True and player.round_number == 6 }}
-            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
-
-            <div class="container">
-
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
-
-        </div>
-
-            <hr>
-
-        {{ endif }}
-
-        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. Person C receives 4 points and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = ⅓ points).</p>
-
         <hr>
 
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.3}} </strong> point(s) and gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. </p>
-
-        <p>Now, you decide how many points to <b style="color: red;">give</b> to Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
-
-         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-
-                    <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>
-                    </p>
-
-
-                        <p>
-                            <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                        </p>
-
-
-
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-
-
-                    <span class='coinstackTP3PR' ></span>
-                    <div class="coin-count-labelTP3PR" id="countTP3PR" ></div>
-
-
-                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 15%;">
-
-
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>
-                    </p>
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">give</b> to Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
         </div>
 
+    {% endif %}
+
+    {% if "3PC" in player.treatment %}
+
+        <div class='responsive-div'>
+
+            <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person B</b> in Stage 2, <b>what would be the effect?</b>  </p>
+
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-number-1">
+                    <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s). </div>
+                    <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
+                    <div class="comprehension_option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension_option" data-value="3" >Person A would lose 3 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
+                </div>
+            </div>
 
         <br>
-
-        <p>You have decided to give <strong> <span id="trial-3PR-display"></span> </strong> point(s) to Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
-
-
-        <p>In this example, Person A gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
-
-        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to give points to Person A.</p>
-
-    {{ endif }}
-
-
-
-    {{ if treatment_type == '3PC' and player.round_number < 14 }}
-
-        {{ if first_block_2PP_true == True and player.round_number == 6 }}
-            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
-
-            <div class="container">
-
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
-
-        </div>
-
-            <hr>
-
-        {{ endif }}
-
-        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A OR give points to Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
-
         <hr>
 
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.4}} </strong> point(s) and gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. </p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A OR <b style="color: red;">give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
-
-        <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-                    <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>
-                    </p>
-
-
-                        <p>
-                            <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                        </p>
-
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-
-                    <span class='coinstack coinstackDDes' ></span>
-                    <div class="coin-count-labelDDes" id="countDDes" ></div>
-
-
-                    <span class='coinstack coinstackTP3PC' ></span>
-                    <div class="coin-count-labelTP3PC" id="countTP3PC" ></div>
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
-                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 74%;">
-
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>
-                    </p>
-
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
         </div>
 
-
-        <br>
-
-        <p>You have decided to <span id="trial-3PC-row1-display"></span> <strong> <span id="trial-3PC-display"></span> </strong> point(s) <span id="trial-3PC-row2-display"></span>. This costs you <span id="TP-cost-display"></span> point(s). </p>
-
-        <p>In this example, Person A gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+{% endif %}
 
 
 
-    {{ endif }}
+<br>
 
-
-
-    {{ if block2 == True and player.round_number == 14 }}
-
-        <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know if the other participants also live in {{current_country}} or in one of 40 countries around the globe which also participate in this study:</p>
-
-        <p> <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </i> </p>
-
-        <p>Here is an example:</p>
-
-        <div class="container">
-
-
-            <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
-            <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
-
-            <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
-            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
-
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
-
-        </div>
-
-        <p>In this example, you are <strong>Person C</strong>, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
-
-        <hr>
-
-    {{ endif }}
-
-
-    {{ if block2 == True and treatment_type == '3PP' }}
-
-        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
-    {{ endif }}
-
-
-    {{ if block2 == True and treatment_type == '3PC' }}
-
-        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
-
-    {{ endif }}
-
-
-    {{ if block3 == True }}
-
-        <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know <strong>in which specific country</strong> both of the other participants live.</p>
-
-        <p>Here is an example:</p>
-
-        <div class="container">
-
-
-            <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
-            <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
-
-            <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
-            <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
-
-            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
-
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
-
-        </div>
-
-        <p>In this example, you are <b>Person C</b>, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
-
-        <p> As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
-
-        <p> Similarly as before, you will also sometimes be asked about the social acceptability of some decisions.</p>
-
-        <hr>
-
-        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
-
-    {{ endif }}
-
-
-    <div style="display: flex; justify-content: flex-end">
-      {% next_button %}
+   <div style="display: flex; justify-content: flex-end">
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            Next
+        </button>
     </div>
+
 
 </form>
 
@@ -1719,5 +574,9 @@
 
 </body>
 </html>
+
+
+
+
 
 {{ endblock }}

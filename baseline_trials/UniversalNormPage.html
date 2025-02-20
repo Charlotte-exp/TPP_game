@@ -28,6 +28,13 @@
     total_endowment = {{ C.total_endowment }}
     receiver_endowment = {{ C.receiver_endowment }}
 
+    /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = 'Please make a decision to continue.'
+    }
+
 
 ////////////// function for displaying the task, numbers, and labels and managing the click event
 
@@ -419,7 +426,7 @@
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="universal_norm_decision1" id="selected-number-1">
 
-        {{ formfield_errors 'universal_norm_decision1' }}
+<!--        {{ formfield_errors 'universal_norm_decision1' }}-->
 
 
         {% for universal_norm_decision in universal_norm_decisions %}
@@ -499,7 +506,7 @@
     <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="universal_norm_decision2" id="selected-universal-norm-decision2">
 
-        {{ formfield_errors 'universal_norm_decision2' }}
+<!--        {{ formfield_errors 'universal_norm_decision2' }}-->
 
 
         <div class='responsive-div'>

@@ -1170,6 +1170,17 @@
 
 <!--        {% endif %}-->
 
+        {% if "2PP" in player.treatment %}
+            <p style="text-align: center; ">
+                <b style="color: red; ">You are Person B!</b>
+            </p>
+        <br>
+        {% else %}
+            <p style="text-align: center; ">
+                <b style="color: red;">You are Person C!</b>
+            </p>
+        {% endif %}
+
         {% for TP_decision in TP_decisions %}
         <div class='responsive-div'>
             <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" data-index="{{ TP_decision.index }}">

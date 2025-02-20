@@ -339,6 +339,16 @@
         position:relative;
     }
 
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
@@ -628,6 +638,38 @@
 
         </div>
         {% endfor %}
+
+        {% if "2PP" in player.treatment %}
+
+            <div class="reminder">
+
+                <p style="text-align: center; ">
+                    <b>Reminder</b>
+                </p>
+
+                <p> There are <strong>two stages</strong>. </p>
+
+                <p> <b> Stage 1: </b> </p>
+
+                <div style="margin-left: 5%;">
+
+                    <p><strong>Person A</strong> receives 12 points.<br>
+                            <strong>Person B</strong> receives 0 points.</p>
+
+                    <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>
+
+                </div>
+
+                <p> <b>Stage 2:</b> </p>
+
+                <div style="margin-left: 5%;">
+
+                    <p> <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+                    <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+                </div>
+            </div>
+        {% endif %}
 
     {% else %}
 
