@@ -697,7 +697,7 @@
 
         <div class='responsive-div'>
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container <br>{% endif %}">
 
 
             {% if dic_identity != "baseline"%}
@@ -776,13 +776,13 @@
         </div>
 
         {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment%}
-            <p style="font-size: 14px;"> You live in {{dic_identity_country}} and Person B lives in {{ recip_identity_country }}. </p>
+            <p style="font-size: 14px;"> You live in <b style="color: red;">{{dic_identity_country}}</b> and Person B lives in <b style="color: red;">{{ recip_identity_country }}</b>. </p>
         {% endif %}
 
-        <p> <strong> How many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
+        <p> <strong> As Person A, how many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
 
         {% if not "0DG" in player.treatment %}
-            <p style="font-size: 14px;"> Keep in mind that {{treatment_text_action}} in Stage 2. </p>
+            <p style="font-size: 14px;"> Keep in mind that {{treatment_text_action}}. </p>
         {% endif %}
 
 

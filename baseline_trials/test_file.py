@@ -21,4 +21,4 @@ treatment_order = ['3PC give', '3PC comp', '3PP give', '3PP punish', '2PP give',
 
 index = next(i for i, v in enumerate(treatment_order) if "2PP" in v or "3PP" in v) # Find the smallest index of an element containing "2PP" or "3PP"
 
-print(index)  # Output: 0
+print("COUNTRY_LIST", len(COUNTRY_LIST))  # Output: 0

@@ -14,7 +14,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 53
+    NUM_ROUNDS = 49
 
     import csv
 
@@ -27,6 +27,8 @@ class C(BaseConstants):
 
     COUNTRY_LIST = list(COUNTRIES.keys())
     #COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
+
+    NUM_COUNTRIES = len(COUNTRY_LIST)
 
     CURRENT_COUNTRYNAME = COUNTRIES.get(CURRENT_COUNTRY)
 
@@ -74,7 +76,7 @@ class C(BaseConstants):
 
     ## 3) Country - partner (26 trials: 5 * 5 + 1 universal norm)
     # Define number of trials for each trial type
-    number_trials_partner_dic_out = 5 # dictator role
+    number_trials_partner_dic_out = 1 # just used so as to not deceive
     number_trials_partner_in_out = 5
     number_trials_partner_out_in = 5
     number_trials_partner_out_out_homog = 5
@@ -162,7 +164,7 @@ def creating_session(subsession):
             trials_2PP_current = trials_2PP_TP_current + C.trials_2PP_DIC if random.choice([True, False]) else C.trials_2PP_DIC + trials_2PP_TP_current
             trials_3PR_current = trials_3PR_TP_current + C.trials_3PR_DIC if random.choice([True, False]) else C.trials_3PR_DIC + trials_3PR_TP_current
             trials_3PC_current = trials_3PC_TP_current + C.trials_3PC_DIC if random.choice([True, False]) else C.trials_3PC_DIC + trials_3PC_TP_current
-            # # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER
+            # # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER: 2PP, 3PP, 3PR, 3PC
             # order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
             # order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
             # # Complete randomized list (DG always first)
@@ -185,10 +187,11 @@ def creating_session(subsession):
                 [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_full_current
             trials_3PC_INOUT_current = trials_3PC_INOUT_TP_current + trials_3PC_INOUT_DIC_current if random.choice(
                 [True, False]) else trials_3PC_INOUT_DIC_current + trials_3PC_INOUT_TP_current
-            # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
-            order_INOUT = random.sample(
-                [trials_3PP_INOUT_current, trials_3PC_INOUT_current], 2)
-            order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
+            # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER: 3PC, 3PP
+            order_INOUT_flat = trials_3PC_INOUT_current + trials_3PP_INOUT_current
+            # order_INOUT = random.sample(
+            #     [trials_3PP_INOUT_current, trials_3PC_INOUT_current], 2)
+            # order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
             participant.treatment_order_INOUT = order_INOUT_flat
 
 
@@ -206,18 +209,21 @@ def creating_session(subsession):
             trials_partner_out_out_homog_current, trials_partner_out_out_homog_editable = sample_trials_partner(trials_partner_out_out_homog_editable, C.number_trials_partner_out_out_homog, "trials_partner_out_out_homog")
             trials_partner_out_out_heterog_current, trials_partner_out_out_heterog_editable = sample_trials_partner(trials_partner_out_out_heterog_editable, C.number_trials_partner_out_out_heterog, "trials_partner_out_out_heterog")
 
-            # c) Merge and randomize order of trials within punisher role
+            # c) Merge and randomize order of trials within punisher role # UPDATE: Shuffle order of treatments, but not across treatments
+            trials_partner_TP_current = [trials_partner_in_out_current, trials_partner_out_in_current, trials_partner_out_out_homog_current, trials_partner_out_out_heterog_current]
+            # trials_partner_TP_current = trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
 
-            trials_partner_TP_current = trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
+            # Shuffle the merged list
+            random.shuffle(trials_partner_TP_current)
+
+            # UPDATE: flatten list
+            trials_partner_TP_current = [item for sublist in trials_partner_TP_current for item in sublist]  # Flatten the nested lists
 
             # Add 3PP treatment identifier for referring to treatment and flatten list (tuples produce errors)
             trials_partner_TP_current = [
                 " ".join(tup) + " 3PP country" if isinstance(tup, tuple) else tup
                 for tup in trials_partner_TP_current
             ]
-
-            # Shuffle the merged list
-            random.shuffle(trials_partner_TP_current)
 
             # d) Randomize order of DIC/TP
             treatment_order_partner_no_univ_norm = trials_partner_TP_current + trials_partner_dic_out_current if random.choice(
@@ -275,7 +281,6 @@ class Player(BasePlayer):
     comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
-    comprehension_failed = models.LongStringField()
 
 
     dic_decision1 = models.IntegerField(
@@ -440,11 +445,11 @@ class instructionPage(Page):
                 dic_identity = C.CURRENT_COUNTRY
                 recip_identity = "out"
                 dic_identity_country = C.CURRENT_COUNTRYNAME
-                recip_identity_country = "one of 40 countries which also participate in this study"
+                recip_identity_country = "one of " + str(C.NUM_COUNTRIES) + " countries which also participate in this study"
             else:
                 dic_identity = "out"
                 recip_identity = C.CURRENT_COUNTRY
-                dic_identity_country = "one of 40 countries which also participate in this study"
+                dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries which also participate in this study"
                 recip_identity_country = C.CURRENT_COUNTRYNAME
         elif "country" in player.treatment or "universal norm" in player.treatment:
             random_partner_country_IN_as_dic = random.choice([True, False])
@@ -511,20 +516,16 @@ class ComprehensionQuestionPage(Page):
         """
         records the number of time the page was submitted with an error. which specific error is not recorded.
         """
-        # Initialize comprehension_failed
-        player.comprehension_failed = "Failed: "
 
         if "2PP" in player.treatment:
             solutions = dict(comprehension2PP=2)
         elif "3PR" in player.treatment:
-            solutions = dict(comprehension3PR=2)
+            solutions = dict(comprehension3PR=3)
         else:
-            solutions = dict(comprehension3PC=2)
+            solutions = dict(comprehension3PC=0)
 
         errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
         if errors:
-            player.comprehension_failed = player.comprehension_failed + "2PP, "
-            print("player.comprehension_failed", player.comprehension_failed)
             return errors
 
     @staticmethod
@@ -535,7 +536,7 @@ class ComprehensionQuestionPage(Page):
         image = image.replace("3PR reward", "3PP punish")
         treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
-        correct_answers = [2,3,1]
+        correct_answers = [2, 3, 0]
         unique_default = "defaulterror_" + str(player.session) + "_" + str(player.participant.id_in_session) + "_" + str(player.round_number)
         #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
@@ -578,7 +579,8 @@ class TPPage(Page):
     def vars_for_template(player: Player):
         if "2PP punish" in player.treatment:
             text_action = "remove"
-            text_action_person = "for Person B"
+            text_action_person = "Person B"
+            text_action_person2 = "you"
             text_receiver = "from Person A"
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
@@ -589,7 +591,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             text_action = "remove"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "from Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -597,7 +600,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "reward" in player.treatment:
             text_action = "give"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -605,7 +609,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "comp" in player.treatment:
             text_action = "remove"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "from Person A"
             text_action_comp = "give"
             text_action_person_comp = "for Person C"
@@ -616,7 +621,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PR reward norm" in player.treatment:
             text_action = "give"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_half
@@ -631,17 +637,17 @@ class TPPage(Page):
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = "out"
             dic_identity_country = C.CURRENT_COUNTRYNAME
-            recip_identity_country = "one of 40 countries"
+            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
         if "OUT IN" in player.treatment:
             dic_identity = "out"
             recip_identity = C.CURRENT_COUNTRY
-            dic_identity_country = "one of 40 countries"
+            dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
             recip_identity_country = C.CURRENT_COUNTRYNAME
         if "OUT OUT" in player.treatment:
             dic_identity = "out"
             recip_identity = "out"
-            dic_identity_country = "one of 40 countries"
-            recip_identity_country = "one of 40 countries"
+            dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
+            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
@@ -704,6 +710,7 @@ class TPPage(Page):
             recip_identity_country=recip_identity_country,
             treatment_text_action=text_action,
             treatment_text_action_person=text_action_person,
+            treatment_text_action_person2=text_action_person2,
             treatment_text_receiver=text_receiver,
             image=image,
             role_switch_true=player.role_switch_true,
@@ -769,7 +776,7 @@ class DictatorPage(Page):
         if player.treatment[-3:] == "OUT":
             recip_identity = "out"
             dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
-            recip_identity_country = "one of 40 countries"
+            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
             dic_identity_country = C.CURRENT_COUNTRYNAME
         if player.treatment[-3:] == " IN":
             recip_identity = C.CURRENT_COUNTRY

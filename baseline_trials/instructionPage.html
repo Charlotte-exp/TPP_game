@@ -1214,7 +1214,7 @@
 
             <p>In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
 
-            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
+            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
 
             <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
@@ -1306,7 +1306,9 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+        <p>Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
 
         <hr>
 
@@ -1428,7 +1430,9 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. Person C receives 4 points and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = ⅓ points).</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. </p>
+
+        <p>Person C receives 4 points and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = 0.33 points).</p>
 
         <hr>
 
@@ -1555,7 +1559,9 @@
 
         <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A OR give points to Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A <u>OR</u> give points to Person B</strong>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action. </p>
+
+        <p>Person C receives 4 points and can use these points to remove points from Person A OR give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point = 0.33 points).</p>
 
         <hr>
 
@@ -1696,7 +1702,7 @@
     {{ if block2 == True and treatment_type == '3PP' }}
 
         <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
 
     {{ endif }}
 
@@ -1704,7 +1710,7 @@
     {{ if block2 == True and treatment_type == '3PC' }}
 
         <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = 0.33 points).</p>
 
     {{ endif }}
 
@@ -1755,7 +1761,7 @@
 
         <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
 
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
+        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
 
 
     {{ endif }}

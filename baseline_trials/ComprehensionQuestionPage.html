@@ -11,7 +11,7 @@ Knowledge check
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 
 
 <script>
@@ -25,24 +25,11 @@ Knowledge check
 
     var correct_answers = {{correct_answers}}
 
-    const unique_default = "{{unique_default}}"
-
-    console.log("unique_default", unique_default)
-
-    if (!localStorage.getItem('unique_default')) {
-        localStorage.setItem('unique_default', 'Please make a decision to continue.');
-    }
-
-    // Retrieve the stored value
-    let defaulterror = localStorage.getItem('unique_default');
-
     /// Function for showing customized error messages
     let errorDiv = document.querySelector('.otree-form-errors');
 
-    console.log("Current defaulterror:", defaulterror );
-
     if (errorDiv) {
-            errorDiv.textContent = defaulterror
+            errorDiv.textContent = "Please select the correct answer."
         }
 
 
@@ -89,7 +76,7 @@ Knowledge check
             // Update the hidden input fields
             if (current_treatment.includes("2PP") ) { // in norm condition
                 $('#selected-comprehension2PP').val(value);
-                index=0;
+                index = 0
             }
             if (current_treatment.includes("3PR") ) { // in norm condition
                 $('#selected-comprehension3PR').val(value);
@@ -100,27 +87,30 @@ Knowledge check
                 index =2;
             }
 
+            console.log("selected_value, correct_answers, correct_answers[index]", value, correct_answers, correct_answers[index])
 
-            // Check if response is correct to update error message
-            if (value !== correct_answers[index] ) { // in norm condition
-                console.log("it thinks that value is not correct", value, correct_answers[index])
-                if (!errorDiv) { // If no errorDiv because not submitted yet, save incorrect response for error message
-                    defaulterror = 'This answer is wrong. Please select the correct answer.'
-                    localStorage.setItem('unique_default', defaulterror); // Save update
-                }
-                else { // If form was already submitted, there is an error message already, that just needs to be updated
-                    errorDiv.textContent = 'This answer is wrong. Please select the correct answer.'
-                    // Reset style to default
-                    errorDiv.style.color = ''; // Remove any custom borders
-                    errorDiv.style.backgroundColor = ''; // Reset background color to the inherited/default value
-                    errorDiv.style.border = ''; // Remove any custom borders
+            // Check if the value is correct, and show feedback
+            if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
+                if (value == correct_answers[index]) { //If correct
+                    errorDiv.textContent = "Correct answer! Please press 'Next'."
+                    errorDiv.style.color = 'green';
+                    errorDiv.style.backgroundColor = 'lightgreen';
+                    errorDiv.style.border = '1px solid green'
+                } else { //If incorrect
+                    errorDiv.textContent = "Wrong answer! Please select the correct answer."
+                    errorDiv.style.color = '';
+                    errorDiv.style.backgroundColor = '';
+                    errorDiv.style.border = ''
                 }
             }
-            else { // Change style to indicate correct response
-                errorDiv.textContent = 'Correct answer! Please press \'Next\'.'
-                errorDiv.style.color = 'green';  // Change text color to green
-                errorDiv.style.backgroundColor = 'lightgreen';  // Change background color to light green
-                errorDiv.style.border = '1px solid green';  // Optionally, add a green border
+            else { // If no error
+                if (value == correct_answers[index]) {
+                    $('#correct-message').show();
+                    $('#incorrect-message').hide();
+                } else {
+                    $('#correct-message').hide();
+                    $('#incorrect-message').show();
+                }
             }
 
             // // Update the hidden input field
@@ -307,6 +297,29 @@ Knowledge check
         font-size: 14px;
     }
 
+    .comprehension-error-red {
+        color: #a94442; /* Bootstrap default error text color (dark red) */
+        background-color: #f2dede; /* Light red background */
+        border: 1px solid #ebccd1; /* Red border */
+        padding: 10px; /* Padding for spacing */
+        border-radius: 4px; /* Slightly rounded corners */
+        margin-bottom: 15px; /* Spacing below the error */
+        display: none; /* Initially hidden */
+        /*font-size: 14px;*/
+    }
+
+    .comprehension-error-green {
+        color: green; /* Bootstrap default error text color (dark red) */
+        background-color: lightgreen; /* Light red background */
+        border: 1px solid green; /* Red border */
+        padding: 10px; /* Padding for spacing */
+        border-radius: 4px; /* Slightly rounded corners */
+        margin-bottom: 15px; /* Spacing below the error */
+        display: none; /* Initially hidden */
+        /*font-size: 14px;*/
+    }
+
+
     .short-container {
         width:45%;
         height:15vw;  # shorter for dictator
@@ -454,6 +467,14 @@ Knowledge check
 
     {% endif %}
 
+    <div class="comprehension-error-green" id="correct-message" >
+        Correct answer! Please press 'Next'.
+    </div>
+
+    <div class="comprehension-error-red" id="incorrect-message" >
+        Wrong answer! Please select the correct answer.
+    </div>
+
 
     {% if "2PP" in player.treatment %}
 
@@ -537,8 +558,8 @@ Knowledge check
 
             <div class='numbers'>
                 <div class="comprehension-row" data-input="selected-number-1">
-                    <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
+                    <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
+                    <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
                     <div class="comprehension_option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
                     <div class="comprehension_option" data-value="3" >Person A would lose 3 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
                 </div>
