@@ -184,7 +184,7 @@
         receiverCountry = "{{ recip_identity }}"
         dictatorCountry = "{{ dic_identity }}"
 
-        role_switch_true = "{{ role_switch_true }}"
+        // role_switch_true = "{{ role_switch_true }}"
 
         if (receiverCountry == "out") {
             receiverCountryName = "one of 40 countries"
@@ -639,6 +639,16 @@
         position:relative;
     }
 
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
@@ -1010,6 +1020,18 @@
 
         {% if "norm" in player.treatment %}
 
+        {% if "2PP" in player.treatment and player.round_number < 6 %}
+            <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person B is.</b> <br> <br>
+            <p style="font-size: 14px; ">
+                Importantly, you will receive <b>12 additional points</b> if your decisions are the same as the most
+                common decisions among all other participants in {{current_country}}. <br> <br>
+            </p>
+        {% endif %}
+
+        {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
+            <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person C is.</b> <br> <br>
+        {% endif %}
+
         {% for TP_norm_decision in TP_norm_decisions %}
         <div class='responsive-div'>
             <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" data-index="{{ TP_norm_decision.index }}">
@@ -1096,7 +1118,7 @@
 
             {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment%}
                 <p style="font-size: 14px;">
-                    Person A lives in {{ dic_identity_country }} and Person B lives in {{ recip_identity_country }}.
+                    Person A lives in <b >{{ dic_identity_country }}</b> and Person B lives in <b >{{ recip_identity_country }}</b>.
                 </p>
             {% endif %}
 
@@ -1106,36 +1128,41 @@
             </p>
 
             <p>
-                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
+                <strong>How socially appropriate is it for {{treatment_text_action_person}} to
                 <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
-                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>unacceptable</div>
-                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>unacceptable</div>
-                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>unacceptable</div>
-                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>acceptable</div>
-                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>acceptable</div>
-                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
+                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>inappropriate</div>
+                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>inappropriate</div>
+                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>inappropriate</div>
+                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>appropriate</div>
+                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>appropriate</div>
+                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>appropriate</div>
                 </div>
             </div>
 
             {% if "punish" in player.treatment or "reward" in player.treatment %}
             <br>
+
+             <p style="text-align: center; ">
+                <b >AND</b>
+            </p>
+
             <p>
-                <strong>How <b style="color: red;">socially acceptable</b> is it {{treatment_text_action_person}} to
-                <b style="color: red;"> <u>not</u> {{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
+                <strong>How socially appropriate is it for {{treatment_text_action_person}} to
+                <b style="color: red;"> <u>NOT</u> {{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-neg-norm-{{ TP_norm_decision.index }}">
-                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>unacceptable</div>
-                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>unacceptable</div>
-                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>unacceptable</div>
-                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>acceptable</div>
-                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>acceptable</div>
-                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>acceptable</div>
+                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>inappropriate</div>
+                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>inappropriate</div>
+                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>inappropriate</div>
+                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>appropriate</div>
+                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>appropriate</div>
+                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>appropriate</div>
                 </div>
             </div>
             {% endif %}
@@ -1147,26 +1174,48 @@
 
         {% else %}
 
-        {% if role_switch_true == True %}
+<!--        {% if role_switch_true == True %}-->
 
-            {% if "2PP" in player.treatment %}
+<!--            {% if "2PP" in player.treatment %}-->
+
+<!--            <p style="text-align: center; ">-->
+<!--                <b style="color: red;">Role switch! You are now Person B!</b>-->
+
+<!--                <br>-->
+<!--                <br>-->
+<!--                <br>-->
+
+<!--            </p>-->
+
+<!--            {% else %}-->
+
+<!--            <p style="text-align: center;">-->
+<!--                <b style="color: red;">Role switch! You are now Person C!</b>-->
+<!--            </p>-->
+
+<!--            {% endif %}-->
+
+<!--        {% endif %}-->
+
+        {% if "2PP" in player.treatment %}
 
             <p style="text-align: center; ">
-                <b style="color: red;">Role switch! You are now Person B!</b>
-
-                <br>
-                <br>
-                <br>
-
+                <b style="color: red; ">You are Person B!</b>
             </p>
 
-            {% else %}
+<!--            {% if player.round_number < 6 %}-->
+                <b> Now, you decide as Person B how many points to remove from Person A.</b> <br> <br>
+<!--            {% endif %}-->
 
-            <p style="text-align: center;">
-                <b style="color: red;">Role switch! You are now Person C!</b>
+        <br>
+        {% endif %}
+
+        {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
+            <p style="text-align: center; ">
+                <b style="color: red;">You are Person C!</b>
             </p>
 
-            {% endif %}
+        <b> Now, you decide as Person C how many points to remove from Person A.</b> <br> <br>
 
         {% endif %}
 
@@ -1263,13 +1312,13 @@
             </div>
 
                 {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment%}
-                    <p style="font-size: 14px;"> Person A lives in {{ dic_identity_country }} and Person B lives in {{ recip_identity_country }}. </p>
+                    <p style="font-size: 14px;"> Person A lives in <b >{{ dic_identity_country }}</b> and Person B lives in <b >{{ recip_identity_country }}</b>. </p>
                 {% endif %}
 
-                <p style="font-size: 14px;"> Person A gave <strong> {{TP_decision.receiver}} </strong> point(s) to Person B and kept <strong> {{TP_decision.dictator_keeps}} </strong> point(s) for themselves. </p>
+                <p style="font-size: 14px;"> Person A gave <strong> {{TP_decision.receiver}} </strong> point(s) to {{treatment_text_action_person2}} and kept <strong> {{TP_decision.dictator_keeps}} </strong> point(s) for themselves. </p>
 
                 <div class='numbers'>
-                    <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
+                    <p>  <strong>As {{treatment_text_action_person}}, how many points do you <b style="color: red;"> {{ treatment_text_action }} </b>  {{ treatment_text_receiver }}? </strong> </p>
 
                     <div class="number-row" data-index="{{ TP_decision.index }}" data-row="punish" data-input="selected-number-{{ TP_decision.index }}">
                         {{ for num in TP_points }}
@@ -1278,10 +1327,11 @@
                     </div>
                     {% if "3PC" in player.treatment%}
                     <br>
-                    <div>
-                        <b>OR</b>
-                    </div>
-                    <br>
+
+                    <p style="text-align: center; ">
+                        <b style="color: red; ">OR</b>
+                    </p>
+
                     <p> <strong>How many points do you <b style="color: red;"> {{ treatment_text_action_comp }} </b>  {{ treatment_text_receiver_comp }}? </strong> </p>
 
                     <div class="number-row-comp" data-index="{{ TP_decision.index }}" data-row="compensate" data-input="selected-number-{{ TP_decision.index }}">
@@ -1315,6 +1365,79 @@
             Next
         </button>
     </div>
+
+    {% if "2PP" in player.treatment or "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
+
+    <br>
+
+            <div class="reminder">
+
+                    <p style="text-align: center; ">
+                        <b>Reminder</b>
+                    </p>
+
+                    <p> There are <strong>two stages</strong>. </p>
+
+                    <p> <b> Stage 1: </b> </p>
+
+                    <div style="margin-left: 5%;">
+
+                        <p><strong>Person A</strong> receives 12 points.<br>
+                                <strong>Person B</strong> receives 0 points.</p>
+
+                        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>
+
+                    </div>
+
+                    <p> <b>Stage 2:</b> </p>
+
+                    {% if "2PP" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
+
+                            <p> <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+                            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+                        </div>
+
+                    {% endif %}
+
+                    {% if "3PP" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
+
+                            <p> <b>Person C</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+                            <p>Person C receives 4 points in Stage 2 and can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+                        </div>
+
+                    {% endif %}
+
+                    {% if "3PR" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
+
+                            <p> <b>Person C</b> is able to <strong>give points</strong> to <strong>Person A</strong>. </p>
+
+                            <p>Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = 0.33 points).</p>
+                        </div>
+
+                    {% endif %}
+
+                    {% if "3PC" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
+
+                            <p> <b>Person C</b> is able to <b>remove points</b> from <b>Person A <u>OR</u>give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.</p>
+
+                            <p>Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point = 0.33 points).</p>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+        {% endif %}
+
 
 
     </form>

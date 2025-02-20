@@ -192,12 +192,12 @@
 
         // Define labels of appropriateness for displaying clicked norm
         const valueToLabel = {
-            0: "very socially unacceptable",
-            1: "socially unacceptable",
-            2: "slightly socially unacceptable",
-            3: "slightly socially acceptable",
-            4: "socially acceptable",
-            5: "very socially acceptable"
+            0: "very socially inappropriate",
+            1: "socially inappropriate",
+            2: "slightly socially inappropriate",
+            3: "slightly socially appropriate",
+            4: "socially appropriate",
+            5: "very socially appropriate"
         };
 
         // Set the dictator and receiver coins for norm test rounds, depending on condition
@@ -234,7 +234,7 @@
 
         // dictator stack static (for static display of role labels)
         for (let i = 0; i < total_endowment; i++) {
-            $(`.coinstackD-static`).append('<div class="coin" style="left:14%;"></div>');
+            $(`.coinstackD-static`).append('<div class="coin" style="left:14%; "></div>');
         }
         // dictator stack
         for (let i = 0; i < total_endowment; i++) {
@@ -615,7 +615,7 @@
 
     .container {
         width:45%;
-        height:25vw;
+        height:20vw;
         margin-left:auto;
         margin-right:auto;
         border:0px solid black;
@@ -624,11 +624,22 @@
 
     .short-container {
         width:45%;
-        height:15vw;  # shorter for dictator
+        height:8.5vw;  # shorter for dictator
         margin-left:auto;
         margin-right:auto;
+        margin-top:1.5vw;
         border:0px solid black;
         position:relative;
+    }
+
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
     }
 
     @media (max-width: 1200px) {
@@ -914,18 +925,18 @@
 }
 
 
-    .coin:nth-child(12)  { top: 6.0vw; }
-    .coin:nth-child(11)  { top: 6.3vw; }
-    .coin:nth-child(10)  { top: 6.6vw; }
-    .coin:nth-child(9)   { top: 6.9vw; }
-    .coin:nth-child(8)   { top: 7.2vw; }
-    .coin:nth-child(7)   { top: 7.5vw; }
-    .coin:nth-child(6)   { top: 7.8vw; }
-    .coin:nth-child(5)   { top: 8.1vw; }
-    .coin:nth-child(4)   { top: 8.4vw; }
-    .coin:nth-child(3)   { top: 8.7vw; }
-    .coin:nth-child(2)   { top: 9.0vw; }
-    .coin:nth-child(1)   { top: 9.3vw; }
+    .coin:nth-child(12)  { top: 2.7vw; }
+    .coin:nth-child(11)  { top: 3.0vw; }
+    .coin:nth-child(10)  { top: 3.3vw; }
+    .coin:nth-child(9)   { top: 3.6vw; }
+    .coin:nth-child(8)   { top: 3.9vw; }
+    .coin:nth-child(7)   { top: 4.2vw; }
+    .coin:nth-child(6)   { top: 4.5vw; }
+    .coin:nth-child(5)   { top: 4.8vw; }
+    .coin:nth-child(4)   { top: 5.1vw; }
+    .coin:nth-child(3)   { top: 5.4vw; }
+    .coin:nth-child(2)   { top: 5.7vw; }
+    .coin:nth-child(1)   { top: 6.0vw; }
 
     .coinR:nth-child(12)  { top: 1.3vw; }
     .coinR:nth-child(11)  { top: 1.6vw; }
@@ -1034,19 +1045,19 @@
 
         <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
 
                 <span class='coinstackD-static' ></span>
                 <div class="coin-count-labelD-static"
-                     style="top: 55%; "></div>
+                     style="top: 60%; "></div>
 
         </div>
 
@@ -1055,111 +1066,111 @@
 
         <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep for themselves. Person B does not make a decision.</p>
 
-        <hr>
+<!--        <hr>-->
 
-        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. </p>
+<!--        <p>In this practice exercise, you are Person A, which is indicated by the red rectangle. You receive 12 points and Person B receives 0 points. </p>-->
 
-        <p>Now, you will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>
+<!--        <p>Now, you will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>-->
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+<!--        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">-->
 
-            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+<!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
 
-                <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                </p>
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>-->
+<!--                </p>-->
 
-                <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                </p>
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>-->
+<!--                </p>-->
 
-                <p>
-                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>
-                </p>
+<!--                <p>-->
+<!--                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>-->
+<!--                </p>-->
 
-                <span class='coinstackD' ></span>
-                <div class="coin-count-labelD"
-                     style="top: 55%; "></div>
+<!--                <span class='coinstackD' ></span>-->
+<!--                <div class="coin-count-labelD"-->
+<!--                     style="top: 55%; "></div>-->
 
-                <span class='coinstackR' ></span>
-                <div class="coin-count-labelR"
-                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
+<!--                <span class='coinstackR' ></span>-->
+<!--                <div class="coin-count-labelR"-->
+<!--                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>-->
 
-        </div>
+<!--        </div>-->
 
-        <p> <strong> How many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
+<!--        <p> <strong> How many points do you <b style="color: red;">give</b> to Person B?</strong> </p>-->
 
-        <div class='numbers'>
-           <div class="number-row">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}">{{ num }}</div>
-                {{ endfor }}
-            </div>
-        </div>
+<!--        <div class='numbers'>-->
+<!--           <div class="number-row">-->
+<!--                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}-->
+<!--                <div class="number" data-value="{{ num }}">{{ num }}</div>-->
+<!--                {{ endfor }}-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <br>
+<!--        <br>-->
 
-        <p>You have decided to give <strong> <span id="trial-dic1-display"></span> </strong> point(s) to Person B and keep <strong><span id="trial-dic2-display"></span></strong> point(s) for yourself.</p>
+<!--        <p>You have decided to give <strong> <span id="trial-dic1-display"></span> </strong> point(s) to Person B and keep <strong><span id="trial-dic2-display"></span></strong> point(s) for yourself.</p>-->
 
-        <p>In this example, you were assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.</p>
+<!--        <p>In this example, you were assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.</p>-->
 
-        <hr>
+<!--        <hr>-->
 
-        <p>You will also make a decision about the <b> social acceptability</b> of Person A’s decisions. You will be shown different possible decisions of Person A. Then you decide how socially acceptable this decision is, among the following options:</p>
+<!--        <p>You will also make a decision about the <b> social acceptability</b> of Person A’s decisions. You will be shown different possible decisions of Person A. Then you decide how socially appropriate this decision is, among the following options:</p>-->
 
-        <ul>
-            <li>Very socially <strong>un</strong>acceptable</li>
-            <li>Socially <strong>un</strong>acceptable</li>
-            <li>Slightly socially <strong>un</strong>acceptable</li>
-            <li>Slightly socially acceptable</li>
-            <li>Socially acceptable</li>
-            <li>Very socially acceptable</li>
-        </ul>
+<!--        <ul>-->
+<!--            <li>Very socially <strong>un</strong>appropriate</li>-->
+<!--            <li>Socially <strong>un</strong>appropriate</li>-->
+<!--            <li>Slightly socially <strong>un</strong>appropriate</li>-->
+<!--            <li>Slightly socially appropriate</li>-->
+<!--            <li>Socially appropriate</li>-->
+<!--            <li>Very socially appropriate</li>-->
+<!--        </ul>-->
 
-        <p>Importantly, you will receive <b>12 additional points</b> if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>
+<!--        <p>Importantly, you will receive <b>12 additional points</b> if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>-->
 
-        <p> In this practice exercise, you will decide <b style="color: red;">how socially acceptable</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>
+<!--        <p> In this practice exercise, you will decide <b style="color: red;">how socially appropriate</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>-->
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+<!--        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">-->
 
-            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+<!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
 
-                <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                </p>
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>-->
+<!--                </p>-->
 
-                <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                </p>
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>-->
+<!--                </p>-->
 
-                <p>
-                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>
-                </p>
+<!--                <p>-->
+<!--                    <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:-18.5%;">YOU</b>-->
+<!--                </p>-->
 
-                <span class='coinstackD-static-norm' ></span>
-                <div class="coin-count-labelD-static-norm"
-                     style="top: 55%; "></div>
+<!--                <span class='coinstackD-static-norm' ></span>-->
+<!--                <div class="coin-count-labelD-static-norm"-->
+<!--                     style="top: 55%; "></div>-->
 
-                <span class='coinstackR-static-norm' ></span>
-                <div class="coin-count-labelR-static-norm"
-                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
+<!--                <span class='coinstackR-static-norm' ></span>-->
+<!--                <div class="coin-count-labelR-static-norm"-->
+<!--                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>-->
 
-        </div>
+<!--        </div>-->
 
-        <div class='numbers'>
-                <div class="number-row" >
-                    <div class="norm" data-value="0" >very socially<br>unacceptable</div>
-                    <div class="norm" data-value="1" >socially<br>unacceptable</div>
-                    <div class="norm" data-value="2" >slightly socially<br>unacceptable</div>
-                    <div class="norm" data-value="3" >slightly socially<br>acceptable</div>
-                    <div class="norm" data-value="4" >socially<br>acceptable</div>
-                    <div class="norm" data-value="5" >very socially<br>acceptable</div>
-                </div>
-            </div>
+<!--        <div class='numbers'>-->
+<!--                <div class="number-row" >-->
+<!--                    <div class="norm" data-value="0" >very socially<br>inappropriate</div>-->
+<!--                    <div class="norm" data-value="1" >socially<br>inappropriate</div>-->
+<!--                    <div class="norm" data-value="2" >slightly socially<br>inappropriate</div>-->
+<!--                    <div class="norm" data-value="3" >slightly socially<br>appropriate</div>-->
+<!--                    <div class="norm" data-value="4" >socially<br>appropriate</div>-->
+<!--                    <div class="norm" data-value="5" >very socially<br>appropriate</div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-        <p> <br> You have decided that Person A giving <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B is <strong> <span id="trial-norm1-display"></span> </strong>.</p>
+<!--        <p> <br> You have decided that Person A giving <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B is <strong> <span id="trial-norm1-display"></span> </strong>.</p>-->
 
-        <p>If most other participants in {{current_country}} also choose <strong><span id="trial-norm2-display"></span></strong>, you would receive 12 points.</p>
+<!--        <p>If most other participants in {{current_country}} also choose <strong><span id="trial-norm2-display"></span></strong>, you would receive 12 points.</p>-->
 
 
     {{ endif }}
@@ -1175,26 +1186,25 @@
 
         <div class="container short-container">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
 
                 <span class='coinstackD-static' ></span>
                 <div class="coin-count-labelD-static"
-                     style="top: 55%; "></div>
+                     style="top: 60%; "></div>
 
         </div>
-
         <p><strong>Person A</strong> receives 12 points.<br>
         <strong>Person B</strong> receives 0 points.</p>
 
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep.</p>
+        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>
 
         <hr>
 
@@ -1202,27 +1212,28 @@
 
         {{ if treatment_type == '2PP' }}
 
-            <p>In <b>Stage 2</b>, Person B will be able to make a decision:
-            <strong>Person B</strong> will decide whether to change the points of Person A.
-            The possible choices of Person B will be explained below.</p>
+            <p>In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
 
             <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
-            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
 
-                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 13%; left: 23%;">
+                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 5%; left: 23%;">
+                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -18%; left: 40%;">
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 55%; "></div>
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 60%; "></div>-->
 
         </div>
 
@@ -1256,222 +1267,156 @@
 
         {{ endif }}
 
-        <p>The decision situation will always have these two stages: <strong>Stage 1</strong> and <strong>Stage 2</strong>.</p>
-
-        <hr>
-
 
     {{ endif }}
-
-
-    {{ if treatment_type == '2PP' and player.round_number < 14 }}
-
-        <p>In the next decisions, there are <strong>two</strong> roles: Person A and Person B.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1).</p>
-
-        <p>In Stage 2, <strong>Person B</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
-        <hr>
-
-        <p>In this practice exercise, you are <b>Person B</b>, which is indicated by the red rectangle. In Stage 1, Person A kept {{random_trial_numbers_diff.1}} point(s) and gave {{random_trial_numbers.1}} point(s) to you.</p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
-
-    <br>
-
-
-    <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-                    <p>
-                        <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 60%; right:-12%;">PERSON B</b>
-                    </p>
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-                    <span class='coinstack coinstackDDes2PP' ></span>
-                    <div class="coin-count-labelDDes2PP" id="countDDes2PP" ></div>
-
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 39%;">
-                    <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 22%;">
-
-        <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 43%; left:89%;">YOU</b>
-                    </p>
-
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
-        </div>
-
-
-        <br>
-
-        <p>You have decided to remove <strong> <span id="trial-2PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
-
-
-        <p>In this example, Person A gave {{random_trial_numbers.1}} point(s) to you. For the real decisions, you will see different possible cases, where Person A gives varying points to you.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A.</p>
-
-        <p>Additionally, you will make a decision about the social acceptability of Person B’s decision to remove points from Person A.</p>
-
-
-
-    {{ endif }}
-
 
 
     {{ if treatment_type == '3PP' and player.round_number < 14 }}
 
-        {{ if first_block_2PP_true == True and player.round_number == 6 }}
-            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
+<!--        {{ if first_block_2PP_true == True and player.round_number == 6 }}-->
+<!--            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>-->
 
-            <div class="container">
+<!--            <div class="container">-->
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+<!--            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
+
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>-->
+<!--                </p>-->
+
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>-->
+<!--                </p>-->
+
+<!--                <p>-->
+<!--                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>-->
+<!--                </p>-->
+
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 33%; "></div>-->
+
+<!--        </div>-->
+
+<!--            <hr>-->
+
+<!--        {{ endif }}-->
+
+        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+
+        <div class="container">
+
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                    <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
                 </p>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
+
+
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 33%; "></div>-->
 
         </div>
-
-            <hr>
-
-        {{ endif }}
-
-        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
-
-        <hr>
-
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>
-
-        <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-                    <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                    </p>
-
-                <span class='coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-
-                <span class='coinstack coinstackDDes' ></span>
-                <div class="coin-count-labelDDes" id="countDDes" ></div>
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
-
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>
-                    </p>
-
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
-        </div>
-
 
         <br>
 
-        <p>You have decided to remove <strong> <span id="trial-3PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
+        <p>You will be joined by a third person: <b style="color: red;">Person C.</b> </p>
+
+        <p> In Stage 2, <b>Person C</b> is able to <b>remove points</b> from Person A. Person B is <u>not anymore</u> able to make a decision.</p>
+
+        <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+
+<!--        <hr>-->
+
+<!--        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>-->
+
+<!--        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>-->
+
+<!--        <div class="container" >-->
+
+<!--                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
+
+
+<!--                    <p>-->
+<!--                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>-->
+<!--                    </p>-->
+
+<!--                <span class='coinstackD-TP' ></span>-->
+<!--                <div class="coin-count-labelD"-->
+<!--                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"-->
+<!--                     id="countD" ></div>-->
+
+<!--                <span class='coinstackR-TP' ></span>-->
+<!--                <div class="coin-count-labelR"-->
+<!--                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"-->
+<!--                     id="countR" ></div>-->
+
+
+<!--                <span class='coinstack coinstackDDes' ></span>-->
+<!--                <div class="coin-count-labelDDes" id="countDDes" ></div>-->
+
+<!--                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">-->
+
+<!--                    <p>-->
+<!--                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>-->
+<!--                    </p>-->
+
+
+<!--            </div>-->
+
+
+<!--        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>-->
+
+<!--        <div class='numbers'>-->
+<!--           <div class="number-row" data-row="punish">-->
+<!--                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}-->
+<!--                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>-->
+<!--                {{ endfor }}-->
+<!--            </div>-->
+<!--            <br>-->
+<!--            {% if "3PC" in player.treatment%}-->
+<!--            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>-->
+
+<!--            <div class="number-row-comp" data-row="compensate" >-->
+<!--                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}-->
+<!--                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>-->
+<!--                {{ endfor }}-->
+<!--            </div>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+
+
+<!--        <br>-->
+
+<!--        <p>You have decided to remove <strong> <span id="trial-3PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>-->
 
 
 
-        <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
+<!--        <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>-->
 
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+<!--        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>-->
 
-        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to remove points from Person A.</p>
+<!--        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to remove points from Person A.</p>-->
+
 
 
     {{ endif }}
@@ -1480,126 +1425,34 @@
 
     {{ if treatment_type == '3PR' and player.round_number < 14 }}
 
-        {{ if first_block_2PP_true == True and player.round_number == 6 }}
-            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
+        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
 
-            <div class="container">
+        <div class="container">
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                    <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
                 </p>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
+            <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
 
         </div>
-
-            <hr>
-
-        {{ endif }}
-
-        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>give points</strong> to <strong>Person A</strong>. Person C receives 4 points and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = ⅓ points).</p>
-
-        <hr>
-
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.3}} </strong> point(s) and gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. </p>
-
-        <p>Now, you decide how many points to <b style="color: red;">give</b> to Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would receive.</p>
-
-         <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-
-                    <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>
-                    </p>
-
-
-                        <p>
-                            <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                        </p>
-
-
-
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-
-
-                    <span class='coinstackTP3PR' ></span>
-                    <div class="coin-count-labelTP3PR" id="countTP3PR" ></div>
-
-
-                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 15%;">
-
-
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>
-                    </p>
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">give</b> to Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
-        </div>
-
 
         <br>
 
-        <p>You have decided to give <strong> <span id="trial-3PR-display"></span> </strong> point(s) to Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>
+        <p> In Stage 2, <b>Person C</b> is able to <b>give points</b> to Person A. Person C is <u>not anymore</u> able to remove points. </p>
 
+        <p> Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = 0.33 points).</p>
 
-        <p>In this example, Person A gave <strong> {{random_trial_numbers.3}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
-
-        <p>Additionally, you will make a decision about the social acceptability of Person C’s decision to give points to Person A.</p>
 
     {{ endif }}
 
@@ -1607,133 +1460,45 @@
 
     {{ if treatment_type == '3PC' and player.round_number < 14 }}
 
-        {{ if first_block_2PP_true == True and player.round_number == 6 }}
-            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>
+        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
 
-            <div class="container">
+        <div class="container">
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
 
                 <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                    <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
                 </p>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
+            <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 52%; left: 75%;">
 
         </div>
-
-            <hr>
-
-        {{ endif }}
-
-        <p>In the next decisions, there are <strong>three</strong> roles: Person A, Person B, and Person C.</p>
-
-        <p>As before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A OR give points to Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
-
-        <hr>
-
-        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.4}} </strong> point(s) and gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. </p>
-
-        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A OR <b style="color: red;">give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose OR Person B would receive.</p>
-
-        <div class="container {% if '2PP' in player.treatment %}short-container{% endif %}" >
-
-                <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
-
-
-                    <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                    </p>
-
-                    <p>
-                        <b style="position: absolute; top: 36%; right:-13%;">PERSON B</b>
-                    </p>
-
-
-                        <p>
-                            <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                        </p>
-
-
-                <span class='coinstack coinstackD-TP' ></span>
-                <div class="coin-count-labelD"
-                     style="{% if '2PP' in player.treatment %}top: 55%;{% endif %}"
-                     id="countD" ></div>
-
-                <span class='coinstack coinstackR-TP' ></span>
-                <div class="coin-count-labelR"
-                     style="{% if '2PP' in player.treatment %}top: 20%;{% endif %}"
-                     id="countR" ></div>
-
-
-                    <span class='coinstack coinstackDDes' ></span>
-                    <div class="coin-count-labelDDes" id="countDDes" ></div>
-
-
-                    <span class='coinstack coinstackTP3PC' ></span>
-                    <div class="coin-count-labelTP3PC" id="countTP3PC" ></div>
-
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
-                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 74%;">
-
-                    <p>
-                        <b style="color: red; font-size: 24px; position: absolute; top: 75%; left:38.5%;">YOU</b>
-                    </p>
-
-
-            </div>
-
-
-        <p> <strong> How many points do you <b style="color: red;">remove</b> from Person A?</strong> </p>
-
-        <div class='numbers'>
-           <div class="number-row" data-row="punish">
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="punish">{{ num }}</div>
-                {{ endfor }}
-            </div>
-            <br>
-            {% if "3PC" in player.treatment%}
-            <p> <strong>How many points do you <b style="color: red;"> give </b> to Person B? </strong> </p>
-
-            <div class="number-row-comp" data-row="compensate" >
-                {{ for num in [0,1,2,3,4,5,6,7,8,9,10,11,12] }}
-                <div class="number" data-value="{{ num }}" data-row="compensate" >{{ num }}</div>
-                {{ endfor }}
-            </div>
-            {% endif %}
-        </div>
-
 
         <br>
 
-        <p>You have decided to <span id="trial-3PC-row1-display"></span> <strong> <span id="trial-3PC-display"></span> </strong> point(s) <span id="trial-3PC-row2-display"></span>. This costs you <span id="TP-cost-display"></span> point(s). </p>
+        <p> In Stage 2, <b>Person C</b> is able to <b>remove points</b> from <b>Person A <u>OR</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
 
-        <p>In this example, Person A gave <strong> {{random_trial_numbers.4}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>
-
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
-
+        <p> Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point = 0.33 points).</p>
 
 
     {{ endif }}
 
 
 
-    {{ if block2 == True and player.round_number == 14 }}
+    {{ if block2 == True and treatment_type == '3PC' }}
 
-        <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know if the other participants also live in {{current_country}} or in one of 40 countries around the globe which also participate in this study:</p>
+        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+
+        <p>You will know if the other participants also live in {{current_country}} or in one of 40 countries around the globe which also participate in this study:</p>
 
         <p> <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </i> </p>
 
@@ -1752,26 +1517,32 @@
             <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
                 <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                    <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
                 </p>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
+            <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 67%; left: 75%;">
+
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 33%; "></div>-->
 
         </div>
 
-        <p>In this example, you are <strong>Person C</strong>, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
+        <br>  <br> <br>
 
-        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+
+        <p>In this example, Person A lives in <b>{{dic_identity_country}}</b> and Person B lives in <b>{{recip_identity_country}}</b>. </p>
+
+        <p> Person C is still able to <b>remove points</b> from Person A <u>OR</u> <b>give points</b> to Person B. </p>
 
         <hr>
 
@@ -1780,23 +1551,49 @@
 
     {{ if block2 == True and treatment_type == '3PP' }}
 
-        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
+        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
 
-    {{ endif }}
+        <div class="container">
 
 
-    {{ if block2 == True and treatment_type == '3PC' }}
+                <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
+                <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
 
-        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong> OR <strong>give points</strong> to <strong>Person B</strong>. Person C receives 4 points and can use these points to remove points from Person A or give points to Person B. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing/giving 1 point = ⅓ points).</p>
+                <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
+                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+
+
+                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+
+                    <p>
+                    <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
+                </p>
+
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
+
+
+            </div>
+
+        <br> <br>  <br>
+
+        <p>In Stage 2, <b>Person C</b> is able to <b>remove points</b> from Person A. Person C is <u>not anymore</u> able to give points to Person B. </p>
 
     {{ endif }}
 
 
     {{ if block3 == True }}
 
-        <p>In the next decisions, you will be paired with <strong>two other</strong> participants and there will be <strong>one change</strong>: You will know <strong>in which specific country</strong> both of the other participants live.</p>
+        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+
+        <p>You will know <strong>in which specific country</strong> both of the other participants live.</p>
 
         <p>Here is an example:</p>
 
@@ -1813,41 +1610,42 @@
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
                 <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
+                    <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
+                    <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
                 </p>
 
                 <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
+                    <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
                 </p>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
+
 
         </div>
 
-        <p>In this example, you are <b>Person C</b>, which is indicated by the red rectangle. Person A lives in {{dic_identity_country}} and Person B lives in {{recip_identity_country}}.</p>
+        <br> <br> <br>
 
-        <p> As before, you will also sometimes be assigned to the role of Person A or Person B.</p>
+        <p> Person A lives in <b>{{dic_identity_country}}</b> and Person B lives in <b>{{recip_identity_country}}</b>.</p>
 
-        <p> Similarly as before, you will also sometimes be asked about the social acceptability of some decisions.</p>
-
-        <hr>
-
-        <p>In the next decisions, as before, Person A decides how many of the 12 points to give to Person B and how many to keep (Stage 1). Person B does not make a decision.</p>
-
-        <p>In Stage 2, <strong>Person C</strong> will be able to <strong>remove points</strong> from <strong>Person A</strong>. Person C receives 4 points and can use these points to remove points from Person A. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = ⅓ points).</p>
+        <p> Person C is still able to <b>remove points</b> from Person A. </p>
 
 
     {{ endif }}
 
+    <br>
 
     <div style="display: flex; justify-content: flex-end">
-      {% next_button %}
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            Understood!
+        </button>
     </div>
 
 </form>
