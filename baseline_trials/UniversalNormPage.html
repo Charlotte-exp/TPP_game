@@ -99,24 +99,18 @@
             });
 
             // Update the hidden input field
-            $(`#selected-number-${index}`).val(value);
+            $(`#selected-countries-${index}`).val(value);
 
             // Update the corresponding punishment value in the array
             universal_norm_decisions_stored[index - 1] = value;
 
-            // This is usually done by the coinstack logic somewhere
-            // since we don't update coinstacks for norms we need to add this
-            // maybe we don't even need the stored array...
-            universal_norm_decisions[index - 1].universal_norm_decision = value;
-
             // Update the display text the clicked number
             $('#selected-number-display').text('' + value);
 
-
             // Debugging
-            //console.log(`Updated norm decision at index ${index}: ${value}`);
-            console.log('universal norm Decisions:', universal_norm_decisions);
-            console.log(`universal norm decision values list: ${universal_norm_decisions_stored}`);
+            console.log(`Updated norm decision at index ${index}: ${value}`);
+            //console.log('universal norm Decisions:', universal_norm_decisions);
+            console.log(`universal norm countries decision values list: ${universal_norm_decisions_stored}`);
         });
 
         //Actions on click: ALTERNATIVE NORM MEASURE
@@ -129,21 +123,14 @@
 
             // Get the value of the clicked button
             const value = $(this).data('value');
-            // const index = $(this).data('index');
+            const index = $(this).data('index');
 
             // Update the hidden input field
-            $('#selected-universal-norm-decision2').val(value);
-
-            // // Update the hidden input field
-            // $(`#selected-number-${index}`).val(value);
-            // // This is usually done by the coinstack logic somewhere
-            // // since we don't update coinstacks for norms we need to add this
-            // // maybe we don't even need the stored array...
-            // universal_norm_decisions[index - 1].universal_norm_decision = value;
-
+            $(`#selected-people-${index}`).val(value);
 
             // Debugging
-            //console.log(`Updated norm decision at index ${index}: ${value}`);
+            console.log(`Updated norm people decision at index ${index}: ${value}`);
+
         });
 
         // Submit button click handler
@@ -351,80 +338,6 @@
       }
     }
 
-    .coin {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coin-count-labelD {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 30%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-
-    .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-
-
-    .coin:nth-child(12)  { top: 6.0vw; }
-    .coin:nth-child(11)  { top: 6.3vw; }
-    .coin:nth-child(10)  { top: 6.6vw; }
-    .coin:nth-child(9)   { top: 6.9vw; }
-    .coin:nth-child(8)   { top: 7.2vw; }
-    .coin:nth-child(7)   { top: 7.5vw; }
-    .coin:nth-child(6)   { top: 7.8vw; }
-    .coin:nth-child(5)   { top: 8.1vw; }
-    .coin:nth-child(4)   { top: 8.4vw; }
-    .coin:nth-child(3)   { top: 8.7vw; }
-    .coin:nth-child(2)   { top: 9.0vw; }
-    .coin:nth-child(1)   { top: 9.3vw; }
-
-    .coinR:nth-child(12)  { top: 1.3vw; }
-    .coinR:nth-child(11)  { top: 1.6vw; }
-    .coinR:nth-child(10)   { top: 1.9vw; }
-    .coinR:nth-child(9)   { top: 2.2vw; }
-    .coinR:nth-child(8)   { top: 2.5vw; }
-    .coinR:nth-child(7)   { top: 2.8vw; }
-    .coinR:nth-child(6)   { top: 3.1vw; }
-    .coinR:nth-child(5)   { top: 3.4vw; }
-    .coinR:nth-child(4)   { top: 3.7vw; }
-    .coinR:nth-child(3)   { top: 4.0vw; }
-    .coinR:nth-child(2)   { top: 4.3vw; }
-    .coinR:nth-child(1)  { top: 4.6vw; }
-
-
 </style>
 </head>
 
@@ -434,78 +347,112 @@
 <form method="post">
 
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="universal_norm_decision1" id="selected-number-1">
+    <input type="hidden" name="universal_norm_countries" id="selected-countries-1">
 
-<!--        {{ formfield_errors 'universal_norm_decision1' }}-->
+<!--        {{ formfield_errors 'universal_norm_countries' }}-->
 
-
-    {% for universal_norm_decision in universal_norm_decisions %}
+     {% for universal_norm_decision in universal_norm_decisions %}
     <div class='responsive-div'>
 
-    <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %} short-container {% endif %}"
-         data-index="{{ universal_norm_decision.index }}">
+        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment
+        or 'universal' in player.treatment %} short-container {% endif %}">
 
-        <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
-        <p>
-            <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-        </p>
+            <p>
+                <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+            </p>
+            <p>
+                <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
+            </p>
 
-        <p>
-            <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
-        </p>
+            <span class='coinstack coinstackD'"></span>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment
+                 or 'universal' in player.treatment %}top: 55%;{% endif %}"></div>
 
-        <span class='coinstack coinstackD' data-index="{{ universal_norm_decision.index }}"></span>
-        <div class="coin-count-labelD" id="countD"
-             style="{% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %}top: 55%;{% endif %}"
-             data-index="{{ universal_norm_decision.index }}"></div>
+            <span class='coinstack coinstackR'></span>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if '2PP' in player.treatment
+                 or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
 
-        <span class='coinstack coinstackR' data-index="{{ universal_norm_decision.index }}"></span>
-        <div class="coin-count-labelR" id="countR"
-             style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"
-             data-index="{{ universal_norm_decision.index }}"></div>
-
-    </div>
-
-
-    <div class="number-row-static" >
-        <div class="recorded_norm" data-value="0" >very socially<br>unacceptable</div>
-        <div class="recorded_norm" data-value="1" >socially<br>unacceptable</div>
-        <div class="recorded_norm" data-value="2" >slightly socially<br>unacceptable</div>
-        <div class="recorded_norm" data-value="3" >slightly socially<br>acceptable</div>
-        <div class="recorded_norm" data-value="4" >socially<br>acceptable</div>
-        <div class="recorded_norm" data-value="5" >very socially<br>acceptable</div>
-    </div>
-
-
-    <br>
-
-    <hr>
-
-
-    <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }} for themselves. </p>
-
-    <p> <strong> Out of the {{ C.NUM_COUNTRIES }} countries participating in this study, in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong></p>
-
-    <p style="font-size: 14px;">
-        As before, you will receive <b>12 additional points</b> if you select the correct number of countries
-        where most people also consider it <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B.
-        To make a decision, click on a number.
-    </p>
-
-    <div class='numbers'>
-        <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-number-{{ universal_norm_decision.index }}">
-            {{ for num in num_countries }}
-            <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
-            {{ endfor }}
         </div>
-    </div>
+
+
+        <div class="number-row-static" data-index="{{ universal_norm_decision.index }}">
+            <div class="recorded_norm" data-value="0" data-index="{{ universal_norm_decision.index }}">very socially<br>unacceptable</div>
+            <div class="recorded_norm" data-value="1" data-index="{{ universal_norm_decision.index }}">socially<br>unacceptable</div>
+            <div class="recorded_norm" data-value="2" data-index="{{ universal_norm_decision.index }}">slightly socially<br>unacceptable</div>
+            <div class="recorded_norm" data-value="3" data-index="{{ universal_norm_decision.index }}">slightly socially<br>acceptable</div>
+            <div class="recorded_norm" data-value="4" data-index="{{ universal_norm_decision.index }}">socially<br>acceptable</div>
+            <div class="recorded_norm" data-value="5" data-index="{{ universal_norm_decision.index }}">very socially<br>acceptable</div>
+        </div>
+
+        <br>
+        <hr>
+        <p>
+            In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong>
+            for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B
+            and keep {{ universal_norm_decision.dictator_keeps }} for themselves.
+        </p>
+
+        <p>
+            <strong> Out of the {{ C.NUM_COUNTRIES }} countries participating in this study,
+            in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b>
+            to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong>
+        </p>
+
+        <p style="font-size: 14px;">
+            As before, you will receive <b>12 additional points</b> if you select the correct number of countries
+            where most people also consider it <b>{{recorded_norm}}</b>
+            to give {{ universal_norm_decision.receiver_gets }} points to Person B.
+            To make a decision, click on a number.
+        </p>
+
+        <div class='numbers' data-index="{{ universal_norm_decision.index }}">
+            <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-countries-{{ universal_norm_decision.index }}">
+                {{ for num in num_countries }}
+                <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
+                {{ endfor }}
+            </div>
+        </div>
+
+        <br>
+        <p style="font-size: 14px;" >
+            You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>,
+            most people also believe that it is <b>{{recorded_norm}}</b>
+            to give {{ universal_norm_decision.receiver_gets }} points to Person B.
+        </p>
 
     <br>
+    <hr>
+    </div>
 
-    <p style="font-size: 14px;" > You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>, most people also believe that it is <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
+<!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="universal_norm_people" id="selected-people-1">
 
+<!--        {{ formfield_errors 'universal_norm_people' }}-->
 
+    <div class='responsive-div'>
+
+        <p>
+            We asked 50,000 people around the world how acceptable it is
+            to give {{ universal_norm_decision.receiver_gets }} points to Person B
+            and keep {{ universal_norm_decision.dictator_keeps }}. <br><br>
+            <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b>
+            to give 0 points to Person B? </strong>
+        </p>
+
+        <div class='numbers' data-index="{{ universal_norm_decision.index }}">
+            <div class="number-row" data-index="{{ universal_norm_decision.index }}" data-input="selected-people-{{ universal_norm_decision.index }}">
+                <div class="norm" data-value="0" data-index="{{ universal_norm_decision.index }}">many</div>
+                <div class="norm" data-value="1" data-index="{{ universal_norm_decision.index }}">few</div>
+                <div class="norm" data-value="2" data-index="{{ universal_norm_decision.index }}">some</div>
+                <div class="norm" data-value="3" data-index="{{ universal_norm_decision.index }}">many</div>
+                <div class="norm" data-value="4" data-index="{{ universal_norm_decision.index }}">most</div>
+                <div class="norm" data-value="5" data-index="{{ universal_norm_decision.index }}">all</div>
+            </div>
+        </div>
 
     <br>
     <hr>
@@ -513,41 +460,7 @@
     </div>
     {% endfor %}
 
-
-
-<!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="universal_norm_decision2" id="selected-universal-norm-decision2">
-
-<!--        {{ formfield_errors 'universal_norm_decision2' }}-->
-
-
-    <div class='responsive-div'>
-
-
-        <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b>  to give 0 points to Person B? </strong>  </p>
-
-        <div class='numbers'>
-            <div class="number-row" data-input="selected-number-2">
-                <div class="norm" data-value="0" >none</div>
-                <div class="norm" data-value="1" >few</div>
-                <div class="norm" data-value="2" >some</div>
-                <div class="norm" data-value="3" >many</div>
-                <div class="norm" data-value="4" >most</div>
-                <div class="norm" data-value="5" >all</div>
-            </div>
-        </div>
-
-
-
-
     <br>
-    <hr>
-
-    </div>
-
-
-
-<br>
 
     <div style="display: flex; justify-content: flex-end">
         <button style="color: #fff;

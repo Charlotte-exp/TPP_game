@@ -356,16 +356,16 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
-    universal_norm_decision1 = models.IntegerField(
+    universal_norm_countries = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(len(C.COUNTRY_LIST) + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-    universal_norm_decision2 = models.IntegerField(
+    universal_norm_people = models.IntegerField(
         initial=0,
         choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+            [0, f'none'], [1, f'few'], [2, f'some'], [3, f'many'], [4, f'most'], [5, f'all'],
         ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
@@ -891,14 +891,16 @@ class UniversalNormPage(Page):
     form_model = 'player'
 
     def get_form_fields(player: Player):
-        return ['universal_norm_decision1', 'universal_norm_decision2']
+        return ['universal_norm_countries', 'universal_norm_people']
 
     @staticmethod
     def vars_for_template(player: Player):
         image = 'global/treatments/0DG give.png'
         dictator_keeps_1 = C.dictator_keeps_everything
         recorded_norm_num = max([p.dic_norm_decision1 for p in player.in_rounds(1, 2)])
-        norm_ratings = ['very socially unacceptable', 'socially unacceptable', 'slightly socially unacceptable', 'slightly socially acceptable', 'socially acceptable', 'very socially acceptable']
+        norm_ratings = ['very socially unacceptable', 'socially unacceptable',
+                        'slightly socially unacceptable', 'slightly socially acceptable',
+                        'socially acceptable', 'very socially acceptable']
         recorded_norm = norm_ratings[recorded_norm_num]
 
         #print('univnormpage Generating image path and round number - 1', image, player.round_number - 1)
@@ -907,7 +909,8 @@ class UniversalNormPage(Page):
             universal_norm_decisions=[ # keep the dict for now in case we decide we need more than 1
                 dict(
                     index=1,
-                    universal_norm_decision=player.universal_norm_decision1,
+                    universal_norm_countries=player.universal_norm_countries,
+                    universal_norm_people=player.universal_norm_people,
                     dictator_keeps=dictator_keeps_1,
                     receiver_gets=int(C.total_endowment - dictator_keeps_1),
                 ),
@@ -915,8 +918,6 @@ class UniversalNormPage(Page):
             treatment=player.treatment,
             num_countries=list(range(0, C.NUM_COUNTRIES+1)),
             endowments=range(0, int(C.total_endowment) + 1),
-            universal_norm_decision1=player.universal_norm_decision1,
-            universal_norm_decision2=player.universal_norm_decision2,
             image=image,
             recorded_norm_num=recorded_norm_num,
             recorded_norm=recorded_norm,

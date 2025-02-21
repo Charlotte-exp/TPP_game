@@ -8,7 +8,7 @@
     </script>
 
 
-    {% if "norm" not in player.treatment and "2PP" in player.treatment or "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
+    {% if "2PP" in player.treatment or "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
 
     <br>
     <div class="reminder">
@@ -32,7 +32,8 @@
                 </p>
                 <p>
                     Person C receives 4 points in Stage 2 and can use these points to give points to Person A.
-                    Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).
+                    Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b>
+                    (cost of giving 1 point: 0.33 points).
                 </p>
             </div>
 
@@ -43,12 +44,14 @@
         {% if "2PP" in player.treatment %}
             <div style="margin-left: 5%;">
                 <p>
-                    <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+                    <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>.
+                </p>
                 <p>
                     Person A and Person B both receive 4 points in Stage 2.
                     Only Person B can use these points to remove points from Person A.
                     Removed points are eliminated and cannot be used by anyone.
-                    Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).
+                    Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b>
+                    (cost of removing 1 point = 0.33 points).
                 </p>
             </div>
         {% endif %}
@@ -56,21 +59,34 @@
         {% if "3PP" in player.treatment %}
             <div style="margin-left: 5%;">
                 <p>
-                    <b>Person C</b> is able to <u>either</u> <b>remove points</b> from <b>Person A <u>or</u> give points</b> to <b>Person B</b>.
-                    Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
+                    <b>Person C</b> is able to <b>remove points</b> from <b>Person A</b>.
                 </p>
                 <p>
-                    Person C receives 4 points in Stage 2 and can use these points to remove or give points.
+                    Person C receives 4 points in Stage 2 and can use these points to remove points.
                     Removed points are eliminated and cannot be used by anyone.
-                    Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b>
+                    Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b>
                     (cost of removing OR giving 1 point: 0.33 points).</p>
+            </div>
+        {% endif %}
+
+        {% if "3PR" in player.treatment %}
+            <div style="margin-left: 5%;">
+                <p>
+                    <b>Person C</b> is able to <strong>give points</strong> to <strong>Person A</strong>.
+                </p>
+                <p>
+                    Person C receives 4 points in Stage 2 and can use these points to give points to Person A.
+                    Only Person C can use these points to give points to Person A.
+                    Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b>
+                    (cost of giving 1 point = 0.33 points).
+                </p>
             </div>
         {% endif %}
 
         {% if "3PC" in player.treatment %}
             <div style="margin-left: 5%;">
                 <p>
-                    <b>Person C</b> is able to <b>remove points</b> from <b>Person A <u>OR</u>give points</b> to <b>Person B</b>.
+                    <b>Person C</b> is able to <b>remove points</b> from <b>Person A <u>OR</u> give points</b> to <b>Person B</b>.
                     Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
                 </p>
                 <p>

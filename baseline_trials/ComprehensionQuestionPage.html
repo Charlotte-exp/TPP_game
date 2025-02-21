@@ -47,28 +47,6 @@
 
     $(document).ready(function () {
 
-                // Initialize coin stacks and number labels for each decision
-        // universal_norm_decisions.forEach((universal_norm_decision) => {
-        //     const index = universal_norm_decision.index;
-        //     const dictatorKeeps = universal_norm_decision.dictator_keeps;
-        //     const receiverGets = universal_norm_decision.receiver_gets;
-        //
-        //     // Fill initial coin stacks and number labels (norm condition)
-        //
-        //         // dictator stack
-        //         for (let i = 0; i < dictatorKeeps; i++) {
-        //             $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
-        //         }
-        //         // receiver stack
-        //         for (let i = 0; i < receiverGets; i++) {
-        //             $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:50%;"></div>');
-        //         }
-        //         // number labels
-        //         $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
-        //         $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
-        //
-        // });
-
         //Actions on click: ALTERNATIVE NORM MEASURE
         $('.comprehension_option').on('click', function () {
             // Remove 'selected' class from all buttons
@@ -79,23 +57,20 @@
 
             // Get the value of the clicked button
             const value = $(this).data('value');
-            // const index = $(this).data('index');
 
             // Update the hidden input fields
-            if (current_treatment.includes("2PP") ) { // in norm condition
+            if (current_treatment.includes("2PP") ) { //
                 $('#selected-comprehension2PP').val(value);
                 index = 0
             }
-            if (current_treatment.includes("3PR") ) { // in norm condition
+            if (current_treatment.includes("3PR") ) { //
                 $('#selected-comprehension3PR').val(value);
                 index=1;
             }
-            if (current_treatment.includes("3PC") ) { // in norm condition
+            if (current_treatment.includes("3PC") ) { //
                 $('#selected-comprehension3PC').val(value);
                 index =2;
             }
-
-            console.log("selected_value, correct_answers, correct_answers[index]", value, correct_answers, correct_answers[index])
 
             // Check if the value is correct, and show feedback
             if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
@@ -121,16 +96,10 @@
                 }
             }
 
-            // // Update the hidden input field
-            // $(`#selected-number-${index}`).val(value);
-            // // This is usually done by the coinstack logic somewhere
-            // // since we don't update coinstacks for norms we need to add this
-            // // maybe we don't even need the stored array...
-            // universal_norm_decisions[index - 1].universal_norm_decision = value;
-
-
             // Debugging
-            //console.log(`Updated norm decision at index ${index}: ${value}`);
+            console.log("selected_value, correct_answers, correct_answers[index]")
+            console.log(`Updated decision: ${value}`);
+
         });
 
         // Submit button click handler
@@ -184,37 +153,6 @@
         align-items: center; /* Ensures proper vertical alignment */
     }
 
-    .number {
-        width: 2.5vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.5vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    .recorded_norm {
-        width: 6vw; /* Width scales with viewport width */
-        height: 5vw; /* Height scales with viewport width */
-        flex-direction: column;
-        text-align: center; /* Center-aligns the text */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
 
     .comprehension_option {
         width: 90%; /* Width scales with viewport width */
@@ -227,31 +165,12 @@
         font-size: 0.9vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
         border: 2px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
+        border-radius: 6px; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
-    .number:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .number:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .number.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .number.disabled {
-        background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
-        color:#d3d3d3;
-        cursor: not-allowed;
-        pointer-events: none; /* Disable interactions */
-    }
 
     .comprehension_option:hover {
         background-color: #ffcc00; /* Change background color on hover */
@@ -262,10 +181,6 @@
     }
 
     .comprehension_option.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .recorded_norm.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
@@ -328,7 +243,6 @@
         /*font-size: 14px;*/
     }
 
-
     .short-container {
         width:45%;
         height:15vw;  # shorter for dictator
@@ -372,80 +286,6 @@
           border-width:1px;
       }
     }
-
-    .coin {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coin-count-labelD {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 30%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-
-    .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-
-
-    .coin:nth-child(12)  { top: 6.0vw; }
-    .coin:nth-child(11)  { top: 6.3vw; }
-    .coin:nth-child(10)  { top: 6.6vw; }
-    .coin:nth-child(9)   { top: 6.9vw; }
-    .coin:nth-child(8)   { top: 7.2vw; }
-    .coin:nth-child(7)   { top: 7.5vw; }
-    .coin:nth-child(6)   { top: 7.8vw; }
-    .coin:nth-child(5)   { top: 8.1vw; }
-    .coin:nth-child(4)   { top: 8.4vw; }
-    .coin:nth-child(3)   { top: 8.7vw; }
-    .coin:nth-child(2)   { top: 9.0vw; }
-    .coin:nth-child(1)   { top: 9.3vw; }
-
-    .coinR:nth-child(12)  { top: 1.3vw; }
-    .coinR:nth-child(11)  { top: 1.6vw; }
-    .coinR:nth-child(10)   { top: 1.9vw; }
-    .coinR:nth-child(9)   { top: 2.2vw; }
-    .coinR:nth-child(8)   { top: 2.5vw; }
-    .coinR:nth-child(7)   { top: 2.8vw; }
-    .coinR:nth-child(6)   { top: 3.1vw; }
-    .coinR:nth-child(5)   { top: 3.4vw; }
-    .coinR:nth-child(4)   { top: 3.7vw; }
-    .coinR:nth-child(3)   { top: 4.0vw; }
-    .coinR:nth-child(2)   { top: 4.3vw; }
-    .coinR:nth-child(1)  { top: 4.6vw; }
-
 
 </style>
 </head>
@@ -492,7 +332,7 @@
             <p> If <b>Person B</b> would remove <b>1 point</b> from <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-number-1">
+                <div class="comprehension-row" data-input="selected-comprehension2PP">
                     <div class="comprehension_option" data-value="0" >Person A would lose 3 point(s) and Person C would lose 0.33 point(s). </div>
                     <div class="comprehension_option" data-value="1" >Person A would lose 3 point(s) and Person C would lose 1 point(s).</div>
                     <div class="comprehension_option" data-value="2" >Person A would lose 1 point(s) and Person C would lose 0.33 point(s).</div>
@@ -513,7 +353,7 @@
             <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-option">
+                <div class="comprehension-row" data-input="selected-comprehension3PR">
                     <div class="comprehension_option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
                     <div class="comprehension_option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
                     <div class="comprehension_option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
@@ -534,7 +374,7 @@
             <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person B</b> in Stage 2, <b>what would be the effect?</b>  </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-option">
+                <div class="comprehension-row" data-input="selected-comprehension3PC">
                     <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
                     <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
                     <div class="comprehension_option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
