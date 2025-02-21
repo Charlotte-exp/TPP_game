@@ -1,5 +1,13 @@
 {{ block title }}
 
+<div style="display: flex; justify-content: center">
+    <label>
+<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
+        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        </progress>
+    </label>
+</div>
+
 <p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
 
 {{ endblock }}
@@ -18,6 +26,7 @@
 
     /////////// global variables
 
+    let dic_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
     let dic_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
     //console.log(`norm decisions values: ${dic_norm_decisions_stored}`);
 
@@ -28,7 +37,7 @@
     const TP_eff = {{ C.TP_effectiveness }}; // punishment or reward or victim compensation effectiveness
 
     const dic_norm_decisions = {{ dic_norm_decisions | safe }};
-    console.log('Decisions:', {{ dic_norm_decisions | safe }});
+    //console.log('Decisions:', {{ dic_norm_decisions | safe }});
 
     total_endowment = {{ C.total_endowment }}
     receiver_endowment = {{ C.receiver_endowment }}
@@ -104,8 +113,9 @@
                 $('#countD').text(`${total_endowment}`);
                 $('#countR').text(`${receiver_endowment}`);
 
-                console.log('Total Endowment:', total_endowment);
-                console.log('Receiver Endowment:', receiver_endowment);
+                // Debugging
+                //console.log('Total Endowment:', total_endowment);
+                //console.log('Receiver Endowment:', receiver_endowment);
             }
         });
 
@@ -138,20 +148,17 @@
                 // Update the coin stack
                 updateCoinStack(value);
 
-                dictator = value
+                //log for other functions
+                dic_decisions_stored[0] = value;
 
-                console.log('Dictator decision:', dictator)
+                //debugging
+                console.log('Dictator decision:', value)
             });
 
             // Submit button click handler
             $('#submit-button').on('click', function () {
                 // Submit the form
                 $('form').submit();
-            });
-
-            // update coin stacks to original state when mouse leaves number area
-            $('.number-row').mouseleave(function () {
-                updateCoinStack(dictator);
             });
 
             // function to update the coin stack
@@ -180,6 +187,21 @@
                 $('#countR').text(`${Rupdate}`);
             }
 
+            // Function to restore the clicked or initial state of the row
+            function restoreRowState() {
+                const clickedValue = dic_decisions_stored[0]; //no index so just first position
+                if (clickedValue > 0) {
+                    updateCoinStack(clickedValue); // Restore to the clicked state
+                } else {
+                    updateCoinStack(0); // Restore to the initial state
+                }
+                //console.log(`Restored to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
+            }
+
+            $(document).on('mouseleave', '.number-row', function () {
+                restoreRowState();
+            });
+
         } else { // in norm conditions
 
             $('.norm').on('click', function () {
@@ -206,8 +228,8 @@
 
                 // Debugging
                 //console.log(`Updated norm decision at index ${index}: ${value}`);
-                console.log('dict norm Decisions:', dic_norm_decisions);
-                console.log(`norm decision values list: ${dic_norm_decisions_stored}`);
+                //console.log('dict norm Decisions:', dic_norm_decisions);
+                //console.log(`norm decision values list: ${dic_norm_decisions_stored}`);
             });
 
             // Submit button click handler
@@ -788,10 +810,9 @@
         {% endif %}
 
     {% endif %}
+    <br>
 
-<br>
-
-   <div style="display: flex; justify-content: flex-end">
+    <div style="display: flex; justify-content: flex-end">
         <button style="color: #fff;
                        background-color: #007bff;
                        border: 1px solid #007bff;
@@ -805,6 +826,7 @@
     {% if "norm" not in player.treatment and "2PP" in player.treatment or "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
 
     <br>
+    <div class="reminder">
 
             <div class="reminder">
 
@@ -853,38 +875,66 @@
 
                         <div style="margin-left: 5%;">
 
-                            <p> <b>Person C</b> is able to <strong>give points</strong> to <strong>Person A</strong>. </p>
+        <p> There are <strong>two stages</strong>. </p>
 
                             <p>Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).</p>
                         </div>
 
-                    {% endif %}
+        <div style="margin-left: 5%;">
+            <p>
+                <strong>Person A</strong> receives 12 points.<br>
+                <strong>Person B</strong> receives 0 points.
+            </p>
 
-                    {% if "3PC" in player.treatment %}
+            <p>
+                <strong>Person A</strong> decides how many of the 12 points to give to Person B.
+            </p>
+        </div>
 
-                        <div style="margin-left: 5%;">
+        <p> <b>Stage 2:</b> </p>
 
                             <p> <b>Person C</b> is able to <u>either</u> <b>remove points</b> from <b>Person A <u>or</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.</p>
 
                             <p>Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).</p>
                         </div>
 
-                    {% endif %}
 
-                </div>
+        {% if "3PR" in player.treatment %}
+            <div style="margin-left: 5%;">
+                <p>
+                    <b>Person C</b> is able to <strong>give points</strong> to <strong>Person A</strong>.
+                </p>
+                <p>
+                    Person C receives 4 points in Stage 2 and can use these points to give points to Person A.
+                    Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = 0.33 points).
+                </p>
+            </div>
         {% endif %}
+
+        {% if "3PC" in player.treatment %}
+            <div style="margin-left: 5%;">
+                <p>
+                    <b>Person C</b> is able to <b>remove points</b> from <b>Person A <u>OR</u>give points</b> to <b>Person B</b>.
+                    Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
+                </p>
+                <p>
+                    Person C receives 4 points in Stage 2 and can use these points to remove or give points.
+                    Removed points are eliminated and cannot be used by anyone.
+                    Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B
+                    will cost Person C <b>1 point</b> (cost of removing OR giving 1 point = 0.33 points).
+                </p>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
 
 
 
 </form>
 
 
-
-
 </body>
 </html>
-
-
 
 
 
