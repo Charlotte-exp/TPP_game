@@ -282,7 +282,7 @@ class Player(BasePlayer):
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
 
-
+    # Decisions
     dic_decision1 = models.IntegerField(
         initial=0,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
@@ -391,6 +391,42 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
+    # Demographics
+    age = models.IntegerField(
+        verbose_name='What is your age?',
+        min=18, max=100)
+
+    gender = models.StringField(
+        choices=['Female', 'Male', 'Other'],
+        verbose_name='What gender do you identify as?',
+        widget=widgets.RadioSelect)
+
+    income = models.StringField(
+        choices=['£9.999 or below', '£10.000 - £29.999', '£30.000 - £49.999',
+                 '£50.000 - £69.999', '£70.000 - £89.999', '£90.000 or over', 'Prefer not to say'],
+        verbose_name='What is the total combined income of your household?',
+        widget=widgets.RadioSelect)
+
+    education = models.StringField(
+        choices=['No formal education', 'GCSE or equivalent', 'A-Levels or equivalent', 'Vocational training',
+                 'Undergraduate degree', 'Postgraduate degree', 'Prefer not to say'],
+        verbose_name='What is the highest level of education you have completed?',
+        widget=widgets.RadioSelect)
+
+    nationality = models.StringField(
+        choices=['Yes', 'No'],
+        verbose_name='Were you born or have you lived most of your life in this country?',
+        widget=widgets.RadioSelect)
+
+    ethnicity = models.StringField(
+        choices=['Asian/Asian British', 'Black/African/Caribbean/Black British', 'Mixed/Multiple Ethnic groups',
+                 'White', 'Other'],
+        verbose_name='What is your ethnicity?',
+        widget=widgets.RadioSelect)
+
+    comment_box = models.LongStringField(
+        verbose_name=''
+    )
 
 ######## PAGES ########
 
@@ -871,18 +907,30 @@ class UniversalNormPage(Page):
 class Results(Page):
     pass
 
+class Demographics(Page):
+    form_model = 'player'
+    form_fields = ['age', 'gender', 'income', 'education', 'nationality']
+
+
+    # @staticmethod
+    # def is_displayed(player: Player):
+    #     return player.round_number == C.NUM_ROUNDS
+
+
 class ThanksPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
-# Consent,
-#                  Introduction,
-#
+      
 
-page_sequence = [instructionPage,
+page_sequence = [Consent,
+                 Demographics,
                  ComprehensionQuestionPage,
+                 Introduction,
+                 instructionPage,
+                 UniversalNormPage,
                  DictatorPage,
                  TPPage,
                  UniversalNormPage,
