@@ -1,5 +1,13 @@
 {{ block title }}
 
+<div style="display: flex; justify-content: center">
+    <label>
+<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
+        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        </progress>
+    </label>
+</div>
+
 {{ endblock }}
 {{ block content }}
 
@@ -170,7 +178,7 @@
         display: flex;
         margin-top:3vw;
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0vw; /* Space between numbers scales with viewport width */
+        gap: 0.1vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
@@ -422,122 +430,122 @@
 
 <form method="post">
 
-
-        <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="universal_norm_decision1" id="selected-number-1">
+    <!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="universal_norm_decision1" id="selected-number-1">
 
 <!--        {{ formfield_errors 'universal_norm_decision1' }}-->
 
 
-        {% for universal_norm_decision in universal_norm_decisions %}
-        <div class='responsive-div'>
+    {% for universal_norm_decision in universal_norm_decisions %}
+    <div class='responsive-div'>
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %} short-container {% endif %}"
-             data-index="{{ universal_norm_decision.index }}">
+    <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %} short-container {% endif %}"
+         data-index="{{ universal_norm_decision.index }}">
 
-            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+        <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
-            <p>
-                <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-            </p>
+        <p>
+            <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
+        </p>
 
-            <p>
-                <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
-            </p>
+        <p>
+            <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
+        </p>
 
-            <span class='coinstack coinstackD' data-index="{{ universal_norm_decision.index }}"></span>
-            <div class="coin-count-labelD" id="countD"
-                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %}top: 55%;{% endif %}"
-                 data-index="{{ universal_norm_decision.index }}"></div>
+        <span class='coinstack coinstackD' data-index="{{ universal_norm_decision.index }}"></span>
+        <div class="coin-count-labelD" id="countD"
+             style="{% if '2PP' in player.treatment or '0DG' in player.treatment or 'universal' in player.treatment %}top: 55%;{% endif %}"
+             data-index="{{ universal_norm_decision.index }}"></div>
 
-            <span class='coinstack coinstackR' data-index="{{ universal_norm_decision.index }}"></span>
-            <div class="coin-count-labelR" id="countR"
-                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"
-                 data-index="{{ universal_norm_decision.index }}"></div>
+        <span class='coinstack coinstackR' data-index="{{ universal_norm_decision.index }}"></span>
+        <div class="coin-count-labelR" id="countR"
+             style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 20%;{% endif %}"
+             data-index="{{ universal_norm_decision.index }}"></div>
 
+    </div>
+
+
+    <div class="number-row-static" >
+        <div class="recorded_norm" data-value="0" >very socially<br>unacceptable</div>
+        <div class="recorded_norm" data-value="1" >socially<br>unacceptable</div>
+        <div class="recorded_norm" data-value="2" >slightly socially<br>unacceptable</div>
+        <div class="recorded_norm" data-value="3" >slightly socially<br>acceptable</div>
+        <div class="recorded_norm" data-value="4" >socially<br>acceptable</div>
+        <div class="recorded_norm" data-value="5" >very socially<br>acceptable</div>
+    </div>
+
+
+    <br>
+
+    <hr>
+
+    <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }} for themselves. </p>
+
+    <p> <strong> Out of the {{ C.NUM_COUNTRIES }} countries participating in this study, in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong></p>
+
+    <p style="font-size: 14px;">
+        As before, you will receive <b>12 additional points</b> if you select the correct number of countries
+        where most people also consider it <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B.
+        To make a decision, click on a number.
+    </p>
+
+    <div class='numbers'>
+        <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-number-{{ universal_norm_decision.index }}">
+            {{ for num in num_countries }}
+            <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
+            {{ endfor }}
         </div>
+    </div>
 
+    <br>
 
-                <div class="number-row-static" >
-                    <div class="recorded_norm" data-value="0" >very socially<br>unacceptable</div>
-                    <div class="recorded_norm" data-value="1" >socially<br>unacceptable</div>
-                    <div class="recorded_norm" data-value="2" >slightly socially<br>unacceptable</div>
-                    <div class="recorded_norm" data-value="3" >slightly socially<br>acceptable</div>
-                    <div class="recorded_norm" data-value="4" >socially<br>acceptable</div>
-                    <div class="recorded_norm" data-value="5" >very socially<br>acceptable</div>
-                </div>
-
-
-            <br>
-
-            <hr>
-
-            <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }} for themselves. </p>
-
-            <p> <strong> Out of the 40 countries participating in this study, in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong></p>
-
-            <p style="font-size: 14px;"> As before, you will receive <b>12 additional points</b> if you select the correct number of countries
-                where most people also consider it <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B.
-                To make a decision, click on a number. </p>
-
-
-            <div class='numbers'>
-                    <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-number-{{ universal_norm_decision.index }}">
-                        {{ for num in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40] }}
-                        <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
-                        {{ endfor }}
-                    </div>
-                </div>
-
-        <br>
-
-        <p style="font-size: 14px;" > You believe that in <b> <span id="selected-number-display"> </span> out of 40 countries</b>, most people also believe that it is <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
+    <p style="font-size: 14px;" > You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>, most people also believe that it is <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B. </p>
 
 
 
-        <br>
-        <hr>
+    <br>
+    <hr>
 
-        </div>
-        {% endfor %}
+    </div>
+    {% endfor %}
 
 
 
-    <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="universal_norm_decision2" id="selected-universal-norm-decision2">
+<!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="universal_norm_decision2" id="selected-universal-norm-decision2">
 
 <!--        {{ formfield_errors 'universal_norm_decision2' }}-->
 
 
-        <div class='responsive-div'>
+    <div class='responsive-div'>
 
 
-            <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b>  to give 0 points to Person B? </strong>  </p>
+        <p> We asked 50,000 people around the world how acceptable it is to give 0 points to Person B and keep 12. <br><br> <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b>  to give 0 points to Person B? </strong>  </p>
 
-            <div class='numbers'>
-                <div class="number-row" data-input="selected-number-2">
-                    <div class="norm" data-value="0" >none</div>
-                    <div class="norm" data-value="1" >few</div>
-                    <div class="norm" data-value="2" >some</div>
-                    <div class="norm" data-value="3" >many</div>
-                    <div class="norm" data-value="4" >most</div>
-                    <div class="norm" data-value="5" >all</div>
-                </div>
+        <div class='numbers'>
+            <div class="number-row" data-input="selected-number-2">
+                <div class="norm" data-value="0" >none</div>
+                <div class="norm" data-value="1" >few</div>
+                <div class="norm" data-value="2" >some</div>
+                <div class="norm" data-value="3" >many</div>
+                <div class="norm" data-value="4" >most</div>
+                <div class="norm" data-value="5" >all</div>
             </div>
-
-
-
-
-        <br>
-        <hr>
-
         </div>
+
+
+
+
+    <br>
+    <hr>
+
+    </div>
 
 
 
 <br>
 
-   <div style="display: flex; justify-content: flex-end">
+    <div style="display: flex; justify-content: flex-end">
         <button style="color: #fff;
                        background-color: #007bff;
                        border: 1px solid #007bff;

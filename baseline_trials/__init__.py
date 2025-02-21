@@ -15,6 +15,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 49
+    total_pages = 400 # for progress bar
 
     import csv
 
@@ -89,6 +90,9 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.progress = 1
 
     ## Make immutable variables for partner-country block
 
@@ -530,6 +534,11 @@ class instructionPage(Page):
             'treatment_type': treatment_type
         }
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 3
+
 
 class ComprehensionQuestionPage(Page):
     @staticmethod
@@ -587,6 +596,11 @@ class ComprehensionQuestionPage(Page):
             first_block_2PP_true=first_block_2PP_true,
             treatment_type=treatment_type,
         )
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 2
 
 
 class TPPage(Page):
@@ -762,7 +776,8 @@ class TPPage(Page):
         return result
 
     def before_next_page(player: Player, timeout_happened):
-        player.payoff = C.TP_points - player.TP_decision1
+        participant = player.participant
+        participant.progress += 8
 
 
 class DictatorPage(Page):
@@ -861,6 +876,8 @@ class DictatorPage(Page):
 
     def before_next_page(player: Player, timeout_happened):
         player.payoff = C.total_endowment - player.dic_decision1
+        participant = player.participant
+        participant.progress += 8
 
 
 
@@ -895,6 +912,7 @@ class UniversalNormPage(Page):
                 ),
             ],
             treatment=player.treatment,
+            num_countries=list(range(0, C.NUM_COUNTRIES+1)),
             endowments=range(0, int(C.total_endowment) + 1),
             universal_norm_decision1=player.universal_norm_decision1,
             universal_norm_decision2=player.universal_norm_decision2,
@@ -902,6 +920,10 @@ class UniversalNormPage(Page):
             recorded_norm_num=recorded_norm_num,
             recorded_norm=recorded_norm,
             )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
 
 
 class Results(Page):
@@ -916,6 +938,10 @@ class Demographics(Page):
     # def is_displayed(player: Player):
     #     return player.round_number == C.NUM_ROUNDS
 
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+
 
 class ThanksPage(Page):
 
@@ -926,11 +952,10 @@ class ThanksPage(Page):
       
 
 page_sequence = [Consent,
-                 Demographics,
-                 ComprehensionQuestionPage,
-                 Introduction,
+                 #Demographics,
+                 #Introduction,
                  instructionPage,
-                 UniversalNormPage,
+                 ComprehensionQuestionPage,
                  DictatorPage,
                  TPPage,
                  UniversalNormPage,

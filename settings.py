@@ -24,7 +24,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['dictator_country', 'receiver_country', 'punishment_decision', 'number']
+PARTICIPANT_FIELDS = ['dictator_country', 'receiver_country', 'progress']
 SESSION_FIELDS = []
 
 # ISO-639 code
