@@ -1,5 +1,6 @@
 {{ block title }}
 
+
 <div style="display: flex; justify-content: center">
     <label>
 <!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
@@ -7,6 +8,9 @@
         </progress>
     </label>
 </div>
+
+<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
+
 
 {{ endblock }}
 {{ block content }}
@@ -478,6 +482,7 @@
     <br>
 
     <hr>
+
 
     <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }} for themselves. </p>
 

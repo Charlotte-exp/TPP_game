@@ -8,6 +8,8 @@
     </label>
 </div>
 
+<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
+
 {{ endblock }}
 {{ block content }}
 
@@ -583,7 +585,7 @@
             <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person A is. <br> <br> </b>
             <p style="font-size: 14px; ">
                 To make a decision, click on one of the six buttons.<br><br>
-                Importantly, you will receive <b>12 additional points</b> if your decision is the same as the most
+                Importantly, you will receive an <b>extra bonus of 10 points</b> if your decision is the same as the most
                 common decision among all other participants in {{current_country}}.
             </p>
         {% endif %}
@@ -643,7 +645,9 @@
 
         </div>
 
-            <p> How <b style="color: red;">socially appropriate</b> is it for Person A to give {{ dic_norm_decision.receiver_gets }} points to Person B? </p>
+            <p style="font-size: 14px;"> Person A received <b> {{C.total_endowment }} points</b> and gave <b> 0 points</b> to Person B. </p>
+
+            <p> How <b style="color: red;">socially appropriate</b> is it for Person A to give <b>{{ dic_norm_decision.receiver_gets }} points</b> to Person B? </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
@@ -677,15 +681,15 @@
             <b style="color: red;">You are Person A!</b>
         </p>
 
-        {% if player.round_number < 3 %}
+        {% if "3PP" in player.treatment or "2PP" in player.treatment or "0DG" in player.treatment %}
+            <b> Now, you decide as Person A how many of the 12 points to give to Person B.</b> <br> <br>
+        {% endif %}
+
+        {% if "0DG" in player.treatment %}
             <p style="font-size: 14px; ">
                 To make a decision, click on a number. As you move your cursor over the numbers
                 (or press them on your phone), you will see how many points you and Person B would receive.
             </p>
-        {% endif %}
-
-        {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
-            <b> Now, you decide as Person A how many of the 12 points to give to Person B.</b>
         {% endif %}
 
         <div class='responsive-div'>
@@ -768,8 +772,18 @@
 
         </div>
 
-        {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment%}
+        {% if "IN" in player.treatment or "OUT" in player.treatment %}
             <p style="font-size: 14px;"> You live in <b >{{dic_identity_country}}</b> and Person B lives in <b >{{ recip_identity_country }}</b>. </p>
+        {% endif %}
+
+        {% if "country" in player.treatment %}
+            <p style="font-size: 14px;">
+                You live in <b style="color: red; ">{{ dic_identity_country }}</b> and Person B lives in <b style="color: red; ">{{ recip_identity_country }}</b>.
+            </p>
+        {% endif %}
+
+        {% if "0DG" in player.treatment %}
+            <p style="font-size: 14px;"> You received <b> {{C.total_endowment }} points</b>. </p>
         {% endif %}
 
         <p> <strong> As Person A, how many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
@@ -788,10 +802,10 @@
         </div>
         </div>
 
-        {% if player.round_number < 3 %}
+        {% if player.round_number < 3 and "0DG" in player.treatment %}
             <p style="font-size: 14px; ">
                 <br>
-                In this example, you are assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.
+                For this decision, you are assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not be asked to make any decision, because Person B is not able to make a decision.
             </p>
         {% endif %}
 
@@ -814,13 +828,57 @@
     <br>
     <div class="reminder">
 
-        <p style="text-align: center; ">
-            <b>Reminder</b>
-        </p>
+            <div class="reminder">
+
+                    <p style="text-align: center; ">
+                        <b>Reminder</b>
+                    </p>
+
+                    <p> There are <strong>two stages</strong>. </p>
+
+                    <p> <b> Stage 1: </b> </p>
+
+                    <div style="margin-left: 5%;">
+
+                        <p><strong>Person A</strong> receives 12 points.<br>
+                                <strong>Person B</strong> receives 0 points.</p>
+
+                        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>
+
+                    </div>
+
+                    <p> <b>Stage 2:</b> </p>
+
+                    {% if "2PP" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
+
+                            <p> <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+                            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Only Person A's remaining points from Stage 1 can be removed. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
+                        </div>
+
+                    {% endif %}
+
+                    {% if "3PP" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
+
+                            <p> <b>Person C</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+
+                            <p>Person C receives 4 points in Stage 2 and can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
+                        </div>
+
+                    {% endif %}
+
+                    {% if "3PR" in player.treatment %}
+
+                        <div style="margin-left: 5%;">
 
         <p> There are <strong>two stages</strong>. </p>
 
-        <p> <b> Stage 1: </b> </p>
+                            <p>Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).</p>
+                        </div>
 
         <div style="margin-left: 5%;">
             <p>
@@ -835,33 +893,11 @@
 
         <p> <b>Stage 2:</b> </p>
 
-        {% if "2PP" in player.treatment %}
-            <div style="margin-left: 5%;">
-                <p>
-                    <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>.
-                </p>
-                <p>
-                    Person A and Person B both receive 4 points in Stage 2.
-                    Only Person B can use these points to remove points from Person A.
-                    Removed points are eliminated and cannot be used by anyone.
-                    Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b>
-                    (cost of removing 1 point = 0.33 points).
-                </p>
-            </div>
-        {% endif %}
+                            <p> <b>Person C</b> is able to <u>either</u> <b>remove points</b> from <b>Person A <u>or</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.</p>
 
-        {% if "3PP" in player.treatment %}
-            <div style="margin-left: 5%;">
-                <p>
-                    <b>Person C</b> is able to <strong>remove points</strong> from <strong>Person A</strong>.
-                </p>
-                <p>
-                    Person C receives 4 points in Stage 2 and can use these points to remove points from Person A.
-                    Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A
-                    will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).
-                </p>
-            </div>
-        {% endif %}
+                            <p>Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).</p>
+                        </div>
+
 
         {% if "3PR" in player.treatment %}
             <div style="margin-left: 5%;">

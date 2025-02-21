@@ -1,5 +1,6 @@
 {{ block title }}
 
+
 <div style="display: flex; justify-content: center">
     <label>
 <!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
@@ -7,6 +8,40 @@
         </progress>
     </label>
 </div>
+
+<p style="text-align: center; font-size: 26px;  ">
+    Instructions:
+    {% if "0DG" in player.treatment and player.round_number < 14 %}
+        Part 1
+    {% endif %}
+    {% if "2PP" in player.treatment and player.round_number < 14%}
+        Part 2
+    {% endif %}
+    {% if "3PP" in player.treatment and player.round_number < 14%}
+        Part 3
+    {% endif %}
+    {% if "3PR" in player.treatment and player.round_number < 14%}
+        Part 4
+    {% endif %}
+    {% if "3PC" in player.treatment and player.round_number < 14%}
+        Part 5
+    {% endif %}
+    {% if "3PC" in player.treatment %}
+        {% if "IN" in player.treatment or "OUT" in player.treatment %}
+            Part 6
+        {% endif %}
+    {% endif %}
+    {% if "3PP" in player.treatment  %}
+        {% if "IN" in player.treatment or "OUT" in player.treatment %}
+            Part 7
+        {% endif %}
+    {% endif %}
+    {% if "3PP country" in player.treatment %}
+        Part 8
+    {% endif %}
+</p>
+
+
 {{ endblock }}
 {{ block content }}
 
@@ -28,6 +63,7 @@
 
     total_endowment = {{ C.total_endowment }}
     receiver_endowment = {{ C.receiver_endowment }}
+
 
     var current_treatment = "{{ treatment }}";
     var current_treatment_short = "{{ treatment_type }}";
@@ -1046,7 +1082,7 @@
 
     {{ if treatment_type == '0DG' }}
 
-        <p>In each decision situation, you will be paired with a different study participant. You will also be assigned a role for every decision (for example, Person A or Person B).</p>
+        <p>In <u>each</u> decision situation, you will be paired with a <b>different study participant</b>. You will also be assigned a role for every decision (for example, Person A or Person B).</p>
 
         <p>The decision situation will look like this:</p>
 
@@ -1071,7 +1107,7 @@
         <p><strong>Person A</strong> receives 12 points.<br>
         <strong>Person B</strong> receives 0 points.</p>
 
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B and how many to keep for themselves. Person B does not make a decision.</p>
+        <p><strong>Person A</strong> decides how many of the 12 points to <b>give</b> to <b>Person B</b> and how many to keep for themselves. Person B does not make a decision.</p>
 
 <!--        <hr>-->
 
@@ -1221,7 +1257,7 @@
 
             <p>In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
 
-            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Only Person A's remaining points from Stage 1 can be removed. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
 
             <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
 
@@ -1309,7 +1345,7 @@
 
 <!--        {{ endif }}-->
 
-        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
         <div class="container">
 
@@ -1338,11 +1374,13 @@
 
         <br>
 
-        <p>You will be joined by a third person: <b style="color: red;">Person C.</b> </p>
+        <p>You will be joined by a third person: <b >Person C.</b> </p>
 
-        <p> In Stage 2, <b>Person C</b> is able to <b>remove points</b> from Person A. Person B is <u>not anymore</u> able to make a decision.</p>
+        <p> In Stage 2, <b style="color: red; ">Person C</b> is able to <b>remove points</b> from Person A. Person B is <u>not anymore</u> able to make a decision.</p>
 
-        <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point = 0.33 points).</p>
+        <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
+
+        <p> You will be assigned different roles at different times: Person A, Person B, or Person C. When you are Person B, you will not be asked to make any decision, because Person B is not able to make a decision.</p>
 
 <!--        <hr>-->
 
@@ -1432,7 +1470,7 @@
 
     {{ if treatment_type == '3PR' and player.round_number < 14 }}
 
-        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
         <div class="container">
 
@@ -1456,9 +1494,9 @@
 
         <br>
 
-        <p> In Stage 2, <b>Person C</b> is able to <b>give points</b> to Person A. Person C is <u>not anymore</u> able to remove points. </p>
+        <p> In Stage 2, <b>Person C</b> is able to <b style="color: red; ">give points</b> to Person A. Person C is <u>not anymore</u> able to remove points. </p>
 
-        <p> Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point = 0.33 points).</p>
+        <p> Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).</p>
 
 
     {{ endif }}
@@ -1467,7 +1505,7 @@
 
     {{ if treatment_type == '3PC' and player.round_number < 14 }}
 
-        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
         <div class="container">
 
@@ -1492,9 +1530,9 @@
 
         <br>
 
-        <p> In Stage 2, <b>Person C</b> is able to <b>remove points</b> from <b>Person A <u>OR</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
+        <p> In Stage 2, <b>Person C</b> is able to <u>either</u> <b style="color: red; ">remove points</b> from <b>Person A</b> <b style="color: red; "> <u>or</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
 
-        <p> Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point = 0.33 points).</p>
+        <p> Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).</p>
 
 
     {{ endif }}
@@ -1503,9 +1541,9 @@
 
     {{ if block2 == True and treatment_type == '3PC' }}
 
-        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <p>You will know if the other participants also live in {{current_country}} or in one of 40 countries around the globe which also participate in this study:</p>
+        <p>You will know if Person A and Person B <b style="color: red; ">also live in {{current_country}}</b> or in <b style="color: red; ">one of {{C.NUM_COUNTRIES}} countries</b> around the globe which also participate in this study:</p>
 
         <p> <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </i> </p>
 
@@ -1549,7 +1587,9 @@
 
         <p>In this example, Person A lives in <b>{{dic_identity_country}}</b> and Person B lives in <b>{{recip_identity_country}}</b>. </p>
 
-        <p> Person C is still able to <b>remove points</b> from Person A <u>OR</u> <b>give points</b> to Person B. </p>
+        <p> You will not see where Person C lives. </p>
+
+        <p> <b>Person C</b> is <u>still able</u> to <u>either</u> <b>remove points</b> from Person A <u>or</u> <b>give points</b> to Person B. </p>
 
         <hr>
 
@@ -1558,7 +1598,7 @@
 
     {{ if block2 == True and treatment_type == '3PP' }}
 
-        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
         <div class="container">
 
@@ -1591,16 +1631,16 @@
 
         <br> <br>  <br>
 
-        <p>In Stage 2, <b>Person C</b> is able to <b>remove points</b> from Person A. Person C is <u>not anymore</u> able to give points to Person B. </p>
+        <p>In Stage 2, <b>Person C</b> is able to <b style="color: red; ">remove points</b> from Person A. Person C is <u>not anymore</u> able to give points to Person B. </p>
 
     {{ endif }}
 
 
     {{ if block3 == True }}
 
-        <p style="color: red; text-align: center; "> Now there is <b>one change</b>.</p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <p>You will know <strong>in which specific country</strong> both of the other participants live.</p>
+        <p>You will know <b style="color: red; ">in which specific country</b> Person A and Person B live.</p>
 
         <p>Here is an example:</p>
 
@@ -1635,9 +1675,11 @@
 
         <br> <br> <br>
 
-        <p> Person A lives in <b>{{dic_identity_country}}</b> and Person B lives in <b>{{recip_identity_country}}</b>.</p>
+        <p> Person A lives in <b style="color: red; ">{{dic_identity_country}}</b> and Person B lives in <b style="color: red; ">{{recip_identity_country}}</b>.</p>
 
-        <p> Person C is still able to <b>remove points</b> from Person A. </p>
+        <p> You will not see where Person C lives. </p>
+
+        <p> <b>Person C</b> is <u>still able</u> to <b>remove points</b> from Person A. </p>
 
 
     {{ endif }}
