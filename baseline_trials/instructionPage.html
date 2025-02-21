@@ -1,14 +1,5 @@
 {{ block title }}
 
-
-<div style="display: flex; justify-content: center">
-    <label>
-<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
-        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
-        </progress>
-    </label>
-</div>
-
 <p style="text-align: center; font-size: 26px;  ">
     Instructions:
     {% if "0DG" in player.treatment and player.round_number < 14 %}
@@ -40,6 +31,14 @@
         Part 8
     {% endif %}
 </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
+        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        </progress>
+    </label>
+</div>
 
 
 {{ endblock }}
@@ -675,16 +674,6 @@
         position:relative;
     }
 
-    .reminder {
-        background-color: #e0f0ff;
-        color: #004080;
-        border: 1px solid #004080;
-        padding: 8px;
-        margin-top: 15px;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
@@ -1058,17 +1047,17 @@
 .coin_destroyed:nth-child(12)   { top: 12.5vw; }
 
 .coin_destroyed2PP:nth-child(12)  { top: -3.3vw; }
-    .coin_destroyed2PP:nth-child(11)  { top: -3.0vw; }
-    .coin_destroyed2PP:nth-child(10)  { top: -2.7vw; }
-    .coin_destroyed2PP:nth-child(9)   { top: -2.4vw; }
-    .coin_destroyed2PP:nth-child(8)   { top: -2.1vw; }
-    .coin_destroyed2PP:nth-child(7)   { top: -1.8vw; }
-    .coin_destroyed2PP:nth-child(6)   { top: -1.5vw; }
-    .coin_destroyed2PP:nth-child(5)   { top: -1.2vw; }
-    .coin_destroyed2PP:nth-child(4)   { top: -0.9vw; }
-    .coin_destroyed2PP:nth-child(3)   { top: -0.6vw; }
-    .coin_destroyed2PP:nth-child(2)   { top: -0.3vw; }
-    .coin_destroyed2PP:nth-child(1)   { top: 0.0vw; }
+.coin_destroyed2PP:nth-child(11)  { top: -3.0vw; }
+.coin_destroyed2PP:nth-child(10)  { top: -2.7vw; }
+.coin_destroyed2PP:nth-child(9)   { top: -2.4vw; }
+.coin_destroyed2PP:nth-child(8)   { top: -2.1vw; }
+.coin_destroyed2PP:nth-child(7)   { top: -1.8vw; }
+.coin_destroyed2PP:nth-child(6)   { top: -1.5vw; }
+.coin_destroyed2PP:nth-child(5)   { top: -1.2vw; }
+.coin_destroyed2PP:nth-child(4)   { top: -0.9vw; }
+.coin_destroyed2PP:nth-child(3)   { top: -0.6vw; }
+.coin_destroyed2PP:nth-child(2)   { top: -0.3vw; }
+.coin_destroyed2PP:nth-child(1)   { top: 0.0vw; }
 
 
 
@@ -1093,7 +1082,6 @@
                 <p>
                     <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
@@ -1234,7 +1222,6 @@
                 <p>
                     <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
                 </p>
@@ -1277,7 +1264,6 @@
 <!--                <span class='coinstackD-static' ></span>-->
 <!--                <div class="coin-count-labelD-static2"-->
 <!--                     style="top: 60%; "></div>-->
-
         </div>
 
         {{ else }}
@@ -1286,18 +1272,16 @@
             Person C</strong> will decide whether to change the points of Person A or Person B.
             The possible choices of Person C will be explained below.</p>
 
-            <div class="container">
+        <div class="container">
 
             <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
                 <p>
                     <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
                 </p>
@@ -1307,9 +1291,7 @@
                      style="top: 33%; "></div>
 
         </div>
-
         {{ endif }}
-
 
     {{ endif }}
 
@@ -1354,33 +1336,37 @@
                 <p>
                     <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
                 </p>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
 
-
 <!--                <span class='coinstackD-static' ></span>-->
 <!--                <div class="coin-count-labelD-static2"-->
 <!--                     style="top: 33%; "></div>-->
-
         </div>
 
         <br>
-
         <p>You will be joined by a third person: <b >Person C.</b> </p>
 
-        <p> In Stage 2, <b style="color: red; ">Person C</b> is able to <b>remove points</b> from Person A. Person B is <u>not anymore</u> able to make a decision.</p>
+        <p> In Stage 2, <b style="color: red; ">Person C</b> is able to <b>remove points</b> from Person A.
+            Person B is <u>not anymore</u> able to make a decision.
+        </p>
 
-        <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
+        <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A.
+            Removed points are eliminated and cannot be used by anyone.
+            Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b>
+            (cost of removing 1 point: 0.33 points).
+        </p>
 
-        <p> You will be assigned different roles at different times: Person A, Person B, or Person C. When you are Person B, you will not be asked to make any decision, because Person B is not able to make a decision.</p>
+        <p> You will be assigned different roles at different times:
+            Person A, Person B, or Person C. When you are Person B, you will not be asked to make any decision,
+            because Person B is not able to make a decision.
+        </p>
 
 <!--        <hr>-->
 
@@ -1467,7 +1453,6 @@
     {{ endif }}
 
 
-
     {{ if treatment_type == '3PR' and player.round_number < 14 }}
 
         <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
@@ -1479,11 +1464,9 @@
                 <p>
                     <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
                 </p>
@@ -1498,9 +1481,7 @@
 
         <p> Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).</p>
 
-
     {{ endif }}
-
 
 
     {{ if treatment_type == '3PC' and player.round_number < 14 }}
@@ -1530,27 +1511,41 @@
 
         <br>
 
-        <p> In Stage 2, <b>Person C</b> is able to <u>either</u> <b style="color: red; ">remove points</b> from <b>Person A</b> <b style="color: red; "> <u>or</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
+        <p> In Stage 2, <b>Person C</b> is able to <u>either</u> <b style="color: red; ">remove points</b>
+            from <b>Person A</b> <b style="color: red; "> <u>or</u> give points</b> to <b>Person B</b>.
+            Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
+        </p>
 
-        <p> Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).</p>
-
+        <p>
+            Person C receives 4 points in Stage 2 and can use these points to remove or give points.
+            Removed points are eliminated and cannot be used by anyone.
+            Removing <b>3 points</b> from Person A OR
+            giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).
+        </p>
 
     {{ endif }}
-
 
 
     {{ if block2 == True and treatment_type == '3PC' }}
 
         <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <p>You will know if Person A and Person B <b style="color: red; ">also live in {{current_country}}</b> or in <b style="color: red; ">one of {{C.NUM_COUNTRIES}} countries</b> around the globe which also participate in this study:</p>
+        <p>
+            You will know if Person A and Person B <b style="color: red; ">also live in {{current_country}}</b>
+            or in <b style="color: red; ">one of {{C.NUM_COUNTRIES}} countries</b>
+            around the globe which also participate in this study:</p>
 
-        <p> <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, UAE, United States, Uruguay, Venezuela, Vietnam </i> </p>
+        <p>
+            <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece,
+            Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco,
+            Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore,
+            South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, United Arab Emirates, United States,
+            Uruguay, Venezuela, Vietnam </i>
+        </p>
 
         <p>Here is an example:</p>
 
         <div class="container">
-
 
             <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
             <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
@@ -1564,11 +1559,9 @@
                 <p>
                     <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
                 </p>
@@ -1579,11 +1572,9 @@
 <!--                <span class='coinstackD-static' ></span>-->
 <!--                <div class="coin-count-labelD-static2"-->
 <!--                     style="top: 33%; "></div>-->
-
         </div>
 
         <br>  <br> <br>
-
 
         <p>In this example, Person A lives in <b>{{dic_identity_country}}</b> and Person B lives in <b>{{recip_identity_country}}</b>. </p>
 
@@ -1602,7 +1593,6 @@
 
         <div class="container">
 
-
                 <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
                 <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
 
@@ -1612,20 +1602,17 @@
 
                 <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
-                    <p>
+                <p>
                     <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
                 </p>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
-
 
             </div>
 
@@ -1646,36 +1633,34 @@
 
         <div class="container">
 
-
             <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
             <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
 
             <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
             <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
 
                 <p>
                     <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
                 </p>
-
                 <p>
                     <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
                 </p>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
 
-
         </div>
 
         <br> <br> <br>
 
-        <p> Person A lives in <b style="color: red; ">{{dic_identity_country}}</b> and Person B lives in <b style="color: red; ">{{recip_identity_country}}</b>.</p>
+        <p>
+            Person A lives in <b style="color: red; ">{{dic_identity_country}}</b> and
+            Person B lives in <b style="color: red; ">{{recip_identity_country}}</b>.
+        </p>
 
         <p> You will not see where Person C lives. </p>
 
