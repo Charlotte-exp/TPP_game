@@ -1,5 +1,7 @@
 {{ block title }}
 
+<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
+
 {{ endblock }}
 {{ block content }}
 
@@ -474,7 +476,7 @@
 
             <p> In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong> for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B and keep {{ universal_norm_decision.dictator_keeps }} for themselves. </p>
 
-            <p> <strong> Out of the 40 countries participating in this study, in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong></p>
+            <p> <strong> Out of the 40 countries participating in this study, in how many countries do you think <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong></p>
 
             <p style="font-size: 14px;"> As before, you will receive <b>12 additional points</b> if you select the correct number of countries
                 where most people also consider it <b>{{recorded_norm}}</b> to give {{ universal_norm_decision.receiver_gets }} points to Person B.
