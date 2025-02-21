@@ -881,7 +881,9 @@ class ThanksPage(Page):
 #                  Introduction,
 #
 
-page_sequence = [instructionPage,
+page_sequence = [Consent,
+                 Introduction,
+                 instructionPage,
                  ComprehensionQuestionPage,
                  DictatorPage,
                  TPPage,
