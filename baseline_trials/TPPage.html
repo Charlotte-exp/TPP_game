@@ -466,8 +466,37 @@
 
         // Submit button click handler
         $('#submit-button').on('click', function () {
-            // Submit the form
-            $('form').submit();
+            // // Submit the form
+            // $('form').submit();
+
+            if (current_treatment.includes("norm") ) {
+
+                // Get the values of the two form fields
+                let norm1 = $(`#selected-norm-${1}`).val();
+                let norm2 = $(`#selected-neg-norm-${1}`).val();
+
+                // Check if either field is empty
+                if (!norm1 || !norm2) {
+                    alert("Please complete all decisions to continue.");
+                } else {
+                    // Submit the form if both fields have values
+                    $('form').submit();
+                }
+            } else {
+                // Get the values of the three form fields
+                let tp1 = $(`#selected-number-${1}`).val();
+                let tp2 = $(`#selected-number-${2}`).val();
+                let tp3 = $(`#selected-number-${3}`).val();
+
+                // Check if either field is empty
+                if (!tp1 || !tp2 || !tp3) {
+                    alert("Please complete all decisions to continue.");
+                } else {
+                    // Submit the form if both fields have values
+                    $('form').submit();
+                }
+            }
+
         });
 
     });

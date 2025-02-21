@@ -926,7 +926,7 @@ class ThanksPage(Page):
       
 
 page_sequence = [Consent,
-                 Demographics,
+                 # Demographics,
                  ComprehensionQuestionPage,
                  Introduction,
                  instructionPage,
