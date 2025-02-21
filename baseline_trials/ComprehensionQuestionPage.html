@@ -2,6 +2,14 @@
 
 <p style="text-align: center; font-size: 26px;  "> Knowledge check </p>
 
+<div style="display: flex; justify-content: center">
+    <label>
+<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
+        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        </progress>
+    </label>
+</div>
+
 {{ endblock }}
 {{ block content }}
 
@@ -185,6 +193,7 @@
         font-size: 1.5vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
         border: 2px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
@@ -493,37 +502,7 @@
 
         <br>
         <hr>
-
         </div>
-
-    <div class="reminder">
-
-                <p style="text-align: center; ">
-                    <b>Reminder</b>
-                </p>
-
-<!--                <p> There are <strong>two stages</strong>. </p>-->
-
-<!--                <p> <b> Stage 1: </b> </p>-->
-
-<!--                <div style="margin-left: 5%;">-->
-
-<!--                    <p><strong>Person A</strong> receives 12 points.<br>-->
-<!--                            <strong>Person B</strong> receives 0 points.</p>-->
-
-<!--                    <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>-->
-
-<!--                </div>-->
-
-<!--                <p> <b>Stage 2:</b> </p>-->
-
-                <div style="margin-left: 5%;">
-
-                    <p> <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
-
-                    <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Only Person A's remaining points from Stage 1 can be removed. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
-                </div>
-            </div>
 
     {% endif %}
 
@@ -534,7 +513,7 @@
             <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-number-1">
+                <div class="comprehension-row" data-input="selected-option">
                     <div class="comprehension_option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
                     <div class="comprehension_option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
                     <div class="comprehension_option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
@@ -544,23 +523,7 @@
 
         <br>
         <hr>
-
         </div>
-
-    <div class="reminder">
-
-        <p style="text-align: center; ">
-            <b>Reminder</b>
-        </p>
-
-        <div style="margin-left: 5%;">
-
-            <p> <b>Person C</b> is able to <strong>give points</strong> to <strong>Person A</strong>. </p>
-
-            <p>Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).</p>
-        </div>
-    </div>
-
 
     {% endif %}
 
@@ -571,7 +534,7 @@
             <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person B</b> in Stage 2, <b>what would be the effect?</b>  </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-number-1">
+                <div class="comprehension-row" data-input="selected-option">
                     <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
                     <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
                     <div class="comprehension_option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
@@ -581,27 +544,11 @@
 
         <br>
         <hr>
-
         </div>
 
-    <div class="reminder">
+    {% endif %}
 
-        <p style="text-align: center; ">
-            <b>Reminder</b>
-        </p>
-
-        <div style="margin-left: 5%;">
-
-            <p> <b>Person C</b> is able to <u>either</u> <b>remove points</b> from <b>Person A <u>or</u> give points</b> to <b>Person B</b>. Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action. </p>
-
-            <p>Person C receives 4 points in Stage 2 and can use these points to remove or give points. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A OR giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).</p>
-        </div>
-    </div>
-
-
-{% endif %}
-
-
+{{ include_sibling 'Reminder.html' }}
 
 <br>
 

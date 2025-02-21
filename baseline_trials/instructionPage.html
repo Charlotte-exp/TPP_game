@@ -1,14 +1,5 @@
 {{ block title }}
 
-
-<div style="display: flex; justify-content: center">
-    <label>
-<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
-        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
-        </progress>
-    </label>
-</div>
-
 <p style="text-align: center; font-size: 26px;  ">
     Instructions:
     {% if "0DG" in player.treatment and player.round_number < 14 %}
@@ -40,6 +31,14 @@
         Part 8
     {% endif %}
 </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
+        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        </progress>
+    </label>
+</div>
 
 
 {{ endblock }}
@@ -673,16 +672,6 @@
         margin-top:1.5vw;
         border:0px solid black;
         position:relative;
-    }
-
-    .reminder {
-        background-color: #e0f0ff;
-        color: #004080;
-        border: 1px solid #004080;
-        padding: 8px;
-        margin-top: 15px;
-        border-radius: 5px;
-        font-size: 14px;
     }
 
     @media (max-width: 1200px) {

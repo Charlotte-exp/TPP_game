@@ -579,7 +579,6 @@ class ComprehensionQuestionPage(Page):
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
         image = image.replace("3PR reward", "3PP punish")
-        treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
         first_block_2PP_true = player.first_block_2PP_true
         correct_answers = [2, 3, 0]
         unique_default = "defaulterror_" + str(player.session) + "_" + str(player.participant.id_in_session) + "_" + str(player.round_number)
@@ -587,6 +586,7 @@ class ComprehensionQuestionPage(Page):
 
         return dict(
             treatment=player.treatment,
+            page_name=ComprehensionQuestionPage,
             comprehension2PP=player.comprehension2PP,
             comprehension3PR=player.comprehension3PR,
             comprehension3PC=player.comprehension3PC,
@@ -594,7 +594,6 @@ class ComprehensionQuestionPage(Page):
             unique_default=unique_default,
             correct_answers=correct_answers,
             first_block_2PP_true=first_block_2PP_true,
-            treatment_type=treatment_type,
         )
 
     @staticmethod
@@ -755,6 +754,7 @@ class TPPage(Page):
             ],
             TP_points=range(0, int(C.TP_points) + 1),
             treatment=player.treatment,
+            page_name=TPPage,
             dic_identity=dic_identity,
             recip_identity=recip_identity,
             dic_identity_country=dic_identity_country,
@@ -862,6 +862,7 @@ class DictatorPage(Page):
                 ),
             ],
             treatment=player.treatment,
+            page_name=DictatorPage,
             endowments=range(0, int(C.total_endowment) + 1),
             dic_identity=dic_identity,
             recip_identity=recip_identity,

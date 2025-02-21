@@ -1,5 +1,6 @@
 {{ block title }}
 
+<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -8,8 +9,6 @@
         </progress>
     </label>
 </div>
-
-<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
 
 
 {{ endblock }}
@@ -182,7 +181,7 @@
         display: flex;
         margin-top:3vw;
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.1vw; /* Space between numbers scales with viewport width */
+        gap: 0vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
