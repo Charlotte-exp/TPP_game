@@ -14,7 +14,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 53
+    NUM_ROUNDS = 49
 
     import csv
 
@@ -27,6 +27,8 @@ class C(BaseConstants):
 
     COUNTRY_LIST = list(COUNTRIES.keys())
     #COUNTRY_LIST = ['us', 'ae', 'bl', 'de', 'fr', 'ad'] # test list
+
+    NUM_COUNTRIES = len(COUNTRY_LIST)
 
     CURRENT_COUNTRYNAME = COUNTRIES.get(CURRENT_COUNTRY)
 
@@ -62,8 +64,8 @@ class C(BaseConstants):
     ## 2) Ingroup - outgroup (14 trials)
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
-                        '3PP punish OUT OUT',
-                        '3PP punish norm IN IN', '3PP punish norm OUT OUT']
+                        '3PP punish OUT OUT']
+    trials_3PP_INOUT_TP_norm = ['3PP punish norm IN IN', '3PP punish norm OUT OUT']
     # trials_3PR_INOUT = ['3PR give IN', '3PR give OUT',
     #                     '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
     #                     '3PR reward OUT OUT',
@@ -74,7 +76,7 @@ class C(BaseConstants):
 
     ## 3) Country - partner (26 trials: 5 * 5 + 1 universal norm)
     # Define number of trials for each trial type
-    number_trials_partner_dic_out = 5 # dictator role
+    number_trials_partner_dic_out = 1 # just used so as to not deceive
     number_trials_partner_in_out = 5
     number_trials_partner_out_in = 5
     number_trials_partner_out_out_homog = 5
@@ -162,30 +164,34 @@ def creating_session(subsession):
             trials_2PP_current = trials_2PP_TP_current + C.trials_2PP_DIC if random.choice([True, False]) else C.trials_2PP_DIC + trials_2PP_TP_current
             trials_3PR_current = trials_3PR_TP_current + C.trials_3PR_DIC if random.choice([True, False]) else C.trials_3PR_DIC + trials_3PR_TP_current
             trials_3PC_current = trials_3PC_TP_current + C.trials_3PC_DIC if random.choice([True, False]) else C.trials_3PC_DIC + trials_3PC_TP_current
-            # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
-            order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
-            order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
-            # Complete randomized list (DG always first)
-            participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
-
+            # # Third, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER: 2PP, 3PP, 3PR, 3PC
+            # order_baseline = random.sample([trials_3PP_current, trials_2PP_current, trials_3PR_current, trials_3PC_current], 4)
+            # order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
+            # # Complete randomized list (DG always first)
+            # participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
+            participant.treatment_order_baseline = trials_DG_current + trials_2PP_current + trials_3PP_current + trials_3PR_current + trials_3PC_current
 
             ## 2) Ingroup - outgroup trials
 
             # First, randomize the DIC trials
             trials_3PP_INOUT_DIC_current = random.sample(C.trials_3PP_INOUT_DIC, len(C.trials_3PP_INOUT_DIC))
             trials_3PC_INOUT_DIC_current = random.sample(C.trials_3PC_INOUT_DIC, len(C.trials_3PC_INOUT_DIC))
-            # Second, randomize the TP trials
+            # Second, randomize the TP trials (UPDATE: Separately randomize norms and TP, so that they're not mixed
             trials_3PP_INOUT_TP_current = random.sample(C.trials_3PP_INOUT_TP, len(C.trials_3PP_INOUT_TP))
+            trials_3PP_INOUT_TP_norm_current = random.sample(C.trials_3PP_INOUT_TP_norm, len(C.trials_3PP_INOUT_TP_norm))
+            trials_3PP_INOUT_TP_full_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_TP_norm_current if random.choice(
+                [True, False]) else trials_3PP_INOUT_TP_norm_current + trials_3PP_INOUT_TP_current
             trials_3PC_INOUT_TP_current = random.sample(C.trials_3PC_INOUT_TP, len(C.trials_3PC_INOUT_TP))
             # Third, randomize order of DIC/TP
-            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_DIC_current if random.choice(
-                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_current
+            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_full_current + trials_3PP_INOUT_DIC_current if random.choice(
+                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_full_current
             trials_3PC_INOUT_current = trials_3PC_INOUT_TP_current + trials_3PC_INOUT_DIC_current if random.choice(
                 [True, False]) else trials_3PC_INOUT_DIC_current + trials_3PC_INOUT_TP_current
-            # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC)
-            order_INOUT = random.sample(
-                [trials_3PP_INOUT_current, trials_3PC_INOUT_current], 2)
-            order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
+            # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER: 3PC, 3PP
+            order_INOUT_flat = trials_3PC_INOUT_current + trials_3PP_INOUT_current
+            # order_INOUT = random.sample(
+            #     [trials_3PP_INOUT_current, trials_3PC_INOUT_current], 2)
+            # order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
             participant.treatment_order_INOUT = order_INOUT_flat
 
 
@@ -203,9 +209,15 @@ def creating_session(subsession):
             trials_partner_out_out_homog_current, trials_partner_out_out_homog_editable = sample_trials_partner(trials_partner_out_out_homog_editable, C.number_trials_partner_out_out_homog, "trials_partner_out_out_homog")
             trials_partner_out_out_heterog_current, trials_partner_out_out_heterog_editable = sample_trials_partner(trials_partner_out_out_heterog_editable, C.number_trials_partner_out_out_heterog, "trials_partner_out_out_heterog")
 
-            # c) Merge and randomize order of trials within punisher role
+            # c) Merge and randomize order of trials within punisher role # UPDATE: Shuffle order of treatments, but not across treatments
+            trials_partner_TP_current = [trials_partner_in_out_current, trials_partner_out_in_current, trials_partner_out_out_homog_current, trials_partner_out_out_heterog_current]
+            # trials_partner_TP_current = trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
 
-            trials_partner_TP_current = trials_partner_in_out_current + trials_partner_out_in_current + trials_partner_out_out_homog_current + trials_partner_out_out_heterog_current
+            # Shuffle the merged list
+            random.shuffle(trials_partner_TP_current)
+
+            # UPDATE: flatten list
+            trials_partner_TP_current = [item for sublist in trials_partner_TP_current for item in sublist]  # Flatten the nested lists
 
             # Add 3PP treatment identifier for referring to treatment and flatten list (tuples produce errors)
             trials_partner_TP_current = [
@@ -213,17 +225,13 @@ def creating_session(subsession):
                 for tup in trials_partner_TP_current
             ]
 
-            # Shuffle the merged list
-            random.shuffle(trials_partner_TP_current)
-
             # d) Randomize order of DIC/TP
             treatment_order_partner_no_univ_norm = trials_partner_TP_current + trials_partner_dic_out_current if random.choice(
                 [True, False]) else trials_partner_dic_out_current + trials_partner_TP_current
 
-            # e) Randomize order of universal norm: Either first in block or last in block
+            # e) Randomize order of universal norm: Either first in block or last in block (UPDATE: always last)
             trials_partner_universal_norm = ['universal norm']
-            participant.treatment_order_partner = treatment_order_partner_no_univ_norm + trials_partner_universal_norm if random.choice(
-                [True, False]) else trials_partner_universal_norm + treatment_order_partner_no_univ_norm
+            participant.treatment_order_partner = treatment_order_partner_no_univ_norm + trials_partner_universal_norm
 
             ## 4) Put all treatment orders together
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
@@ -238,11 +246,17 @@ def creating_session(subsession):
             ]
 
 
-            ## 5) Put instruction round before trials from new treatment type
+            ## 5) Put instruction round and comprehension questions
+            # Instructions before trials from new treatment type
             participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
                                              trials_3PR_current[0], trials_3PC_current[0],
                                              trials_3PP_INOUT_current[0], trials_3PC_INOUT_current[0],
                                              participant.treatment_order[len(participant.treatment_order_baseline + participant.treatment_order_INOUT)]]
+            # Comprehension questions before first punishment trial (either 2PP or 3PP), reward and comp/punish trial
+            round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
+            participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
+            print('set instruction_round to', participant.instruction_round)
+            print('set comprehension to', participant.comprehension)
 
 
     #breakpoint()
@@ -252,6 +266,7 @@ def creating_session(subsession):
         #player.treatment = player.participant.treatment_order_INOUT[player.round_number - 1] # For testing only INOUT
         player.treatment = player.participant.treatment_order[player.round_number - 1]
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+        player.comprehension_true = player.treatment in player.participant.comprehension
         player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
 
@@ -263,6 +278,7 @@ class Player(BasePlayer):
 
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
+    comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
 
@@ -346,6 +362,30 @@ class Player(BasePlayer):
         initial=0,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension2PP = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension3PR = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension3PC = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
@@ -441,11 +481,11 @@ class instructionPage(Page):
                 dic_identity = C.CURRENT_COUNTRY
                 recip_identity = "out"
                 dic_identity_country = C.CURRENT_COUNTRYNAME
-                recip_identity_country = "one of 40 countries which also participate in this study"
+                recip_identity_country = "one of " + str(C.NUM_COUNTRIES) + " countries which also participate in this study"
             else:
                 dic_identity = "out"
                 recip_identity = C.CURRENT_COUNTRY
-                dic_identity_country = "one of 40 countries which also participate in this study"
+                dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries which also participate in this study"
                 recip_identity_country = C.CURRENT_COUNTRYNAME
         elif "country" in player.treatment or "universal norm" in player.treatment:
             random_partner_country_IN_as_dic = random.choice([True, False])
@@ -490,6 +530,65 @@ class instructionPage(Page):
             'treatment_type': treatment_type
         }
 
+
+class ComprehensionQuestionPage(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        # return player.round_number == 1
+        return player.instruction_round_true and player.comprehension_true
+
+    form_model = 'player'
+
+    def get_form_fields(player: Player):
+        if "2PP" in player.treatment:
+            return ['comprehension2PP']
+        elif "3PR" in player.treatment:
+            return ['comprehension3PR']
+        else:
+            return ['comprehension3PC']
+
+    @staticmethod
+    def error_message(player: Player, values):
+        """
+        records the number of time the page was submitted with an error. which specific error is not recorded.
+        """
+
+        if "2PP" in player.treatment:
+            solutions = dict(comprehension2PP=2)
+        elif "3PR" in player.treatment:
+            solutions = dict(comprehension3PR=3)
+        else:
+            solutions = dict(comprehension3PC=0)
+
+        errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
+        if errors:
+            return errors
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        image = 'global/treatments/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
+        image = image.replace("2PP", "2PP_2")
+        image = image.replace("3PR reward", "3PP punish")
+        treatment_type = player.treatment[:3] # Extract the first three characters as treatment type
+        first_block_2PP_true = player.first_block_2PP_true
+        correct_answers = [2, 3, 0]
+        unique_default = "defaulterror_" + str(player.session) + "_" + str(player.participant.id_in_session) + "_" + str(player.round_number)
+        #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
+
+        return dict(
+            treatment=player.treatment,
+            comprehension2PP=player.comprehension2PP,
+            comprehension3PR=player.comprehension3PR,
+            comprehension3PC=player.comprehension3PC,
+            image=image,
+            unique_default=unique_default,
+            correct_answers=correct_answers,
+            first_block_2PP_true=first_block_2PP_true,
+            treatment_type=treatment_type,
+        )
+
+
 class TPPage(Page):
 
     @staticmethod
@@ -516,7 +615,8 @@ class TPPage(Page):
     def vars_for_template(player: Player):
         if "2PP punish" in player.treatment:
             text_action = "remove"
-            text_action_person = "for Person B"
+            text_action_person = "Person B"
+            text_action_person2 = "you"
             text_receiver = "from Person A"
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
@@ -527,7 +627,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             text_action = "remove"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "from Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -535,7 +636,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "reward" in player.treatment:
             text_action = "give"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -543,7 +645,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "comp" in player.treatment:
             text_action = "remove"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "from Person A"
             text_action_comp = "give"
             text_action_person_comp = "for Person C"
@@ -554,7 +657,8 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PR reward norm" in player.treatment:
             text_action = "give"
-            text_action_person = "for Person C"
+            text_action_person = "Person C"
+            text_action_person2 = "Person C"
             text_receiver = "to Person A"
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_half
@@ -569,17 +673,17 @@ class TPPage(Page):
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = "out"
             dic_identity_country = C.CURRENT_COUNTRYNAME
-            recip_identity_country = "one of 40 countries"
+            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
         if "OUT IN" in player.treatment:
             dic_identity = "out"
             recip_identity = C.CURRENT_COUNTRY
-            dic_identity_country = "one of 40 countries"
+            dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
             recip_identity_country = C.CURRENT_COUNTRYNAME
         if "OUT OUT" in player.treatment:
             dic_identity = "out"
             recip_identity = "out"
-            dic_identity_country = "one of 40 countries"
-            recip_identity_country = "one of 40 countries"
+            dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
+            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
@@ -597,6 +701,7 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
 
         image = image.replace("2PP", "2PP_2")
+        current_country = C.CURRENT_COUNTRYNAME
 
         #print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
@@ -642,8 +747,10 @@ class TPPage(Page):
             recip_identity_country=recip_identity_country,
             treatment_text_action=text_action,
             treatment_text_action_person=text_action_person,
+            treatment_text_action_person2=text_action_person2,
             treatment_text_receiver=text_receiver,
             image=image,
+            current_country=current_country,
             role_switch_true=player.role_switch_true,
         )
         # Conditionally add the extra variable
@@ -680,6 +787,7 @@ class DictatorPage(Page):
         image = image.replace(" OUT", "")
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
+        current_country = C.CURRENT_COUNTRYNAME
 
         # 3PR trials get same image as 3PP
         if "3PR" in player.treatment:
@@ -706,7 +814,7 @@ class DictatorPage(Page):
         if player.treatment[-3:] == "OUT":
             recip_identity = "out"
             dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
-            recip_identity_country = "one of 40 countries"
+            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
             dic_identity_country = C.CURRENT_COUNTRYNAME
         if player.treatment[-3:] == " IN":
             recip_identity = C.CURRENT_COUNTRY
@@ -746,6 +854,7 @@ class DictatorPage(Page):
             recip_identity_country=recip_identity_country,
             dic_decision1=player.dic_decision1,
             image=image,
+            current_country=current_country,
             treatment_text_action=text_action,
             role_switch_true = player.role_switch_true,
             )
@@ -814,14 +923,16 @@ class ThanksPage(Page):
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
-
+      
 
 page_sequence = [Consent,
                  Demographics,
+                 ComprehensionQuestionPage,
                  Introduction,
                  instructionPage,
                  UniversalNormPage,
                  DictatorPage,
                  TPPage,
+                 UniversalNormPage,
                  ThanksPage
                  ]

@@ -16,11 +16,9 @@ COUNTRY_LIST = list(COUNTRIES.keys())
 
 x = list(range(len(COUNTRY_LIST) + 1))
 
-print(x)
+treatment_order = ['3PC give', '3PC comp', '3PP give', '3PP punish', '2PP give', '2PP punish']
 
-total_endowment = 12
 
-x = random.choices(range(7), k=5)
+index = next(i for i, v in enumerate(treatment_order) if "2PP" in v or "3PP" in v) # Find the smallest index of an element containing "2PP" or "3PP"
 
-print(x)
-print([12-value for value in x])
+print("COUNTRY_LIST", len(COUNTRY_LIST))  # Output: 0
