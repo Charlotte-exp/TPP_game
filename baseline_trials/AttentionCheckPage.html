@@ -1,6 +1,6 @@
 {{ block title }}
 
-<p style="text-align: center; font-size: 26px;  "> Knowledge check </p>
+<p style="text-align: center; font-size: 26px;  "> Attention check </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -28,10 +28,13 @@
 
     var current_treatment = "{{ treatment }}";
 
+    var current_round_number = "{{player.round_number}}";
+
 
     //// error message handling for no-response versus incorrect-response
 
-    var correct_answers = {{correct_answers}}
+    var correct_answers = {{correct_answers}};
+    var attention_check_rounds = {{ C.attention_check_rounds }}
 
     /// Function for showing customized error messages
     let errorDiv = document.querySelector('.otree-form-errors');
@@ -60,17 +63,13 @@
             const value = $(this).data('value');
 
             // Update the hidden input fields
-            if (current_treatment.includes("2PP")) { //
-                $('#selected-comprehension2PP').val(value);
+            if (current_round_number == attention_check_rounds[0] ) { //
+                $('#selected-attention1').val(value);
                 index = 0
             }
-            if (current_treatment.includes("3PR")) { //
-                $('#selected-comprehension3PR').val(value);
+            else { //
+                $('#selected-attention2').val(value);
                 index = 1;
-            }
-            if (current_treatment.includes("3PC")) { //
-                $('#selected-comprehension3PC').val(value);
-                index = 2;
             }
 
             console.log("before update", failedAttempts)
@@ -113,14 +112,11 @@
             // Submit number of failed responses
             document.querySelector('form').onsubmit = function () {
                 // Store failed attempts
-                if (current_treatment.includes("2PP")) { //
-                    document.querySelector('input[name="comp_failed2PP"]').value = failedAttempts;
+                if (current_round_number == attention_check_rounds[0]) { //
+                    document.querySelector('input[name="att_failed1"]').value = failedAttempts;
                 }
-                if (current_treatment.includes("3PR")) { //
-                    document.querySelector('input[name="comp_failed3PR"]').value = failedAttempts;
-                }
-                if (current_treatment.includes("3PC")) { //
-                    document.querySelector('input[name="comp_failed3PC"]').value = failedAttempts;
+                else { //
+                    document.querySelector('input[name="att_failed2"]').value = failedAttempts;
                 }
             };
             // Submit the form
@@ -313,30 +309,22 @@
 
 <form method="post">
 
-     {% if "2PP" in player.treatment %}
+     {% if player.round_number == attention_round1 %}
         <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension2PP" id="selected-comprehension2PP">
+        <input type="hidden" name="attention1" id="selected-attention1">
 
-        <input type="hidden" name="comp_failed2PP"/>
+        <input type="hidden" name="att_failed1"/>
 
-<!--        {{ formfield_errors 'comprehension2PP' }}-->
-
-    {% elif "3PR" in player.treatment %}
-         <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension3PR" id="selected-comprehension3PR">
-
-        <input type="hidden" name="comp_failed3PR"/>
-
-<!--        {{ formfield_errors 'comprehension3PR' }}-->
+<!--        {{ formfield_errors 'attention1' }}-->
 
     {% else %}
 
      <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension3PC" id="selected-comprehension3PC">
+        <input type="hidden" name="attention2" id="selected-attention2">
 
-        <input type="hidden" name="comp_failed3PC"/>
+        <input type="hidden" name="att_failed2"/>
 
-<!--        {{ formfield_errors 'comprehension3PC' }}-->
+<!--        {{ formfield_errors 'attention2' }}-->
 
     {% endif %}
 
@@ -348,19 +336,58 @@
         Wrong answer! Please select the correct answer.
     </div>
 
+    <div class="container">
 
-    {% if "2PP" in player.treatment %}
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+
+                <p>
+                    <b style="position: absolute; top: 23%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 23%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 74%; left:34%;">PERSON C</b>
+                </p>
+
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 42%; left: 11%;">
+
+        </div>
+
+
+    {% if player.round_number == attention_round1 %}
 
         <div class='responsive-div'>
 
-            <p> If <b>Person B</b> would remove <b>1 point</b> from <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
+            <p> To show us that you are paying attention, please select <b>4 points</b>. </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension2PP">
-                    <div class="comprehension_option" data-value="0" >Person A would lose 3 point(s) and Person C would lose 0.33 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would lose 3 point(s) and Person C would lose 1 point(s).</div>
-                    <div class="comprehension_option" data-value="2" >Person A would lose 1 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="3" >Person A would lose 1 point(s) and Person C would lose 1 point(s).</div>
+                <div class="comprehension-row" data-input="selected-attention1">
+                    <div class="comprehension_option" data-value="0" >2 point(s) </div>
+                    <div class="comprehension_option" data-value="1" >0 point(s) </div>
+                    <div class="comprehension_option" data-value="2" >6 point(s) </div>
+                    <div class="comprehension_option" data-value="3" >4 point(s) </div>
+                </div>
+            </div>
+
+        <br>
+        <hr>
+        </div>
+
+    {% else %}
+
+        <div class='responsive-div'>
+
+            <p> To show us that you are paying attention, please select <b>2 points</b>. </p>
+
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-attention2">
+                    <div class="comprehension_option" data-value="0" >4 point(s) </div>
+                    <div class="comprehension_option" data-value="1" >2 point(s) </div>
+                    <div class="comprehension_option" data-value="2" >0 point(s) </div>
+                    <div class="comprehension_option" data-value="3" >6 point(s) </div>
                 </div>
             </div>
 
@@ -370,47 +397,7 @@
 
     {% endif %}
 
-    {% if "3PR" in player.treatment %}
 
-        <div class='responsive-div'>
-
-            <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
-
-            <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension3PR">
-                    <div class="comprehension_option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
-                    <div class="comprehension_option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="3" >Person A would gain 3 point(s) and Person C would lose 1 point(s).</div>
-                </div>
-            </div>
-
-        <br>
-        <hr>
-        </div>
-
-    {% endif %}
-
-    {% if "3PC" in player.treatment %}
-
-        <div class='responsive-div'>
-
-            <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person B</b> in Stage 2, <b>what would be the effect?</b>  </p>
-
-            <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension3PC">
-                    <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="3" >Person A would lose 3 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
-                </div>
-            </div>
-
-        <br>
-        <hr>
-        </div>
-
-    {% endif %}
 
    <div style="display: flex; justify-content: flex-end">
         <button style="color: #fff;
@@ -424,7 +411,6 @@
     </div>
 
     <br>
-
     {{ include_sibling 'Reminder.html' }}
 
 
