@@ -18,7 +18,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -585,7 +584,7 @@
             <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person A is. <br> <br> </b>
             <p style="font-size: 14px; ">
                 To make a decision, click on one of the six buttons.<br><br>
-                Importantly, you will receive an <b>extra bonus of 10 points</b> if your decision is the same as the most
+                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }}</b> if your decision is the same as the most
                 common decision among all other participants in {{current_country}}.
             </p>
         {% endif %}
