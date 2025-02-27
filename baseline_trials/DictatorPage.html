@@ -345,20 +345,22 @@
       margin-right:auto;
     }
 
-    .container {
-        width:45%;
+    .figure-container {
+        width:75%;
         height:25vw;
         margin-left:auto;
         margin-right:auto;
+        text-align:center;
         border:0px solid black;
         position:relative;
     }
 
-    .short-container {
-        width:45%;
+    .short-figure-container {
+        width:75%;
         height:15vw;  # shorter for dictator
         margin-left:auto;
         margin-right:auto;
+        text-align:center;
         border:0px solid black;
         position:relative;
     }
@@ -376,9 +378,10 @@
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
+        transform-origin: center;
       }
       .container {
-          margin-left:10vw;
+          width:80%; /* otherwise used margin-left:1vw; */
       }
       .numbers {
           position:absolute;
@@ -390,11 +393,12 @@
     @media (max-width: 800px) {
       .responsive-div {
         transform: scale(2); /* Scale to 60% for even smaller screens */
+        transform-origin: center;
       }
       .container {
-          margin-left:1vw;
+          width:90%; /* otherwise used margin-left:1vw; */
       }
-      .short.container {
+      .short.figure-container {
           margin-left:1vw;
       }
       .numbers {
@@ -406,6 +410,27 @@
           font-size:2vw;
           border-width:1px;
       }
+    }
+
+    .person-a {
+         top: 72%;
+         left: calc(50% - 13.5vw);
+         font-size:1.2vw;
+         position: absolute;
+    }
+
+    .person-b {
+         top: 72%;
+         left: calc(50% + 7.5vw);
+         font-size:1.2vw;
+         position: absolute;
+    }
+
+    .person-c {
+         top: 82%;
+         left: calc(50% + 7.5vw);
+         font-size:1.2vw;
+         position: absolute;
     }
 
     .coin-stack {
@@ -451,54 +476,54 @@
     }
 
     .coin-count-labelD {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 30%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: 30%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 32%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelDDes {
-    font-size: 1.2rem;
-    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 30%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 0%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 30%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 0%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 60%; /* Center horizontally, previously 73 */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 13%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelTP {
-    font-size: 1.2rem;
-    color: darkred; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 85%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 80%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 85%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 80%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelTP2PP {
-    font-size: 1.2rem;
-    color: darkred; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 73%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 8%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 73%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 8%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin:nth-child(30)  { top: 0.6vw; }
     .coin:nth-child(29)  { top: 0.9vw; }
@@ -543,7 +568,6 @@
     .coinR:nth-child(3)   { top: 4.0vw; }
     .coinR:nth-child(2)   { top: 4.3vw; }
     .coinR:nth-child(1)  { top: 4.6vw; }
-
 
     .coinown:nth-child(10)  { top: 20.6vw; left:58% }
     .coinown:nth-child(9)   { top: 20.9vw; left:58% }
@@ -593,7 +617,7 @@
         {% for dic_norm_decision in dic_norm_decisions %}
         <div class='responsive-div'>
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}"
+        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}"
              data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
@@ -604,15 +628,14 @@
                 <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
             {% endif %}
 
-            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/{{ image }}" style="width:27vw; top:3vw">
 
-            <p>
-                <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-            </p>
-
-            <p>
-                <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
-            </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
 
             <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
             <div class="coin-count-labelD" id="countD"
@@ -641,13 +664,14 @@
                 <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 28%;">
             {% endif %}
 
-
-
         </div>
 
             <p style="font-size: 14px;"> Person A received <b> {{C.total_endowment }} points</b> and gave <b> 0 points</b> to Person B. </p>
 
-            <p> How <b style="color: red;">socially appropriate</b> is it for Person A to give <b>{{ dic_norm_decision.receiver_gets }} points</b> to Person B? </p>
+            <p>
+                How <b style="color: red;">socially appropriate</b> is it for Person A
+                to give <b>{{ dic_norm_decision.receiver_gets }} points</b> to Person B?
+            </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
@@ -694,7 +718,7 @@
 
         <div class='responsive-div'>
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container <br>{% endif %}">
+        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container <br>{% endif %}">
 
 
             {% if dic_identity != "baseline"%}
@@ -706,31 +730,29 @@
 
             {% endif %}
 
-            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/{{ image }}" style="width:27vw; top:3vw">
 
             {% if "0DG" in player.treatment or "2PP" in player.treatment %}
-                <p>
-                    <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
 
             {% else %}
-
-                <p>
-                <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 36%; right:-27%;">PERSON B</b>
-                </p>
+<!--            there were different heights between above and below-->
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
 
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
-                    <p>
-                        <b style="position: absolute; top: 85%; left:40%;">PERSON C</b>
-                    </p>
+                <div class="person-c">
+                    <b>PERSON C</b>
+                </div>
                 {% endif %}
 
             {% endif %}
