@@ -12,52 +12,44 @@
 
 {% block content %}
 
+<div class="card-body">
 
-<div>
-    <p>
-        We are researchers at the University of Zürich, Switzerland, studying human decision-making.
-    </p>
-    <p>
-        For your participation, you will receive {{ participation_fee }}.
-        Additionally, you can earn bonus points based on your decisions and those of other participants.
-    </p>
-    <p>
-        Participation is completely voluntary.
-        You may withdraw at any time without penalty or loss of benefits to which you may be otherwise entitled.
-    </p>
-    <p>
-        Your anonymity is guaranteed throughout the whole study, both to other participants and researchers.
-    </p>
-    <p>
-        By clicking "I Consent," you confirm that you give consent to participate.
+    <div>
+        <p>
+            We are researchers at the University of Zürich, Switzerland, studying human decision-making.
+        </p>
+        <p>
+            For your participation, you will receive {{ participation_fee }}.
+            Additionally, you can earn bonus points based on your decisions and those of other participants.
+        </p>
+        <p>
+            Participation is completely voluntary.
+            You may withdraw at any time without penalty or loss of benefits to which you may be otherwise entitled.
+        </p>
+        <p>
+            Your anonymity is guaranteed throughout the whole study, both to other participants and researchers.
+        </p>
+        <p>
+            By clicking "I Consent," you confirm that you give consent to participate.
 
-    </p>
-    <p>
-        For questions, concerns, or suggestions, please contact: <br>
-        <a href="mailto:charlotte.rossetti@uzh.ch"> charlotte.rossetti@uzh.ch </a> or <a href="mailto:caroline.graf@uzh.ch"> caroline.graf@uzh.ch </a>
-    </p>
-    <p>
-        Charlotte Rossetti, Caroline Graf and Jörg Gross <br>
-        University of Zurich, Switzerland <br>
-<!--        <img/>-->
-    </p>
+        </p>
+        <p>
+            For questions, concerns, or suggestions, please contact: <br>
+            <a href="mailto:charlotte.rossetti@uzh.ch"> charlotte.rossetti@uzh.ch </a>
+            or <a href="mailto:caroline.graf@uzh.ch"> caroline.graf@uzh.ch </a>
+        </p>
+        <p>
+            Charlotte Rossetti, Caroline Graf and Jörg Gross <br>
+            University of Zurich, Switzerland <br>
+        </p>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button style="color: #fff; background-color: #b08600; border: 1px solid transparent; font-size: 1rem; border-radius: 0.25rem;">
+            I CONSENT
+        </button>
+    </div>
+
 </div>
-
-    <p>
-        <div style="display: flex; justify-content: flex-end">
-        <button style="
-                    color: #fff;
-                    background-color: #b08600;
-                    border: 1px solid transparent;
-                    font-size: 1rem;
-                    border-radius: 0.25rem;">
-
-        I CONSENT
-    </button>
-
-        </div>
-
-
-    </p>
 
 {% endblock %}

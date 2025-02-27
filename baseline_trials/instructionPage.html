@@ -48,8 +48,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -540,6 +538,8 @@
         // }
     });
 
+    document.querySelector('.container').style.outline = '2px solid red';
+
 </script>
 
 
@@ -655,48 +655,61 @@
       margin-right:auto;
     }
 
-    .container {
+    .figure-container {
         width:45%;
         height:20vw;
         margin-left:auto;
         margin-right:auto;
+        text-align:center;
         border:0px solid black;
         position:relative;
     }
 
-    .short-container {
-        width:45%;
+    .short-figure-container {
+        width:75%;
         height:8.5vw;  # shorter for dictator
         margin-left:auto;
         margin-right:auto;
-        margin-top:1.5vw;
+        text-align:center;
         border:0px solid black;
         position:relative;
     }
 
-    @media (max-width: 1200px) {
-      .responsive-div {
-        transform: scale(1.0); /* Scale to 80% for smaller screens */
-      }
-      .container {
-          margin-left:10vw;
-      }
-      .numbers {
+    @media (max-width: 1200px) { /* adjustments for smaller screens */
+        .responsive-div {
+            transform: scale(1.2); /* Scale up pr down */
+            transform-origin: center;
+        }
+        .container {
+            width:80%; /* otherwise used margin-left:10vw; */
+        }
+        .figure-container {
+
+        }
+        .short.figure-container {
+            height:20vw;
+        }
+        .numbers {
           position:absolute;
           transform: scale(0.95);
           left:6vw;
-      }
+        }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 500px) { /* adjustments for smartphones */
       .responsive-div {
-        transform: scale(2); /* Scale to 60% for even smaller screens */
+        transform: scale(1.0); /* Scale up or down */
+        transform-origin: center;
       }
       .container {
-          margin-left:1vw;
+            width:90%; /* otherwise used margin-left:1vw; */
       }
-      .short.container {
-          margin-left:1vw;
+      .figure-container {
+            transform: scale(1.6); /* Scale up the figure elements */
+            min-width:10px;
+      }
+      .short.figure-container {
+            height:20vw;
       }
       .numbers {
           position:absolute;
@@ -707,6 +720,27 @@
           font-size:2vw;
           border-width:1px;
       }
+    }
+
+    .person-a {
+         top: 72%;
+         left: calc(50% - 13.5vw);
+         font-size:1.2vw;
+         position: absolute;
+    }
+
+    .person-b {
+         top: 72%;
+         left: calc(50% + 7.5vw);
+         font-size:1.2vw;
+         position: absolute;
+    }
+
+    .person-c {
+         top: 82%;
+         left: calc(50% + 7.5vw);
+         font-size:1.2vw;
+         position: absolute;
     }
 
     .coin-stack {
@@ -750,7 +784,7 @@
         /*box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);*/
         position: absolute;
         transform: translateX(-50%);
-}
+    }
 
     .coin_destroyed2PP {
         width: 1.8vw; /* Coins take the full width of the stack container */
@@ -763,7 +797,7 @@
         /*box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);*/
         position: absolute;
         transform: translateX(-50%);
-}
+    }
 
 
     .coinown {
@@ -815,146 +849,145 @@
         transform: translateX(-50%);
     }
 
-
     .coin-count-labelD {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 24%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 32%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelD-static {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2vw;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: calc(50% - 4.5vw); /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 60%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelD-static2 {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 24%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 32%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelD-static-norm {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 24%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 32%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelD-TP {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 24%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 32%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 24%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 32%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelR-static-norm {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 60%; /* Center horizontally, previously 73 */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 13%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelDDes {
-    font-size: 1.2rem;
-    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: -4%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 56%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: -4%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 56%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelDDes2PP {
-    font-size: 1.2rem;
-    color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 64%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: -10%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 64%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: -10%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 60%; /* Center horizontally, previously 73 */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 13%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelR-TP {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally, previously 73 */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 60%; /* Center horizontally, previously 73 */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 13%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelTP {
-    font-size: 1.2rem;
-    color: darkred; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 85%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 80%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 85%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 80%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelTP2PP {
-    font-size: 1.2rem;
-    color: darkred; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 73%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 8%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 73%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 8%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelTP3PR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: -4%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 56%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: -4%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 56%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
     .coin-count-labelTP3PC {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 98%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 56%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 98%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 56%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
 
     .coin:nth-child(12)  { top: 2.7vw; }
@@ -1007,59 +1040,57 @@
 
 
     .coinown3PR:nth-child(1)  { top: 15.8vw; }
-.coinown3PR:nth-child(2)  { top: 15.5vw; }
-.coinown3PR:nth-child(3)  { top: 15.2vw; }
-.coinown3PR:nth-child(4)   { top: 14.9vw; }
-.coinown3PR:nth-child(5)   { top: 14.6vw; }
-.coinown3PR:nth-child(6)   { top: 14.3vw; }
-.coinown3PR:nth-child(7)   { top: 14.0vw; }
-.coinown3PR:nth-child(8)   { top: 13.7vw; }
-.coinown3PR:nth-child(9)   { top: 13.4vw; }
-.coinown3PR:nth-child(10)   { top: 13.1vw; }
-.coinown3PR:nth-child(11)   { top: 12.8vw; }
-.coinown3PR:nth-child(12)   { top: 12.5vw; }
+    .coinown3PR:nth-child(2)  { top: 15.5vw; }
+    .coinown3PR:nth-child(3)  { top: 15.2vw; }
+    .coinown3PR:nth-child(4)   { top: 14.9vw; }
+    .coinown3PR:nth-child(5)   { top: 14.6vw; }
+    .coinown3PR:nth-child(6)   { top: 14.3vw; }
+    .coinown3PR:nth-child(7)   { top: 14.0vw; }
+    .coinown3PR:nth-child(8)   { top: 13.7vw; }
+    .coinown3PR:nth-child(9)   { top: 13.4vw; }
+    .coinown3PR:nth-child(10)   { top: 13.1vw; }
+    .coinown3PR:nth-child(11)   { top: 12.8vw; }
+    .coinown3PR:nth-child(12)   { top: 12.5vw; }
 
-.coinown3PC:nth-child(1)  { top: 15.8vw; }
-.coinown3PC:nth-child(2)  { top: 15.5vw; }
-.coinown3PC:nth-child(3)  { top: 15.2vw; }
-.coinown3PC:nth-child(4)   { top: 14.9vw; }
-.coinown3PC:nth-child(5)   { top: 14.6vw; }
-.coinown3PC:nth-child(6)   { top: 14.3vw; }
-.coinown3PC:nth-child(7)   { top: 14.0vw; }
-.coinown3PC:nth-child(8)   { top: 13.7vw; }
-.coinown3PC:nth-child(9)   { top: 13.4vw; }
-.coinown3PC:nth-child(10)   { top: 13.1vw; }
-.coinown3PC:nth-child(11)   { top: 12.8vw; }
-.coinown3PC:nth-child(12)   { top: 12.5vw; }
-
-
-.coin_destroyed:nth-child(1)  { top: 15.8vw; }
-.coin_destroyed:nth-child(2)  { top: 15.5vw; }
-.coin_destroyed:nth-child(3)  { top: 15.2vw; }
-.coin_destroyed:nth-child(4)   { top: 14.9vw; }
-.coin_destroyed:nth-child(5)   { top: 14.6vw; }
-.coin_destroyed:nth-child(6)   { top: 14.3vw; }
-.coin_destroyed:nth-child(7)   { top: 14.0vw; }
-.coin_destroyed:nth-child(8)   { top: 13.7vw; }
-.coin_destroyed:nth-child(9)   { top: 13.4vw; }
-.coin_destroyed:nth-child(10)   { top: 13.1vw; }
-.coin_destroyed:nth-child(11)   { top: 12.8vw; }
-.coin_destroyed:nth-child(12)   { top: 12.5vw; }
-
-.coin_destroyed2PP:nth-child(12)  { top: -3.3vw; }
-.coin_destroyed2PP:nth-child(11)  { top: -3.0vw; }
-.coin_destroyed2PP:nth-child(10)  { top: -2.7vw; }
-.coin_destroyed2PP:nth-child(9)   { top: -2.4vw; }
-.coin_destroyed2PP:nth-child(8)   { top: -2.1vw; }
-.coin_destroyed2PP:nth-child(7)   { top: -1.8vw; }
-.coin_destroyed2PP:nth-child(6)   { top: -1.5vw; }
-.coin_destroyed2PP:nth-child(5)   { top: -1.2vw; }
-.coin_destroyed2PP:nth-child(4)   { top: -0.9vw; }
-.coin_destroyed2PP:nth-child(3)   { top: -0.6vw; }
-.coin_destroyed2PP:nth-child(2)   { top: -0.3vw; }
-.coin_destroyed2PP:nth-child(1)   { top: 0.0vw; }
+    .coinown3PC:nth-child(1)  { top: 15.8vw; }
+    .coinown3PC:nth-child(2)  { top: 15.5vw; }
+    .coinown3PC:nth-child(3)  { top: 15.2vw; }
+    .coinown3PC:nth-child(4)   { top: 14.9vw; }
+    .coinown3PC:nth-child(5)   { top: 14.6vw; }
+    .coinown3PC:nth-child(6)   { top: 14.3vw; }
+    .coinown3PC:nth-child(7)   { top: 14.0vw; }
+    .coinown3PC:nth-child(8)   { top: 13.7vw; }
+    .coinown3PC:nth-child(9)   { top: 13.4vw; }
+    .coinown3PC:nth-child(10)   { top: 13.1vw; }
+    .coinown3PC:nth-child(11)   { top: 12.8vw; }
+    .coinown3PC:nth-child(12)   { top: 12.5vw; }
 
 
+    .coin_destroyed:nth-child(1)  { top: 15.8vw; }
+    .coin_destroyed:nth-child(2)  { top: 15.5vw; }
+    .coin_destroyed:nth-child(3)  { top: 15.2vw; }
+    .coin_destroyed:nth-child(4)   { top: 14.9vw; }
+    .coin_destroyed:nth-child(5)   { top: 14.6vw; }
+    .coin_destroyed:nth-child(6)   { top: 14.3vw; }
+    .coin_destroyed:nth-child(7)   { top: 14.0vw; }
+    .coin_destroyed:nth-child(8)   { top: 13.7vw; }
+    .coin_destroyed:nth-child(9)   { top: 13.4vw; }
+    .coin_destroyed:nth-child(10)   { top: 13.1vw; }
+    .coin_destroyed:nth-child(11)   { top: 12.8vw; }
+    .coin_destroyed:nth-child(12)   { top: 12.5vw; }
+
+    .coin_destroyed2PP:nth-child(12)  { top: -3.3vw; }
+    .coin_destroyed2PP:nth-child(11)  { top: -3.0vw; }
+    .coin_destroyed2PP:nth-child(10)  { top: -2.7vw; }
+    .coin_destroyed2PP:nth-child(9)   { top: -2.4vw; }
+    .coin_destroyed2PP:nth-child(8)   { top: -2.1vw; }
+    .coin_destroyed2PP:nth-child(7)   { top: -1.8vw; }
+    .coin_destroyed2PP:nth-child(6)   { top: -1.5vw; }
+    .coin_destroyed2PP:nth-child(5)   { top: -1.2vw; }
+    .coin_destroyed2PP:nth-child(4)   { top: -0.9vw; }
+    .coin_destroyed2PP:nth-child(3)   { top: -0.6vw; }
+    .coin_destroyed2PP:nth-child(2)   { top: -0.3vw; }
+    .coin_destroyed2PP:nth-child(1)   { top: 0.0vw; }
 
 </style>
 </head>
@@ -1071,31 +1102,44 @@
 
     {{ if treatment_type == '0DG' }}
 
-        <p>In <u>each</u> decision situation, you will be paired with a <b>different study participant</b>. You will also be assigned a role for every decision (for example, Person A or Person B).</p>
+        <p>
+            In <u>each</u> decision situation,
+            you will be paired with a <b>different study participant</b>.
+            You will also be assigned a role for every decision
+            (for example, Person A or Person B).
+        </p>
 
         <p>The decision situation will look like this:</p>
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+        <div class="figure-container {% if '2PP' in player.treatment or
+        '0DG' in player.treatment %}short-figure-container{% endif %}">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+            <img src="/static/global/treatments/0DG give.png"
+                 style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static"
-                     style="top: 60%; "></div>
+            <span class='coinstackD-static' ></span>
+            <div class="coin-count-labelD-static"
+                 style="font-size:1.2vw; top: 60%; "></div>
 
         </div>
 
-        <p><strong>Person A</strong> receives 12 points.<br>
-        <strong>Person B</strong> receives 0 points.</p>
+        <p>
+            <strong>Person A</strong> receives 12 points.<br>
+            <strong>Person B</strong> receives 0 points.
+        </p>
 
-        <p><strong>Person A</strong> decides how many of the 12 points to <b>give</b> to <b>Person B</b> and how many to keep for themselves. Person B does not make a decision.</p>
+        <p>
+            <strong>Person A</strong> decides how many of the 12 points to <b>give</b>
+            to <b>Person B</b> and how many to keep for themselves.
+            Person B does not make a decision.
+        </p>
 
 <!--        <hr>-->
 
@@ -1103,7 +1147,7 @@
 
 <!--        <p>Now, you will decide <b style="color: red;">how many points to give</b> to Person B. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points you and Person B would receive.</p>-->
 
-<!--        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">-->
+<!--        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">-->
 
 <!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
 
@@ -1162,7 +1206,7 @@
 
 <!--        <p> In this practice exercise, you will decide <b style="color: red;">how socially appropriate</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>-->
 
-<!--        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">-->
+<!--        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">-->
 
 <!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
 
@@ -1215,20 +1259,19 @@
 
         <p>You will see different variations of <strong>Stage 2</strong>, but <strong>Stage 1</strong> will always look like the decision you just made:</p>
 
-        <div class="container short-container">
+        <div class="figure-container short-figure-container">
 
-            <img src="/static/global/treatments/0DG give.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+            <img src="/static/global/treatments/0DG give.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static"
-                     style="top: 60%; "></div>
+            <span class='coinstackD-static' ></span>
+            <div class="coin-count-labelD-static"></div>
 
         </div>
         <p><strong>Person A</strong> receives 12 points.<br>
@@ -1242,29 +1285,39 @@
 
         {{ if treatment_type == '2PP' }}
 
-            <p>In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong> from <strong>Person A</strong>. </p>
+            <p>
+                In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong>
+                from <strong>Person A</strong>.
+            </p>
+            <p>
+                Person A and Person B both receive 4 points in Stage 2.
+                Only Person B can use these points to remove points from Person A.
+                Only Person A's remaining points from Stage 1 can be removed.
+                Removed points are eliminated and cannot be used by anyone.
+                Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b>
+                (cost of removing 1 point: 0.33 points).
+            </p>
+            <br>
+            <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">
 
-            <p>Person A and Person B both receive 4 points in Stage 2. Only Person B can use these points to remove points from Person A. Only Person A's remaining points from Stage 1 can be removed. Removed points are eliminated and cannot be used by anyone. Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b> (cost of removing 1 point: 0.33 points).</p>
+                <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; top:0vw">
 
-            <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-container{% endif %}">
+                <div class="person-a">
+                    <b>PERSON A</b>
+                </div>
+                <div class="person-b">
+                    <b>PERSON B</b>
+                </div>
 
-            <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+                    <img src="/static/global/punish arrow orange.png" alt="-"
+                         style="position: absolute; width: 8vw; top: 5%; left: 43%;">
+                    <img src="/static/global/minus_button2.png" alt="-"
+                         style="position: absolute; width: 1.8vw; top: -18%; left: 55%;">
 
-                <p>
-                    <b style="position: absolute; top: 72%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 72%; right:-12%;">PERSON B</b>
-                </p>
-
-                <img src="/static/global/punish arrow orange.png" alt="-" style="position: absolute; width: 8vw; top: 5%; left: 23%;">
-                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -18%; left: 40%;">
-
-<!--                <span class='coinstackD-static' ></span>-->
-<!--                <div class="coin-count-labelD-static2"-->
-<!--                     style="top: 60%; "></div>-->
-        </div>
+    <!--                <span class='coinstackD-static' ></span>-->
+    <!--                <div class="coin-count-labelD-static2"-->
+    <!--                     style="top: 60%; "></div>-->
+            </div>
 
         {{ else }}
 
@@ -1272,19 +1325,19 @@
             Person C</strong> will decide whether to change the points of Person A or Person B.
             The possible choices of Person C will be explained below.</p>
 
-        <div class="container">
+        <div class="figure-container">
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 36%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 36%; right:-12%;">PERSON B</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 85%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
                 <span class='coinstackD-static' ></span>
                 <div class="coin-count-labelD-static2"
@@ -1301,7 +1354,7 @@
 <!--        {{ if first_block_2PP_true == True and player.round_number == 6 }}-->
 <!--            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>-->
 
-<!--            <div class="container">-->
+<!--            <div class="figure-container">-->
 
 <!--            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
 
@@ -1329,19 +1382,19 @@
 
         <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <div class="container">
+        <div class="figure-container">
 
-            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
 
@@ -1374,7 +1427,7 @@
 
 <!--        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>-->
 
-<!--        <div class="container" >-->
+<!--        <div class="figure-container" >-->
 
 <!--                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
 
@@ -1457,29 +1510,34 @@
 
         <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <div class="container">
+        <div class="figure-container">
 
-            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
             <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
-
         </div>
 
         <br>
+        <p>
+            In Stage 2, <b>Person C</b> is able to <b style="color: red;">give points</b>
+            to Person A. Person C is <u>not anymore</u> able to remove points.
+        </p>
 
-        <p> In Stage 2, <b>Person C</b> is able to <b style="color: red; ">give points</b> to Person A. Person C is <u>not anymore</u> able to remove points. </p>
-
-        <p> Person C receives 4 points in Stage 2 and can use these points to give points to Person A. Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b> (cost of giving 1 point: 0.33 points).</p>
+        <p>
+            Person C receives 4 points in Stage 2 and can use these points to give points to Person A.
+            Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b>
+            (cost of giving 1 point: 0.33 points).
+        </p>
 
     {{ endif }}
 
@@ -1488,21 +1546,19 @@
 
         <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <div class="container">
+        <div class="figure-container">
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 29%; left:-25%;">PERSON A</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 29%; right:-12%;">PERSON B</b>
-                </p>
-
-                <p>
-                    <b style="position: absolute; top: 92%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 52%; left: 11%;">
             <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 52%; left: 75%;">
@@ -1545,7 +1601,7 @@
 
         <p>Here is an example:</p>
 
-        <div class="container">
+        <div class="figure-container">
 
             <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
             <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
@@ -1554,17 +1610,17 @@
             <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
             <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 67%; left: 75%;">
@@ -1591,7 +1647,7 @@
 
         <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <div class="container">
+        <div class="figure-container">
 
                 <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
                 <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
@@ -1600,17 +1656,17 @@
                 <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
 
-                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+                <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
 
@@ -1631,7 +1687,7 @@
 
         <p>Here is an example:</p>
 
-        <div class="container">
+        <div class="figure-container">
 
             <img src="" style='width:50%; position:absolute; right:19.2vw' class='dictatorCountry'>
             <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
@@ -1639,17 +1695,17 @@
             <img src="" style='width:50%; position:absolute; top:7vw; right:25vw' class='dictatorCountryMap'>
             <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
 
-            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-                <p>
-                    <b style="position: absolute; top: 44%; left:-25%;">PERSON A</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 44%; right:-12%;">PERSON B</b>
-                </p>
-                <p>
-                    <b style="position: absolute; top: 107%; left:34%;">PERSON C</b>
-                </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
+            <div class="person-c">
+                <b>PERSON C</b>
+            </div>
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 67%; left: 11%;">
 
