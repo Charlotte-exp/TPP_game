@@ -1013,6 +1013,11 @@ class ThanksPage(Page):
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+    def vars_for_template(player: Player):
+        return {
+            'participation_fee': player.session.config['participation_fee'],
+        }
+
       
 
 page_sequence = [Consent,
