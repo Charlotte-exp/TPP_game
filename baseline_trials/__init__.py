@@ -434,7 +434,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect)
 
     education = models.StringField(
-        choices=['No formal education', 'GCSE or equivalent', 'A-Levels or equivalent', 'Vocational training',
+        choices=['No formal education', 'Primary education', 'Secondary education', 'Post-secondary education',
                  'Undergraduate degree', 'Postgraduate degree', 'Prefer not to say'],
         verbose_name='What is the highest level of education you have completed?',
         widget=widgets.RadioSelect)
@@ -997,10 +997,9 @@ class Demographics(Page):
     form_model = 'player'
     form_fields = ['age', 'gender', 'income', 'education', 'nationality']
 
-
-    # @staticmethod
-    # def is_displayed(player: Player):
-    #     return player.round_number == C.NUM_ROUNDS
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
@@ -1021,8 +1020,6 @@ class ThanksPage(Page):
       
 
 page_sequence = [Consent,
-                 #Demographics,
-                 #Introduction,
                  Introduction,
                  AttentionCheckPage,
                  instructionPage,
@@ -1030,5 +1027,6 @@ page_sequence = [Consent,
                  DictatorPage,
                  TPPage,
                  UniversalNormPage,
+                 Demographics,
                  ThanksPage
                  ]
