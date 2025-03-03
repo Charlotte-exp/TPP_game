@@ -352,14 +352,14 @@
       transform-origin: top left; /* Ensure scaling starts from top-left */
       transform: scale(1); /* Default scale */
       transition: transform 0.3s ease; /* Smooth scaling */
-      border:1px solid black;
+      /* border:1px solid black; */
       margin-left:auto;
       margin-right:auto;
     }
 
     .figure-container {
         width:75%;
-        height:20vw;
+        height:21vw;
         /* top:2vw; */
         margin-left:auto;
         margin-right:auto;
@@ -370,7 +370,7 @@
 
     .short-figure-container {
         width:75%;
-        height:12vw;  # shorter for dictator
+        height:10vw;  # shorter for dictator
         margin-left:auto;
         margin-right:auto;
         text-align:center;
@@ -452,7 +452,8 @@
     }
 
     .person-c {
-        left: calc(50% - 2vw);
+        left: calc(50% - 2.3vw);
+        top:86%;
         font-size:1.2vw;
         position: absolute;
     }
@@ -662,10 +663,10 @@
 
             <img src="/static/{{ image }}" style="width:27vw; top:3vw">
 
-            <div class="person-a" style="top:52%">
+            <div class="person-a" style="top:60%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b" style="top:52%">
+            <div class="person-b" style="top:60%">
                 <b>PERSON B</b>
             </div>
 
@@ -692,8 +693,8 @@
             {% endif %}
 
             {% if "2PP" in player.treatment %}
-                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 46%;">
-                <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 28%;">
+                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -20%; left:calc(50% + 2vw);;">
+                <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left:calc(50% - 4.2vw);">
             {% endif %}
 
         </div>
@@ -748,6 +749,11 @@
             </p>
         {% endif %}
 
+        {% if "2PP" in player.treatment %}
+            <br>
+        {% endif %}
+
+
         <div class='responsive-div'>
 
             <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">
@@ -764,24 +770,24 @@
                 <img src="/static/{{ image }}" style="width:27vw; top:3vw">
 
                 {% if "0DG" in player.treatment or "2PP" in player.treatment %}
-                <div class="person-a" style="top:52%">
+                <div class="person-a" style="top:60%">
                     <b>PERSON A</b>
                 </div>
-                <div class="person-b" style="top:52%">
+                <div class="person-b" style="top:60%">
                     <b>PERSON B</b>
                 </div>
 
                 {% else %}
-    <!--            there were different heights between above and below-->
-                <div class="person-a" style="top:24%">
+
+                <div class="person-a" style="top:29%">
                     <b>PERSON A</b>
                 </div>
-                <div class="person-b" style="top:24%">
+                <div class="person-b" style="top:29%">
                     <b>PERSON B</b>
                 </div>
 
                     {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
-                    <div class="person-c" style="top:73%">
+                    <div class="person-c">
                         <b>PERSON C</b>
                     </div>
                     {% endif %}
@@ -809,16 +815,16 @@
                 {% endif %}
 
                 {% if "2PP" in player.treatment %}
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -8%; left: 46%;">
-                    <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left: 28%;">
+                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -20%; left:calc(50% + 2vw);">
+                    <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left:calc(50% - 4.2vw);">
                 {% endif %}
 
                 {% if "2PP" in player.treatment or "0DG" in player.treatment %}
-                    <div class="you" style="top: 31%;">
+                    <div class="you" style="top: 36%;">
                         <b>YOU</b>
                     </div>
                 {% else %}
-                    <div class="you" style="top: 15%;">
+                    <div class="you" style="top: 17%;">
                         <b>YOU</b>
                     </div>
                 {% endif %}

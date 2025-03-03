@@ -657,7 +657,7 @@
 
     .figure-container {
         width:45%;
-        height:20vw;
+        height:21vw;
         margin-left:auto;
         margin-right:auto;
         text-align:center;
@@ -667,7 +667,7 @@
 
     .short-figure-container {
         width:75%;
-        height:12vw;  # shorter for dictator
+        height:10vw;  # shorter for dictator
         margin-left:auto;
         margin-right:auto;
         text-align:center;
@@ -723,24 +723,22 @@
     }
 
     .person-a {
-         top: 52%;
-         left: calc(50% - 13.5vw);
-         font-size:1.2vw;
-         position: absolute;
+        left: calc(50% - 13.5vw);
+        font-size:1.2vw;
+        position: absolute;
     }
 
     .person-b {
-         top: 52%;
-         left: calc(50% + 7.5vw);
-         font-size:1.2vw;
-         position: absolute;
+        left: calc(50% + 7.5vw);
+        font-size:1.2vw;
+        position: absolute;
     }
 
     .person-c {
-         top: 72%;
-         left: calc(50% + 7.5vw);
-         font-size:1.2vw;
-         position: absolute;
+        left: calc(50% - 2.3vw);
+        top:87%;
+        font-size:1.2vw;
+        position: absolute;
     }
 
     .coin-stack {
@@ -1111,16 +1109,15 @@
 
         <p>The decision situation will look like this:</p>
 
-        <div class="figure-container {% if '2PP' in player.treatment or
-        '0DG' in player.treatment %}short-figure-container{% endif %}">
+        <div class="figure-container short-figure-container">
 
             <img src="/static/global/treatments/0DG give.png"
                  style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:60%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:60%">
                 <b>PERSON B</b>
             </div>
 
@@ -1263,10 +1260,10 @@
 
             <img src="/static/global/treatments/0DG give.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:60%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:60%">
                 <b>PERSON B</b>
             </div>
 
@@ -1298,14 +1295,14 @@
                 (cost of removing 1 point: 0.33 points).
             </p>
             <br>
-            <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">
+            <div class="figure-container short-figure-container">
 
                 <img src="/static/global/treatments/2PP_2 punish.png" style="width:27vw; top:0vw">
 
-                <div class="person-a">
+                <div class="person-a" style="top:60%">
                     <b>PERSON A</b>
                 </div>
-                <div class="person-b">
+                <div class="person-b"style="top:60%">
                     <b>PERSON B</b>
                 </div>
 
@@ -1329,10 +1326,10 @@
 
             <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
@@ -1386,10 +1383,10 @@
 
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
@@ -1514,10 +1511,10 @@
 
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b"style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
@@ -1550,10 +1547,10 @@
 
             <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
@@ -1612,10 +1609,10 @@
 
             <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
@@ -1658,10 +1655,10 @@
 
                 <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
@@ -1697,10 +1694,10 @@
 
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
-            <div class="person-a">
+            <div class="person-a" style="top:29%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b">
+            <div class="person-b" style="top:29%">
                 <b>PERSON B</b>
             </div>
             <div class="person-c">
