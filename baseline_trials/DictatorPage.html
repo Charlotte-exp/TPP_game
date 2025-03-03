@@ -398,9 +398,6 @@
         .figure-container {
             width:80%; /* otherwise used margin-left:1vw; */
         }
-        .short.figure-container {
-            height:20vw;
-        }
         .number {
             width: 30px; /* should not scale */
             height: 30px; /* should not scale */
@@ -424,9 +421,6 @@
             transform: scale(1.0); /* Scale up the figure elements */
             min-width:10px;
         }
-        .short.figure-container {
-            height:20vw;
-        }
         .number {
             width: 25px; /* should not scale */
             height: 25px; /* should not scale */
@@ -440,21 +434,21 @@
     }
 
     .person-a {
-        left: calc(50% - 13.5vw);
-        font-size:1.2vw;
+        left: calc(50% - 13.1vw);
+        font-size:1.0vw;
         position: absolute;
     }
 
     .person-b {
-        left: calc(50% + 7.5vw);
-        font-size:1.2vw;
+        left: calc(50% + 7.8vw);
+        font-size:1.0vw;
         position: absolute;
     }
 
     .person-c {
-        left: calc(50% - 2.3vw);
-        top:86%;
-        font-size:1.2vw;
+        left: calc(50% - 1.9vw);
+        top:87.5%;
+        font-size:1.0vw;
         position: absolute;
     }
 
@@ -464,7 +458,6 @@
         color: red;
         position: absolute;
     }
-
 
     .coin-stack {
         position: absolute;
@@ -512,7 +505,7 @@
         font-size: 1.2rem;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left: calc(50% - 5vw); /* Center horizontally before offsetting */
+        left: calc(50% - 4.2vw); /* Center horizontally before offsetting */
         top: 23%; /* Move up; adjust value as needed */
          /* transform: translateX(-50%);Adjust for exact centering */
         text-align: center; /* Align text */
@@ -650,15 +643,18 @@
         {% for dic_norm_decision in dic_norm_decisions %}
         <div class='responsive-div'>
 
+        {% if dic_identity != "baseline"%}
+            <br><br>
+        {% endif %}
         <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}"
              data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
-                <img src="" style='width:50%; position:absolute; right:17.5vw' class='dictatorCountry'>
-                <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
+                <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
+                <img src="" style='width:12vw; position:absolute; top: -24%; left:calc(50% - 21vw)' class='receiverCountry'>
 
-                <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-                <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
+                <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
+                <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
             {% endif %}
 
             <img src="/static/{{ image }}" style="width:27vw; top:3vw">
@@ -666,7 +662,7 @@
             <div class="person-a" style="top:60%">
                 <b>PERSON A</b>
             </div>
-            <div class="person-b" style="top:60%">
+            <div class="person-b" style="top:61%">
                 <b>PERSON B</b>
             </div>
 
@@ -681,15 +677,15 @@
                  data-index="{{ dic_norm_decision.index }}"></div>
 
             {% if "3PP" in player.treatment or "3PC" in player.treatment or player.treatment in C.COUNTRY_LIST %}
-                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
+                <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
             {% endif %}
 
             {% if "3PR" in player.treatment %}
-                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 15%;">
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
             {% endif %}
 
             {% if "3PC" in player.treatment %}
-                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 84%;">
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% + 6vw);">
             {% endif %}
 
             {% if "2PP" in player.treatment %}
@@ -756,15 +752,17 @@
 
         <div class='responsive-div'>
 
+            {% if dic_identity != "baseline"%}
+            <br><br>
+            {% endif %}
             <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">
 
                 {% if dic_identity != "baseline"%}
-                    <img src="" style='width:50%; position:absolute; right:17.5vw' class='dictatorCountry'>
-                    <img src="" style='width:50%; position:absolute; left:17.8vw' class='receiverCountry'>
+                    <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
+                    <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
 
-                    <img src="" style='width:50%; position:absolute; top:7vw; right:22vw' class='dictatorCountryMap'>
-                    <img src="" style='width:50%; position:absolute; top:7vw; left:22vw' class='receiverCountryMap'>
-
+                    <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
+                    <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
                 {% endif %}
 
                 <img src="/static/{{ image }}" style="width:27vw; top:3vw">
@@ -773,7 +771,7 @@
                 <div class="person-a" style="top:60%">
                     <b>PERSON A</b>
                 </div>
-                <div class="person-b" style="top:60%">
+                <div class="person-b" style="top:61%">
                     <b>PERSON B</b>
                 </div>
 
@@ -803,19 +801,19 @@
                      style="font-size:1.4vw; {% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
 
                 {% if "3PP" in player.treatment or "3PC" in player.treatment or player.treatment in C.COUNTRY_LIST %}
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 55%; left: 12%;">
+                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
                 {% endif %}
 
                 {% if "3PR" in player.treatment %}
-                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 15%;">
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
                 {% endif %}
 
                 {% if "3PC" in player.treatment %}
-                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 55%; left: 84%;">
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% + 6vw);">
                 {% endif %}
 
                 {% if "2PP" in player.treatment %}
-                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -20%; left:calc(50% + 2vw);">
+                    <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: -20%; left:calc(50% - 1vw);">
                     <img src="/static/global/punish arrow grey.png" alt="-" style="position: absolute; width: 8vw; top: 3%; left:calc(50% - 4.2vw);">
                 {% endif %}
 
