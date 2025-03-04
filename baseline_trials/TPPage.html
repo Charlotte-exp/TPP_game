@@ -1064,7 +1064,7 @@
         {% if "2PP" in player.treatment and player.round_number < 6 %}
             <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person B is.</b> <br> <br>
             <p style="font-size: 14px; ">
-                Importantly, you will receive an <b>extra bonus of 10 points</b> if your decisions are the same as the most
+                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }}</b> if your decisions are the same as the most
                 common decisions among all other participants in {{current_country}}. <br> <br>
             </p>
         {% endif %}
@@ -1267,7 +1267,7 @@
 
         {% if "2PP" in player.treatment or "3PP" in player.treatment %}
 
-            <b> Now, you decide as Person C how many points to remove from Person A.</b> <br>
+            <b> Now, you decide as Person B how many points to remove from Person A.</b> <br>
 
             <p> Below are three different possible decisions of Person A. </p> <br>
 

@@ -1,6 +1,6 @@
 {{ block title }}
 
-<p style="text-align: center; font-size: 26px;  "> Knowledge check </p>
+<p style="text-align: center"> Knowledge check </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -49,9 +49,9 @@
     $(document).ready(function () {
 
         //Actions on click: ALTERNATIVE NORM MEASURE
-        $('.comprehension_option').on('click', function () {
+        $('.comprehension-option').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.comprehension-row').find('.comprehension_option').removeClass('selected');
+            $(this).closest('.comprehension-row').find('.comprehension-option').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -171,38 +171,35 @@
         align-items: center; /* Ensures proper vertical alignment */
     }
 
-
-    .comprehension_option {
-        width: 90%; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
+    .comprehension-option {
         flex-direction: column;
         text-align: center; /* Center-aligns the text */
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
+        font-size: 14px; /* Font size scales with viewport width */
         background-color: #e0e0e0;
-        border: 2px solid #000000;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
         border-radius: 6px; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
-
-    .comprehension_option:hover {
+    .comprehension-option:hover {
         background-color: #ffcc00; /* Change background color on hover */
     }
 
-    .comprehension_option:active {
+    .comprehension-option:active {
         background-color: #ffa500; /* Change background color on click */
     }
 
-    .comprehension_option.selected {
+    .comprehension-option.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .comprehension_option.disabled {
+    .comprehension-option.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
         border: 2px solid #d3d3d3;
         color:#d3d3d3;
@@ -211,22 +208,14 @@
     }
 
     .responsive-div {
-      width: 90%; /* Default width */
-      transform-origin: top left; /* Ensure scaling starts from top-left */
-      transform: scale(1); /* Default scale */
-      transition: transform 0.3s ease; /* Smooth scaling */
-      /*border:1px solid black;*/
-      margin-left:auto;
-      margin-right:auto;
-    }
-
-    .container {
-        width:45%;
-        height:25vw;
+        width: 90%; /* Default width */
+        align-items: center;
+        transform-origin: top left; /* Ensure scaling starts from top-left */
+        transform: scale(1); /* Default scale */
+        transition: transform 0.3s ease; /* Smooth scaling */
+        /*border:1px solid black;*/
         margin-left:auto;
         margin-right:auto;
-        border:0px solid black;
-        position:relative;
     }
 
     .reminder {
@@ -247,27 +236,18 @@
         border-radius: 4px; /* Slightly rounded corners */
         margin-bottom: 15px; /* Spacing below the error */
         display: none; /* Initially hidden */
-        /*font-size: 14px;*/
+        font-size: 14px;
     }
 
     .comprehension-error-green {
         color: green; /* Bootstrap default error text color (dark red) */
-        background-color: lightgreen; /* Light red background */
-        border: 1px solid green; /* Red border */
-        padding: 10px; /* Padding for spacing */
-        border-radius: 4px; /* Slightly rounded corners */
-        margin-bottom: 15px; /* Spacing below the error */
+        background-color: lightgreen;
+        border: 1px solid #77dd77;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
         display: none; /* Initially hidden */
-        /*font-size: 14px;*/
-    }
-
-    .short-container {
-        width:45%;
-        height:15vw;  # shorter for dictator
-        margin-left:auto;
-        margin-right:auto;
-        border:0px solid black;
-        position:relative;
+        font-size: 14px;
     }
 
     @media (max-width: 1200px) {
@@ -275,33 +255,22 @@
         transform: scale(1.0); /* Scale to 80% for smaller screens */
       }
       .container {
-          margin-left:10vw;
+          width:80%; /* otherwise used margin-left:10vw; */
       }
       .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:6vw;
+          transform: scale(0.85);
       }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 500px) { /* adjustments for smartphones */
       .responsive-div {
-        transform: scale(2); /* Scale to 60% for even smaller screens */
+        transform: scale(1); /* Scale to 60% for even smaller screens */
       }
       .container {
-          margin-left:1vw;
-      }
-      .short.container {
-          margin-left:1vw;
+          width:90%; /* otherwise used margin-left:10vw; */
       }
       .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:-3.2vw;
-      }
-      .number {
-          font-size:2vw;
-          border-width:1px;
+          transform: scale(0.85);
       }
     }
 
@@ -353,18 +322,20 @@
 
         <div class='responsive-div'>
 
-            <p> If <b>Person B</b> would remove <b>1 point</b> from <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
+            <p>
+                If <b>Person B</b> removes <b>1 point</b> from <b>Person A</b> in Stage 2,
+                <b>what would be the effect?</b>
+            </p>
 
             <div class='numbers'>
                 <div class="comprehension-row" data-input="selected-comprehension2PP">
-                    <div class="comprehension_option" data-value="0" >Person A would lose 3 point(s) and Person C would lose 0.33 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would lose 3 point(s) and Person C would lose 1 point(s).</div>
-                    <div class="comprehension_option" data-value="2" >Person A would lose 1 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="3" >Person A would lose 1 point(s) and Person C would lose 1 point(s).</div>
+                    <div class="comprehension-option" data-value="0" >Person A would lose 3 point(s) and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension-option" data-value="1" >Person A would lose 3 point(s) and Person C would lose 1 point(s).</div>
+                    <div class="comprehension-option" data-value="2" >Person A would lose 1 point(s) and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension-option" data-value="3" >Person A would lose 1 point(s) and Person C would lose 1 point(s).</div>
                 </div>
             </div>
 
-        <br>
         <hr>
         </div>
 
@@ -374,18 +345,20 @@
 
         <div class='responsive-div'>
 
-            <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person A</b> in Stage 2, <b>what would be the effect?</b>  </p>
+            <p>
+                If <b>Person C</b> gives <b>3 point(s)</b> to <b>Person A</b> in Stage 2,
+                <b>what would be the effect?</b>
+            </p>
 
             <div class='numbers'>
                 <div class="comprehension-row" data-input="selected-comprehension3PR">
-                    <div class="comprehension_option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
-                    <div class="comprehension_option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="3" >Person A would gain 3 point(s) and Person C would lose 1 point(s).</div>
+                    <div class="comprehension-option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
+                    <div class="comprehension-option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
+                    <div class="comprehension-option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension-option" data-value="3" >Person A would gain 3 point(s) and Person C would lose 1 point(s).</div>
                 </div>
             </div>
 
-        <br>
         <hr>
         </div>
 
@@ -395,18 +368,20 @@
 
         <div class='responsive-div'>
 
-            <p> If <b>Person C</b> would give <b>3 point(s)</b> to <b>Person B</b> in Stage 2, <b>what would be the effect?</b>  </p>
+            <p>
+                If <b>Person C</b> gives <b>3 point(s)</b> to <b>Person B</b> in Stage 2,
+                <b>what would be the effect?</b>
+            </p>
 
             <div class='numbers'>
                 <div class="comprehension-row" data-input="selected-comprehension3PC">
-                    <div class="comprehension_option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
-                    <div class="comprehension_option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension_option" data-value="3" >Person A would lose 3 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
+                    <div class="comprehension-option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
+                    <div class="comprehension-option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension-option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
+                    <div class="comprehension-option" data-value="3" >Person A would lose 3 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
                 </div>
             </div>
 
-        <br>
         <hr>
         </div>
 
@@ -423,16 +398,14 @@
         </button>
     </div>
 
+
     <br>
 
     {{ include_sibling 'Reminder.html' }}
 
 
 
-
 </form>
-
-
 
 
 </body>
