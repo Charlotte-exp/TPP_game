@@ -43,6 +43,7 @@ class C(BaseConstants):
     TP_cost = 3 # fraction of a full point the third party pays to punish/reward/compensate (here a third)
     norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
     ratings_extra_points = 10 # extra bonus for ratings close to country average
+    attention_check_rounds = [20, 37]
 
     ### Treatments ###
 
@@ -280,6 +281,11 @@ class Player(BasePlayer):
     comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
+    comp_failed2PP = models.IntegerField(initial=0)
+    comp_failed3PR = models.IntegerField(initial=0)
+    comp_failed3PC = models.IntegerField(initial=0)
+    att_failed1 = models.IntegerField(initial=0)
+    att_failed2 = models.IntegerField(initial=0)
 
     # Decisions
     dic_decision1 = models.IntegerField(
@@ -389,6 +395,22 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
+    attention1 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    attention2 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
 
     # Demographics
     age = models.IntegerField(
@@ -407,7 +429,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect)
 
     education = models.StringField(
-        choices=['No formal education', 'GCSE or equivalent', 'A-Levels or equivalent', 'Vocational training',
+        choices=['No formal education', 'Primary education', 'Secondary education', 'Post-secondary education',
                  'Undergraduate degree', 'Postgraduate degree', 'Prefer not to say'],
         verbose_name='What is the highest level of education you have completed?',
         widget=widgets.RadioSelect)
@@ -545,11 +567,11 @@ class ComprehensionQuestionPage(Page):
 
     def get_form_fields(player: Player):
         if "2PP" in player.treatment:
-            return ['comprehension2PP']
+            return ['comprehension2PP', 'comp_failed2PP']
         elif "3PR" in player.treatment:
-            return ['comprehension3PR']
+            return ['comprehension3PR', 'comp_failed3PR']
         else:
-            return ['comprehension3PC']
+            return ['comprehension3PC', 'comp_failed3PC']
 
     @staticmethod
     def error_message(player: Player, values):
@@ -574,10 +596,7 @@ class ComprehensionQuestionPage(Page):
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
         image = image.replace("3PR reward", "3PP punish")
-        first_block_2PP_true = player.first_block_2PP_true
         correct_answers = [2, 3, 0]
-        unique_default = "defaulterror_" + str(player.session) + "_" + str(player.participant.id_in_session) + "_" + str(player.round_number)
-        #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
         return dict(
             treatment=player.treatment,
@@ -586,15 +605,58 @@ class ComprehensionQuestionPage(Page):
             comprehension3PR=player.comprehension3PR,
             comprehension3PC=player.comprehension3PC,
             image=image,
-            unique_default=unique_default,
             correct_answers=correct_answers,
-            first_block_2PP_true=first_block_2PP_true,
         )
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 2
+
+
+class AttentionCheckPage(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        # return player.round_number == 1
+        return player.round_number == C.attention_check_rounds[0] or player.round_number == C.attention_check_rounds[1]
+
+    form_model = 'player'
+
+    def get_form_fields(player: Player):
+        if player.round_number == C.attention_check_rounds[0]:
+            return ['attention1', 'att_failed1']
+        else:
+            return ['attention2', 'att_failed2']
+
+    @staticmethod
+    def error_message(player: Player, values):
+        if player.round_number == C.attention_check_rounds[0]:
+            solutions = dict(attention1=3)
+        else:
+            solutions = dict(attention2=1)
+
+        errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
+        if errors:
+            return errors
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        image = 'global/treatments/{}.png'.format(player.treatment)
+        image = image.replace(" norm", "")
+        image = image.replace("2PP", "2PP_2")
+        image = image.replace("3PR reward", "3PP punish")
+        correct_answers = [3, 1]
+        attention_round1 = C.attention_check_rounds[0]
+
+        return dict(
+            treatment=player.treatment,
+            page_name=AttentionCheckPage,
+            image=image,
+            correct_answers=correct_answers,
+            attention_round1=attention_round1,
+            attention1=player.attention1,
+            attention2=player.attention2,
+        )
 
 
 class TPPage(Page):
@@ -930,10 +992,9 @@ class Demographics(Page):
     form_model = 'player'
     form_fields = ['age', 'gender', 'income', 'education', 'nationality']
 
-
-    # @staticmethod
-    # def is_displayed(player: Player):
-    #     return player.round_number == C.NUM_ROUNDS
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
@@ -946,16 +1007,21 @@ class ThanksPage(Page):
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+    def vars_for_template(player: Player):
+        return {
+            'participation_fee': player.session.config['participation_fee'],
+        }
+
       
 
 page_sequence = [Consent,
-                 #Demographics,
-                 #Introduction,
                  Introduction,
+                 AttentionCheckPage,
                  instructionPage,
                  ComprehensionQuestionPage,
                  DictatorPage,
                  TPPage,
                  UniversalNormPage,
+                 Demographics,
                  ThanksPage
                  ]

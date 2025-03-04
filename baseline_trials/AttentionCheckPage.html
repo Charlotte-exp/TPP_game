@@ -1,6 +1,6 @@
 {{ block title }}
 
-<p style="text-align: center"> Knowledge check </p>
+<p style="text-align: center; font-size: 26px;  "> Attention check </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -28,10 +28,13 @@
 
     var current_treatment = "{{ treatment }}";
 
+    var current_round_number = "{{player.round_number}}";
+
 
     //// error message handling for no-response versus incorrect-response
 
-    var correct_answers = {{correct_answers}}
+    var correct_answers = {{correct_answers}};
+    var attention_check_rounds = {{ C.attention_check_rounds }}
 
     /// Function for showing customized error messages
     let errorDiv = document.querySelector('.otree-form-errors');
@@ -49,9 +52,9 @@
     $(document).ready(function () {
 
         //Actions on click: ALTERNATIVE NORM MEASURE
-        $('.comprehension-option').on('click', function () {
+        $('.comprehension_option').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.comprehension-row').find('.comprehension-option').removeClass('selected');
+            $(this).closest('.comprehension-row').find('.comprehension_option').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -60,17 +63,13 @@
             const value = $(this).data('value');
 
             // Update the hidden input fields
-            if (current_treatment.includes("2PP")) { //
-                $('#selected-comprehension2PP').val(value);
+            if (current_round_number == attention_check_rounds[0] ) { //
+                $('#selected-attention1').val(value);
                 index = 0
             }
-            if (current_treatment.includes("3PR")) { //
-                $('#selected-comprehension3PR').val(value);
+            else { //
+                $('#selected-attention2').val(value);
                 index = 1;
-            }
-            if (current_treatment.includes("3PC")) { //
-                $('#selected-comprehension3PC').val(value);
-                index = 2;
             }
 
             console.log("before update", failedAttempts)
@@ -113,14 +112,11 @@
             // Submit number of failed responses
             document.querySelector('form').onsubmit = function () {
                 // Store failed attempts
-                if (current_treatment.includes("2PP")) { //
-                    document.querySelector('input[name="comp_failed2PP"]').value = failedAttempts;
+                if (current_round_number == attention_check_rounds[0]) { //
+                    document.querySelector('input[name="att_failed1"]').value = failedAttempts;
                 }
-                if (current_treatment.includes("3PR")) { //
-                    document.querySelector('input[name="comp_failed3PR"]').value = failedAttempts;
-                }
-                if (current_treatment.includes("3PC")) { //
-                    document.querySelector('input[name="comp_failed3PC"]').value = failedAttempts;
+                else { //
+                    document.querySelector('input[name="att_failed2"]').value = failedAttempts;
                 }
             };
             // Submit the form
@@ -171,35 +167,38 @@
         align-items: center; /* Ensures proper vertical alignment */
     }
 
-    .comprehension-option {
+
+    .comprehension_option {
+        width: 90%; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
         flex-direction: column;
         text-align: center; /* Center-aligns the text */
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 14px; /* Font size scales with viewport width */
+        font-size: 0.9vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
-        padding: 1.5px;
-        border: 1.5px solid #000000;
+        border: 2px solid #000000;
         border-radius: 6px; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
-    .comprehension-option:hover {
+
+    .comprehension_option:hover {
         background-color: #ffcc00; /* Change background color on hover */
     }
 
-    .comprehension-option:active {
+    .comprehension_option:active {
         background-color: #ffa500; /* Change background color on click */
     }
 
-    .comprehension-option.selected {
+    .comprehension_option.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .comprehension-option.disabled {
+    .comprehension_option.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
         border: 2px solid #d3d3d3;
         color:#d3d3d3;
@@ -208,14 +207,22 @@
     }
 
     .responsive-div {
-        width: 90%; /* Default width */
-        align-items: center;
-        transform-origin: top left; /* Ensure scaling starts from top-left */
-        transform: scale(1); /* Default scale */
-        transition: transform 0.3s ease; /* Smooth scaling */
-        /*border:1px solid black;*/
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      /*border:1px solid black;*/
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .container {
+        width:45%;
+        height:25vw;
         margin-left:auto;
         margin-right:auto;
+        border:0px solid black;
+        position:relative;
     }
 
     .reminder {
@@ -236,18 +243,27 @@
         border-radius: 4px; /* Slightly rounded corners */
         margin-bottom: 15px; /* Spacing below the error */
         display: none; /* Initially hidden */
-        font-size: 14px;
+        /*font-size: 14px;*/
     }
 
     .comprehension-error-green {
         color: green; /* Bootstrap default error text color (dark red) */
-        background-color: lightgreen;
-        border: 1px solid #77dd77;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 15px;
+        background-color: lightgreen; /* Light red background */
+        border: 1px solid green; /* Red border */
+        padding: 10px; /* Padding for spacing */
+        border-radius: 4px; /* Slightly rounded corners */
+        margin-bottom: 15px; /* Spacing below the error */
         display: none; /* Initially hidden */
-        font-size: 14px;
+        /*font-size: 14px;*/
+    }
+
+    .short-container {
+        width:45%;
+        height:15vw;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        border:0px solid black;
+        position:relative;
     }
 
     @media (max-width: 1200px) {
@@ -255,22 +271,33 @@
         transform: scale(1.0); /* Scale to 80% for smaller screens */
       }
       .container {
-          width:80%; /* otherwise used margin-left:10vw; */
+          margin-left:10vw;
       }
       .numbers {
-          transform: scale(0.85);
+          position:absolute;
+          transform: scale(0.95);
+          left:6vw;
       }
     }
 
-    @media (max-width: 500px) { /* adjustments for smartphones */
+    @media (max-width: 800px) {
       .responsive-div {
-        transform: scale(1); /* Scale to 60% for even smaller screens */
+        transform: scale(2); /* Scale to 60% for even smaller screens */
       }
       .container {
-          width:90%; /* otherwise used margin-left:10vw; */
+          margin-left:1vw;
+      }
+      .short.container {
+          margin-left:1vw;
       }
       .numbers {
-          transform: scale(0.85);
+          position:absolute;
+          transform: scale(0.95);
+          left:-3.2vw;
+      }
+      .number {
+          font-size:2vw;
+          border-width:1px;
       }
     }
 
@@ -282,30 +309,22 @@
 
 <form method="post">
 
-     {% if "2PP" in player.treatment %}
+     {% if player.round_number == attention_round1 %}
         <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension2PP" id="selected-comprehension2PP">
+        <input type="hidden" name="attention1" id="selected-attention1">
 
-        <input type="hidden" name="comp_failed2PP"/>
+        <input type="hidden" name="att_failed1"/>
 
-<!--        {{ formfield_errors 'comprehension2PP' }}-->
-
-    {% elif "3PR" in player.treatment %}
-         <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension3PR" id="selected-comprehension3PR">
-
-        <input type="hidden" name="comp_failed3PR"/>
-
-<!--        {{ formfield_errors 'comprehension3PR' }}-->
+<!--        {{ formfield_errors 'attention1' }}-->
 
     {% else %}
 
      <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension3PC" id="selected-comprehension3PC">
+        <input type="hidden" name="attention2" id="selected-attention2">
 
-        <input type="hidden" name="comp_failed3PC"/>
+        <input type="hidden" name="att_failed2"/>
 
-<!--        {{ formfield_errors 'comprehension3PC' }}-->
+<!--        {{ formfield_errors 'attention2' }}-->
 
     {% endif %}
 
@@ -317,75 +336,68 @@
         Wrong answer! Please select the correct answer.
     </div>
 
+    <div class="container">
 
-    {% if "2PP" in player.treatment %}
+            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; position:absolute; left:-25%; top:0vw">
+
+                <p>
+                    <b style="position: absolute; top: 23%; left:-25%;">PERSON A</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 23%; right:-12%;">PERSON B</b>
+                </p>
+
+                <p>
+                    <b style="position: absolute; top: 74%; left:34%;">PERSON C</b>
+                </p>
+
+            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 42%; left: 11%;">
+
+        </div>
+
+
+    {% if player.round_number == attention_round1 %}
 
         <div class='responsive-div'>
 
-            <p>
-                If <b>Person B</b> removes <b>1 point</b> from <b>Person A</b> in Stage 2,
-                <b>what would be the effect?</b>
-            </p>
+            <p> To show us that you are paying attention, please select <b>4 points</b>. </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension2PP">
-                    <div class="comprehension-option" data-value="0" >Person A would lose 3 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension-option" data-value="1" >Person A would lose 3 point(s) and Person C would lose 1 point(s).</div>
-                    <div class="comprehension-option" data-value="2" >Person A would lose 1 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension-option" data-value="3" >Person A would lose 1 point(s) and Person C would lose 1 point(s).</div>
+                <div class="comprehension-row" data-input="selected-attention1">
+                    <div class="comprehension_option" data-value="0" >2 point(s) </div>
+                    <div class="comprehension_option" data-value="1" >0 point(s) </div>
+                    <div class="comprehension_option" data-value="2" >6 point(s) </div>
+                    <div class="comprehension_option" data-value="3" >4 point(s) </div>
                 </div>
             </div>
 
+        <br>
+        <hr>
+        </div>
+
+    {% else %}
+
+        <div class='responsive-div'>
+
+            <p> To show us that you are paying attention, please select <b>2 points</b>. </p>
+
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-attention2">
+                    <div class="comprehension_option" data-value="0" >4 point(s) </div>
+                    <div class="comprehension_option" data-value="1" >2 point(s) </div>
+                    <div class="comprehension_option" data-value="2" >0 point(s) </div>
+                    <div class="comprehension_option" data-value="3" >6 point(s) </div>
+                </div>
+            </div>
+
+        <br>
         <hr>
         </div>
 
     {% endif %}
 
-    {% if "3PR" in player.treatment %}
 
-        <div class='responsive-div'>
-
-            <p>
-                If <b>Person C</b> gives <b>3 point(s)</b> to <b>Person A</b> in Stage 2,
-                <b>what would be the effect?</b>
-            </p>
-
-            <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension3PR">
-                    <div class="comprehension-option" data-value="0" >Person A would gain 1 point(s) and Person C would lose 0.33 point(s). </div>
-                    <div class="comprehension-option" data-value="1" >Person A would gain 1 point(s) and Person C would lose 1 point(s).</div>
-                    <div class="comprehension-option" data-value="2" >Person A would gain 3 point(s) and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension-option" data-value="3" >Person A would gain 3 point(s) and Person C would lose 1 point(s).</div>
-                </div>
-            </div>
-
-        <hr>
-        </div>
-
-    {% endif %}
-
-    {% if "3PC" in player.treatment %}
-
-        <div class='responsive-div'>
-
-            <p>
-                If <b>Person C</b> gives <b>3 point(s)</b> to <b>Person B</b> in Stage 2,
-                <b>what would be the effect?</b>
-            </p>
-
-            <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension3PC">
-                    <div class="comprehension-option" data-value="0" >Person A would lose 0 point(s), Person B would gain 3 points and Person C would lose 1 point(s). </div>
-                    <div class="comprehension-option" data-value="1" >Person A would lose 0 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension-option" data-value="2" >Person A would lose 3 point(s), Person B would lose 3 points and Person C would lose 0.33 point(s).</div>
-                    <div class="comprehension-option" data-value="3" >Person A would lose 3 point(s), Person B would gain 3 points and Person C would lose 1 point(s).</div>
-                </div>
-            </div>
-
-        <hr>
-        </div>
-
-    {% endif %}
 
    <div style="display: flex; justify-content: flex-end">
         <button style="color: #fff;
@@ -398,14 +410,15 @@
         </button>
     </div>
 
-
     <br>
-
     {{ include_sibling 'Reminder.html' }}
 
 
 
+
 </form>
+
+
 
 
 </body>

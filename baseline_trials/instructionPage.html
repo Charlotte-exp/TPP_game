@@ -1,5 +1,13 @@
 {{ block title }}
 
+<div style="display: flex; justify-content: center">
+    <label>
+<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
+        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        </progress>
+    </label>
+</div>
+
 <p style="text-align: center; font-size: 26px;  ">
     Instructions:
     {% if "0DG" in player.treatment and player.round_number < 14 %}
@@ -32,13 +40,7 @@
     {% endif %}
 </p>
 
-<div style="display: flex; justify-content: center">
-    <label>
-<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
-        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
-        </progress>
-    </label>
-</div>
+
 
 
 {{ endblock }}
