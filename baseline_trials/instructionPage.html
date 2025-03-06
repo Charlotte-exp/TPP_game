@@ -1241,9 +1241,9 @@
 
         <p>The decisions you just made are called <strong>Stage 1</strong>.</p>
 
-        <p>In all following decisions, there are <strong>two stages</strong>. </p>
+        <p>In the next parts, each interaction has <strong>two stages</strong>. </p>
 
-        <p>You will see different variations of <strong>Stage 2</strong>, but <strong>Stage 1</strong> will always look like the decision you just made:</p>
+        <p>In <b>Stage 1</b>, Person A always receives 12 points and decides how many of the 12 points to give to Person B.</p>
 
         <div class="figure-container short-figure-container">
 
@@ -1261,14 +1261,14 @@
 
         </div>
 
-        <p><strong>Person A</strong> receives 12 points.<br>
-        <strong>Person B</strong> receives 0 points.</p>
+<!--        <p><strong>Person A</strong> receives 12 points.<br>-->
+<!--        <strong>Person B</strong> receives 0 points.</p>-->
 
-        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>
+<!--        <p><strong>Person A</strong> decides how many of the 12 points to give to Person B.</p>-->
 
         <hr>
 
-        <p> <b>After</b> Person A makes a decision, <strong>Stage 2</strong> begins.</p>
+        <p> <b>After</b> Person A makes their decision, <strong>Stage 2</strong> begins.</p>
 
         {{ if treatment_type == '2PP' }}
 
@@ -1277,12 +1277,12 @@
                 from <strong>Person A</strong>.
             </p>
             <p>
-                Person A and Person B both receive 4 points in Stage 2.
+                Person A and Person B both receive additional 4 points in Stage 2.
                 Only Person B can use these points to remove points from Person A.
                 Only Person A's remaining points from Stage 1 can be removed.
                 Removed points are eliminated and cannot be used by anyone.
-                Removing <b>3 points</b> from Person A will cost Person B <b>1 point</b>
-                (cost of removing 1 point: 0.33 points).
+
+                For each <b>1 point</b> that Person B removes from Person A, Person B loses <b>0.33 points</b>.
             </p>
             <br>
             <div class="figure-container short-figure-container">
@@ -1306,31 +1306,31 @@
     <!--                     style="top: 60%; "></div>-->
             </div>
 
-        {{ else }}
+<!--        {{ else }}-->
 
-            <p>In <b>Stage 2</b>, you will be joined by a <strong>third person: Person C.
-            Person C</strong> will decide whether to change the points of Person A or Person B.
-            The possible choices of Person C will be explained below.</p>
+<!--            <p>In <b>Stage 2</b>, you will be joined by a <strong>third person: Person C.-->
+<!--            Person C</strong> will decide whether to change the points of Person A or Person B.-->
+<!--            The possible choices of Person C will be explained below.</p>-->
 
-        <div class="figure-container">
+<!--        <div class="figure-container">-->
 
-            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">
+<!--            <img src="/static/global/treatments/3PC comp.png" style="width:27vw; top:0vw">-->
 
-            <div class="person-a" style="top:29%">
-                <b>PERSON A</b>
-            </div>
-            <div class="person-b" style="top:29%">
-                <b>PERSON B</b>
-            </div>
-            <div class="person-c">
-                <b>PERSON C</b>
-            </div>
+<!--            <div class="person-a" style="top:29%">-->
+<!--                <b>PERSON A</b>-->
+<!--            </div>-->
+<!--            <div class="person-b" style="top:29%">-->
+<!--                <b>PERSON B</b>-->
+<!--            </div>-->
+<!--            <div class="person-c">-->
+<!--                <b>PERSON C</b>-->
+<!--            </div>-->
 
-                <span class='coinstackD-static' ></span>
-                <div class="coin-count-labelD-static2"
-                     style="top: 33%; "></div>
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 33%; "></div>-->
 
-        </div>
+<!--        </div>-->
         {{ endif }}
 
     {{ endif }}
@@ -1367,8 +1367,6 @@
 
 <!--        {{ endif }}-->
 
-        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
-
         <div class="figure-container">
 
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
@@ -1390,17 +1388,18 @@
 <!--                     style="top: 33%; "></div>-->
         </div>
 
-        <br>
-        <p>You will be joined by a third person: <b >Person C.</b> </p>
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
-        <p> In Stage 2, <b style="color: red; ">Person C</b> is able to <b>remove points</b> from Person A.
-            Person B is <u>not anymore</u> able to make a decision.
+        <br>
+        <p>There will also be a third person: <b >Person C.</b> </p>
+
+        <p>
+            Person B is <u>not</u> able to remove points anymore. Instead, <b style="color: red; ">Person C</b> is able to <b>remove points</b> from Person A.
         </p>
 
         <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A.
             Removed points are eliminated and cannot be used by anyone.
-            Removing <b>3 points</b> from Person A will cost Person C <b>1 point</b>
-            (cost of removing 1 point: 0.33 points).
+            For each <b>1 point</b> that Person C removes from Person A, Person C loses <b>0.33 points</b>.
         </p>
 
         <p> You will be assigned different roles at different times:
@@ -1495,8 +1494,6 @@
 
     {{ if treatment_type == '3PR' and player.round_number < 14 }}
 
-        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
-
         <div class="figure-container">
 
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
@@ -1514,24 +1511,23 @@
             <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
         </div>
 
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
+
         <br>
         <p>
-            In Stage 2, <b>Person C</b> is able to <b style="color: red;">give points</b>
-            to Person A. Person C is <u>not anymore</u> able to remove points.
+            Person C is <u>not</u> able to remove points anymore. Instead, <b>Person C</b> is able to <b style="color: red;">give points</b>
+            to Person A.
         </p>
 
         <p>
             Person C receives 4 points in Stage 2 and can use these points to give points to Person A.
-            Giving <b>3 points</b> to Person A will cost Person C <b>1 point</b>
-            (cost of giving 1 point: 0.33 points).
+            For each <b>1 point</b> that Person C gives to Person A, Person C loses <b>0.33 points</b>.
         </p>
 
     {{ endif }}
 
 
     {{ if treatment_type == '3PC' and player.round_number < 14 }}
-
-        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
 
         <div class="figure-container">
 
@@ -1552,18 +1548,20 @@
 
         </div>
 
+        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
+
         <br>
 
-        <p> In Stage 2, <b>Person C</b> is able to <u>either</u> <b style="color: red; ">remove points</b>
-            from <b>Person A</b> <b style="color: red; "> <u>or</u> give points</b> to <b>Person B</b>.
+        <p> In Stage 2, <b>Person C</b> is able to <u>either</u> <b style="color: red; ">remove points from Person A </b>
+            <u>or</u> <b style="color: green; "> give points to Person B</b>.
             Person C <u>cannot</u> both give points and remove points, they must choose <u>one</u> action.
         </p>
 
         <p>
             Person C receives 4 points in Stage 2 and can use these points to remove or give points.
             Removed points are eliminated and cannot be used by anyone.
-            Removing <b>3 points</b> from Person A OR
-            giving <b>3 points</b> to Person B will cost Person C <b>1 point</b> (cost of removing OR giving 1 point: 0.33 points).
+            For each <b>1 point</b> that Person C removes from Person A, Person C loses <b>0.33 points</b>.
+            For each <b>1 point</b> that Person C gives to Person B, Person C loses <b>0.33 points</b>.
         </p>
 
     {{ endif }}
@@ -1638,10 +1636,6 @@
 
     {{ if block2 == True and treatment_type == '3PP' }}
 
-        <p style="color: red; text-align: center; ">
-            <b>Now there is one change.</b>
-        </p>
-
         <br><br>
         <div class="figure-container">
 
@@ -1667,11 +1661,15 @@
 
         </div>
 
-        <br> <br>  <br>
+        <p style="color: red; text-align: center; ">
+            <b>Now there is one change.</b>
+        </p>
+
+    <br>
 
         <p>
-            In Stage 2, <b>Person C</b> is able to <b style="color: red; ">remove points</b>
-            from Person A. Person C is <u>not anymore</u> able to give points to Person B.
+            Person C is <u>not</u> able to give points to Person B anymore. Instead, <b>Person C</b> is able to <b style="color: red; ">remove points</b>
+            from Person A.
         </p>
 
     {{ endif }}
@@ -1688,11 +1686,11 @@
         <br><br>
         <div class="figure-container">
 
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
+            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='receiverCountry'>
+            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='dictatorCountry'>
 
-            <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
-            <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
+            <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='receiverCountryMap'>
+            <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='dictatorCountryMap'>
 
             <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">
 
