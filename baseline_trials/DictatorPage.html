@@ -634,9 +634,9 @@
     {% if "norm" in player.treatment %}
 
         {% if player.round_number < 3 %}
-            <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person A is. <br> <br> </b>
-            <p style="font-size: 14px; ">
-                To make a decision, click on one of the six buttons.<br><br>
+            <p style="text-align: center;  ">
+                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person A is. <br> <br> </b>
+
                 Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b> if your decision is the same as the most
                 common decision among all other participants in {{current_country}}.
             </p>
@@ -652,11 +652,11 @@
              data-index="{{ dic_norm_decision.index }}">
 
             {% if dic_identity != "baseline"%}
-                <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
-                <img src="" style='width:12vw; position:absolute; top: -24%; left:calc(50% - 21vw)' class='receiverCountry'>
+                <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='receiverCountry'>
+                <img src="" style='width:12vw; position:absolute; top: -24%; left:calc(50% - 21vw)' class='dictatorCountry '>
 
-                <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
-                <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
+                <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='receiverCountryMap'>
+                <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='dictatorCountryMap'>
             {% endif %}
 
             <img src="/static/{{ image }}" style="width:27vw; top:3vw">
@@ -697,9 +697,11 @@
 
         </div>
 
-            <p style="font-size: 14px;"> Person A received <b> {{C.total_endowment }} points</b> and gave <b> 0 points</b> to Person B. </p>
+            <p style="text-align: center; ">
+                Person A received <b> {{C.total_endowment }} points</b> and gave <b> 0 points</b> to Person B.
 
-            <p>
+                <br>
+
                 How <b style="color: red;">socially appropriate</b> is it for Person A
                 to give <b>{{ dic_norm_decision.receiver_gets }} points</b> to Person B?
             </p>
@@ -714,6 +716,13 @@
                     <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">very socially<br>appropriate</div>
                 </div>
             </div>
+
+            {% if player.round_number < 3 %}
+                <br>
+                <p style="font-size: 14px; text-align: center;">
+                    To make a decision, click on one of the six buttons.<br><br>
+                </p>
+            {% endif %}
         <br>
         <hr>
 
@@ -734,22 +743,18 @@
 
         <p style="text-align: center; ">
             <b style="color: red;">You are Person A!</b>
+
+            <br> <br>
+
+            {% if "3PP" in player.treatment or "2PP" in player.treatment or "0DG" in player.treatment %}
+                <b> Now, you decide as Person A how many of the 12 points to give to Person B.</b> <br> <br>
+            {% endif %}
+
+            {% if "2PP" in player.treatment %}
+                <br>
+            {% endif %}
+
         </p>
-
-        {% if "3PP" in player.treatment or "2PP" in player.treatment or "0DG" in player.treatment %}
-            <b> Now, you decide as Person A how many of the 12 points to give to Person B.</b> <br> <br>
-        {% endif %}
-
-        {% if "0DG" in player.treatment %}
-            <p style="font-size: 14px; ">
-                To make a decision, click on a number. As you move your cursor over the numbers
-                (or press them on your phone), you will see how many points you and Person B would receive.
-            </p>
-        {% endif %}
-
-        {% if "2PP" in player.treatment %}
-            <br>
-        {% endif %}
 
 
         <div class='responsive-div'>
@@ -760,11 +765,11 @@
             <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">
 
                 {% if dic_identity != "baseline"%}
-                    <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
-                    <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
+                    <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='receiverCountry'>
+                    <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='dictatorCountry'>
 
-                    <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
-                    <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
+                    <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='receiverCountryMap'>
+                    <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='dictatorCountryMap'>
                 {% endif %}
 
                 <img src="/static/{{ image }}" style="width:27vw; top:3vw">
@@ -832,23 +837,23 @@
             </div>
 
             {% if "IN" in player.treatment or "OUT" in player.treatment %}
-                <p style="font-size: 14px;"> You live in <b >{{dic_identity_country}}</b> and Person B lives in <b >{{ recip_identity_country }}</b>. </p>
+                <p style="text-align: center;"> You live in <b >{{dic_identity_country}}</b> and Person B lives in <b >{{ recip_identity_country }}</b>. </p>
             {% endif %}
 
             {% if "country" in player.treatment %}
-                <p style="font-size: 14px;">
+                <p style="text-align: center;">
                     You live in <b style="color: red; ">{{ dic_identity_country }}</b> and Person B lives in <b style="color: red; ">{{ recip_identity_country }}</b>.
                 </p>
             {% endif %}
 
             {% if "0DG" in player.treatment %}
-                <p style="font-size: 14px;"> You received <b> {{C.total_endowment }} points</b>. </p>
+                <p style="text-align: center;"> You received <b> {{C.total_endowment }} points</b>. </p>
             {% endif %}
 
-            <p> <strong> As Person A, how many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
+            <p style="text-align: center;"> <strong> As Person A, how many points do you <b style="color: red;">give</b> to Person B?</strong> </p>
 
             {% if not "0DG" in player.treatment %}
-                <p style="font-size: 14px;"> Keep in mind that {{treatment_text_action}}. </p>
+                <p style="text-align: center;"> Keep in mind that {{treatment_text_action}} in Stage 2. </p>
             {% endif %}
 
 
@@ -858,14 +863,22 @@
                 {{ endfor }}
             </div>
 
+            {% if "0DG" in player.treatment %}
+                <br>
+                <p style="font-size: 14px; text-align: center;">
+                    To make a decision, click on a number. As you move your cursor over the numbers
+                    (or press them on your phone), you will see how many points you and Person B would receive.
+                </p>
+            {% endif %}
+
         </div>
 
-        {% if player.round_number < 3 and "0DG" in player.treatment %}
-            <p style="font-size: 14px; ">
-                <br>
-                For this decision, you are assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not be asked to make any decision, because Person B is not able to make a decision.
-            </p>
-        {% endif %}
+<!--        {% if player.round_number < 3 and "0DG" in player.treatment %}-->
+<!--            <p style="font-size: 14px; ">-->
+<!--                <br>-->
+<!--                For this decision, you are assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not be asked to make any decision, because Person B is not able to make a decision.-->
+<!--            </p>-->
+<!--        {% endif %}-->
 
     {% endif %}
     <br>
