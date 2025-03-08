@@ -69,20 +69,36 @@
                 index = 1;
             }
             if (current_treatment.includes("3PC")) { //
-                $('#selected-comprehension3PC').val(value);
+                $('#selected-comprehension3PC2').val(value);
                 index = 2;
             }
 
-            console.log("before update", failedAttempts)
+            console.log("show value", value)
+            console.log("show value 1", $('#selected-comprehension3PC1').val())
+            console.log("show value 2", $('#selected-comprehension3PC2').val())
 
 
             // Check if the value is correct, and show feedback
             if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
                 if (value == correct_answers[index]) { //If correct
-                    errorDiv.textContent = "Correct answer! Please press 'Next'."
-                    errorDiv.style.color = 'green';
-                    errorDiv.style.backgroundColor = 'lightgreen';
-                    errorDiv.style.border = '1px solid green'
+                    if (current_treatment.includes("3PC")) { // For 3PC, additionally check if other question is correct
+                        if ($('#selected-comprehension3PC1').val() == 0) {
+                            errorDiv.textContent = "Correct answers! Please press 'Next'."
+                            errorDiv.style.color = 'green';
+                            errorDiv.style.backgroundColor = 'lightgreen';
+                            errorDiv.style.border = '1px solid green'
+                        } else {
+                            errorDiv.textContent = "Correct answer! Please answer the other question correctly."
+                            errorDiv.style.color = 'green';
+                            errorDiv.style.backgroundColor = 'lightgreen';
+                            errorDiv.style.border = '1px solid green'
+                        }
+                    } else {
+                        errorDiv.textContent = "Correct answer! Please press 'Next'."
+                        errorDiv.style.color = 'green';
+                        errorDiv.style.backgroundColor = 'lightgreen';
+                        errorDiv.style.border = '1px solid green'
+                    }
                 } else { //If incorrect
                     errorDiv.textContent = "Wrong answer! Please select the correct answer."
                     errorDiv.style.color = '';
@@ -91,20 +107,98 @@
                     failedAttempts += 1;
                 }
             } else { // If no error
-                if (value == correct_answers[index]) {
-                    $('#correct-message').show();
-                    $('#incorrect-message').hide();
-                } else {
+                if (value == correct_answers[index]) { // if correct
+                    if (current_treatment.includes("3PC")) { // For 3PC, additionally check if other question is correct
+                        if ($('#selected-comprehension3PC1').val() == 0) {
+                            $('#correct-message').show();
+                            $('#incorrect-message').hide();
+                            $('#correct-messageTF').hide();
+                        } else {
+                            $('#correct-messageTF').show();
+                            $('#incorrect-message').hide();
+                            $('#correct-message').hide();
+                        }
+                    } else {
+                        $('#correct-message').show();
+                        $('#incorrect-message').hide();
+                    }
+                } else { //if incorrect
                     $('#correct-message').hide();
+                    $('#correct-messageTF').hide();
                     $('#incorrect-message').show();
                     failedAttempts += 1;
                     console.log("after update", failedAttempts)
                 }
             }
 
-            // Debugging
-            console.log("selected_value, correct_answers, correct_answers[index]")
-            console.log(`Updated decision: ${value}`);
+
+
+
+        });
+
+        //Actions on click: ALTERNATIVE NORM MEASURE
+        $('.comprehension-optionTF').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.comprehension-row').find('.comprehension-optionTF').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+
+            index = 2;
+
+            $('#selected-comprehension3PC1').val(value);
+
+            console.log("show value TF", value)
+            console.log("show value TF1", $('#selected-comprehension3PC1').val())
+            console.log("show value TF2", $('#selected-comprehension3PC2').val())
+
+            // 3PC: Two questionsCheck if both answers are wrong
+
+            // Check if the value is correct, and show feedback
+            if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
+                if (value === 0) { //If correct
+                    if ($('#selected-comprehension3PC2').val() == correct_answers[index] ) { //If correct AND other 3PC Q also correct
+                        errorDiv.textContent = "Correct answer! Please press 'Next'."
+                        errorDiv.style.color = 'green';
+                        errorDiv.style.backgroundColor = 'lightgreen';
+                        errorDiv.style.border = '1px solid green'
+                    } else {
+                        errorDiv.textContent = "Correct answer! Please answer the other question correctly."
+                        errorDiv.style.color = 'green';
+                        errorDiv.style.backgroundColor = 'lightgreen';
+                        errorDiv.style.border = '1px solid green'
+                    }
+                } else { //If incorrect
+                    errorDiv.textContent = "Wrong answer! Please select the correct answer."
+                    errorDiv.style.color = '';
+                    errorDiv.style.backgroundColor = '';
+                    errorDiv.style.border = ''
+                    failedAttempts += 1;
+                }
+            } else { // If no error
+                if (value === 0) { //if correct
+                    if ($('#selected-comprehension3PC2').val() == correct_answers[index] ) { //If correct AND other 3PC Q also correct
+                        console.log("here3", $('#selected-comprehension3PC2').val(), correct_answers[index])
+                        $('#correct-message').show();
+                        $('#incorrect-message').hide();
+                        $('#correct-messageTF').hide();
+                    } else {
+                        console.log("here4")
+                        $('#correct-messageTF').show();
+                        $('#incorrect-message').hide();
+                        $('#correct-message').hide();
+                    }
+                } else { //if incorrect
+                    $('#correct-messageTF').hide();
+                    $('#correct-message').hide();
+                    $('#incorrect-message').show();
+                    failedAttempts += 1;
+                    console.log("after update", failedAttempts)
+                }
+            }
 
         });
 
@@ -199,12 +293,32 @@
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .comprehension-option.disabled {
-        background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
-        color:#d3d3d3;
-        cursor: not-allowed;
-        pointer-events: none; /* Disable interactions */
+    .comprehension-optionTF {
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .comprehension-optionTF:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .comprehension-optionTF:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .comprehension-optionTF.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
     }
 
     .responsive-div {
@@ -240,6 +354,17 @@
     }
 
     .comprehension-error-green {
+        color: green; /* Bootstrap default error text color (dark red) */
+        background-color: lightgreen;
+        border: 1px solid #77dd77;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        display: none; /* Initially hidden */
+        font-size: 14px;
+    }
+
+    .comprehension-error-greenTF {
         color: green; /* Bootstrap default error text color (dark red) */
         background-color: lightgreen;
         border: 1px solid #77dd77;
@@ -301,11 +426,13 @@
     {% else %}
 
      <!-- Add hidden input to store the selected value -->
-        <input type="hidden" name="comprehension3PC" id="selected-comprehension3PC">
+        <input type="hidden" name="comprehension3PC1" id="selected-comprehension3PC1">
+
+        <input type="hidden" name="comprehension3PC2" id="selected-comprehension3PC2">
 
         <input type="hidden" name="comp_failed3PC"/>
 
-<!--        {{ formfield_errors 'comprehension3PC' }}-->
+<!--        {{ formfield_errors 'comprehension3PC1' }}-->
 
     {% endif %}
 
@@ -316,6 +443,11 @@
     <div class="comprehension-error-red" id="incorrect-message" >
         Wrong answer! Please select the correct answer.
     </div>
+
+    <div class="comprehension-error-greenTF" id="correct-messageTF" >
+        Correct answer! Please answer the other question correctly.
+    </div>
+
 
 
     {% if "2PP" in player.treatment %}
@@ -346,7 +478,7 @@
         <div class='responsive-div'>
 
             <p>
-                If <b>Person C</b> gives <b>3 point(s)</b> to <b>Person A</b> in Stage 2,
+                If <b>Person C</b> gives <b>3 points</b> to <b>Person A</b> in Stage 2,
                 <b>what happens?</b>
             </p>
 
@@ -369,16 +501,29 @@
         <div class='responsive-div'>
 
             <p>
-                If <b>Person C</b> gives <b>3 point(s)</b> to <b>Person B</b> in Stage 2,
-                <b>what happens?</b>
+                <b>Person C</b> can <u>either</u> <b>remove points</b> from Person A <u>or</u> <b>give points</b> to Person B.
+                <b> True or false?</b>
             </p>
 
             <div class='numbers'>
-                <div class="comprehension-row" data-input="selected-comprehension3PC">
-                    <div class="comprehension-option" data-value="0" >Person A loses 0 points, Person B gains 3 points and Person C lose 1 point. </div>
-                    <div class="comprehension-option" data-value="1" >Person A loses 0 points, Person B loses 3 points and Person C lose 0.33 points.</div>
-                    <div class="comprehension-option" data-value="2" >Person A loses 3 points, Person B loses 3 points and Person C lose 0.33 points.</div>
-                    <div class="comprehension-option" data-value="3" >Person A loses 3 points, Person B gains 3 points and Person C lose 1 point.</div>
+                <div class="comprehension-row" data-input="selected-comprehension3PC1">
+                    <div class="comprehension-optionTF" data-value="0" >True </div>
+                    <div class="comprehension-optionTF" data-value="1" >False</div>
+                </div>
+            </div>
+
+            <br> <br>
+
+            <p>
+                For each <b>1 point</b> that Person C removes from Person A <u>or</u> gives to Person B, <b>Person C</b> loses...
+            </p>
+
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-comprehension3PC2">
+                    <div class="comprehension-option" data-value="0" >0 points </div>
+                    <div class="comprehension-option" data-value="1" >0.33 points</div>
+                    <div class="comprehension-option" data-value="2" >1 point</div>
+                    <div class="comprehension-option" data-value="3" >0 points</div>
                 </div>
             </div>
 

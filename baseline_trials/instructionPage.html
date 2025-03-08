@@ -1171,7 +1171,7 @@
 
 <!--        <br>-->
 
-<!--        <p>You have decided to give <strong> <span id="trial-dic1-display"></span> </strong> point(s) to Person B and keep <strong><span id="trial-dic2-display"></span></strong> point(s) for yourself.</p>-->
+<!--        <p>You have decided to give <strong> <span id="trial-dic1-display"></span> </strong> points to Person B and keep <strong><span id="trial-dic2-display"></span></strong> points for yourself.</p>-->
 
 <!--        <p>In this example, you were assigned to the role of Person A. You will also sometimes be assigned to the role of Person B. When you are Person B, you will not see this decision situation, because Person B does not make any decision.</p>-->
 
@@ -1190,7 +1190,7 @@
 
 <!--        <p>Importantly, you will receive <b>12 additional points</b> if your decision is the same as the most common decision among all other participants in {{current_country}} taking part in this study.</p>-->
 
-<!--        <p> In this practice exercise, you will decide <b style="color: red;">how socially appropriate</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> point(s) for themselves. Please click on one of the six buttons.</p>-->
+<!--        <p> In this practice exercise, you will decide <b style="color: red;">how socially appropriate</b> it is for Person A to give <strong> {{random_trial_numbers.0}} </strong> points to Person B and keep <strong> {{random_trial_numbers_diff.0}} </strong> points for themselves. Please click on one of the six buttons.</p>-->
 
 <!--        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">-->
 
@@ -1229,7 +1229,7 @@
 <!--                </div>-->
 <!--            </div>-->
 
-<!--        <p> <br> You have decided that Person A giving <strong> {{random_trial_numbers.0}} </strong> point(s) to Person B is <strong> <span id="trial-norm1-display"></span> </strong>.</p>-->
+<!--        <p> <br> You have decided that Person A giving <strong> {{random_trial_numbers.0}} </strong> points to Person B is <strong> <span id="trial-norm1-display"></span> </strong>.</p>-->
 
 <!--        <p>If most other participants in {{current_country}} also choose <strong><span id="trial-norm2-display"></span></strong>, you would receive 12 points.</p>-->
 
@@ -1270,7 +1270,7 @@
 
         <p> <b>After</b> Person A makes their decision, <strong>Stage 2</strong> begins.</p>
 
-        {{ if treatment_type == '2PP' }}
+<!--        {{ if treatment_type == '2PP' }}-->
 
             <p>
                 In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong>
@@ -1278,12 +1278,15 @@
             </p>
             <p>
                 Person A and Person B both receive additional 4 points in Stage 2.
-                Only Person B can use these points to remove points from Person A.
-                Only Person A's remaining points from Stage 1 can be removed.
-                Removed points are eliminated and cannot be used by anyone.
+<!--                Only Person B can use these points to remove points from Person A.-->
+<!--                Only Person A's remaining points from Stage 1 can be removed.-->
+                Points removed by Person B are eliminated.
 
                 For each <b>1 point</b> that Person B removes from Person A, Person B loses <b>0.33 points</b>.
             </p>
+
+            <p> You will be assigned different roles at different times: Person A or Person B</p>
+
             <br>
             <div class="figure-container short-figure-container">
 
@@ -1331,7 +1334,7 @@
 <!--                     style="top: 33%; "></div>-->
 
 <!--        </div>-->
-        {{ endif }}
+<!--        {{ endif }}-->
 
     {{ endif }}
 
@@ -1398,18 +1401,19 @@
         </p>
 
         <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A.
-            Removed points are eliminated and cannot be used by anyone.
+            Points removed by Person C are eliminated.
             For each <b>1 point</b> that Person C removes from Person A, Person C loses <b>0.33 points</b>.
         </p>
 
         <p> You will be assigned different roles at different times:
-            Person A, Person B, or Person C. When you are Person B, you will not be asked to make any decision,
-            because Person B is not able to make a decision.
+            Person A, Person B, or Person C.
+<!--            When you are Person B, you will not be asked to make any decision,-->
+<!--            because Person B is not able to make a decision.-->
         </p>
 
 <!--        <hr>-->
 
-<!--        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> point(s) and gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. </p>-->
+<!--        <p>In this practice exercise, you are <strong>Person C</strong>, which is indicated by the red rectangle. In Stage 1, Person A kept <strong> {{random_trial_numbers_diff.2}} </strong> points and gave <strong> {{random_trial_numbers.2}} </strong> points to Person B. </p>-->
 
 <!--        <p>Now, you decide how many points to <b style="color: red;">remove</b> from Person A. To make a decision, click on a number. As you move your cursor over the numbers (or press them on your phone), you will see how many points Person A would lose.</p>-->
 
@@ -1477,11 +1481,11 @@
 
 <!--        <br>-->
 
-<!--        <p>You have decided to remove <strong> <span id="trial-3PP-display"></span> </strong> point(s) from Person A. This costs you <span id="TP-cost-display"></span> point(s). </p>-->
+<!--        <p>You have decided to remove <strong> <span id="trial-3PP-display"></span> </strong> points from Person A. This costs you <span id="TP-cost-display"></span> points. </p>-->
 
 
 
-<!--        <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> point(s) to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>-->
+<!--        <p>In this example, Person A gave <strong> {{random_trial_numbers.2}} </strong> points to Person B. For the real decisions, you will see different possible cases, where Person A gives varying points to Person B.</p>-->
 
 <!--        <p>As before, you will also sometimes be assigned to the role of Person A or Person B.</p>-->
 
@@ -1559,7 +1563,7 @@
 
         <p>
             Person C receives 4 points in Stage 2 and can use these points to remove or give points.
-            Removed points are eliminated and cannot be used by anyone.
+            Points removed by Person C are eliminated.
             For each <b>1 point</b> that Person C removes from Person A, Person C loses <b>0.33 points</b>.
             For each <b>1 point</b> that Person C gives to Person B, Person C loses <b>0.33 points</b>.
         </p>
@@ -1665,7 +1669,7 @@
             <b>Now there is one change.</b>
         </p>
 
-    <br>
+        <br>
 
         <p>
             Person C is <u>not</u> able to give points to Person B anymore. Instead, <b>Person C</b> is able to <b style="color: red; ">remove points</b>
