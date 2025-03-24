@@ -43,7 +43,7 @@ class C(BaseConstants):
     TP_cost = 3 # fraction of a full point the third party pays to punish/reward/compensate (here a third)
     norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
     ratings_extra_points = 10 # extra bonus for ratings close to country average
-    attention_check_rounds = [20, 37]
+    attention_check_rounds = [18, 37]
 
     ### Treatments ###
 
@@ -387,7 +387,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-    comprehension3PC = models.IntegerField(
+    comprehension3PC1 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'],
+        ],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
+    comprehension3PC2 = models.IntegerField(
         initial=0,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
@@ -571,7 +579,7 @@ class ComprehensionQuestionPage(Page):
         elif "3PR" in player.treatment:
             return ['comprehension3PR', 'comp_failed3PR']
         else:
-            return ['comprehension3PC', 'comp_failed3PC']
+            return ['comprehension3PC1', 'comprehension3PC2', 'comp_failed3PC']
 
     @staticmethod
     def error_message(player: Player, values):
@@ -584,7 +592,7 @@ class ComprehensionQuestionPage(Page):
         elif "3PR" in player.treatment:
             solutions = dict(comprehension3PR=3)
         else:
-            solutions = dict(comprehension3PC=0)
+            solutions = dict(comprehension3PC1 = 0, comprehension3PC2=1)
 
         errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
         if errors:
@@ -596,14 +604,15 @@ class ComprehensionQuestionPage(Page):
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
         image = image.replace("3PR reward", "3PP punish")
-        correct_answers = [2, 3, 0]
+        correct_answers = [2, 3, 1]
 
         return dict(
             treatment=player.treatment,
             page_name=ComprehensionQuestionPage,
             comprehension2PP=player.comprehension2PP,
             comprehension3PR=player.comprehension3PR,
-            comprehension3PC=player.comprehension3PC,
+            comprehension3PC1=player.comprehension3PC1,
+            comprehension3PC2=player.comprehension3PC2,
             image=image,
             correct_answers=correct_answers,
         )
@@ -628,16 +637,16 @@ class AttentionCheckPage(Page):
         else:
             return ['attention2', 'att_failed2']
 
-    @staticmethod
-    def error_message(player: Player, values):
-        if player.round_number == C.attention_check_rounds[0]:
-            solutions = dict(attention1=3)
-        else:
-            solutions = dict(attention2=1)
-
-        errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
-        if errors:
-            return errors
+    # @staticmethod
+    # def error_message(player: Player, values):
+    #     if player.round_number == C.attention_check_rounds[0]:
+    #         solutions = dict(attention1=3)
+    #     else:
+    #         solutions = dict(attention2=1)
+    #
+    #     errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
+    #     if errors:
+    #         return errors
 
     @staticmethod
     def vars_for_template(player: Player):

@@ -59,17 +59,30 @@
 
             // Fill initial coin stacks and number labels (norm condition)
 
-                // dictator stack
-                for (let i = 0; i < dictatorKeeps; i++) {
-                    $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                // dictator stack static (for static display of role labels)
+                for (let i = 0; i < total_endowment; i++) {
+                    $(`.coinstackD-static`).append('<div class="coin" style="left:50%"></div>');
                 }
-                // receiver stack
-                for (let i = 0; i < receiverGets; i++) {
-                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:50%;"></div>');
-                }
+
+                // // dictator stack
+                // for (let i = 0; i < total_endowment; i++) {
+                //     $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
+                // }
+
+        //         // dictator stack
+        // for (let i = 0; i < total_endowment; i++) {
+        //     $(`.coinstackD`).append('<div class="coin" style="left:calc(50% - 6vw)"></div>');
+        // }
+        // // receiver stack
+        // for (let i = 0; i < receiver_endowment; i++) {
+        //     $(`.coinstackR`).append('<div class="coinR" style="left:calc(50% + 6vw)"></div>');
+        // }
+
                 // number labels
-                $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
-                $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+                // $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+                // $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+                $('.coin-count-labelD').text(`${total_endowment}`);
+                $('.coin-count-labelR').text(`${receiver_endowment}`);
 
         });
 
@@ -279,11 +292,21 @@
         font-size: 1.2rem;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left: calc(50% - 4.2vw); /* Center horizontally before offsetting */
-        top: 23%; /* Move up; adjust value as needed */
-         /* transform: translateX(-50%);Adjust for exact centering */
+        left: 30%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 32%; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
+
+    .coin-count-labelR {
+    font-size: 1.2rem;
+    color: #333; /* Adjust color as needed */
+    position: absolute; /* Position relative to .container */
+    left: 60%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    top: 13%; /* Move up; adjust value as needed */
+    text-align: center; /* Align text */
+}
 
     .coin:nth-child(12)  { top: 6.0vw; }
     .coin:nth-child(11)  { top: 6.3vw; }
@@ -389,7 +412,7 @@
                 <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
             </p>
 
-            <span class='coinstack coinstackD'></span>
+            <span class='coinstack coinstackD-static'></span>
             <div class="coin-count-labelD" id="countD"
                  style="top: 55%;"></div>
 

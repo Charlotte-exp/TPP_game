@@ -75,31 +75,26 @@
             console.log("before update", failedAttempts)
 
 
-            // Check if the value is correct, and show feedback
-            if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
-                if (value == correct_answers[index]) { //If correct
-                    errorDiv.textContent = "Correct answer! Please press 'Next'."
-                    errorDiv.style.color = 'green';
-                    errorDiv.style.backgroundColor = 'lightgreen';
-                    errorDiv.style.border = '1px solid green'
-                } else { //If incorrect
-                    errorDiv.textContent = "Wrong answer! Please select the correct answer."
-                    errorDiv.style.color = '';
-                    errorDiv.style.backgroundColor = '';
-                    errorDiv.style.border = ''
-                    failedAttempts += 1;
-                }
-            } else { // If no error
-                if (value == correct_answers[index]) {
-                    $('#correct-message').show();
-                    $('#incorrect-message').hide();
-                } else {
-                    $('#correct-message').hide();
-                    $('#incorrect-message').show();
+            // // Check if the value is correct, and show feedback
+            // if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
+            //     if (value == correct_answers[index]) { //If correct
+            //         errorDiv.textContent = "Correct answer! Please press 'Next'."
+            //         errorDiv.style.color = 'green';
+            //         errorDiv.style.backgroundColor = 'lightgreen';
+            //         errorDiv.style.border = '1px solid green'
+            //     } else { //If incorrect
+            //         errorDiv.textContent = "Wrong answer! Please select the correct answer."
+            //         errorDiv.style.color = '';
+            //         errorDiv.style.backgroundColor = '';
+            //         errorDiv.style.border = ''
+            //         failedAttempts += 1;
+            //     }
+            // } else { // If no error
+                if (value != correct_answers[index]) {
                     failedAttempts += 1;
                     console.log("after update", failedAttempts)
                 }
-            }
+            // }
 
             // Debugging
             console.log("selected_value, correct_answers, correct_answers[index]")
