@@ -1,5 +1,7 @@
 from otree.api import *
 
+import random
+from itertools import product
 
 doc = """
 Your app description
@@ -21,20 +23,39 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+
+    original_dice = models.IntegerField(initial=0)
+    reported_dice = models.IntegerField(initial=0)
+
+    trustworthiness = models.FloatField(initial=0)
+
+    def dice_roll(player):
+        """
+        Pairs of original and reported dice from the prolific pilot.
+        could also be attributed to all participants when the session is created but then must be in the creating_session of the first app...
+        """
+        dice_permutations = list(product(range(1, 7), repeat=2))
+        player.original_dice, player.reported_dice = random.choice(dice_permutations)
+        print(player.original_dice, player.reported_dice)
 
 
-# PAGES
-class MyPage(Page):
-    pass
+############  PAGES  #############
+class DiceRatings(Page):
 
+    @staticmethod
+    def vars_for_template(player: Player):
 
-class ResultsWaitPage(WaitPage):
-    pass
+        return dict(
+            dice_roll=player.dice_roll(),
+            original_dice=player.original_dice,
+            reported_dice=player.reported_dice,
+        )
 
 
 class Results(Page):
     pass
 
 
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [DiceRatings,
+                 # Results
+                 ]

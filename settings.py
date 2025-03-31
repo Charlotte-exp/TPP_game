@@ -11,6 +11,14 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
     ),
+    dict(
+        name='dice',
+        display_name="Dice task",
+        app_sequence=['dice_task'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
