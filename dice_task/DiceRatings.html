@@ -57,10 +57,137 @@ Dice task
             opacity: 1;
         }
 
+        .wrapper {
+          display: grid;
+          grid-auto-rows: minmax(40px, auto);
+          grid-template-columns: 150px 150px 50px 200x;
+          column-gap: 10px;
+          row-gap: 5px;
+        }
+
+        .wrapper2 {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          column-gap: 10px;
+          row-gap: 10px;
+        }
+
+        .bottom-two {
+          margin-bottom: 2cm;
+          }
+
+            input[type=range] {
+                -webkit-appearance: none;
+                margin: 18px 0;
+                width: 100%;
+            }
+
+            input[type=range]:focus {
+                outline: none;
+            }
+
+        /* Webkit-based browsers (Chrome, Safari) */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Firefox */
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Internet Explorer and Edge */
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+            /* Remove default styling for MS track */
+            border-color: transparent;
+            color: transparent;
+            background-color: transparent;
+        }
+
+        /* Style the range input element itself to reset default styling across browsers */
+        input[type=range] {
+            -webkit-appearance: none; /* For Webkit browsers */
+            appearance: none; /* For Firefox and other browsers */
+            width: 100%;
+            height: 8px; /* Adjust the input height */
+            background: transparent; /* Make sure the input background is transparent */
+            border: none; /* Remove default border */
+            margin-top: 5px;
+        }
+
+        /* Hide the thumb initially for Safari/Chrome */
+        .hidden-thumb::-webkit-slider-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for Firefox */
+        .hidden-thumb::-moz-range-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for IE/Edge */
+        .hidden-thumb::-ms-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Style the slider thumb for Safari/Chrome */
+        input[type=range]::-webkit-slider-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for Firefox */
+        input[type=range]::-moz-range-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -moz-appearance: none;  /* Firefox-specific appearance reset */
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for IE/Edge */
+        input[type=range]::-ms-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -ms-appearance: none;  /* Edge/IE-specific appearance reset */
+            margin-top: -7px;
+        }
+
     </style>
 
 
     <script>
+
+        /////////  Dice  /////////
 
         function showDice(diceId, number) {
             const dotPositions = {
@@ -104,6 +231,37 @@ Dice task
                 showDice('dice1', original);
                 showDice('dice2', reported);
             });
+
+
+        /////////  Slider /////////
+
+        document.addEventListener("DOMContentLoaded", function () {
+        let slider = document.getElementById("slider1");
+        let output = document.getElementById("output1");
+        let checkSlider = document.getElementById("check_slider1");
+        let errorMessage = document.getElementById("error-message");
+
+        // Ensure the slider starts without a selected value
+        slider.value = "";
+        output.textContent = "";
+        checkSlider.value = "0"; // Not moved yet
+        slider.classList.add("hidden-thumb");
+
+        slider.addEventListener("input", function () {
+            output.textContent = this.value;
+            checkSlider.value = "1"; // Mark as moved
+            this.classList.remove("hidden-thumb"); // Show thumb when moved
+            errorMessage.style.display = "none"; // Hide error when moved
+        });
+
+        // Validate before submission
+        document.querySelector("form").addEventListener("submit", function (event) {
+            if (checkSlider.value === "0") { // If slider not moved
+                event.preventDefault(); // Stop submission
+                errorMessage.style.display = "block"; // Show error message
+            }
+        });
+    });
 
     </script>
 
@@ -159,9 +317,51 @@ Dice task
     </div>
 
     <br>
-    <h5>
+    <h5 style="color: #0d6efd">
         How trustworthy do you think this person is?
     </h5>
+
+    <br>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="margin-top: -15px;">
+            <b>Not trustworthy at all</b>
+        </span>
+
+        <!-- Slider is placed between the two spans -->
+        <span style="flex-grow: 1; margin: 0 10px;">
+          <input type="hidden" name="slider_moved" value="0" id="check_slider1" />
+          <input type="range" name="trustworthiness" id="slider1" min="0" max="100" value=""
+            class="hidden-thumb" style="width: 100%; margin-top: 10px;">
+        </span>
+
+        <span style="margin-top: -15px;">
+            <b>Very trustworthy</b>
+        </span>
+    </div>
+
+    <div style="text-align: center;">
+        <span style="color: #0d6efd">
+            <output id="output1"></output>
+        </span>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button class="btn btn-primary">Next</button>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            Next
+        </button>
+    </div>
+
+
+
 
 </div>
 </body>
