@@ -1,6 +1,6 @@
 {{ block title }}
 
-Dice task
+Anti-social rule following task
 
 {{ endblock }}
 
@@ -187,52 +187,6 @@ Dice task
 
     <script>
 
-        /////////  Dice  /////////
-
-        function showDice(diceId, number) {
-            const dotPositions = {
-                1: [5],
-                2: [1, 9],
-                3: [1, 5, 9],
-                4: [1, 3, 7, 9],
-                5: [1, 3, 5, 7, 9],
-                6: [1, 3, 4, 6, 7, 9]
-            };
-
-            console.log(`showDice called for ${diceId} with number ${number}`);
-
-            // Ensure number is valid
-            if (!dotPositions[number]) {
-                console.error(`Invalid dice number: ${number}`);
-                return;
-            }
-
-            // Remove all "show" classes
-            document.querySelectorAll(`#${diceId} .dot`).forEach(dot => dot.classList.remove('show'));
-
-            // Add "show" to relevant dots
-            dotPositions[number].forEach(pos => {
-                let dotId = `${diceId}-${pos}`;
-                let dotElement = document.getElementById(dotId);
-
-                if (dotElement) {
-                    dotElement.classList.add('show');
-                    console.log(`✅ Showing dot: ${dotId}`);
-                } else {
-                    console.warn(`⚠️ Missing dot element: ${dotId}`);
-                }
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-                var original = parseInt("{{ original_dice }}", 10) || 1;
-                var reported = parseInt("{{ reported_dice }}", 10) || 1;
-
-                showDice('dice1', original);
-                showDice('dice2', reported);
-            });
-
-
         /////////  Slider /////////
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -271,60 +225,18 @@ Dice task
 <div class="card-body">
 
     <p>
-        In another experiment, a player got the opportunity to roll a dice and collect the number of points on it as bonus.
-        The bonus would be played based on what the player reported, not what they actually drew.
-        As such, they could lie and report a different number than that on the dice they threw.
+        This is the task
     </p>
-    <p>
-        Below is the actual score they drew along with the score they reported:
-    </p>
-
-    <br>
-    <div class="row">
-        <div class="column">
-            <div class="dice" id="dice1">
-                <div class="dot" id="dice1-1"></div>
-                <div class="dot" id="dice1-2"></div>
-                <div class="dot" id="dice1-3"></div>
-                <div class="dot" id="dice1-4"></div>
-                <div class="dot" id="dice1-5"></div>
-                <div class="dot" id="dice1-6"></div>
-                <div class="dot" id="dice1-7"></div>
-                <div class="dot" id="dice1-8"></div>
-                <div class="dot" id="dice1-9"></div>
-            </div>
-            <div>
-                Original: {{ original_dice }}
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="dice" id="dice2">
-                <div class="dot" id="dice2-1"></div>
-                <div class="dot" id="dice2-2"></div>
-                <div class="dot" id="dice2-3"></div>
-                <div class="dot" id="dice2-4"></div>
-                <div class="dot" id="dice2-5"></div>
-                <div class="dot" id="dice2-6"></div>
-                <div class="dot" id="dice2-7"></div>
-                <div class="dot" id="dice2-8"></div>
-                <div class="dot" id="dice2-9"></div>
-            </div>
-            <div>
-                Reported: {{ reported_dice }}
-            </div>
-        </div>
-    </div>
 
     <br>
     <h5 style="color: #0d6efd">
-        How trustworthy do you think this person is?
+        Move the slider in the middle of each line on the value 50.
     </h5>
 
     <br>
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <span style="margin-top: -15px;">
-            <b>Not trustworthy at all</b>
+            <b>0</b>
         </span>
 
         <!-- Slider is placed between the two spans -->
@@ -335,7 +247,7 @@ Dice task
         </span>
 
         <span style="margin-top: -15px;">
-            <b>Very trustworthy</b>
+            <b>100</b>
         </span>
     </div>
 
