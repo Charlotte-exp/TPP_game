@@ -27,7 +27,10 @@ class Player(BasePlayer):
     original_dice = models.IntegerField(initial=0)
     reported_dice = models.IntegerField(initial=0)
 
-    trustworthiness = models.FloatField(initial=0)
+
+    trustworthiness = models.IntegerField(
+        min=0, max=100
+    )
 
     def dice_roll(player):
         """
@@ -41,6 +44,8 @@ class Player(BasePlayer):
 
 ############  PAGES  #############
 class DiceRatings(Page):
+    form_model = "player"
+    form_fields = ["trustworthiness"]
 
     @staticmethod
     def vars_for_template(player: Player):
