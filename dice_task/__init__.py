@@ -27,7 +27,6 @@ class Player(BasePlayer):
     original_dice = models.IntegerField(initial=0)
     reported_dice = models.IntegerField(initial=0)
 
-
     trustworthiness = models.IntegerField(
         min=0, max=100
     )
@@ -39,7 +38,7 @@ class Player(BasePlayer):
         """
         dice_permutations = list(product(range(1, 7), repeat=2))
         player.original_dice, player.reported_dice = random.choice(dice_permutations)
-        print(player.original_dice, player.reported_dice)
+        # print(player.original_dice, player.reported_dice)
 
 
 ############  PAGES  #############

@@ -13,50 +13,6 @@ Anti-social rule following task
 
     <style>
 
-        dice-container {
-            justify-content: center;
-            align-items: center;
-        }
-
-        .column {
-          float: left;
-          width: 50%;
-          padding: 10px;
-        }
-
-        /* Clear floats after the columns */
-        .row:after {
-          content: "";
-          display: table;
-          clear: both;
-        }
-
-        .dice {
-            width: 100px;
-            height: 100px;
-            background-color: white;
-            border: 2px solid black;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            gap: 5px;
-        }
-
-        .dot {
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            border-radius: 50%;
-            opacity: 0;
-        }
-
-        .show {
-            opacity: 1;
-        }
-
         .wrapper {
           display: grid;
           grid-auto-rows: minmax(40px, auto);
@@ -189,30 +145,39 @@ Anti-social rule following task
 
         /////////  Slider /////////
 
-        document.addEventListener("DOMContentLoaded", function () {
-        let slider = document.getElementById("slider1");
-        let output = document.getElementById("output1");
-        let checkSlider = document.getElementById("check_slider1");
-        let errorMessage = document.getElementById("error-message");
+    document.addEventListener("DOMContentLoaded", function () {
+        const sliders = [
+            { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+            { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+            { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
+        ];
 
-        // Ensure the slider starts without a selected value
-        slider.value = "";
-        output.textContent = "";
-        checkSlider.value = "0"; // Not moved yet
-        slider.classList.add("hidden-thumb");
+        sliders.forEach(({ sliderId, outputId, checkId }) => {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(outputId);
+            const checkSlider = document.getElementById(checkId);
 
-        slider.addEventListener("input", function () {
-            output.textContent = this.value;
-            checkSlider.value = "1"; // Mark as moved
-            this.classList.remove("hidden-thumb"); // Show thumb when moved
-            errorMessage.style.display = "none"; // Hide error when moved
+            slider.value = "";
+            output.textContent = "";
+            checkSlider.value = "0"; // Not moved yet
+            slider.classList.add("hidden-thumb");
+
+            slider.addEventListener("input", function () {
+                output.textContent = this.value;
+                checkSlider.value = "1"; // Mark as moved
+                this.classList.remove("hidden-thumb");
+                document.getElementById("error-message").style.display = "none";
+
+                console.log(`${this.id} moved to ${this.value}`);
+            });
         });
 
-        // Validate before submission
+        // Validate all sliders before form submission
         document.querySelector("form").addEventListener("submit", function (event) {
-            if (checkSlider.value === "0") { // If slider not moved
-                event.preventDefault(); // Stop submission
-                errorMessage.style.display = "block"; // Show error message
+            const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+            if (!allMoved) {
+                event.preventDefault();
+                document.getElementById("error-message").style.display = "block";
             }
         });
     });
@@ -222,48 +187,71 @@ Anti-social rule following task
 </head>
 
 <body>
-<div class="card-body">
+    <div class="card-body">
 
-    <p>
-        This is the task
-    </p>
+        <p>
+            This is the task.
+        </p>
+        <p>
+            blablabla
+        </p>
 
-    <br>
-    <h5 style="color: #0d6efd">
-        Move the slider in the middle of each line on the value 50.
-    </h5>
+        <h5 style="color: #0d6efd">Move the slider in the middle of each line on the value 50.</h5>
+        <br>
 
-    <br>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="margin-top: -15px;">
-            <b>0</b>
-        </span>
+        <div id="slider-group-container">
+            <!-- Slider 1 -->
+            <div class="slider-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><b>0</b></span>
+                    <span style="flex-grow: 1; margin: 0 10px;">
+                        <input type="hidden" name="slider1_moved" id="check_slider1" value="0" />
+                        <input type="range" name="slider1" id="slider1" min="0" max="100" class="hidden-thumb" />
+                    </span>
+                    <span><b>100</b></span>
+                </div>
+                <div style="text-align: center;"><output id="output1" style="color: #0d6efd"></output></div>
+            </div>
 
-        <!-- Slider is placed between the two spans -->
-        <span style="flex-grow: 1; margin: 0 10px;">
-          <input type="hidden" name="slider_moved" value="0" id="check_slider1" />
-          <input type="range" name="trustworthiness" id="slider1" min="0" max="100" value=""
-            class="hidden-thumb" style="width: 100%; margin-top: 10px;">
-        </span>
+            <!-- Slider 2 -->
+            <div class="slider-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><b>0</b></span>
+                    <span style="flex-grow: 1; margin: 0 10px;">
+                        <input type="hidden" name="slider2_moved" id="check_slider2" value="0" />
+                        <input type="range" name="slider2" id="slider2" min="0" max="100" class="hidden-thumb" />
+                    </span>
+                    <span><b>100</b></span>
+                </div>
+                <div style="text-align: center;"><output id="output2" style="color: #0d6efd"></output></div>
+            </div>
 
-        <span style="margin-top: -15px;">
-            <b>100</b>
-        </span>
+            <!-- Slider 3 -->
+            <div class="slider-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><b>0</b></span>
+                    <span style="flex-grow: 1; margin: 0 10px;">
+                        <input type="hidden" name="slider3_moved" id="check_slider3" value="0" />
+                        <input type="range" name="slider3" id="slider3" min="0" max="100" class="hidden-thumb" />
+                    </span>
+                    <span><b>100</b></span>
+                </div>
+                <div style="text-align: center;"><output id="output3" style="color: #0d6efd"></output></div>
+            </div>
+        </div>
+
+        <!-- Error message -->
+        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+            Please move all sliders before continuing.
+        </div>
+
+        <div style="display: flex; justify-content: flex-end">
+            <button class="btn btn-primary">Next</button>
+        </div>
+
+
+
     </div>
-
-    <div style="text-align: center;">
-        <span style="color: #0d6efd">
-            <output id="output1"></output>
-        </span>
-    </div>
-
-    <div style="display: flex; justify-content: flex-end">
-        <button class="btn btn-primary">Next</button>
-    </div>
-
-
-
-</div>
 </body>
 </html>
 
