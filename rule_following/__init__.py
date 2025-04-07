@@ -37,6 +37,8 @@ class Player(BasePlayer):
 
 ######## PAGES ########
 class RuleFollowing(Page):
+    form_model = "player"
+    form_fields = ["slider1", "slider2", "slider3"]
 
     @staticmethod
     def vars_for_template(player: Player):
