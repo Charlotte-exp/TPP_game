@@ -37,8 +37,13 @@ class Player(BasePlayer):
         could also be attributed to all participants when the session is created but then must be in the creating_session of the first app...
         """
         dice_permutations = list(product(range(1, 7), repeat=2))
-        player.original_dice, player.reported_dice = random.choice(dice_permutations)
-        # print(player.original_dice, player.reported_dice)
+        while True:
+            og_dice, rep_dice = random.choice(dice_permutations)
+            if og_dice <= rep_dice:
+                player.original_dice = og_dice
+                player.reported_dice = rep_dice
+                # print(player.original_dice, player.reported_dice)
+                return player.original_dice, player.reported_dice
 
 
 ############  PAGES  #############
