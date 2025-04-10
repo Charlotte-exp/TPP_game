@@ -19,7 +19,7 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
     ),
-dict(
+    dict(
         name='rule',
         display_name="Anti-social rule following",
         app_sequence=['rule_following'],
