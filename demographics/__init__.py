@@ -49,8 +49,7 @@ class Player(BasePlayer):
 
     income_ladder = models.StringField(
         verbose_name='What is the total combined income of your household?',
-        min=1, max=100,
-        widget=widgets.RadioSelect)
+        min=1, max=100)
 
     education = models.StringField(
         choices=['No formal education', 'Compulsory school', 'Post-secondary education',
@@ -61,7 +60,7 @@ class Player(BasePlayer):
     rural = models.StringField(
         choices=["less than 10.000 inhabitants", 'between 10.000 and 250.000 inhabitants', 'between 250.000 and 1 million inhabitants',
                  'More than 1 million inhabitants'],
-        verbose_name='What is your ethnicity?',
+        verbose_name='How large was the place where grew up?',
         widget=widgets.RadioSelect)
 
     comment_box = models.LongStringField(
