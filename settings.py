@@ -22,7 +22,7 @@ SESSION_CONFIGS = [
     dict(
         name='rule',
         display_name="Anti-social rule following",
-        app_sequence=['rule_following'],
+        app_sequence=['rule_following', 'demographics'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
