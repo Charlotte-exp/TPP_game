@@ -1,33 +1,44 @@
 {{ block title }}
 
-Thank you
+Thank you!
 
 {{ endblock }}
 {{ block content }}
 
     <p>
-        <em>Below are examples of messages that could be displayed for different experimental settings.</em>
+        The study is over.
     </p>
 
     <div class="panel panel-default" style="margin-bottom:10px">
         <div class="panel-body">
-            <p><b>Laboratory:</b></p>
-            <p>Please remain seated until your number is called. Then take your number card, and proceed to the cashier.</p>
-            <p><em>Note: For the cashier in the laboratory, oTree can print a list of payments for all participants as a PDF.</em></p>
+            <strong>Thank you for participating!</strong> <br>
+            Once all participants are done with the study, you will receive your bonus through Prolific.
+            The final amount is a combination of the bonus just randomly selected from your decision,
+            and one randomly selected from the next participant's decisions.
+            This can take a couple of weeks.
+            <p> </p>
+            <hr size="6" width="50%" align="center" color="black">
         </div>
+        <p></p>
+            <p>
+                Click on the <b>next button</b> to be redirected to Prolific.
+                The participation payment will be paid immediately.
+            </p>
+            <div style="display: flex; justify-content: flex-end">
+            {% next_button %}
+            </div>
     </div>
 
     <div class="panel panel-default" style="margin-bottom:10px">
         <div class="panel-body">
-            <p><b>Classroom:</b></p>
-            <p><em>If you want to keep track of how students did, the easiest thing is to assign the starting links to students by name.
-                It is even possible to give each student a single permanent link for a whole semester using Rooms;
-                so no need to waste time in each lecture with handing out new links and keeping track of which student uses which link.
-                Alternatively, you may just give
-                students anonymous links or secret nicknames.</em>
+            <p><b>Toluna</b></p>
+            <p>
+                <em>How does it work for participant? is there a platform they are registered to? or they just get an email?<br>
+                we should ask Toluna what to put at the end</em>
             </p>
         </div>
     </div>
+
 
 
 {{ endblock }}
