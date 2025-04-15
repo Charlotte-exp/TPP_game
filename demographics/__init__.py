@@ -8,7 +8,7 @@ Your app description
 
 class C(BaseConstants):
     NAME_IN_URL = 'demographics'
-    PLAYERS_PER_GROUP = None
+    PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
 
 
@@ -25,31 +25,38 @@ class Player(BasePlayer):
     # Demographics
     age = models.IntegerField(
         verbose_name='What is your age?',
-        min=18, max=100)
+        min=18, max=100
+    )
 
     gender = models.StringField(
         choices=['Female', 'Male', 'Other'],
         verbose_name='What gender do you identify as?',
-        widget=widgets.RadioSelect)
+        widget=widgets.RadioSelect
+    )
 
     born = models.StringField(
         choices=['Yes', 'No'],
         verbose_name='Were you born in this country?',
-        widget=widgets.RadioSelect)
+        widget=widgets.RadioSelect
+    )
 
     born_parents = models.StringField(
         choices=['Yes', 'No'],
         verbose_name='Were you born in this country?',
-        widget=widgets.RadioSelect)
+        widget=widgets.RadioSelect
+    )
 
     how_long = models.StringField(
         choices=['less than 1 year', '1-5 years', '5-10 years', 'more than 10 years'],
         verbose_name='How long have you lived in this country?',
-        widget=widgets.RadioSelect)
+        widget=widgets.RadioSelect
+    )
 
-    income_ladder = models.StringField(
-        verbose_name='What is the total combined income of your household?',
-        min=1, max=100)
+    income_ladder = models.IntegerField(
+        choices=[i for i in range(1, 11)],
+        blank=True,
+        label="Where would you place yourself on this ladder?"
+    )
 
     education = models.StringField(
         choices=['No formal education', 'Compulsory school', 'Post-secondary education',
@@ -69,19 +76,40 @@ class Player(BasePlayer):
 
 
 ########### PAGES ############
-class Demographics(Page):
-    form_model = 'player'
-    form_fields = ['age', 'gender','born','born_parents','how_long', 'income_ladder', 'education', 'rural']
 
+class Ladder(Page):
+    form_model = 'player'
+    form_fields = ['income_ladder']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            ladder_values=list(range(10, 0, -1)),  # From 10 to 1
+        )
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        participant.progress += 1
+        #participant.progress += 1
+
+
+class Demographics(Page):
+    form_model = 'player'
+    form_fields = ['age', 'gender','born','born_parents','how_long', 'education', 'rural']
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
+
+
+class ResultsWaitPage(WaitPage):
+    pass
 
 
 class Payment(Page):
     pass
 
 
-page_sequence = [Demographics,
+page_sequence = [Ladder,
+                 Demographics,
+                 #ResultsWaitPage,
                  Payment]

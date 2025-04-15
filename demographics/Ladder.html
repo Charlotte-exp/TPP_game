@@ -1,0 +1,101 @@
+{{ block title }}
+
+    Income ladder
+
+{{ endblock }}
+
+{{ block content }}
+
+    <p>
+        Imagine this ladder represents the income distribution in your country.
+        The top represents the people who have a high income/are better off,
+        and the bottom represents those who have a low income/are worst off.
+    </p>
+    <h5>
+        Where would you be, based on your household income, on that ladder?
+    </h5>
+
+    <div id="ladder-container">
+        {% for i in ladder_values %}
+            <div class="rung" data-value="{{ i }}"></div>
+        {% endfor %}
+    </div>
+
+    <input type="hidden" name="income_ladder" id="income_ladder">
+
+    <div style="display: flex; justify-content: flex-end">
+        {% next_button %}
+    </div>
+
+<style>
+    #ladder-container {
+        position: relative;
+        width: 160px;
+        margin: 40px auto;
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 10px;
+        transform: rotate(5deg); /* lean to the right */
+    }
+
+    /* Ladder poles (3D wood style) */
+    #ladder-container::before,
+    #ladder-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 10px;
+        background: linear-gradient(to right, #5c3b22, #a87b5d, #5c3b22);
+        border-radius: 6px;
+        z-index: 0;
+        box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+
+    #ladder-container::before {
+        left: 0;
+    }
+
+    #ladder-container::after {
+        right: 0;
+    }
+
+    /* Rungs: now exactly between poles */
+    .rung {
+        width: calc(100% - 20px); /* 10px left + 10px right poles */
+        height: 14px;
+        background: linear-gradient(to bottom, #a87b5d, #7a5436);
+        border-radius: 7px;
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        box-shadow: inset -2px 2px 4px rgba(0, 0, 0, 0.2),
+                    1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .rung:hover {
+        background: linear-gradient(to bottom, #bb8e66, #8b5e3c);
+        transform: scale(1.02);
+    }
+
+    .rung.selected {
+        background: linear-gradient(to bottom, #2196f3, #1565c0); /* blue shades */
+        box-shadow: 0 0 5px #2196f3, inset 0 0 4px #0d47a1;
+        color: white;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.rung').forEach(rung => {
+        rung.addEventListener('click', () => {
+            document.querySelectorAll('.rung').forEach(r => r.classList.remove('selected'));
+            rung.classList.add('selected');
+            document.getElementById('income_ladder').value = rung.dataset.value;
+        });
+    });
+</script>
+
+{{ endblock }}
