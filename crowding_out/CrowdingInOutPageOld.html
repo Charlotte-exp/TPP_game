@@ -1,0 +1,829 @@
+{{ block title }}
+
+
+<p style="text-align: center; font-size: 26px;  "> Final decision {{player.round_number}} </p>
+
+
+{{ endblock }}
+{{ block content }}
+
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+
+    /////////// global variables
+
+    let dic_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    let crowding_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
+    //console.log(`norm decisions values: ${crowding_norm_decisions_stored}`);
+
+    var current_treatment = "{{ treatment }}";
+    //console.log("Current treatment:", current_treatment );
+
+    const TP_points = {{ C.TP_points }}; // punishment points
+    const TP_eff = {{ C.TP_effectiveness }}; // punishment or reward or victim compensation effectiveness
+
+    const crowding_norm_decisions = {{ crowding_norm_decisions | safe }};
+    //console.log('Decisions:', {{ crowding_norm_decisions | safe }});
+
+    total_endowment = {{ C.total_endowment }}
+    receiver_endowment = {{ C.receiver_endowment }}
+
+    /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = 'Please make a decision to continue.'
+    }
+
+
+////////////// function for displaying the task, numbers, and labels and managing the click event
+
+    $(document).ready(function () {
+
+
+
+        /////////// script
+
+
+        // Initialize coin stacks and number labels for each decision
+        crowding_norm_decisions.forEach((crowding_norm_decision) => {
+            const index = crowding_norm_decision.index;
+            const dictatorKeeps = crowding_norm_decision.dictator_keeps;
+            const receiverGets = crowding_norm_decision.receiver_gets;
+
+            // Fill initial coin stacks and number labels
+            if (current_treatment.includes("norm") ) { // in norm condition
+
+                // dictator stack
+                for (let i = 0; i < dictatorKeeps; i++) {
+                    $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:calc(50% - 6vw);"></div>');
+                }
+                // receiver stack
+                for (let i = 0; i < receiverGets; i++) {
+                    $(`.coinstackR[data-index="${index}"]`).append('<div class="coinR" style="left:calc(50% + 6vw)"></div>');
+                }
+                // number labels
+                $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
+                $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
+
+            } else { // in dictator giving condition
+
+                // I think because of the loop without this the stack on page load is huge
+                $('.coinstackD').empty();
+                $('.coinstackR').empty();
+
+                // dictator stack
+                for (let i = 0; i < total_endowment; i++) {
+                    $('.coinstackD').append('<div class="coin" style="left:calc(50% - 6vw)"></div>');
+                }
+                // receiver stack
+                for (let i = 0; i < receiver_endowment; i++) {
+                    $('.coinstackR').append('<div class="coinR" style="left:calc(50% + 6vw)"></div>');
+                }
+                // number labels
+                $('#countD').text(`${total_endowment}`);
+                $('#countR').text(`${receiver_endowment}`);
+
+                // Debugging
+                //console.log('Total Endowment:', total_endowment);
+                //console.log('Receiver Endowment:', receiver_endowment);
+            }
+        });
+
+        function deactivateNumbers(numbersToDisable) {
+            numbersToDisable.forEach(num => {
+                $('.number[data-value="' + num + '"]').addClass('disabled');
+            });
+        }
+
+        if (!current_treatment.includes("norm") ) { // only in dictator giving conditions
+            // add hover event listener to numbers
+            $('.number').hover(function () {
+                const value = $(this).data('value'); // Get the number value
+                updateCoinStack(value); // Update the coin stack
+            });
+
+            $('.number').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $('.number').removeClass('selected');
+
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
+
+                // Get the value of the clicked button
+                const value = $(this).data('value');
+
+                // Update the hidden input field
+                $('#selected-crowding_decision1').val(value);
+
+                // Update the coin stack
+                updateCoinStack(value);
+
+                //log for other functions
+                dic_decisions_stored[0] = value;
+
+                //debugging
+                console.log('Dictator decision:', value)
+            });
+
+            // Submit button click handler
+            $('#submit-button').on('click', function () {
+                // Submit the form
+                $('form').submit();
+            });
+
+            // function to update the coin stack
+            function updateCoinStack(count) {
+                // Clear existing coins in coinstacks
+
+                //TPupdate = TP - count
+                Dupdate = total_endowment - count
+                Rupdate = receiver_endowment + count
+
+                //$('.coinstackTP').empty();
+                $('.coinstackD').empty();
+                $('.coinstackR').empty();
+
+                // Add the specified number of coins
+                for (let i = 0; i < Dupdate; i++) {
+                    $('.coinstackD').append('<div class="coin" style="left:calc(50% - 6vw)"></div>');
+                }
+                for (let i = 0; i < Rupdate; i++) {
+                    $('.coinstackR').append('<div class="coinR" style="left:calc(50% + 6vw)"></div>'); // previously: left:83
+                }
+
+                // Update the number labels
+                $('#countD').text(`${Dupdate}`);
+                $('#countR').text(`${Rupdate}`);
+            }
+
+            // Function to restore the clicked or initial state of the row
+            function restoreRowState() {
+                const clickedValue = dic_decisions_stored[0]; //no index so just first position
+                if (clickedValue > 0) {
+                    updateCoinStack(clickedValue); // Restore to the clicked state
+                } else {
+                    updateCoinStack(0); // Restore to the initial state
+                }
+                //console.log(`Restored to ${clickedValue > 0 ? "clicked state" : "initial state"}`);
+            }
+
+            $(document).on('mouseleave', '.number-row', function () {
+                restoreRowState();
+            });
+
+        } else { // in norm conditions
+
+            $('.norm').on('click', function () {
+                // Remove 'selected' class from all buttons
+                $(this).closest('.number-row').find('.norm').removeClass('selected');
+
+                // Add 'selected' class to the clicked button
+                $(this).addClass('selected');
+
+                // Get the value of the clicked button
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the hidden input field
+                $(`#selected-norm-${index}`).val(value);
+
+                // Update the corresponding punishment value in the array
+                crowding_norm_decisions_stored[index - 1] = value;
+
+                // This is usually done by the coinstack logic somewhere
+                // since we don't update coinstacks for norms we need to add this
+                // maybe we don't even need the stored array...
+                crowding_norm_decisions[index - 1].crowding_norm_decision = value;
+
+                // Debugging
+                //console.log(`Updated norm decision at index ${index}: ${value}`);
+                //console.log('dict norm Decisions:', crowding_norm_decisions);
+                //console.log(`norm decision values list: ${crowding_norm_decisions_stored}`);
+            });
+
+            // Submit button click handler
+            $('#submit-button').on('click', function () {
+                // Submit the form
+                $('form').submit();
+            });
+        }
+    });
+
+    // fill the individual coin in CSS dynamically
+    document.querySelectorAll('.coin').forEach((coin, index) => {
+        let start = 0.6; // Starting top value in vw
+        let increment = 0.3; // Increment value in vw
+        let position = start + index * increment;
+        coin.style.top = position + 'vw';
+    });
+
+
+</script>
+
+
+<style>
+
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin-top: 4vw;
+        background-color: #f4f4f4;
+    }
+
+    .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:0vw;
+        left:calc(50% -10vw);
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.2vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .button-row {
+        justify-content: center;
+        display: flex;
+        margin-top:0vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number {
+        width: 40px; /* should not scale */
+        height: 40px; /* should not scale */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px; /* sould not scale */
+        background-color: #e0e0e0;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 4vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .button {
+        width: 16vw; /* Width scales with viewport width */
+        height: 3vw; /* Height scales with viewport width */
+        line-height: 3vw; /* Centers text vertically */
+        display: inline-block;
+        text-align: center; /* Center-aligns the text */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .button:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .button:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .button.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .button.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      /* border:1px solid black; */
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .figure-container {
+        width:75%;
+        height:21vw;
+        /* top:2vw; */
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .short-figure-container {
+        width:75%;
+        height:10vw;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 1200px) { /* adjustments for smaller screens */
+        .responsive-div {
+            transform: scale(1.0); /* Scale to 80% for smaller screens */
+        }
+        .container {
+            width:80%; /* otherwise used margin-left:1vw; */
+        }
+        .figure-container {
+            width:80%; /* otherwise used margin-left:1vw; */
+        }
+        .number {
+            width: 30px; /* should not scale */
+            height: 30px; /* should not scale */
+            font-size: 18px; /* sould not scale */
+        }
+        .norm {
+            width: 80px; /* Width scales with viewport width */
+            height: 60px; /* Height scales with viewport width */
+            font-size: 12px
+        }
+    }
+
+    @media (max-width: 600px) {
+        .responsive-div {
+            transform: scale(1.0); /* adjustments for smartphones */
+        }
+        .container {
+            width:90%; /* otherwise used margin-left:1vw; */
+        }
+        .figure-container {
+            transform: scale(1.0); /* Scale up the figure elements */
+            min-width:10px;
+        }
+        .number {
+            width: 25px; /* should not scale */
+            height: 25px; /* should not scale */
+            font-size: 14px; /* sould not scale */
+        }
+        .norm {
+            width: 15vw; /* Width scales with viewport width */
+            height: 11vw; /* Height scales with viewport width */
+            font-size: 2.2vw
+        }
+    }
+
+    .person-a {
+        left: calc(50% - 13.1vw);
+        font-size:1.0vw;
+        position: absolute;
+    }
+
+    .person-b {
+        left: calc(50% + 7.8vw);
+        font-size:1.0vw;
+        position: absolute;
+    }
+
+    .person-c {
+        left: calc(50% - 1.9vw);
+        top:87.5%;
+        font-size:1.0vw;
+        position: absolute;
+    }
+
+    .you {
+        left:calc(50% - 12.2vw);
+        font-size:1.6vw;
+        color: red;
+        position: absolute;
+    }
+
+    .coin-stack {
+        position: absolute;
+        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
+        max-width: 100px; /* Ensure coins don't get too big */
+    }
+
+    .coin {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinR {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin-count-labelD {
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: calc(50% - 4.2vw); /* Center horizontally before offsetting */
+        top: 23%; /* Move up; adjust value as needed */
+         /* transform: translateX(-50%);Adjust for exact centering */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelDDes {
+        font-size: 1.2rem;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 30%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 0%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelR {
+        font-size: 1.2rem;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: calc(50% + 5vw); /* Center horizontally before offsetting */
+        top: 23%; /* Move up; adjust value as needed */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP {
+        font-size: 1.2rem;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 85%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 80%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP2PP {
+        font-size: 1.2rem;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 73%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 8%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin:nth-child(30)  { top: 0.6vw; }
+    .coin:nth-child(29)  { top: 0.9vw; }
+    .coin:nth-child(28)  { top: 1.2vw; }
+    .coin:nth-child(27)  { top: 1.5vw; }
+    .coin:nth-child(26)  { top: 1.8vw; }
+    .coin:nth-child(25)  { top: 2.1vw; }
+    .coin:nth-child(24)  { top: 2.4vw; }
+    .coin:nth-child(23)  { top: 2.7vw; }
+    .coin:nth-child(22)  { top: 3.0vw; }
+    .coin:nth-child(21)  { top: 3.3vw; }
+    .coin:nth-child(20)  { top: 3.6vw; }
+    .coin:nth-child(19)  { top: 3.9vw; }
+    .coin:nth-child(18)  { top: 4.2vw; }
+    .coin:nth-child(17)  { top: 4.5vw; }
+    .coin:nth-child(16)  { top: 4.8vw; }
+    .coin:nth-child(15)  { top: 5.1vw; }
+    .coin:nth-child(14)  { top: 5.4vw; }
+    .coin:nth-child(13)  { top: 5.7vw; }
+    .coin:nth-child(12)  { top: 6.0vw; }
+    .coin:nth-child(11)  { top: 6.3vw; }
+    .coin:nth-child(10)  { top: 6.6vw; }
+    .coin:nth-child(9)   { top: 6.9vw; }
+    .coin:nth-child(8)   { top: 7.2vw; }
+    .coin:nth-child(7)   { top: 7.5vw; }
+    .coin:nth-child(6)   { top: 7.8vw; }
+    .coin:nth-child(5)   { top: 8.1vw; }
+    .coin:nth-child(4)   { top: 8.4vw; }
+    .coin:nth-child(3)   { top: 8.7vw; }
+    .coin:nth-child(2)   { top: 9.0vw; }
+    .coin:nth-child(1)   { top: 9.3vw; }
+
+    .coinR:nth-child(12)  { top: 1.3vw; }
+    .coinR:nth-child(11)  { top: 1.6vw; }
+    .coinR:nth-child(10)  { top: 1.9vw; }
+    .coinR:nth-child(9)   { top: 2.2vw; }
+    .coinR:nth-child(8)   { top: 2.5vw; }
+    .coinR:nth-child(7)   { top: 2.8vw; }
+    .coinR:nth-child(6)   { top: 3.1vw; }
+    .coinR:nth-child(5)   { top: 3.4vw; }
+    .coinR:nth-child(4)   { top: 3.7vw; }
+    .coinR:nth-child(3)   { top: 4.0vw; }
+    .coinR:nth-child(2)   { top: 4.3vw; }
+    .coinR:nth-child(1)   { top: 4.6vw; }
+
+    .coinown:nth-child(10)  { top: 20.6vw; left:58% }
+    .coinown:nth-child(9)   { top: 20.9vw; left:58% }
+    .coinown:nth-child(8)   { top: 21.2vw; left:58% }
+    .coinown:nth-child(7)   { top: 21.5vw; left:58% }
+    .coinown:nth-child(6)   { top: 21.8vw; left:58% }
+    .coinown:nth-child(5)   { top: 22.1vw; left:58% }
+    .coinown:nth-child(4)   { top: 22.4vw; left:58% }
+    .coinown:nth-child(3)   { top: 22.7vw; left:58% }
+    .coinown:nth-child(2)   { top: 23.0vw; left:58% }
+    .coinown:nth-child(1)   { top: 23.3vw; left:58% }
+
+</style>
+</head>
+
+
+<body>
+
+<form method="post">
+
+    <input type="hidden" name="crowding_norm_decision1" id="selected-crowding_norm-1">
+    <input type="hidden" name="crowding_decision1" id="selected-crowding_decision1">
+
+
+        <p style="text-align: center; ">
+<!--            <b style="color: red;">You are Person A!</b>-->
+
+            <p style="text-align: center;"> Now, you decide if you want to <b>give 4 points</b> out of your <b>8 bonus points</b> to <b>charity</b>. </p>
+
+
+        </p>
+
+
+        <div class='responsive-div'>
+
+            <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}">
+
+
+                <img src="/static/{{ image }}" style="width:15vw; top:3vw">
+
+            <img src="/static/global/charity/unicef.png" style="width:6vw; top:3vw">
+
+                <div class="person-a" style="top:60%">
+                    <b>PERSON A</b>
+                </div>
+                <div class="person-b" style="top:61%">
+                    <b>CHARITY</b>
+                </div>
+
+
+                <span class='coinstack coinstackD'></span>
+                <div class="coin-count-labelD" id="countD"
+                     style="font-size:1.4vw; {% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
+
+                <span class='coinstack coinstackR'></span>
+                <div class="coin-count-labelR" id="countR"
+                     style="font-size:1.4vw; {% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
+
+
+                {% if "3PR" in player.treatment %}
+                    <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
+                {% endif %}
+
+                {% if "2PP" in player.treatment or "0DG" in player.treatment %}
+                    <div class="you" style="top: 36%;">
+                        <b>YOU</b>
+                    </div>
+                {% else %}
+                    <div class="you" style="top: 17%;">
+                        <b>YOU</b>
+                    </div>
+                {% endif %}
+
+            </div>
+
+<!--            {% if "0DG" in player.treatment %}-->
+<!--                <p style="text-align: center;"> You received <b> {{C.total_endowment }} points</b>. </p>-->
+<!--            {% endif %}-->
+
+            <p style="text-align: center;"> <strong> As Person A, do you <b style="color: red;">give</b> <b>4 points</b> to charity?</strong> </p>
+
+
+<!--           <div class="number-row">-->
+<!--                {{ for num in endowments }}-->
+<!--                <div class="number" data-value="{{ num }}">{{ num }}</div>-->
+<!--                {{ endfor }}-->
+<!--            </div>-->
+
+            <div class="button-row" >
+                <div class="button" data-value="0" >Give <b>0 points</b> to charity</div>
+                <div class="button" data-value="1" >Give <b>4 points</b> to charity</div>
+            </div>
+
+        </div>
+
+
+        <br>
+        <hr>
+
+
+            <p style="text-align: center;  ">
+
+                What do you think about <b>Person A</b>, who received <b>8 bonus points</b> and gave <b>4 points</b> to charity?
+
+<!--                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b> if your decision is the same as the most-->
+<!--                common decision among all other participants in {{current_country}}.-->
+            </p>
+
+        {% for crowding_norm_decision in crowding_norm_decisions %}
+        <div class='responsive-div'>
+
+
+        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment %}short-figure-container{% endif %}"
+             data-index="{{ crowding_norm_decision.index }}">
+
+            <img src="/static/{{ image }}" style="width:15vw; top:3vw">
+
+            <img src="/static/global/charity/unicef.png" style="width:6vw; top:3vw">
+
+            <div class="person-a" style="top:60%">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b" style="top:61%">
+                <b>CHARITY</b>
+            </div>
+
+            <span class='coinstack coinstackD' data-index="{{ crowding_norm_decision.index }}"></span>
+            <div class="coin-count-labelD" id="countD"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"
+                 data-index="{{ crowding_norm_decision.index }}"></div>
+
+            <span class='coinstack coinstackR' data-index="{{ crowding_norm_decision.index }}"></span>
+            <div class="coin-count-labelR" id="countR"
+                 style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"
+                 data-index="{{ crowding_norm_decision.index }}"></div>
+
+
+
+            {% if "3PR" in player.treatment %}
+                <img src="/static/global/plus_button.png" alt="+" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
+            {% endif %}
+
+
+
+        </div>
+
+            <p style="text-align: center; ">
+                How <b style="color: red;">altruistic</b> is Person A?
+            </p>
+
+
+                <div class="number-row" data-index="{{ crowding_norm_decision.index }}" data-input="selected-norm-{{ crowding_norm_decision.index }}">
+                    <div class="norm" data-value="0" data-index="{{ crowding_norm_decision.index }}">very <br>selfish</div>
+                    <div class="norm" data-value="1" data-index="{{ crowding_norm_decision.index }}"> selfish</div>
+                    <div class="norm" data-value="2" data-index="{{ crowding_norm_decision.index }}">slightly <br>selfish</div>
+                    <div class="norm" data-value="3" data-index="{{ crowding_norm_decision.index }}">slightly <br>altruistic</div>
+                    <div class="norm" data-value="4" data-index="{{ crowding_norm_decision.index }}"> altruistic</div>
+                    <div class="norm" data-value="5" data-index="{{ crowding_norm_decision.index }}">very <br>altruistic</div>
+                </div>
+
+            <br>
+
+            <p style="text-align: center; ">
+                How <b style="color: red;">likeable</b> is Person A?
+            </p>
+
+
+                <div class="number-row" data-index="{{ crowding_norm_decision.index }}" data-input="selected-norm-{{ crowding_norm_decision.index }}">
+                    <div class="norm" data-value="0" data-index="{{ crowding_norm_decision.index }}">very <br>unlikeable</div>
+                    <div class="norm" data-value="1" data-index="{{ crowding_norm_decision.index }}"> unlikeable</div>
+                    <div class="norm" data-value="2" data-index="{{ crowding_norm_decision.index }}">slightly <br>unlikeable</div>
+                    <div class="norm" data-value="3" data-index="{{ crowding_norm_decision.index }}">slightly <br>likeable</div>
+                    <div class="norm" data-value="4" data-index="{{ crowding_norm_decision.index }}"> likeable</div>
+                    <div class="norm" data-value="5" data-index="{{ crowding_norm_decision.index }}">very <br>likeable</div>
+                </div>
+
+
+        </div>
+        {% endfor %}
+
+
+    <br>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            Next
+        </button>
+    </div>
+
+     {{ include_sibling 'Reminder.html' }}
+
+</form>
+
+
+</body>
+</html>
+
+
+
+{{ endblock }}
