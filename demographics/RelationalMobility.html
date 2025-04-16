@@ -1,0 +1,24 @@
+{{ block title }}
+
+    Relational Mobility questionnaire
+
+{{ endblock }}
+
+{{ block content }}
+
+<!--    <p>-->
+<!--        Please answer the following questions. These are used for demographic purposes only.-->
+<!--        This information will not be associated with your name. You remain anonymous to all the other players and the experimenters.-->
+<!--    </p>-->
+
+    {% for field in form %}
+        {% formfield field %}
+    {% endfor %}
+
+
+    <div style="display: flex; justify-content: flex-end">
+        {% next_button %}
+    </div>
+
+
+{{ endblock }}
