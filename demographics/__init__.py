@@ -25,7 +25,7 @@ class Player(BasePlayer):
     ## Demographics
     age = models.IntegerField(
         verbose_name='What is your age?',
-        min=18, max=100
+        min=0, max=100
     )
 
     gender = models.StringField(
@@ -84,6 +84,9 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
 
+    ## Self - other circle
+    self_other = models.IntegerField()
+
     comment_box = models.LongStringField(
         verbose_name=''
     )
@@ -121,6 +124,15 @@ class RelationalMobility(Page):
         participant = player.participant
         #participant.progress += 1
 
+class Circle(Page):
+    form_model = 'player'
+    form_fields = ['self_other']
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
+
+
 class ResultsWaitPage(WaitPage):
     pass
 
@@ -138,6 +150,7 @@ class Payment(Page):
 
 
 page_sequence = [Ladder,
+                 Circle,
                  RelationalMobility,
                  Demographics,
                  #ResultsWaitPage,
