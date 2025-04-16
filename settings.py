@@ -27,6 +27,14 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
     ),
+dict(
+        name='crowding',
+        display_name="Crowding-out",
+        app_sequence=['crowding_out'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -40,7 +48,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['dictator_country', 'receiver_country', 'progress']
+PARTICIPANT_FIELDS = ['dictator_country', 'receiver_country', 'progress', 'treatment_incentive', 'treatment_cond_coop']
 SESSION_FIELDS = []
 
 # ISO-639 code

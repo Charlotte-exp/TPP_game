@@ -288,6 +288,18 @@
         pointer-events: none; /* Disable interactions */
     }
 
+    .coin {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
     .coin-count-labelD {
         font-size: 1.2rem;
         color: #333; /* Adjust color as needed */
@@ -320,6 +332,19 @@
     .coin:nth-child(3)   { top: 8.7vw; }
     .coin:nth-child(2)   { top: 9.0vw; }
     .coin:nth-child(1)   { top: 9.3vw; }
+
+    .coinR:nth-child(12)  { top: 1.3vw; }
+    .coinR:nth-child(11)  { top: 1.6vw; }
+    .coinR:nth-child(10)  { top: 1.9vw; }
+    .coinR:nth-child(9)   { top: 2.2vw; }
+    .coinR:nth-child(8)   { top: 2.5vw; }
+    .coinR:nth-child(7)   { top: 2.8vw; }
+    .coinR:nth-child(6)   { top: 3.1vw; }
+    .coinR:nth-child(5)   { top: 3.4vw; }
+    .coinR:nth-child(4)   { top: 3.7vw; }
+    .coinR:nth-child(3)   { top: 4.0vw; }
+    .coinR:nth-child(2)   { top: 4.3vw; }
+    .coinR:nth-child(1)   { top: 4.6vw; }
 
     .responsive-div {
       width: 90%; /* Default width */

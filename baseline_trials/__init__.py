@@ -258,8 +258,15 @@ def creating_session(subsession):
             print('set instruction_round to', participant.instruction_round)
             print('set comprehension to', participant.comprehension)
 
+            # # Set treatment for later tasks (incentive/crowding_out; conditional_coop)
+            # participant.treatment_incentive = random.choice(
+            #     [True, False])  # Crowding out task; true indicates incentive is offered
+            # participant.treatment_cond_coop = random.choice(
+            #     [True, False])  # Crowding out task; true indicates incentive is offered
+            #
+            # print('set incentive treatment to', participant.treatment_incentive)
 
-    #breakpoint()
+    breakpoint()
 
     for player in subsession.get_players():
         #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
@@ -269,6 +276,7 @@ def creating_session(subsession):
         player.comprehension_true = player.treatment in player.participant.comprehension
         player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+
 
 class Group(BaseGroup):
     pass
