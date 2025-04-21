@@ -27,6 +27,7 @@
     total_endowment = {{ total_endowment }}
     receiver_endowment = {{ receiver_endowment }}
     incentive = {{ incentive }}
+    image_red_cross_local = "{{ image_red_cross_local }}"
 
     /// Function for showing customized error messages
     const errorDiv = document.querySelector('.otree-form-errors');
@@ -45,10 +46,13 @@
     const charityImage = document.getElementById("charity-image");
 
     const knownCharities = {
-        "Unicef": "unicef.png",
-        "Red Cross": "red_cross.png",
-        "Doctors Without Borders": "doctors_without_borders.png",
-        "Save the Children": "save_the_children.png"
+        "Red Cross / Red Crescent": "padded_red_cross.png",
+        "Red Cross (local)": image_red_cross_local,
+        "The Salvation Army": "padded_The_Salvation_Army.png",
+        "Unicef": "padded_unicef.png",
+        "World Food Programme": "padded_wfp.png",
+        "World Health Organization": "padded_who.png",
+        "World Wildlife Fund": "padded_WWF.png"
     };
 
     function updateImage(charityName) {
@@ -712,10 +716,13 @@
 <label for="charity-select" style="font-size: 14px; ">You can choose your own charity:</label>
 <select id="charity-select" style="font-size: 14px; ">
     <option value="" selected disabled>Randomly selected charity</option>
+    <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
+    <option value="Red Cross (local)">{{local_red_cross}}</option>
+    <option value="The Salvation Army">The Salvation Army</option>
     <option value="Unicef">Unicef</option>
-    <option value="Red Cross">Red Cross</option>
-    <option value="Doctors Without Borders">Doctors Without Borders</option>
-    <option value="Save the Children">Save the Children</option>
+    <option value="World Food Programme">World Food Programme</option>
+    <option value="World Health Organization">World Health Organization</option>
+    <option value="World Wildlife Fund">World Wildlife Fund</option>
     <option value="other">Other (write your own)</option>
 </select>
 

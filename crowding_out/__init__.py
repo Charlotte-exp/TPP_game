@@ -2,6 +2,8 @@ from otree.api import *
 
 import random
 import itertools
+import csv
+import os
 
 doc = """
 Your app description
@@ -21,18 +23,6 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession): # Just for testing treatment allocation, will eventually me moved to create-session in baseline trials
     # print('Creating session; round number: {}'.format(subsession.round_number))
-    #
-    # if subsession.round_number == 1:
-    #     for player in subsession.get_players():
-    #         participant = player.participant
-    #         # Set treatment for later tasks (incentive/crowding_out; conditional_coop)
-    #         participant.treatment_incentive = random.choice(
-    #             [True, False])  # Crowding out task; true indicates incentive is offered
-    #         participant.treatment_cond_coop = random.choice(
-    #             [True, False])  # Crowding out task; true indicates incentive is offered
-    #
-    #         print('set incentive treatment to', participant.treatment_incentive)
-    #         print('set cond coop treatment to', participant.treatment_cond_coop)
 
     participants = subsession.session.get_participants()
 
@@ -52,6 +42,24 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         print('set incentive treatment to', p.treatment_incentive)
         print('set cond coop treatment to', p.treatment_cond_coop)
 
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.current_country = "Switzerland"
+
+
+def get_local_red_cross_info(country_name):
+    filepath = os.path.join(os.path.dirname(__file__), '../_static/global/country_codes_red_cross.csv')
+    with open(filepath, encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row["countryname"] == country_name:
+                red_cross_local = row["red_cross_local"]
+                iso2_code = row["iso2"]
+                # Construct the image path
+                # image_path = f"../_static/global/charities/local_red_cross/iso2_{iso2_code}_fitted.png"
+                image_path = f"/local_red_cross/iso2_{iso2_code}.png"
+                return red_cross_local, image_path
+    return " ", "../_static/global/charities/unknown_charity.png"  # default if not found
 
 
 
@@ -117,10 +125,13 @@ class CrowdingInOutPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
-        charities = ["Unicef", "Red Cross", "Doctors Without Borders", "Save the Children", "other"]
+        # charities = ["Red Cross and Red Crescent (International)", "Unicef", "Doctors Without Borders", "Save the Children", "other"]
 
-        current_country = "Switzerland" # Plug in correct country
+        current_country = player.participant.current_country
         # current_country = C.CURRENT_COUNTRYNAME
+
+        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_country)
+        print("current_country, local_red_cross", current_country, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0
@@ -157,7 +168,9 @@ class CrowdingInOutPage(Page):
             text3 = text3,
             text4 = text4,
             text5 = text5,
-            charities = charities,
+            # charities = charities,
+            local_red_cross = local_red_cross,
+            image_red_cross_local = image_red_cross_local,
             current_country=current_country,
         )
 
@@ -170,7 +183,7 @@ class DescriptiveNormPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
-        current_country = "Switzerland" # Plug in correct country
+        current_country = player.participant.current_country
 
         total_endowment = 4
         receiver_endowment = 0
@@ -217,10 +230,11 @@ class ConditionalCoopPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
-        charities = ["Unicef", "Red Cross", "Doctors Without Borders", "Save the Children", "other"]
-
-        current_country = "Switzerland" # Plug in correct country
+        current_country = player.participant.current_country
         # current_country = C.CURRENT_COUNTRYNAME
+
+        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_country)
+        print("current_country, local_red_cross", current_country, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0
@@ -274,7 +288,8 @@ class ConditionalCoopPage(Page):
             text4 = text4,
             text5 = text5,
             text6 = text6,
-            charities = charities,
+            local_red_cross=local_red_cross,
+            image_red_cross_local=image_red_cross_local,
             current_country=current_country,
         )
 
