@@ -35,6 +35,14 @@ dict(
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
     ),
+dict(
+        name='pref_2PP_3PP',
+        display_name="Preference for 2PP versus 3PP",
+        app_sequence=['pref_2PP_3PP'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -48,7 +56,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['dictator_country', 'receiver_country', 'progress', 'treatment_incentive', 'treatment_cond_coop']
+PARTICIPANT_FIELDS = ['current_country', 'dictator_country', 'receiver_country', 'progress', 'treatment_incentive', 'treatment_cond_coop']
 SESSION_FIELDS = []
 
 # ISO-639 code
