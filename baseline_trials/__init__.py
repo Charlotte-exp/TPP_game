@@ -266,7 +266,7 @@ def creating_session(subsession):
             #
             # print('set incentive treatment to', participant.treatment_incentive)
 
-    breakpoint()
+    #breakpoint()
 
     for player in subsession.get_players():
         #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
