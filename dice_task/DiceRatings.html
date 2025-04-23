@@ -1,6 +1,7 @@
 {{ block title }}
 
-Dice task
+<p style="text-align: center; font-size: 26px; "> Dice task </p>
+
 
 {{ endblock }}
 
@@ -13,15 +14,39 @@ Dice task
 
     <style>
 
-        dice-container {
+        body {
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+        .responsive-div {
+            width: 90%; /* Default width */
+            transform-origin: top left; /* Ensure scaling starts from top-left */
+            transform: scale(1); /* Default scale */
+            transition: transform 0.3s ease; /* Smooth scaling */
+            border:0px solid black;
+            margin-left:auto;
+            margin-right:auto;
+        }
+
+        .dice-container {
+            justify-content: center;
+            align-items: center;
+            margin-left:auto;
+            margin-right:auto;
+            text-align:center;
+            border:0px solid black;
+            position:relative;
         }
 
         .column {
-          float: left;
-          width: 50%;
-          padding: 10px;
+            float: left;
+            width: 50%;
+            padding: 10px;
+            text-align: center;
         }
 
         /* Clear floats after the columns */
@@ -36,7 +61,7 @@ Dice task
             height: 100px;
             background-color: white;
             border: 2px solid black;
-            display: grid;
+            display: inline-grid; /* this matters so the dice are centered */
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
             padding: 10px;
@@ -236,32 +261,40 @@ Dice task
         /////////  Slider /////////
 
         document.addEventListener("DOMContentLoaded", function () {
-        let slider = document.getElementById("slider1");
-        let output = document.getElementById("output1");
-        let checkSlider = document.getElementById("check_slider1");
-        let errorMessage = document.getElementById("error-message");
+            const sliders = [
+                { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+                { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+            ];
 
-        // Ensure the slider starts without a selected value
-        slider.value = "";
-        output.textContent = "";
-        checkSlider.value = "0"; // Not moved yet
-        slider.classList.add("hidden-thumb");
+            sliders.forEach(({ sliderId, outputId, checkId }) => {
+                const slider = document.getElementById(sliderId);
+                const output = document.getElementById(outputId);
+                const checkSlider = document.getElementById(checkId);
 
-        slider.addEventListener("input", function () {
-            output.textContent = this.value;
-            checkSlider.value = "1"; // Mark as moved
-            this.classList.remove("hidden-thumb"); // Show thumb when moved
-            errorMessage.style.display = "none"; // Hide error when moved
+                slider.value = "";
+                output.textContent = "";
+                checkSlider.value = "0"; // Not moved yet
+                slider.classList.add("hidden-thumb");
+
+                slider.addEventListener("input", function () {
+                    output.textContent = this.value;
+                    checkSlider.value = "1"; // Mark as moved
+                    this.classList.remove("hidden-thumb");
+                    document.getElementById("error-message").style.display = "none";
+
+                    console.log(`${this.id} moved to ${this.value}`);
+                });
+            });
+
+            // Validate all sliders before form submission
+            document.querySelector("form").addEventListener("submit", function (event) {
+                const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+                if (!allMoved) {
+                    event.preventDefault();
+                    document.getElementById("error-message").style.display = "block";
+                }
+            });
         });
-
-        // Validate before submission
-        document.querySelector("form").addEventListener("submit", function (event) {
-            if (checkSlider.value === "0") { // If slider not moved
-                event.preventDefault(); // Stop submission
-                errorMessage.style.display = "block"; // Show error message
-            }
-        });
-    });
 
     </script>
 
@@ -279,98 +312,107 @@ Dice task
         As such, they could lie and report a different number than that on the dice they threw.
     </p>
     <p>
-        Below is the actual number they drew along with the bonus they reported and were paid:
+        Below is the actual number they drew (die thrown) along with the bonus they reported and were paid (die reported):
     </p>
 
-    <br>
-    <div class="row">
-        <div class="column">
-            <div class="dice" id="dice1">
-                <div class="dot" id="dice1-1"></div>
-                <div class="dot" id="dice1-2"></div>
-                <div class="dot" id="dice1-3"></div>
-                <div class="dot" id="dice1-4"></div>
-                <div class="dot" id="dice1-5"></div>
-                <div class="dot" id="dice1-6"></div>
-                <div class="dot" id="dice1-7"></div>
-                <div class="dot" id="dice1-8"></div>
-                <div class="dot" id="dice1-9"></div>
+
+    <div class='responsive-div'>
+    <div class='dice-container'>
+        <br>
+        <div class="row">
+            <div class="column">
+                <div class="dice" id="dice1">
+                    <div class="dot" id="dice1-1"></div>
+                    <div class="dot" id="dice1-2"></div>
+                    <div class="dot" id="dice1-3"></div>
+                    <div class="dot" id="dice1-4"></div>
+                    <div class="dot" id="dice1-5"></div>
+                    <div class="dot" id="dice1-6"></div>
+                    <div class="dot" id="dice1-7"></div>
+                    <div class="dot" id="dice1-8"></div>
+                    <div class="dot" id="dice1-9"></div>
+                </div>
+                <div>
+                    Die thrown
+                </div>
             </div>
-            <div>
-                Original: {{ original_dice }}
+
+            <div class="column">
+                <div class="dice" id="dice2">
+                    <div class="dot" id="dice2-1"></div>
+                    <div class="dot" id="dice2-2"></div>
+                    <div class="dot" id="dice2-3"></div>
+                    <div class="dot" id="dice2-4"></div>
+                    <div class="dot" id="dice2-5"></div>
+                    <div class="dot" id="dice2-6"></div>
+                    <div class="dot" id="dice2-7"></div>
+                    <div class="dot" id="dice2-8"></div>
+                    <div class="dot" id="dice2-9"></div>
+                </div>
+                <div>
+                    Die reported
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="column">
-            <div class="dice" id="dice2">
-                <div class="dot" id="dice2-1"></div>
-                <div class="dot" id="dice2-2"></div>
-                <div class="dot" id="dice2-3"></div>
-                <div class="dot" id="dice2-4"></div>
-                <div class="dot" id="dice2-5"></div>
-                <div class="dot" id="dice2-6"></div>
-                <div class="dot" id="dice2-7"></div>
-                <div class="dot" id="dice2-8"></div>
-                <div class="dot" id="dice2-9"></div>
-            </div>
-            <div>
-                Reported: {{ reported_dice }}
-            </div>
+        <br>
+        <p style="text-align: center;">
+            <strong>How trustworthy do you think this person is?</strong>
+        </p>
+        <!-- Slider 1-->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="margin-top: -15px;">
+                Not trustworthy at all
+            </span>
+            <!-- Slider is placed between the two spans -->
+            <span style="flex-grow: 1; margin: 0 10px;">
+                <input type="hidden" name="slider1_moved" value="0" id="check_slider1" />
+                <input type="range" name="trustworthiness" id="slider1" min="0" max="100" value="" class="hidden-thumb">
+            </span>
+
+            <span style="margin-top: -15px;">
+                Very trustworthy
+            </span>
+        </div>
+
+        <div style="text-align: center;">
+            <span style="color: #f4f4f4">
+                <output id="output1"></output>
+            </span>
+        </div>
+
+        <br>
+        <p style="text-align: center;">
+            <strong>How much do you want to send to the other player?</strong>
+        </p>
+        <!-- Slider 2-->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="margin-top: -15px;">
+                Nothing (0pts)
+            </span>
+            <!-- Slider is placed between the two spans -->
+            <span style="flex-grow: 1; margin: 0 10px;">
+                <input type="hidden" name="slider2_moved" value="0" id="check_slider2" />
+                <input type="range" name="trust_points" id="slider2" min="0" max="100" value="" class="hidden-thumb">
+            </span>
+
+            <span style="margin-top: -15px;">
+                Everything (100pts)
+            </span>
+        </div>
+
+        <div style="text-align: center;">
+            <span style="color: #0d6efd">
+                <output id="output2"></output>
+            </span>
         </div>
     </div>
 
-    <br>
-    <h5 style="color: #0d6efd">
-        How trustworthy do you think this person is?
-    </h5>
+        <div style="display: flex; justify-content: flex-end">
+            <button class="btn btn-primary">Next</button>
+        </div>
 
-    <br>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="margin-top: -15px;">
-            <b>Not trustworthy at all</b>
-        </span>
-
-        <!-- Slider is placed between the two spans -->
-        <span style="flex-grow: 1; margin: 0 10px;">
-          <input type="hidden" name="slider_moved" value="0" id="check_slider1" />
-          <input type="range" name="trustworthiness" id="slider1" min="0" max="100" value=""
-            class="hidden-thumb" style="width: 100%; margin-top: 10px;">
-        </span>
-
-        <span style="margin-top: -15px;">
-            <b>Very trustworthy</b>
-        </span>
-    </div>
-
-    <div style="text-align: center;">
-        <span style="color: #FFFFFF">
-            <output id="output1"></output>
-        </span>
-    </div>
-
-    <div style="display: flex; justify-content: flex-end">
-        <button class="btn btn-primary">Next</button>
-    </div>
-
-    <h5 style="color: #0d6efd">
-        How likeable do you think this person is?
-    </h5>
-
-    <h5 style="color: #0d6efd">
-        How much would you be willing to pay to play a trust game with that person?
-    </h5>
-
-    <h5 style="color: #0d6efd">
-        How much would you be willing to pay to play a coordination game with that person?
-    </h5>
-
-    <h5 style="color: #0d6efd">
-        How much would you like to be friends with this person?
-    </h5>
-
-    <h5 style="color: #0d6efd">
-        How much would you like this person to do your taxes?
-    </h5>
 
 
 </div>

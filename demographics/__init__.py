@@ -40,7 +40,7 @@ class Player(BasePlayer):
     )
     born_parents = models.StringField(
         choices=['Yes', 'No'],
-        verbose_name='Were you born in this country?',
+        verbose_name='Were your parents born in this country?',
         widget=widgets.RadioSelect
     )
     how_long = models.StringField(
@@ -87,6 +87,7 @@ class Player(BasePlayer):
     ## Self - other circle
     self_other = models.IntegerField()
 
+    ## Comment field
     comment_box = models.LongStringField(
         verbose_name=''
     )
@@ -132,10 +133,13 @@ class Circle(Page):
         participant = player.participant
         #participant.progress += 1
 
+class CommentBox(Page):
+    form_model = 'player'
+    form_fields = ['comment_box']
 
-class ResultsWaitPage(WaitPage):
-    pass
-
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
 
 class Payment(Page):
 
@@ -148,10 +152,21 @@ class Payment(Page):
             'participation_fee': player.session.config['participation_fee'],
         }
 
+class ProlificLink(Page):
+    """
+    This page redirects pp to prolific automatically with a javascript (don't forget to put paste the correct link!).
+    There is a short text, the completion code and the link in case it is not automatic.
+    """
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.round_number == C.NUM_ROUNDS:
+            return True
 
-page_sequence = [Ladder,
+
+page_sequence = [Demographics,
+                 Ladder,
                  Circle,
                  RelationalMobility,
-                 Demographics,
-                 #ResultsWaitPage,
-                 Payment]
+                 CommentBox,
+                 Payment,
+                 ProlificLink]
