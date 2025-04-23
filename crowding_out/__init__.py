@@ -45,6 +45,8 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
     for player in subsession.get_players():
         participant = player.participant
         participant.current_country = "Switzerland"
+        participant.crowding_out_button_pos = random.choice([True, False])
+        print('set crowding_out_button_pos', participant.crowding_out_button_pos)
 
 
 def get_local_red_cross_info(country_name):
@@ -137,6 +139,10 @@ class CrowdingInOutPage(Page):
         receiver_endowment = 0
         incentive = 2
 
+        crowding_out_button_pos = player.participant.crowding_out_button_pos
+
+        print("crowding_out_button_pos", crowding_out_button_pos)
+
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
         print("treatment_incentive", treatment_incentive)
 
@@ -159,6 +165,7 @@ class CrowdingInOutPage(Page):
             crowding_norm_decision1=player.crowding_norm_decision1,
             crowding_norm_decision2=player.crowding_norm_decision2,
             treatment_incentive=treatment_incentive,
+            crowding_out_button_pos = crowding_out_button_pos,
             total_endowment = total_endowment,
             incentive = incentive,
             receiver_endowment = receiver_endowment,
