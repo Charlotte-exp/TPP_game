@@ -12,6 +12,30 @@ SESSION_CONFIGS = [
         oTree_version_used=popen('otree --version').read().strip()
     ),
     dict(
+        name='extras',
+        display_name="All extra tasked",
+        app_sequence=['crowding_out', 'dice_task', 'pref_2PP_3PP', 'rule_following', 'demographics'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
+    dict(
+        name='crowding',
+        display_name="Crowding-out",
+        app_sequence=['crowding_out'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
+    dict(
+        name='pref_2PP_3PP',
+        display_name="Preference for 2PP versus 3PP",
+        app_sequence=['pref_2PP_3PP'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
+    dict(
         name='dice',
         display_name="Dice task",
         app_sequence=['dice_task'],
@@ -22,23 +46,7 @@ SESSION_CONFIGS = [
     dict(
         name='rule',
         display_name="Anti-social rule following",
-        app_sequence=['rule_following', 'demographics'],
-        num_demo_participants=6,
-        use_browser_bots=False,
-        oTree_version_used=popen('otree --version').read().strip()
-    ),
-dict(
-        name='crowding',
-        display_name="Crowding-out",
-        app_sequence=['crowding_out'],
-        num_demo_participants=6,
-        use_browser_bots=False,
-        oTree_version_used=popen('otree --version').read().strip()
-    ),
-dict(
-        name='pref_2PP_3PP',
-        display_name="Preference for 2PP versus 3PP",
-        app_sequence=['pref_2PP_3PP'],
+        app_sequence=['rule_following'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
