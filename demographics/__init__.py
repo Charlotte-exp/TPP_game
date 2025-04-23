@@ -72,16 +72,16 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='How large was the place where grew up?',
-        widget=widgets.RadioSelect
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
     )
     q2 = models.StringField(
         choices=[
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='How large was the place where grew up?',
-        widget=widgets.RadioSelect
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
     )
 
     ## Self - other circle
