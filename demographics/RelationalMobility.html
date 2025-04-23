@@ -16,6 +16,16 @@
             background-color: #f4f4f4;
         }
 
+        .responsive-div {
+            width: 90%; /* Default width */
+            transform-origin: top left; /* Ensure scaling starts from top-left */
+            transform: scale(1); /* Default scale */
+            transition: transform 0.3s ease; /* Smooth scaling */
+            border:0px solid black;
+            margin-left:auto;
+            margin-right:auto;
+        }
+
     </style>
 
 {{ endblock }}
@@ -24,19 +34,40 @@
 
 <div class="card-body">
 
-<!--    <p>-->
-<!--        Please answer the following questions. These are used for demographic purposes only.-->
-<!--        This information will not be associated with your name. You remain anonymous to all the other players and the experimenters.-->
-<!--    </p>-->
+    <p>
+        First, how much do you feel the following statements accurately describe people in the immediate society in which you live
+        (such as your friends and acquaintances, colleagues in your workplace, and people in your neighborhood etc.)?
+        Regarding those people around you, please indicate to what extent you agree or disagree with the following statements.
+    </p>
 
-    {% for field in form %}
-        {% formfield field %}
-    {% endfor %}
+    <p>
+        NOTE: The term "groups" in some items refers to collections of people who know each other or who share the same goals,
+        such as friendship groups, hobby groups, sports teams, and companies.
+    </p>
 
+    <div class="responsive-div">
 
-    <div style="display: flex; justify-content: flex-end">
-        {% next_button %}
+        <br>
+        <p style="text-align: center;">
+            <strong>They (the people around you) have many chances to get to know other people.</strong>
+        </p>
+
+        {{ formfield "q1" }}
+
+        <br>
+        <p style="text-align: center;">
+            <strong>They are able to choose, according to their own preferences,
+                the people whom they interact with in their daily life.</strong>
+        </p>
+
+        {{ formfield "q2" }}
+
     </div>
+
+        <div style="display: flex; justify-content: flex-end">
+            {% next_button %}
+        </div>
+
 
 </div>
 
