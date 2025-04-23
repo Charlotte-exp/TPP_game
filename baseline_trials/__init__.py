@@ -16,7 +16,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 49
+    NUM_ROUNDS = 38
     total_pages = 400 # for progress bar
 
     CURRENT_COUNTRY = 'ch' # CHANGE TO COUNTRY FOR THIS LINK
@@ -43,7 +43,7 @@ class C(BaseConstants):
     TP_cost = 3 # fraction of a full point the third party pays to punish/reward/compensate (here a third)
     norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
     ratings_extra_points = 10 # extra bonus for ratings close to country average
-    attention_check_rounds = [18, 37]
+    attention_check_rounds = [7, 26]
 
     ### Treatments ###
 
@@ -169,7 +169,8 @@ def creating_session(subsession):
             # order_baseline_flat = [item for sublist in order_baseline for item in sublist]  # Flatten the nested lists
             # # Complete randomized list (DG always first)
             # participant.treatment_order_baseline  = trials_DG_current + order_baseline_flat
-            participant.treatment_order_baseline = trials_DG_current + trials_2PP_current + trials_3PP_current + trials_3PR_current + trials_3PC_current
+            participant.treatment_order_baseline = trials_DG_current + trials_2PP_current + trials_3PP_current
+            #participant.treatment_order_baseline = trials_DG_current + trials_2PP_current + trials_3PP_current + trials_3PR_current + trials_3PC_current
 
             ## 2) Ingroup - outgroup trials
 
@@ -192,7 +193,8 @@ def creating_session(subsession):
             # order_INOUT = random.sample(
             #     [trials_3PP_INOUT_current, trials_3PC_INOUT_current], 2)
             # order_INOUT_flat = [item for sublist in order_INOUT for item in sublist]  # Flatten the nested lists
-            participant.treatment_order_INOUT = order_INOUT_flat
+            participant.treatment_order_INOUT = trials_3PP_INOUT_current
+            #participant.treatment_order_INOUT = order_INOUT_flat
 
 
             ## 3) Country partners
@@ -249,12 +251,13 @@ def creating_session(subsession):
             ## 5) Put instruction round and comprehension questions
             # Instructions before trials from new treatment type
             participant.instruction_round = [trials_DG_current[0], trials_3PP_current[0], trials_2PP_current[0],
-                                             trials_3PR_current[0], trials_3PC_current[0],
-                                             trials_3PP_INOUT_current[0], trials_3PC_INOUT_current[0],
+                                             #trials_3PR_current[0], trials_3PC_current[0],
+                                             trials_3PP_INOUT_current[0], #trials_3PC_INOUT_current[0],
                                              participant.treatment_order[len(participant.treatment_order_baseline + participant.treatment_order_INOUT)]]
             # Comprehension questions before first punishment trial (either 2PP or 3PP), reward and comp/punish trial
             round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
-            participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
+            participant.comprehension = [round_2PP_or_3PP]
+            #participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
             print('set instruction_round to', participant.instruction_round)
             print('set comprehension to', participant.comprehension)
 
@@ -1003,5 +1006,4 @@ page_sequence = [Consent,
                  DictatorPage,
                  TPPage,
                  UniversalNormPage,
-                 ThanksPage
                  ]

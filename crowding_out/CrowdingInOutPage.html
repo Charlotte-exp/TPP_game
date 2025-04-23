@@ -785,12 +785,25 @@
         </p>
 
 
+        {% if crowding_out_button_pos %}
+
         <div class='numbers' >
             <div class="number-row"  data-input="selected-number-1">
                 <div class="number" data-value="0" >Give 0 points to charity</div>
                 <div class="number" data-value="4" >Give 4 points to charity</div>
             </div>
         </div>
+
+        {% else %}
+
+        <div class='numbers' >
+            <div class="number-row"  data-input="selected-number-1">
+                <div class="number" data-value="4" >Give 4 points to charity</div>
+                <div class="number" data-value="0" >Give 0 points to charity</div>
+            </div>
+        </div>
+
+        {% endif %}
 
         <br>
         <hr>

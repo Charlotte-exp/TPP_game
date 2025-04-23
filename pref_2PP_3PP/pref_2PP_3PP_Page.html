@@ -33,29 +33,18 @@
 
         const $imageContainer = $('.image-container');
 
+        let lastClickedValue = null; // Store the last clicked value
+
         // add hover event listener to numbers
-            $('.number').hover(function () {
-                const value = $(this).data('value'); // Get the number value
-
-                // Update the image border color
-                $imageContainer.find('.T2PP-img').removeClass('selected');
-                $imageContainer.find('.T3PP-img').removeClass('selected');
-
-                // 2. Determine which image to select based on the value (EXAMPLE LOGIC)
-                if (!isNaN(value)) { // Check if value is a valid number
-                    if (value == 0) { // If 2PP
-                        $imageContainer.find('.T2PP-img').addClass('selected');
-                        console.log('Selected T2PP-img');
-                    } else if (value == 1) { // Example: Values 3, 4, 5 select the second image
-                        $imageContainer.find('.T3PP-img').addClass('selected');
-                        console.log('Selected T3PP-img');
-                    } else {
-                        // Do nothing
-                    }
-                    // Add more conditions if needed, or handle cases where no image should be selected
-                }
-
-            });
+        $('.number').hover(
+            function () {
+                const value = $(this).data('value');
+                updateImageBorder(value); // Preview new selection on hover
+            },
+            function () {
+                updateImageBorder(lastClickedValue); // Revert to last clicked selection
+            }
+        );
 
         //Actions on click
         $('.number').on('click', function () {
@@ -67,13 +56,9 @@
 
             // Get the value of the clicked button
             const value = $(this).data('value');
+            lastClickedValue = value;
 
-            // // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
-            // $(".number").each(function () {
-            //     if (parseInt($(this).attr("data-value")) <= value) {
-            //         $(this).addClass("selected");
-            //     }
-            // });
+            console.log(`Clicked number`, value);
 
             // Update the hidden input field
             $(`#selected-number-1`).val(value);
@@ -85,23 +70,7 @@
             $('#selected-number-display').text('' + value);
             $(this).addClass('selected');
 
-            // Update the image border color
-            $imageContainer.find('.T2PP-img').removeClass('selected');
-            $imageContainer.find('.T3PP-img').removeClass('selected');
-
-            // 2. Determine which image to select based on the value (EXAMPLE LOGIC)
-            if (!isNaN(value)) { // Check if value is a valid number
-                if (value == 0) { // If 2PP
-                    $imageContainer.find('.T2PP-img').addClass('selected');
-                    console.log('Selected T2PP-img');
-                } else if (value == 1) { // Example: Values 3, 4, 5 select the second image
-                    $imageContainer.find('.T3PP-img').addClass('selected');
-                    console.log('Selected T3PP-img');
-                } else {
-                    // Do nothing
-                }
-                // Add more conditions if needed, or handle cases where no image should be selected
-            }
+            updateImageBorder(lastClickedValue);
 
             // Debugging
             console.log(`Updated norm decision`, value);
@@ -113,7 +82,19 @@
             $('form').submit();
         });
 
+        // Function to update which image is "selected"
+        function updateImageBorder(value) {
+            $imageContainer.find('.T2PP-img').removeClass('selected');
+            $imageContainer.find('.T3PP-img').removeClass('selected');
 
+            if (!isNaN(value)) {
+                if (value == 0) {
+                    $imageContainer.find('.T2PP-img').addClass('selected');
+                } else if (value == 1) {
+                    $imageContainer.find('.T3PP-img').addClass('selected');
+                }
+            }
+        }
 
 
     });
@@ -450,17 +431,17 @@
     height: auto;
 }
 
-.T2PP-img:hover {
-    border-color: #ffcc00; /* Change background color on hover */
-    }
+/*.T2PP-img:hover {*/
+/*    border-color: #ffcc00; !* Change background color on hover *!*/
+/*    }*/
 
 .T2PP-img.selected {
     border-color: #ffa500; /* Permanent color when clicked */
 }
 
-T3PP-img:hover {
-    border-color: #ffcc00; /* Change background color on hover */
-    }
+/*T3PP-img:hover {*/
+/*    border-color: #ffcc00; !* Change background color on hover *!*/
+/*    }*/
 
 .T3PP-img.selected {
     border-color: #ffa500; /* Permanent color when clicked */
@@ -544,64 +525,11 @@ T3PP-img:hover {
     <!-- Add hidden input to store the selected value -->
     <input type="hidden" name="pref_2PP_3PP" id="selected-number-1">
 
-<!--        {{ formfield_errors 'pref_2PP_3PP' }}-->
+        {{ formfield_errors 'pref_2PP_3PP' }}
 
     <div class='responsive-div'>
 
-<!--        <div class="short-container">-->
-
-
-
-
-<!--            <div class="image-container">-->
-
-<!--                <img id="T2PP-image"-->
-<!--                     src="{% static image2PP %}"-->
-<!--                     alt="Coins"-->
-<!--                     class="T2PP-img" />-->
-
-<!--                <p class="or-text"><u>OR</u></p>-->
-
-<!--                <img id="T3PP-image"-->
-<!--                     src="{% static image3PP %}"-->
-<!--                     alt="Coins"-->
-<!--                     class="T3PP-img" />-->
-
-<!--            </div>-->
-
-<!--            <div class="extras-container">-->
-<!--                <p><b class="label-a">PERSON A</b></p>-->
-<!--                <p><b class="label-b">PERSON B</b></p>-->
-<!--                <p><b class="label-c">PERSON C</b></p>-->
-<!--            </div>-->
-
-<!--            <div class="image-container">-->
-<!--                <div class="image-box">-->
-<!--                    <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />-->
-<!--                    <p>-->
-<!--                        <b style="position: absolute; top: 55%; left:-10%;">PERSON A</b>-->
-<!--                    </p>-->
-<!--                    <p>-->
-<!--                        <b style="position: absolute; top: 55%; left:10%;">PERSON B</b>-->
-<!--                    </p>-->
-<!--                </div>-->
-
-<!--                <p class="or-label"><u>OR</u></p>-->
-
-<!--                <div class="image-box">-->
-<!--                    <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />-->
-<!--                    <p>-->
-<!--                        <b style="position: absolute; top: 85%; left:50%;">PERSON C</b>-->
-<!--                    </p>-->
-<!--                    <p>-->
-<!--                        <b style="position: absolute; top: 85%; left:70%;">PERSON D</b>-->
-<!--                    </p>-->
-<!--                    <p>-->
-<!--                        <b style="position: absolute; top: 35%; left:60%;">PERSON E</b>-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-
+        {% if pref_2PP_3PP_button_pos %}
 
              <div class="image-container">
                 <div class="image-box">
@@ -619,25 +547,60 @@ T3PP-img:hover {
                     <b class="label label-person-d">PERSON B</b>
                     <b class="label label-person-e">PERSON C</b>
                 </div>
+             </div>
+
+            <br>
+
+
+            <p style="text-align: center; ">
+                {{ text1|safe }}
+            </p>
+
+
+            <div class='numbers' >
+                <div class="number-row"  data-input="selected-number-1">
+                    <div class="number" data-value="0" > {{ text2PP|safe }}</div>
+                    <div class="number" data-value="1" > {{ text3PP|safe }}</div>
+                </div>
+            </div>
+
+        {% else %}
+
+        <div class="image-container">
+                <div class="image-box">
+                    <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
+                    <!-- Removed unnecessary <p> tags -->
+                    <b class="label label-person-c">PERSON A</b>
+                    <b class="label label-person-d">PERSON B</b>
+                    <b class="label label-person-e">PERSON C</b>
+                </div>
+
+                <p class="or-label"><u>OR</u></p>
+
+                <div class="image-box">
+                    <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
+                    <b class="label label-person-a">PERSON A</b>
+                    <b class="label label-person-b">PERSON B</b>
+                </div>
+             </div>
+
+            <br>
+
+
+            <p style="text-align: center; ">
+                {{ text1|safe }}
+            </p>
+
+
+            <div class='numbers' >
+                <div class="number-row"  data-input="selected-number-1">
+                    <div class="number" data-value="1" > {{ text3PP|safe }}</div>
+                    <div class="number" data-value="0" > {{ text2PP|safe }}</div>
+                </div>
             </div>
 
 
-<!--        </div>-->
-
-        <br>
-
-
-        <p style="text-align: center; ">
-            {{ text1|safe }}
-        </p>
-
-
-        <div class='numbers' >
-            <div class="number-row"  data-input="selected-number-1">
-                <div class="number" data-value="0" > {{ text2|safe }}</div>
-                <div class="number" data-value="1" > {{ text3|safe }}</div>
-            </div>
-        </div>
+        {% endif %}
 
         <br>
         <hr>

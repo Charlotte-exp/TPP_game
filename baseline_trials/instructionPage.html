@@ -10,19 +10,19 @@
 
 <p style="text-align: center; font-size: 26px;  ">
     Instructions:
-    {% if "0DG" in player.treatment and player.round_number < 14 %}
+    {% if "0DG" in player.treatment and player.round_number < 9 %}
         Part 1
     {% endif %}
-    {% if "2PP" in player.treatment and player.round_number < 14%}
+    {% if "2PP" in player.treatment and player.round_number < 9%}
         Part 2
     {% endif %}
-    {% if "3PP" in player.treatment and player.round_number < 14%}
+    {% if "3PP" in player.treatment and player.round_number < 9%}
         Part 3
     {% endif %}
-    {% if "3PR" in player.treatment and player.round_number < 14%}
+    {% if "3PR" in player.treatment and player.round_number < 9%}
         Part 4
     {% endif %}
-    {% if "3PC" in player.treatment and player.round_number < 14%}
+    {% if "3PC" in player.treatment and player.round_number < 9%}
         Part 5
     {% endif %}
     {% if "3PC" in player.treatment %}
@@ -32,11 +32,11 @@
     {% endif %}
     {% if "3PP" in player.treatment  %}
         {% if "IN" in player.treatment or "OUT" in player.treatment %}
-            Part 7
+            Part 4
         {% endif %}
     {% endif %}
     {% if "3PP country" in player.treatment %}
-        Part 8
+        Part 5
     {% endif %}
 </p>
 
@@ -73,7 +73,7 @@
     let lastClickedValue = 0;
 
     /// TP has some additional code here:
-    if (current_treatment_short.includes("2PP") || current_treatment_short.includes("3PP") || current_treatment_short.includes("3PR") || current_treatment_short.includes("3PC") && current_round_number < 14){
+    if (current_treatment_short.includes("2PP") || current_treatment_short.includes("3PP") || current_treatment_short.includes("3PR") || current_treatment_short.includes("3PC") && current_round_number < 9){
 
         // Function to update the coin stack (TP_decisions only)
         function updateCoinStackTP(count, row) {
@@ -247,19 +247,19 @@
             coins =  "{{ random_trial_numbers.0 }}"
             coins_diff = "{{ random_trial_numbers_diff.0 }}"
         }
-        else if (current_treatment_short.includes("2PP") && current_round_number < 14){
+        else if (current_treatment_short.includes("2PP") && current_round_number < 9){
             coins =  "{{ random_trial_numbers.1 }}"
             coins_diff = "{{ random_trial_numbers_diff.1 }}"
         }
-        else if (current_treatment_short.includes("3PP") && current_round_number < 14){
+        else if (current_treatment_short.includes("3PP") && current_round_number < 9){
             coins =  "{{ random_trial_numbers.2 }}"
             coins_diff = "{{ random_trial_numbers_diff.2 }}"
         }
-        else if (current_treatment_short.includes("3PR") && current_round_number < 14){
+        else if (current_treatment_short.includes("3PR") && current_round_number < 9){
             coins =  "{{ random_trial_numbers.3 }}"
             coins_diff = "{{ random_trial_numbers_diff.3 }}"
         }
-        else if (current_treatment_short.includes("3PC") && current_round_number < 14){
+        else if (current_treatment_short.includes("3PC") && current_round_number < 9){
             coins =  "{{ random_trial_numbers.4 }}"
             coins_diff = "{{ random_trial_numbers_diff.4 }}"
         }
@@ -1339,7 +1339,7 @@
     {{ endif }}
 
 
-    {{ if treatment_type == '3PP' and player.round_number < 14 }}
+    {{ if treatment_type == '3PP' and player.round_number < 9 }}
 
 <!--        {{ if first_block_2PP_true == True and player.round_number == 6 }}-->
 <!--            <p>In the next part, you will be joined by a <strong>third person: Person C. Person C</strong> will decide whether to change the points of Person A or Person B. The possible choices of Person C will be explained below. Person B will again not be able to make a decision.</p>-->
@@ -1496,7 +1496,7 @@
     {{ endif }}
 
 
-    {{ if treatment_type == '3PR' and player.round_number < 14 }}
+    {{ if treatment_type == '3PR' and player.round_number < 9 }}
 
         <div class="figure-container">
 
@@ -1531,7 +1531,7 @@
     {{ endif }}
 
 
-    {{ if treatment_type == '3PC' and player.round_number < 14 }}
+    {{ if treatment_type == '3PC' and player.round_number < 9 }}
 
         <div class="figure-container">
 
@@ -1593,8 +1593,8 @@
         <br><br>
         <div class="figure-container">
 
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
+            <img src="" style='width:12vw; position:absolute; z-index: -1; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
+            <img src="" style='width:12vw; position:absolute; z-index: -1; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
 
             <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
             <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
@@ -1640,11 +1640,55 @@
 
     {{ if block2 == True and treatment_type == '3PP' }}
 
+<!--        <br><br>-->
+<!--        <div class="figure-container">-->
+
+<!--            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>-->
+<!--            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>-->
+
+<!--            <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>-->
+<!--            <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>-->
+
+<!--            <img src="/static/global/treatments/3PP punish.png" style="width:27vw; top:0vw">-->
+
+<!--            <div class="person-a" style="top:29%">-->
+<!--                <b>PERSON A</b>-->
+<!--            </div>-->
+<!--            <div class="person-b" style="top:29%">-->
+<!--                <b>PERSON B</b>-->
+<!--            </div>-->
+<!--            <div class="person-c">-->
+<!--                <b>PERSON C</b>-->
+<!--            </div>-->
+
+<!--            <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">-->
+
+<!--        </div>-->
+
+        <p style="color: red; text-align: center; ">
+            <b>Now there is one change.</b>
+        </p>
+
+        <p>
+            You will know if Person A and Person B <b style="color: red; ">also live in {{current_country}}</b>
+            or in <b style="color: red; ">one of {{C.NUM_COUNTRIES}} countries</b>
+            around the globe which also participate in this study:</p>
+
+        <p>
+            <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece,
+            Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco,
+            Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore,
+            South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, United Arab Emirates, United States,
+            Uruguay, Venezuela, Vietnam </i>
+        </p>
+
+        <p>Here is an example:</p>
+
         <br><br>
         <div class="figure-container">
 
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
+            <img src="" style='width:12vw; position:absolute; z-index: -1; top: -25%; left:calc(50% + 9vw)' class='dictatorCountry'>
+            <img src="" style='width:12vw; position:absolute; z-index: -1; top: -25%; left:calc(50% - 21vw)' class='receiverCountry'>
 
             <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='dictatorCountryMap'>
             <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='receiverCountryMap'>
@@ -1663,18 +1707,28 @@
 
             <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
 
+<!--                <span class='coinstackD-static' ></span>-->
+<!--                <div class="coin-count-labelD-static2"-->
+<!--                     style="top: 33%; "></div>-->
         </div>
 
-        <p style="color: red; text-align: center; ">
-            <b>Now there is one change.</b>
+        <p>
+            In this example, Person A lives in <b>{{dic_identity_country}}</b>
+            and Person B lives in <b>{{recip_identity_country}}</b>.
         </p>
-
-        <br>
 
         <p>
-            Person C is <u>not</u> able to give points to Person B anymore. Instead, <b>Person C</b> is able to <b style="color: red; ">remove points</b>
-            from Person A.
+            You will not see where Person C lives.
         </p>
+
+        <p>
+            <b>Person C</b> is <u>still able</u> to <b>remove points</b> from Person A.
+        </p>
+
+<!--        <p>-->
+<!--            Person C is <u>not</u> able to give points to Person B anymore. Instead, <b>Person C</b> is able to <b style="color: red; ">remove points</b>-->
+<!--            from Person A.-->
+<!--        </p>-->
 
     {{ endif }}
 
@@ -1690,8 +1744,8 @@
         <br><br>
         <div class="figure-container">
 
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% + 9vw)' class='receiverCountry'>
-            <img src="" style='width:12vw; position:absolute; top: -25%; left:calc(50% - 21vw)' class='dictatorCountry'>
+            <img src="" style='width:12vw; position:absolute; z-index: -1; top: -25%; left:calc(50% + 9vw)' class='receiverCountry'>
+            <img src="" style='width:12vw; position:absolute; z-index: -1; top: -25%; left:calc(50% - 21vw)' class='dictatorCountry'>
 
             <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% + 13vw)' class='receiverCountryMap'>
             <img src="" style='width:10vw; position:absolute; top:3.8vw; left:calc(50% - 23.5vw)' class='dictatorCountryMap'>
