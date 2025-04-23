@@ -1,0 +1,36 @@
+{{ block title }}
+
+    <p style="text-align: center; font-size: 26px; "> Leave a comment! </p>
+
+{{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="card-body">
+    This study is new, and we are still piloting it. As such, we really appreciate feedback.
+    If you have any comments on the implementation of the study, the clarity of the task, or on the user interface, please write it down below.
+
+    {{ formfield player.comment_box label='' }}
+</div>
+
+    <div style="display: flex; justify-content: flex-end">
+        {{ next_button }}
+    </div>
+
+{{ endblock }}

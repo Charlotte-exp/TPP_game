@@ -31,6 +31,10 @@ class Player(BasePlayer):
         min=0, max=100
     )
 
+    trust_points = models.IntegerField(
+        min=0, max=100
+    )
+
     def dice_roll(player):
         """
         Pairs of original and reported dice from the prolific pilot.
@@ -47,15 +51,26 @@ class Player(BasePlayer):
 
 
 ############  PAGES  #############
-class DiceRatings(Page):
-    form_model = "player"
-    form_fields = ["trustworthiness"]
+
+class Filler(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
 
         return dict(
             dice_roll=player.dice_roll(),
+        )
+
+
+class DiceRatings(Page):
+    form_model = "player"
+    form_fields = ["trustworthiness", "trust_points"]
+
+    @staticmethod
+    def vars_for_template(player: Player):
+
+        return dict(
+            #dice_roll=player.dice_roll(),
             original_dice=player.original_dice,
             reported_dice=player.reported_dice,
         )
@@ -65,6 +80,5 @@ class Results(Page):
     pass
 
 
-page_sequence = [DiceRatings,
-                 # Results
-                 ]
+page_sequence = [Filler,
+                 DiceRatings]

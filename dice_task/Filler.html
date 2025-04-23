@@ -1,0 +1,35 @@
+{{ block title }}
+
+    <p style="text-align: center; font-size: 26px; "> In between pages </p>
+
+{{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
+{{ block content }}
+
+  <p>
+    This task is now over. When you press next, you will start the next short task.
+  </p>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button class="btn btn-primary">Next</button>
+    </div>
+
+{{ endblock }}
+
+

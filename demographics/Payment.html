@@ -1,8 +1,25 @@
 {{ block title }}
 
-Thank you!
+    <p style="text-align: center; font-size: 26px; "> Thank you! </p>
 
 {{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
 {{ block content }}
 
     <p>
@@ -29,7 +46,7 @@ Thank you!
             </div>
     </div>
 
-    <div class="panel panel-default" style="margin-bottom:10px">
+    <!---div class="panel panel-default" style="margin-bottom:10px">
         <div class="panel-body">
             <p><b>Toluna</b></p>
             <p>
@@ -37,7 +54,7 @@ Thank you!
                 we should ask Toluna what to put at the end</em>
             </p>
         </div>
-    </div>
+    </---div>
 
 
 
