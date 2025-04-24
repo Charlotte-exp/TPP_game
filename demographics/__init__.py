@@ -27,25 +27,21 @@ class Player(BasePlayer):
         verbose_name='What is your age?',
         min=0, max=100
     )
-
     gender = models.StringField(
-        choices=['Female', 'Male', 'Other'],
+        choices=['Female', 'Male', 'Other', 'Prefer not to say'],
         verbose_name='What gender do you identify as?',
         widget=widgets.RadioSelect
     )
     born = models.StringField(
         choices=['Yes', 'No'],
-        verbose_name='Were you born in this country?',
         widget=widgets.RadioSelect
     )
-    born_parents = models.StringField(
+    born_mother = models.StringField(
         choices=['Yes', 'No'],
-        verbose_name='Were your parents born in this country?',
         widget=widgets.RadioSelect
     )
-    how_long = models.StringField(
-        choices=['less than 1 year', '1-5 years', '5-10 years', 'more than 10 years'],
-        verbose_name='How long have you lived in this country?',
+    born_father = models.StringField(
+        choices=['Yes', 'No'],
         widget=widgets.RadioSelect
     )
     income_ladder = models.IntegerField(
@@ -54,15 +50,17 @@ class Player(BasePlayer):
         label="Where would you place yourself on this ladder?"
     )
     education = models.StringField(
-        choices=['No formal education', 'Compulsory school', 'Post-secondary education',
-                 'Undergraduate degree', 'Postgraduate degree', 'Prefer not to say'],
+        choices=['No formal education/Early childhood education', 'Primary education (ages 5–12)',
+                 'Lower secondary education (ages ~12–15)', 'Upper secondary education (ages ~15–18)',
+                 'Post-secondary non-tertiary education (e.g., vocational training, certificates)',
+                 'Short-cycle tertiary education (e.g., associate degree, advanced diploma)', 'Bachelor’s degree or equivalent',
+                 'Master’s degree or equivalent', 'Doctoral degree (PhD) or equivalent'],
         verbose_name='What is the highest level of education you have completed?',
         widget=widgets.RadioSelect
     )
     rural = models.StringField(
-        choices=["less than 10.000 inhabitants", 'between 10.000 and 250.000 inhabitants',
-                 'between 250.000 and 1 million inhabitants', 'More than 1 million inhabitants'],
-        verbose_name='How large was the place where grew up?',
+        choices=["A rural area or village", 'Small or medium-sized town', 'Large town/city'],
+        verbose_name='Would you say you live in...?',
         widget=widgets.RadioSelect
     )
 
@@ -97,7 +95,17 @@ class Player(BasePlayer):
 
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['age', 'gender','born','born_parents','how_long', 'education', 'rural']
+    form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        current_country = 'Switzerland'
+        #participant = player.participant
+        return {
+            'born_question': f"Were you born in {current_country}?",
+            'born_mother_question': f"Was your mother born in {current_country}?",
+            'born_father_question': f"Was your father born in {current_country}?",
+        }
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
