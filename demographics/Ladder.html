@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Income ladder </p>
+    <p style="text-align: center; font-size: 26px; "> Social ladder </p>
 
 {{ endblock }}
 
@@ -25,13 +25,12 @@
 <div class="card-body">
 
     <p>
-        Imagine this ladder represents the income distribution in your country.
-        The top represents the people who have a high income/are better off,
-        and the bottom represents those who have a low income/are worst off.
+        Imagine this 10 steps ladder represents the socio-economic distribution in your country.
+        At the top of the ladder are the people who are the best off, those who have the most money, most education, and best jobs.
+        At the bottom are the people who are the worst off, those who have the least money, least education, worst jobs, or no job.
+        Please click on the rung that best represents where you think you stand on the ladder.
     </p>
-    <p style="text-align: center;">
-        <strong>Where would you be, based on your household income, on that ladder?</strong>
-    </p>
+
 
     <div id="ladder-container">
         {% for i in ladder_values %}

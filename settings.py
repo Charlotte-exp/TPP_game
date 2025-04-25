@@ -51,6 +51,22 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
     ),
+    dict(
+        name='narratives',
+        display_name="Free rider narratives",
+        app_sequence=['free_rider'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
+    dict(
+        name='demographics',
+        display_name="demographics only",
+        app_sequence=['demographics'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -64,7 +80,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['current_country', 'dictator_country', 'receiver_country', 'progress', 'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
+PARTICIPANT_FIELDS = ['current_country', 'dictator_country', 'receiver_country', 'progress',
+                      'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
 SESSION_FIELDS = []
 
 # ISO-639 code

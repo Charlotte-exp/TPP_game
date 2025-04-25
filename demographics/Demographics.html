@@ -22,6 +22,12 @@
 
 {{ block content }}
 
+    <style>
+        label[for="id_born"] {
+            display: none;
+        }
+    </style>
+
 
 <div class="card-body">
 
@@ -30,9 +36,23 @@
 <!--        This information will not be associated with your name. You remain anonymous to all the other players and the experimenters.-->
 <!--    </p>-->
 
-    {% for field in form %}
-        {% formfield field %}
-    {% endfor %}
+
+    {{ formfield 'age' }}
+    {{ formfield 'gender' }}
+
+    {{ born_question }}
+    {{ form.born }}
+
+
+    {{ born_mother_question }}
+    {{ form.born_mother }}
+    {{ born_father_question }}
+    {{ form.born_father }}
+
+    {{ formfield 'education' }}
+    {{ formfield 'rural' }}
+
+
 
 
     <div style="display: flex; justify-content: flex-end">
