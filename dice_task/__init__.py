@@ -24,6 +24,11 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
+    label = models.StringField(
+        verbose_name='Please create a username',
+        min=0, max=100
+    )
+
     original_dice = models.IntegerField(initial=0)
     reported_dice = models.IntegerField(initial=0)
 
@@ -50,9 +55,12 @@ class Player(BasePlayer):
                 return player.original_dice, player.reported_dice
 
 
+
 ############  PAGES  #############
 
 class Filler(Page):
+    form_model = "player"
+    form_fields = ["label"]
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -60,6 +68,11 @@ class Filler(Page):
         return dict(
             dice_roll=player.dice_roll(),
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.label = player.label
+        #participant.progress += 1
 
 
 class DiceRatings(Page):
