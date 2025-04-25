@@ -72,7 +72,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['current_country', 'dictator_country', 'receiver_country', 'progress', 'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
+PARTICIPANT_FIELDS = ['current_country', 'dictator_country', 'receiver_country', 'progress',
+                      'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
 SESSION_FIELDS = []
 
 # ISO-639 code

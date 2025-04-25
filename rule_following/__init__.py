@@ -1,5 +1,7 @@
 from otree.api import *
 
+import itertools
+
 
 doc = """
 Your app description
@@ -15,12 +17,21 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+def creating_session(subsession):
+
+    treatments = itertools.cycle(['hurt_me', 'hurt_other'])
+    for p in subsession.get_players():
+        p.rule_following_condition = next(treatments)
+        p.participant.rule_following_condition = p.rule_following_condition
+
 
 class Group(BaseGroup):
     pass
 
 
 class Player(BasePlayer):
+
+    rule_following_condition = models.StringField()
 
     slider1 = models.IntegerField(
         min=0, max=100
@@ -43,6 +54,7 @@ class RuleFollowing(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
+            condition= player.rule_following_condition,
         )
 
 

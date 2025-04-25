@@ -170,6 +170,22 @@
             { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
         ];
 
+        // Update the points lost text
+        let pointsLost = 0;
+        const pointsPerSlider = 2;
+        const slidersOnFifty = new Set();
+        const pointsDisplay = document.getElementById("points-display");
+        const condition = pointsDisplay.dataset.condition;
+
+        function updatePointsDisplay() {
+            const baseText = condition === "hurt_other"
+                ? "Another person loses"
+                : "You lose";
+            pointsDisplay.textContent = `${baseText} ${pointsLost} point${pointsLost !== 1 ? 's' : ''}`;
+        }
+        updatePointsDisplay();
+
+        // not sure exactly what
         sliders.forEach(({ sliderId, outputId, checkId }) => {
             const slider = document.getElementById(sliderId);
             const output = document.getElementById(outputId);
@@ -186,9 +202,31 @@
                 this.classList.remove("hidden-thumb");
                 document.getElementById("error-message").style.display = "none";
 
+                const currentValue = parseInt(this.value);
+                const isOnFifty = currentValue === 50;
+
+                if (isOnFifty && !slidersOnFifty.has(sliderId)) {
+                    slidersOnFifty.add(sliderId);
+                    pointsLost += pointsPerSlider;
+                    updatePointsDisplay();
+                } else if (!isOnFifty && slidersOnFifty.has(sliderId)) {
+                    slidersOnFifty.delete(sliderId);
+                    pointsLost -= pointsPerSlider;
+                    updatePointsDisplay();
+                }
+
                 console.log(`${this.id} moved to ${this.value}`);
             });
+
+            slider.addEventListener("mousedown", function () {
+                this.classList.remove("hidden-thumb");
+            });
+
+            slider.addEventListener("touchstart", function () {
+                this.classList.remove("hidden-thumb");
+            });
         });
+
 
         // Validate all sliders before form submission
         document.querySelector("form").addEventListener("submit", function (event) {
@@ -208,19 +246,25 @@
     <div class="card-body">
 
         <p>
-            In this new task, we will ask you to perform a simple task.
+            In this part, you decide how to position three sliders.
         </p>
+
+        {{ if condition == 'hurt_me' }}
         <p>
-            The rule is to move all three sliders to the middle, on mark 50.
-            If you do, X points are taken away from a charity.
-            If you don't, the charity keeps those points.
+            For each slider that you move to position “50”, you will lose XX points.
+        </p>
+        {{ else }}
+        <p>
+            For each slider you move to position "50", another person in this study will lose XX points.
+        </p>
+        {{ endif }}
+
+        <p>
+            The rule of this task is to move each slider to position “50”.
         </p>
         <br>
 
         <div class='responsive-div'>
-            <p style="text-align: center;">
-                <strong>Move the slider in the middle of each line on the value 50.</strong>
-            </p>
 
             <!-- Slider 1 -->
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -262,6 +306,15 @@
             <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
                 Please move all sliders before continuing.
             </div>
+        </div>
+
+
+        <div id="points-display" data-condition="{{ condition }}" style="text-align: center;">
+            {{ if condition == 'hurt_me' }}
+                You loses 0 points.
+            {{ else }}
+                Another person loses 0 points.
+            {{ endif }}
         </div>
 
         <div style="display: flex; justify-content: flex-end">
