@@ -36,6 +36,19 @@ class Player(BasePlayer):
 
 
 # PAGES
+
+class Filler(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
+
+
 class pref_2PP_3PP_Page(Page):
     form_model = 'player'
 
