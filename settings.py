@@ -52,6 +52,14 @@ SESSION_CONFIGS = [
         oTree_version_used=popen('otree --version').read().strip()
     ),
     dict(
+        name='narratives',
+        display_name="Free rider narratives",
+        app_sequence=['free_rider'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip()
+    ),
+    dict(
         name='demographics',
         display_name="demographics only",
         app_sequence=['demographics'],
