@@ -1,5 +1,6 @@
 from otree.api import *
-
+import csv
+import os
 
 doc = """
 Your app description
@@ -12,6 +13,16 @@ class C(BaseConstants):
     NUM_ROUNDS = 1
 
 
+def get_country_list():
+    filepath = os.path.join(os.path.dirname(__file__), '../_static/global/countrynames_world.csv')
+    with open(filepath, encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        countries_world = [row["countryname"] for row in reader]
+        countries_world.sort()  # Sort alphabetically
+        return countries_world
+
+
+
 class Subsession(BaseSubsession):
     pass
 
@@ -20,6 +31,9 @@ def creating_session(subsession):
     for player in subsession.get_players():
         participant = player.participant
         participant.progress = 1
+        # Only necessary if not using participant field from baseline_trials
+        participant.current_country = "gb"
+        participant.current_countryname = "the United Kingdom"
 
         # Only necessary if not using participant field from baseline_trials
         participant.current_country = "gb"
@@ -42,18 +56,13 @@ class Player(BasePlayer):
         verbose_name='What gender do you identify as?',
         widget=widgets.RadioSelect
     )
-    born = models.StringField(
-        choices=['Yes', 'No'],
-        widget=widgets.RadioSelect
-    )
-    born_mother = models.StringField(
-        choices=['Yes', 'No'],
-        widget=widgets.RadioSelect
-    )
-    born_father = models.StringField(
-        choices=['Yes', 'No'],
-        widget=widgets.RadioSelect
-    )
+    # born = models.StringField(
+    #     choices=['Yes', 'No'],
+    #     widget=widgets.RadioSelect
+    # )
+    born = models.StringField()
+    born_mother = models.StringField()
+    born_father = models.StringField()
     income_ladder = models.IntegerField(
         choices=[i for i in range(1, 11)],
         blank=True,
@@ -145,10 +154,14 @@ class Demographics(Page):
     def vars_for_template(player: Player):
         current_countryname = player.participant.current_countryname
         #participant = player.participant
+        all_countries = get_country_list()
+        countries = [current_countryname] + [c for c in all_countries if c != current_countryname]
+
         return {
-            'born_question': f"Were you born in {current_countryname}?",
-            'born_mother_question': f"Was your mother born in {current_countryname}?",
-            'born_father_question': f"Was your father born in {current_countryname}?",
+            'born_question': f"In which country were you born?",
+            'born_mother_question': f"In which country was your mother born?",
+            'born_father_question': f"In which country was your father born?",
+            'countries': countries,
             'total_pages': player.session.config['total_pages'],
         }
 
