@@ -1,6 +1,13 @@
 {{ block title }}
 
-<p style="text-align: center; font-size: 26px;  "> Final decision {{player.round_number}} </p>
+<p style="text-align: center; font-size: 26px;  "> Decision X </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
 
 
 {{ endblock }}
