@@ -1,15 +1,13 @@
 {{ block title }}
 
+<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
-<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
         <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
         </progress>
     </label>
 </div>
-
-<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
 
 
 {{ endblock }}
@@ -504,17 +502,17 @@
     }
 
     .coin-count-labelD {
-        font-size: 1.2rem;
+        font-size:1.4vw;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left: calc(50% - 4.2vw); /* Center horizontally before offsetting */
+        left: calc(50% - 4.8vw); /* Center horizontally before offsetting */
         top: 23%; /* Move up; adjust value as needed */
          /* transform: translateX(-50%);Adjust for exact centering */
         text-align: center; /* Align text */
     }
 
     .coin-count-labelDDes {
-        font-size: 1.2rem;
+        font-size:1.4vw;
         color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
         position: absolute; /* Position relative to .figure-container */
         left: 30%; /* Center horizontally */
@@ -524,17 +522,17 @@
     }
 
     .coin-count-labelR {
-        font-size: 1.2rem;
+        font-size:1.4vw;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .figure-container */
-        left: calc(50% + 5vw); /* Center horizontally before offsetting */
+        left: calc(50% + 4.4vw); /* Center horizontally before offsetting */
         top: 23%; /* Move up; adjust value as needed */
         transform: translateX(-50%); /* Adjust for exact centering */
         text-align: center; /* Align text */
     }
 
     .coin-count-labelTP {
-        font-size: 1.2rem;
+        font-size:1.4vw;
         color: darkred; /* Adjust color as needed */
         position: absolute; /* Position relative to .figure-container */
         left: 85%; /* Center horizontally */
@@ -544,7 +542,7 @@
     }
 
     .coin-count-labelTP2PP {
-        font-size: 1.2rem;
+        font-size:1.4vw;
         color: darkred; /* Adjust color as needed */
         position: absolute; /* Position relative to .figure-container */
         left: 73%; /* Center horizontally */
@@ -553,60 +551,32 @@
         text-align: center; /* Align text */
     }
 
-    .coin:nth-child(30)  { top: 0.6vw; }
-    .coin:nth-child(29)  { top: 0.9vw; }
-    .coin:nth-child(28)  { top: 1.2vw; }
-    .coin:nth-child(27)  { top: 1.5vw; }
-    .coin:nth-child(26)  { top: 1.8vw; }
-    .coin:nth-child(25)  { top: 2.1vw; }
-    .coin:nth-child(24)  { top: 2.4vw; }
-    .coin:nth-child(23)  { top: 2.7vw; }
-    .coin:nth-child(22)  { top: 3.0vw; }
-    .coin:nth-child(21)  { top: 3.3vw; }
-    .coin:nth-child(20)  { top: 3.6vw; }
-    .coin:nth-child(19)  { top: 3.9vw; }
-    .coin:nth-child(18)  { top: 4.2vw; }
-    .coin:nth-child(17)  { top: 4.5vw; }
-    .coin:nth-child(16)  { top: 4.8vw; }
-    .coin:nth-child(15)  { top: 5.1vw; }
-    .coin:nth-child(14)  { top: 5.4vw; }
-    .coin:nth-child(13)  { top: 5.7vw; }
-    .coin:nth-child(12)  { top: 6.0vw; }
-    .coin:nth-child(11)  { top: 6.3vw; }
-    .coin:nth-child(10)  { top: 6.6vw; }
-    .coin:nth-child(9)   { top: 6.9vw; }
-    .coin:nth-child(8)   { top: 7.2vw; }
-    .coin:nth-child(7)   { top: 7.5vw; }
-    .coin:nth-child(6)   { top: 7.8vw; }
-    .coin:nth-child(5)   { top: 8.1vw; }
-    .coin:nth-child(4)   { top: 8.4vw; }
-    .coin:nth-child(3)   { top: 8.7vw; }
-    .coin:nth-child(2)   { top: 9.0vw; }
-    .coin:nth-child(1)   { top: 9.3vw; }
+    .coin:nth-child(12)  { top: 2.0vw; }
+    .coin:nth-child(11)  { top: 2.3vw; }
+    .coin:nth-child(10)  { top: 2.6vw; }
+    .coin:nth-child(9)   { top: 2.9vw; }
+    .coin:nth-child(8)   { top: 3.2vw; }
+    .coin:nth-child(7)   { top: 3.5vw; }
+    .coin:nth-child(6)   { top: 3.8vw; }
+    .coin:nth-child(5)   { top: 4.1vw; }
+    .coin:nth-child(4)   { top: 4.4vw; }
+    .coin:nth-child(3)   { top: 4.7vw; }
+    .coin:nth-child(2)   { top: 5.0vw; }
+    .coin:nth-child(1)   { top: 5.3vw; }
 
-    .coinR:nth-child(12)  { top: 1.3vw; }
-    .coinR:nth-child(11)  { top: 1.6vw; }
-    .coinR:nth-child(10)  { top: 1.9vw; }
-    .coinR:nth-child(9)   { top: 2.2vw; }
-    .coinR:nth-child(8)   { top: 2.5vw; }
-    .coinR:nth-child(7)   { top: 2.8vw; }
-    .coinR:nth-child(6)   { top: 3.1vw; }
-    .coinR:nth-child(5)   { top: 3.4vw; }
-    .coinR:nth-child(4)   { top: 3.7vw; }
-    .coinR:nth-child(3)   { top: 4.0vw; }
-    .coinR:nth-child(2)   { top: 4.3vw; }
-    .coinR:nth-child(1)   { top: 4.6vw; }
+    .coinR:nth-child(12)  { top: 2.0vw; }
+    .coinR:nth-child(11)  { top: 2.3vw; }
+    .coinR:nth-child(10)  { top: 2.6vw; }
+    .coinR:nth-child(9)   { top: 2.9vw; }
+    .coinR:nth-child(8)   { top: 3.2vw; }
+    .coinR:nth-child(7)   { top: 3.5vw; }
+    .coinR:nth-child(6)   { top: 3.8vw; }
+    .coinR:nth-child(5)   { top: 4.1vw; }
+    .coinR:nth-child(4)   { top: 4.4vw; }
+    .coinR:nth-child(3)   { top: 4.7vw; }
+    .coinR:nth-child(2)   { top: 5.0vw; }
+    .coinR:nth-child(1)   { top: 5.3vw; }
 
-    .coinown:nth-child(10)  { top: 20.6vw; left:58% }
-    .coinown:nth-child(9)   { top: 20.9vw; left:58% }
-    .coinown:nth-child(8)   { top: 21.2vw; left:58% }
-    .coinown:nth-child(7)   { top: 21.5vw; left:58% }
-    .coinown:nth-child(6)   { top: 21.8vw; left:58% }
-    .coinown:nth-child(5)   { top: 22.1vw; left:58% }
-    .coinown:nth-child(4)   { top: 22.4vw; left:58% }
-    .coinown:nth-child(3)   { top: 22.7vw; left:58% }
-    .coinown:nth-child(2)   { top: 23.0vw; left:58% }
-    .coinown:nth-child(1)   { top: 23.3vw; left:58% }
 
 </style>
 </head>
@@ -801,11 +771,11 @@
 
                 <span class='coinstack coinstackD'></span>
                 <div class="coin-count-labelD" id="countD"
-                     style="font-size:1.4vw; {% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
+                     style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
 
                 <span class='coinstack coinstackR'></span>
                 <div class="coin-count-labelR" id="countR"
-                     style="font-size:1.4vw; {% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
+                     style="{% if '2PP' in player.treatment or '0DG' in player.treatment %}top: 40%;{% endif %}"></div>
 
                 {% if "3PP" in player.treatment or "3PC" in player.treatment or player.treatment in C.COUNTRY_LIST %}
                     <img src="/static/global/minus_button2.png" alt="-" style="position: absolute; width: 1.8vw; top: 50%; left:calc(50% - 7vw);">
