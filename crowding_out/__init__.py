@@ -44,7 +44,11 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
 
     for player in subsession.get_players():
         participant = player.participant
-        participant.current_country = "Switzerland"
+
+        # Only necessary if not using participant field from baseline_trials
+        participant.current_country = "gb"
+        participant.current_countryname = "the United Kingdom"
+
         participant.crowding_out_button_pos = random.choice([True, False])
         print('set crowding_out_button_pos', participant.crowding_out_button_pos)
 
@@ -129,11 +133,11 @@ class CrowdingInOutPage(Page):
 
         # charities = ["Red Cross and Red Crescent (International)", "Unicef", "Doctors Without Borders", "Save the Children", "other"]
 
-        current_country = player.participant.current_country
-        # current_country = C.CURRENT_COUNTRYNAME
+        current_countryname = player.participant.current_countryname
+        print('player.participant.current_countryname', player.participant.current_countryname)
 
-        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_country)
-        print("current_country, local_red_cross", current_country, local_red_cross, image_red_cross_local)
+        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
+        print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0
@@ -147,17 +151,17 @@ class CrowdingInOutPage(Page):
         print("treatment_incentive", treatment_incentive)
 
         text2 = '<br> If you donate, we will convert the points into money and transfer it to the charity.'
-        text4 = f'<b>Important:</b> If your response is the same as the most common response in {current_country}, you will receive 2 extra points.'
+        text4 = f'<b>Important:</b> If your response is the same as the most common response in {current_countryname}, you will receive 2 extra points.'
         text5 = 'Do you give <b> 4 points </b> to charity?'
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
             text1 = 'Now, you decide if you want to <b style="color: green;">give</b> <b>4 of your bonus points to charity</b>. <br> <b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.'
-            text3 = f'<b>How is someone perceived in {current_country} </b> <br> if they <b>gave 4 points</b> to charity and <b>received 2 points</b> for themselves?'
+            text3 = f'<b>How is someone perceived in {current_countryname} </b> <br> if they <b>gave 4 points</b> to charity and <b>received 2 points</b> for themselves?'
         else:
             image = 'global/treatments/crowding.png'
             text1 = 'Now, you decide if you want to <b style="color: green;">give</b> <b>4 of your bonus points to charity</b>.'
-            text3 = f'<b>How is someone perceived in {current_country} </b> if they <b>gave 4 points</b> to charity?'
+            text3 = f'<b>How is someone perceived in {current_countryname} </b> if they <b>gave 4 points</b> to charity?'
 
         return dict(
             crowding_decision=player.crowding_decision,
@@ -178,7 +182,7 @@ class CrowdingInOutPage(Page):
             # charities = charities,
             local_red_cross = local_red_cross,
             image_red_cross_local = image_red_cross_local,
-            current_country=current_country,
+            current_country=current_countryname,
         )
 
 class DescriptiveNormPage(Page):
@@ -190,7 +194,7 @@ class DescriptiveNormPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
-        current_country = player.participant.current_country
+        current_countryname = player.participant.current_countryname
 
         total_endowment = 4
         receiver_endowment = 0
@@ -198,8 +202,8 @@ class DescriptiveNormPage(Page):
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
 
-        text1 = f'<br>  <b>Out of 100 people in {current_country}, <br> how many do you think gave 4 points to charity? '
-        text2 = f'Important:</b> If your response is close to the correct number (plus or minus 5), you will receive 2 extra points.'
+        text1 = f'<br>  <b>Out of 100 people in {current_countryname}, <br> how many do you think gave 4 points to charity? '
+        text2 = f'Important:</b> If your response is close to the correct number (plus or minus 5), you will receive 4 extra points.'
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -215,7 +219,7 @@ class DescriptiveNormPage(Page):
             image=image,
             text1 = text1,
             text2 = text2,
-            current_country=current_country,
+            current_country=current_countryname,
         )
 
 class ConditionalCoopPage(Page):
@@ -237,11 +241,10 @@ class ConditionalCoopPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
-        current_country = player.participant.current_country
-        # current_country = C.CURRENT_COUNTRYNAME
+        current_countryname = player.participant.current_countryname
 
-        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_country)
-        print("current_country, local_red_cross", current_country, local_red_cross, image_red_cross_local)
+        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
+        print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0
@@ -255,7 +258,7 @@ class ConditionalCoopPage(Page):
 
         if treatment_cond_coop:
             text3 = '<b>Yes, I <u>am</u> </b> willing, <b>IF</b>'
-            text4 = f'out of 100 people in {current_country} also contribute.'
+            text4 = f'out of 100 people in {current_countryname} also contribute.'
             text5 = '<b>No, I am <u>not</u> </b> willing, (regardless of what others do)'
             text6 = f'<br> <b>Important:</b> If the condition is fulfilled, 4 of your bonus points will be converted into money and transferred to the charity. <br>'
         else:
@@ -268,13 +271,13 @@ class ConditionalCoopPage(Page):
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
             if treatment_cond_coop:
-                text2 = f'<b style="color: red;">If others in {current_country} donate</b>, are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>, are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
             else:
                 text2 = f'<b style="color: red;">If you think about it again</b>, are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
         else:
             image = 'global/treatments/crowding.png'
             if treatment_cond_coop:
-                text2 = f'<b style="color: red;">If others in {current_country} donate</b>, are you willing to <b>give 4 points</b> to charity?'
+                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>, are you willing to <b>give 4 points</b> to charity?'
             else:
                 text2 = f'<b style="color: red;">If you think about it again</b>, are you willing to <b>give 4 points</b> to charity?'
 
@@ -297,7 +300,7 @@ class ConditionalCoopPage(Page):
             text6 = text6,
             local_red_cross=local_red_cross,
             image_red_cross_local=image_red_cross_local,
-            current_country=current_country,
+            current_country=current_countryname,
         )
 
 

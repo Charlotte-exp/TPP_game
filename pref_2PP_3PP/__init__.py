@@ -48,6 +48,17 @@ class Filler(Page):
         participant = player.participant
         #participant.progress += 1
 
+class Filler_end_block1(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
+
 
 class pref_2PP_3PP_Page(Page):
     form_model = 'player'
@@ -81,4 +92,6 @@ class pref_2PP_3PP_Page(Page):
         )
 
 
-page_sequence = [pref_2PP_3PP_Page]
+page_sequence = [Filler,
+                 pref_2PP_3PP_Page,
+                 Filler_end_block1]

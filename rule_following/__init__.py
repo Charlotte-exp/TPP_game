@@ -72,6 +72,5 @@ class RuleFollowing(Page):
 
 
 
-page_sequence = [Filler,
-                 RuleFollowing,
+page_sequence = [RuleFollowing,
                  ]

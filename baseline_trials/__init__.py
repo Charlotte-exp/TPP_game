@@ -17,9 +17,10 @@ class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 38
+    NUM_DECISIONS_APPROX = 45
     total_pages = 400 # for progress bar
 
-    CURRENT_COUNTRY = 'ch' # CHANGE TO COUNTRY FOR THIS LINK
+    CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
 
     with open('_static/global/country_codes.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile)  # Create reader object
@@ -86,6 +87,14 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
+
+    ## Set country name in participant field
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.current_country = C.CURRENT_COUNTRY
+        participant.current_countryname = C.CURRENT_COUNTRYNAME
+
+    ## Progress bar
     for player in subsession.get_players():
         participant = player.participant
         participant.progress = 1
@@ -444,6 +453,7 @@ class Consent(Page):
             return False
 
     def vars_for_template(player: Player):
+
         return {
             'participation_fee': player.session.config['participation_fee'],
         }
