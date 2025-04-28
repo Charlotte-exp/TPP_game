@@ -15,6 +15,12 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+''' ONLY WHEN TESTING ON ITS OWN'''
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.progress = 1
+
 
 class Group(BaseGroup):
     pass
@@ -65,7 +71,7 @@ class Player(BasePlayer):
     )
 
     ## Relational Mobility
-    q1 = models.StringField(
+    meeting_1 = models.StringField(
         choices=[
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
@@ -73,7 +79,39 @@ class Player(BasePlayer):
         verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
-    q2 = models.StringField(
+    meeting_2 = models.StringField(
+        choices=[
+            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+        ],
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
+    )
+    meeting_3 = models.StringField(
+        choices=[
+            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+        ],
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
+    )
+    choosing_1 = models.StringField(
+        choices=[
+            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+        ],
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
+    )
+    choosing_2 = models.StringField(
+        choices=[
+            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+        ],
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
+    )
+    choosing_3 = models.StringField(
         choices=[
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
@@ -97,7 +135,6 @@ class Demographics(Page):
     form_model = 'player'
     form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural']
 
-    @staticmethod
     def vars_for_template(player: Player):
         current_country = 'Switzerland'
         #participant = player.participant
@@ -105,11 +142,12 @@ class Demographics(Page):
             'born_question': f"Were you born in {current_country}?",
             'born_mother_question': f"Was your mother born in {current_country}?",
             'born_father_question': f"Was your father born in {current_country}?",
+            'total_pages': player.session.config['total_pages'],
         }
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
 
 class Ladder(Page):
     form_model = 'player'
@@ -119,35 +157,51 @@ class Ladder(Page):
     def vars_for_template(player: Player):
         return dict(
             ladder_values=list(range(10, 0, -1)),  # From 10 to 1
+            total_pages=player.session.config['total_pages'],
         )
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
 
 class RelationalMobility(Page):
     form_model = 'player'
-    form_fields = ['q1', 'q2']
+    form_fields = ['meeting_1', 'meeting_2', 'meeting_3', 'choosing_1', 'choosing_2', 'choosing_3']
+
+    def vars_for_template(player: Player):
+        return {
+            'total_pages': player.session.config['total_pages'],
+        }
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
 
 class Circle(Page):
     form_model = 'player'
     form_fields = ['self_other']
 
+    def vars_for_template(player: Player):
+        return {
+            'total_pages': player.session.config['total_pages'],
+        }
+
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
 
 class CommentBox(Page):
     form_model = 'player'
     form_fields = ['comment_box']
 
+    def vars_for_template(player: Player):
+        return {
+            'total_pages': player.session.config['total_pages'],
+        }
+
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
 
 class Payment(Page):
 
@@ -158,7 +212,12 @@ class Payment(Page):
     def vars_for_template(player: Player):
         return {
             'participation_fee': player.session.config['participation_fee'],
+            'total_pages': player.session.config['total_pages'],
         }
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
 
 class ProlificLink(Page):
     """

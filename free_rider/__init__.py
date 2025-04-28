@@ -15,6 +15,12 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+''' ONLY WHEN TESTING ON ITS OWN'''
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.progress = 1
+
 
 class Group(BaseGroup):
     pass
@@ -65,8 +71,12 @@ class Narratives(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
+            total_pages=player.session.config['total_pages'],
         )
 
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
 
 
 page_sequence = [Narratives,
