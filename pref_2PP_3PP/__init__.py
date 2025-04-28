@@ -51,6 +51,7 @@ class Filler(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+        participant.decision_page_number += 1
 
 
 class pref_2PP_3PP_Page(Page):
@@ -88,6 +89,7 @@ class pref_2PP_3PP_Page(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+        participant.decision_page_number += 1
 
 
 

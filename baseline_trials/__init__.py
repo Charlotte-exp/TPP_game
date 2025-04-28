@@ -648,7 +648,7 @@ class AttentionCheckPage(Page):
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        participant.progress += 1
+        participant.progress += 3
 
 
 class TPPage(Page):
@@ -978,6 +978,8 @@ class UniversalNormPage(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+        # record the last Decision title number and adds 1 ready for the next app title
+        participant.decision_page_number = player.round_number +1
       
 
 page_sequence = [Consent,

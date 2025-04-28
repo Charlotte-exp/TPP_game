@@ -34,7 +34,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The wealthiest 1% in my country should contribute more to society.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
     wealthy_merit = models.StringField(
@@ -42,7 +42,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
     poor_contribution = models.StringField(
@@ -50,7 +50,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The poorest 1% in my country should contribute more to society.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
     poor_merit = models.StringField(
@@ -58,7 +58,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The poorest 1% in my country are in their current position largely due to their own actions and decisions.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
 

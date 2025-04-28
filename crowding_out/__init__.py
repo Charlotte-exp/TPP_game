@@ -190,6 +190,7 @@ class CrowdingInOutPage(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+        participant.decision_page_number += 1
 
 class DescriptiveNormPage(Page):
 
@@ -232,6 +233,7 @@ class DescriptiveNormPage(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+        participant.decision_page_number += 1
 
 class ConditionalCoopPage(Page):
 
@@ -319,6 +321,7 @@ class ConditionalCoopPage(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+        participant.decision_page_number += 1
 
 
 page_sequence = [CrowdingInOutPage,
