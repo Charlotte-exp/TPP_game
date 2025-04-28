@@ -61,7 +61,7 @@
 
                 // dictator stack static (for static display of role labels)
                 for (let i = 0; i < total_endowment; i++) {
-                    $(`.coinstackD-static`).append('<div class="coin" style="left:50%"></div>');
+                    $(`.coinstackD-static`).append('<div class="coin" style="left:18%"></div>');
                 }
 
                 // // dictator stack
@@ -472,8 +472,8 @@
             to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong>
         </p>
 
-        <p style="font-size: 14px;">
-            As before, you will receive <b>12 additional points</b> if you select the correct number of countries
+        <p style="">
+            Important: You will receive <b>{{ C.ratings_extra_points }} additional points</b> if you select the correct number of countries
             where most people also consider it <b>{{recorded_norm}}</b>
             to give {{ universal_norm_decision.receiver_gets }} points to Person B.
             To make a decision, click on a number.
@@ -487,12 +487,12 @@
             </div>
         </div>
 
-        <br>
-        <p style="font-size: 14px;" >
-            You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>,
-            most people also believe that it is <b>{{recorded_norm}}</b>
-            to give {{ universal_norm_decision.receiver_gets }} points to Person B.
-        </p>
+<!--        <br>-->
+<!--        <p style=" " >-->
+<!--            You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>,-->
+<!--            most people also believe that it is <b>{{recorded_norm}}</b>-->
+<!--            to give {{ universal_norm_decision.receiver_gets }} points to Person B.-->
+<!--        </p>-->
 
     <br>
     <hr>

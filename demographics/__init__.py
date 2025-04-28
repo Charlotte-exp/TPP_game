@@ -53,7 +53,7 @@ class Player(BasePlayer):
     )
     gender = models.StringField(
         choices=['Female', 'Male', 'Other', 'Prefer not to say'],
-        verbose_name='What gender do you identify as?',
+        verbose_name='What is your gender?',
         widget=widgets.RadioSelect
     )
     # born = models.StringField(
@@ -141,7 +141,8 @@ class Player(BasePlayer):
         verbose_name='Could you tell us, in your own words, what the study was about?'
     )
     comment_box = models.LongStringField(
-        verbose_name='If you have any additional comments on the study content or presentation please let us know in the box below.'
+        verbose_name='If you have any additional comments on the study content or presentation please let us know in the box below.',
+        blank = True  # Optional: allow it to be empty if no donation is made
     )
 
 

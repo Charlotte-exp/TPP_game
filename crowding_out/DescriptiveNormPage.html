@@ -39,7 +39,7 @@
     const errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-        errorDiv.textContent = 'Please make all three decisions to continue.'
+        errorDiv.textContent = 'Please make a decision to continue.'
     }
 
 
@@ -619,10 +619,6 @@
             {{ text1|safe }}
         </p>
 
-        <p style="font-size: 14px; text-align: center; ">
-            {{ text2|safe }}
-        </p>
-
     <div class='numbers' >
         <div class="number-row"  data-input="selected-number-1">
             <div class="number" data-value="0" >0</div>
@@ -639,6 +635,12 @@
         </div>
     </div>
     </div>
+
+    <br>
+
+    <p style="text-align: center; ">
+            {{ text2|safe }}
+        </p>
 
     <br>
 

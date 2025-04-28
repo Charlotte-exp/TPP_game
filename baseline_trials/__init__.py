@@ -43,7 +43,7 @@ class C(BaseConstants):
     TP_effectiveness = 1  # multiplier (currently not using a multiplier anymore so set to 1)
     TP_cost = 3 # fraction of a full point the third party pays to punish/reward/compensate (here a third)
     norm_fixed_TP_points = 3 # fixed amount that was removed/rewarded/compensated for norm decisions
-    ratings_extra_points = 10 # extra bonus for ratings close to country average
+    ratings_extra_points = 8 # extra bonus for (norm) ratings close to country average
     attention_check_rounds = [7, 26]
 
     ### Treatments ###
