@@ -1,0 +1,43 @@
+{{ block title }}
+
+    <p style="text-align: center; font-size: 26px; "> Start of Block 2 </p>
+
+{{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
+{{ block content }}
+
+    <p>
+      You are now <b> beginning the second block</b>, where you will make <b> additional decisions in different situations</b>, using your bonus points from Block 1.
+    </p>
+
+    <p>
+        After Block 2, <b> <u>one</u> situation</b> will again be randomly selected to <b>determine your final bonus points</b>.
+    </p>
+
+    <p>
+        The situations you will see are different from those in the first block. <b>All information</b> needed to make your decisions will be displayed <b>on the decision page</b>.
+    </p>
+
+
+    <div style="display: flex; justify-content: flex-end">
+        <button class="btn btn-primary">Next</button>
+    </div>
+
+{{ endblock }}
+

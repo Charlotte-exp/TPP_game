@@ -136,12 +136,12 @@ class Demographics(Page):
     form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural']
 
     def vars_for_template(player: Player):
-        current_country = 'Switzerland'
+        current_countryname = player.participant.current_countryname
         #participant = player.participant
         return {
-            'born_question': f"Were you born in {current_country}?",
-            'born_mother_question': f"Was your mother born in {current_country}?",
-            'born_father_question': f"Was your father born in {current_country}?",
+            'born_question': f"Were you born in {current_countryname}?",
+            'born_mother_question': f"Was your mother born in {current_countryname}?",
+            'born_father_question': f"Was your father born in {current_countryname}?",
             'total_pages': player.session.config['total_pages'],
         }
 

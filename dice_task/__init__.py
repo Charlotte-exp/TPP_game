@@ -80,6 +80,16 @@ class Filler(Page):
         participant.label = player.label
         participant.progress += 1
 
+class Filler_end_block2(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
 
 class DiceRatings(Page):
     form_model = "player"
@@ -106,4 +116,5 @@ class Results(Page):
 
 
 page_sequence = [Filler,
-                 DiceRatings]
+                 DiceRatings,
+                 Filler_end_block2]

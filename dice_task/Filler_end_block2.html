@@ -1,0 +1,44 @@
+{{ block title }}
+
+    <p style="text-align: center; font-size: 26px; "> Block 2 complete! </p>
+
+{{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
+{{ block content }}
+
+    <p>
+      You have now <b> completed the second block</b>!
+
+        </p>
+
+    <p>
+        You will find out how many bonus points you collected in Block 2 only after the study is over, because bonus points are calculated after all participants have completed the study.
+    </p>
+
+    <p>
+       On the next page, you will be asked <b> some additional questions </b>.
+    </p>
+
+
+    <div style="display: flex; justify-content: flex-end">
+        <button class="btn btn-primary">Next</button>
+    </div>
+
+{{ endblock }}
+

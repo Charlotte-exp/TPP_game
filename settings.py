@@ -21,8 +21,8 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='extras',
-        display_name="All extra tasked",
-        app_sequence=['crowding_out', 'dice_task', 'free_rider', 'pref_2PP_3PP', 'rule_following', 'demographics'],
+        display_name="All extra tasks",
+        app_sequence=['pref_2PP_3PP', 'rule_following', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
@@ -89,7 +89,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['current_country', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
+PARTICIPANT_FIELDS = ['current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
                       'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
 SESSION_FIELDS = []
 
@@ -98,7 +98,7 @@ SESSION_FIELDS = []
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
+REAL_WORLD_CURRENCY_CODE = 'GBP'
 USE_POINTS = True
 
 #DEBUG = False
