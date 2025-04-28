@@ -104,7 +104,7 @@ class Player(BasePlayer):
     )
     descr_norm = models.IntegerField(
         initial=0,
-        choices=[(i, f'value {i}') for i in range(100)],
+        choices=[(i, f'value {i}') for i in range(101)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
@@ -213,7 +213,7 @@ class DescriptiveNormPage(Page):
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
 
-        text1 = f'<br>  <b>Out of 100 people in {current_countryname}, <br> how many do you think gave 4 points to charity? '
+        text1 = f'<br> In the decision on the previous screen, <b>out of 100 people in {current_countryname}, <br> how many do you think gave 4 points to charity? '
         text2 = f'Important:</b> If your response is close to the correct number (plus or minus 5), you will receive 4 extra points.'
 
         if treatment_incentive:

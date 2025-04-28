@@ -48,14 +48,46 @@
     {{ formfield 'age' }}
     {{ formfield 'gender' }}
 
-    {{ born_question }}
-    {{ form.born }}
+<!--    {{ born_question }}-->
+<!--    {{ form.born }}-->
 
+    <div style="margin-bottom: 1rem;">
+        <label>{{ born_question }}</label><br>
 
-    {{ born_mother_question }}
-    {{ form.born_mother }}
-    {{ born_father_question }}
-    {{ form.born_father }}
+        <select name="born" required>
+            <option value="" disabled selected>Select country</option> <!-- Placeholder option -->
+            {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+        <label>{{ born_mother_question }}</label><br>
+
+        <select name="born_mother" required>
+            <option value="" disabled selected>Select country</option> <!-- Placeholder option -->
+            {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+        <label>{{ born_father_question }}</label><br>
+
+        <select name="born_father" required>
+            <option value="" disabled selected>Select country</option> <!-- Placeholder option -->
+            {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+<!--    {{ born_mother_question }}-->
+<!--    {{ form.born_mother }}-->
+<!--    {{ born_father_question }}-->
+<!--    {{ form.born_father }}-->
 
     {{ formfield 'education' }}
     {{ formfield 'rural' }}
