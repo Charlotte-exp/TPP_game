@@ -21,6 +21,10 @@ def creating_session(subsession):
         participant = player.participant
         participant.progress = 1
 
+        # Only necessary if not using participant field from baseline_trials
+        participant.current_country = "gb"
+        participant.current_countryname = "the United Kingdom"
+
 
 class Group(BaseGroup):
     pass
@@ -124,8 +128,11 @@ class Player(BasePlayer):
     self_other = models.IntegerField()
 
     ## Comment field
+    question_box = models.LongStringField(
+        verbose_name='Could you tell us, in your own words, what the study was about?'
+    )
     comment_box = models.LongStringField(
-        verbose_name=''
+        verbose_name='If you have any additional comments on the study content or presentation please let us know in the box below.'
     )
 
 
@@ -192,7 +199,7 @@ class Circle(Page):
 
 class CommentBox(Page):
     form_model = 'player'
-    form_fields = ['comment_box']
+    form_fields = ['question_box', 'comment_box']
 
     def vars_for_template(player: Player):
         return {
@@ -230,10 +237,10 @@ class ProlificLink(Page):
             return True
 
 
-page_sequence = [Demographics,
-                 Ladder,
+page_sequence = [RelationalMobility,
                  Circle,
-                 RelationalMobility,
+                 Ladder,
+                 Demographics,
                  CommentBox,
                  Payment,
                  ProlificLink]
