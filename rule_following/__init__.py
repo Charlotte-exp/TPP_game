@@ -47,6 +47,19 @@ class Player(BasePlayer):
 
 
 ######## PAGES ########
+class Filler(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        #participant.progress += 1
+
+
+
 class RuleFollowing(Page):
     form_model = "player"
     form_fields = ["slider1", "slider2", "slider3"]
@@ -59,5 +72,6 @@ class RuleFollowing(Page):
 
 
 
-page_sequence = [RuleFollowing,
+page_sequence = [Filler,
+                 RuleFollowing,
                  ]

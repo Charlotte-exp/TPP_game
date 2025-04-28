@@ -6,7 +6,7 @@ SESSION_CONFIGS = [
     dict(
         name='all_games',
         display_name="Complete study with all extra tasks",
-        app_sequence=['baseline_trials', 'pref_2PP_3PP', 'crowding_out', 'dice_task', 'free_rider', 'rule_following', 'demographics'],
+        app_sequence=['baseline_trials', 'pref_2PP_3PP', 'rule_following', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip()
