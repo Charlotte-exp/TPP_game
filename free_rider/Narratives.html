@@ -1,6 +1,14 @@
 {{ block title }}
 
     <p style="text-align: center; font-size: 26px; "> Free-rider narratives </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
 {{ endblock }}
 
 {{ block style }}

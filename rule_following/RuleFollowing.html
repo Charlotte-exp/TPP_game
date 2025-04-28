@@ -2,6 +2,13 @@
 
 <p style="text-align: center; font-size: 26px; "> Anti-social rule following </p>
 
+<div style="display: flex; justify-content: center">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
 {{ endblock }}
 
 {{ block content }}
