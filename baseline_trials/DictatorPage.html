@@ -608,7 +608,7 @@
             <p style="text-align: center;  ">
                 <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person A is. <br> <br> </b>
 
-                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b> if your decision is the same as the most
+                Important: You will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b> if your decision is the same as the most
                 common decision among all other participants in {{current_country}}.
             </p>
         {% endif %}
@@ -690,7 +690,7 @@
 
             {% if player.round_number < 3 %}
                 <br>
-                <p style="font-size: 14px; text-align: center;">
+                <p style="text-align: center;">
                     To make a decision, click on one of the six buttons.<br><br>
                 </p>
             {% endif %}
@@ -837,7 +837,7 @@
 
             {% if "0DG" in player.treatment %}
                 <br>
-                <p style="font-size: 14px; text-align: center;">
+                <p style="text-align: center;">
                     To make a decision, click on a number. As you move your cursor over the numbers
                     (or press them on your phone), you will see how many points you and Person B would receive.
                 </p>

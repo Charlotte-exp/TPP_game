@@ -76,9 +76,9 @@ class pref_2PP_3PP_Page(Page):
         pref_2PP_3PP_button_pos = player.participant.pref_2PP_3PP_button_pos
 
         if pref_2PP_3PP_button_pos:
-            text1 = f'You are Person A or Person B. <br> Would you prefer to be in a situation where <b>Person B can remove points from Person A</b> (left) <u>or</u> <b>Person C can remove points from Person A</b> (right) in Stage 2?'
+            text1 = f'You are either Person A or Person B, but you do not know which one. <br> Would you prefer to be in a situation where <b>Person B can remove points from Person A</b> (left) <u>or</u> <b>Person C can remove points from Person A</b> (right) in Stage 2?'
         else:
-            text1 = f'You are Person A or Person B. <br> Would you prefer to be in a situation where <b>Person C can remove points from Person A</b> (left) <u>or</u> <b>Person B can remove points from Person A</b> (right) in Stage 2?'
+            text1 = f'You are either Person A or Person B, but you do not know which one. <br> Would you prefer to be in a situation where <b>Person C can remove points from Person A</b> (left) <u>or</u> <b>Person B can remove points from Person A</b> (right) in Stage 2?'
 
         text2PP = f'<b>Person B</b>&nbsp;can remove points.'
         text3PP = f'<b>Person C</b>&nbsp;can remove points.'

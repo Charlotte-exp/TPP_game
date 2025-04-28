@@ -48,6 +48,7 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         # Only necessary if not using participant field from baseline_trials
         participant.current_country = "gb"
         participant.current_countryname = "the United Kingdom"
+        participant.decision_page_number = 0
 
         participant.crowding_out_button_pos = random.choice([True, False])
 
@@ -156,8 +157,8 @@ class CrowdingInOutPage(Page):
         print("treatment_incentive", treatment_incentive)
 
         text2 = '<br> If you donate, we will convert the points into money and transfer it to the charity.'
-        text4 = f'<b>Important:</b> If your response is the same as the most common response in {current_countryname}, you will receive 2 extra points.'
-        text5 = 'Do you give <b> 4 points </b> to charity?'
+        text4 = f'<b>Important:</b> If your response is the same as the most common response in {current_countryname}, you will receive 4 extra points.'
+        text5 = '<b style="color: red;">Do you give 4 points to charity? </b>'
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -213,8 +214,8 @@ class DescriptiveNormPage(Page):
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
 
-        text1 = f'<br> In the decision on the previous screen, <b>out of 100 people in {current_countryname}, <br> how many do you think gave 4 points to charity? '
-        text2 = f'Important:</b> If your response is close to the correct number (plus or minus 5), you will receive 4 extra points.'
+        text1 = f'<br> <b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision? '
+        text2 = f'<b>Important</b>:</b> If your response is close to the correct number (plus or minus 5), you will receive 4 extra points.'
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -288,15 +289,15 @@ class ConditionalCoopPage(Page):
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
             if treatment_cond_coop:
-                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>, are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>,<br> are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
             else:
-                text2 = f'<b style="color: red;">If you think about it again</b>, are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+                text2 = f'<b style="color: red;">If you think about it again</b>,<br> are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
         else:
             image = 'global/treatments/crowding.png'
             if treatment_cond_coop:
-                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>, are you willing to <b>give 4 points</b> to charity?'
+                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>,<br> are you willing to <b>give 4 points</b> to charity?'
             else:
-                text2 = f'<b style="color: red;">If you think about it again</b>, are you willing to <b>give 4 points</b> to charity?'
+                text2 = f'<b style="color: red;">If you think about it again</b>,<br> are you willing to <b>give 4 points</b> to charity?'
 
 
         return dict(

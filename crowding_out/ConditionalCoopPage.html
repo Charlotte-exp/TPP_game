@@ -42,7 +42,7 @@
     const errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-        errorDiv.textContent = 'Please make all three decisions to continue.'
+        errorDiv.textContent = 'Please make a decision to continue.'
     }
 
 
@@ -700,6 +700,8 @@
 
             <input type="hidden" name="cond_coop" id="selected-number-1">
 
+        <!--{{ formfield_errors 'cond_coop' }}-->
+
             <div class='numbers' >
                 <div class="number-row"  data-input="selected-number-1">
                     <span class="number" data-value="10" >{{ text3|safe }} at least <b style="color: red;">10</b> {{ text4|safe }}</span>
@@ -716,7 +718,7 @@
                 </div>
             </div>
 
-        <p style="font-size: 14px; text-align: center; ">
+        <p style="text-align: center; ">
             {{ text6|safe }}
         </p>
 
@@ -731,15 +733,15 @@
             </div>
         </div>
 
-        <p style="font-size: 14px; text-align: center; ">
+        <p style="text-align: center; ">
             {{ text6|safe }}
         </p>
 
         {% endif %}
 
-        <label for="charity-select" style="font-size: 14px; ">You can choose your own charity:</label>
-        <select id="charity-select" style="font-size: 14px; ">
-            <option value="" selected disabled>Randomly selected charity</option>
+        <label for="charity-select" style="">You can choose your own charity:</label>
+        <select id="charity-select" style="">
+            <option value="" selected >Randomly selected charity</option>
             <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
             <option value="Red Cross (local)">{{local_red_cross}}</option>
             <option value="The Salvation Army">The Salvation Army</option>
