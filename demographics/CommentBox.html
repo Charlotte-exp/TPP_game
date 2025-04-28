@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Leave a comment! </p>
+    <p style="text-align: center; font-size: 26px; "> Feedback </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -30,10 +30,14 @@
 {{ block content }}
 
 <div class="card-body">
-    This study is new, and we are still testing it. As such, we really appreciate feedback.
-    Could you tell us, in your own words, what the study was about?
 
-    {{ formfield player.comment_box label='' }}
+    <p>
+        This study is new, and we are still testing it. As such, we really appreciate feedback.
+    </p>
+
+    {{ formfield player.question_box }}
+
+    {{ formfield player.comment_box }}
 </div>
 
     <div style="display: flex; justify-content: flex-end">
