@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Free-rider narratives </p>
+    <p style="text-align: center; font-size: 26px; "> Decision {{ participant.decision_page_number }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -38,7 +38,33 @@
             Please indicate to what extent you agree or disagree with the following statements.
         </p>
 
-        {{ formfields }}
+        <br>
+        <p style="text-align: center;">
+            <strong>The wealthiest 1% in my country should contribute more to society.</strong>
+        </p>
+
+        {{ formfield "wealthy_contribution"}}
+
+        <br>
+        <p style="text-align: center;">
+            <strong>The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.</strong>
+        </p>
+
+        {{ formfield "wealthy_merit" }}
+
+        <br>
+        <p style="text-align: center;">
+            <strong>The poorest 1% in my country should contribute more to society.</strong>
+        </p>
+
+        {{ formfield "poor_contribution" }}
+
+        <br>
+        <p style="text-align: center;">
+            <strong>The poorest 1% in my country are in their current position largely due to their own actions and decisions.</strong>
+        </p>
+
+        {{ formfield "poor_merit" }}
 
     </div>
 
