@@ -470,6 +470,7 @@ class Introduction(Page):
     def vars_for_template(player: Player):
         return {
             'participation_fee': player.session.config['participation_fee'],
+            'total_pages':player.session.config['total_pages'],
         }
 
 class instructionPage(Page):
@@ -541,7 +542,8 @@ class instructionPage(Page):
             'block2': block2,
             'block3': block3,
             'current_country': current_country,
-            'treatment_type': treatment_type
+            'treatment_type': treatment_type,
+            'total_pages':player.session.config['total_pages'],
         }
 
     @staticmethod
@@ -600,6 +602,7 @@ class ComprehensionQuestionPage(Page):
             comprehension3PC2=player.comprehension3PC2,
             image=image,
             correct_answers=correct_answers,
+            total_pages=player.session.config['total_pages'],
         )
 
     @staticmethod
@@ -650,7 +653,12 @@ class AttentionCheckPage(Page):
             attention_round1=attention_round1,
             attention1=player.attention1,
             attention2=player.attention2,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 3
 
 
 class TPPage(Page):
@@ -817,6 +825,7 @@ class TPPage(Page):
             image=image,
             current_country=current_country,
             role_switch_true=player.role_switch_true,
+            total_pages=player.session.config['total_pages'],
         )
         # Conditionally add the extra variable
         if "comp" in player.treatment:
@@ -924,6 +933,7 @@ class DictatorPage(Page):
             current_country=current_country,
             treatment_text_action=text_action,
             role_switch_true = player.role_switch_true,
+            total_pages=player.session.config['total_pages'],
             )
 
     def before_next_page(player: Player, timeout_happened):
@@ -972,40 +982,14 @@ class UniversalNormPage(Page):
             image=image,
             recorded_norm_num=recorded_norm_num,
             recorded_norm=recorded_norm,
+            total_pages=player.session.config['total_pages'],
             )
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
-
-
-class Results(Page):
-    pass
-
-class Demographics(Page):
-    form_model = 'player'
-    form_fields = ['age', 'gender', 'income', 'education', 'nationality']
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
-
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        participant.progress += 1
-
-
-class ThanksPage(Page):
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
-
-    def vars_for_template(player: Player):
-        return {
-            'participation_fee': player.session.config['participation_fee'],
-        }
-
+        # record the last Decision title number and adds 1 ready for the next app title
+        participant.decision_page_number = player.round_number +1
       
 
 page_sequence = [Consent,

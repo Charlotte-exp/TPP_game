@@ -1,6 +1,14 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Additional questions: Part 2 </p>
+
+    <p style="text-align: center; font-size: 26px; "> End survey </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
 
 {{ endblock }}
 

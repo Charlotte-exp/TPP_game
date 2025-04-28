@@ -21,6 +21,9 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant = player.participant
         participant.pref_2PP_3PP_button_pos = random.choice([True, False])
 
+        ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        participant.progress = 1
+
 
 class Group(BaseGroup):
     pass
@@ -42,11 +45,13 @@ class Filler(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
+            total_pages=player.session.config['total_pages'],
         )
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
+        participant.decision_page_number += 1
 
 class Filler_end_block1(Page):
 
@@ -89,7 +94,14 @@ class pref_2PP_3PP_Page(Page):
             text3PP=text3PP,
             image2PP=image2PP,
             image3PP=image3PP,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
+
 
 
 page_sequence = [Filler,

@@ -17,12 +17,15 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+
 def creating_session(subsession):
 
     treatments = itertools.cycle(['hurt_me', 'hurt_other'])
     for p in subsession.get_players():
         p.rule_following_condition = next(treatments)
         p.participant.rule_following_condition = p.rule_following_condition
+        ''' ONLY WHEN TESTING ON ITS OWN'''
+        p.participant.progress = 1
 
 
 class Group(BaseGroup):
@@ -52,11 +55,12 @@ class Filler(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
+            total_pages=player.session.config['total_pages'],
         )
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        #participant.progress += 1
+        participant.progress += 1
 
 
 
@@ -68,7 +72,13 @@ class RuleFollowing(Page):
     def vars_for_template(player: Player):
         return dict(
             condition= player.rule_following_condition,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
 
 
 

@@ -85,10 +85,11 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
     participation_fee=0.00,
+    total_pages=336,
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress',
+PARTICIPANT_FIELDS = ['current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
                       'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
 SESSION_FIELDS = []
 

@@ -50,7 +50,12 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant.current_countryname = "the United Kingdom"
 
         participant.crowding_out_button_pos = random.choice([True, False])
+
+        ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        participant.progress = 1
+
         print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+
 
 
 def get_local_red_cross_info(country_name):
@@ -183,7 +188,13 @@ class CrowdingInOutPage(Page):
             local_red_cross = local_red_cross,
             image_red_cross_local = image_red_cross_local,
             current_country=current_countryname,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
 
 class DescriptiveNormPage(Page):
 
@@ -220,7 +231,13 @@ class DescriptiveNormPage(Page):
             text1 = text1,
             text2 = text2,
             current_country=current_countryname,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
 
 class ConditionalCoopPage(Page):
 
@@ -301,7 +318,13 @@ class ConditionalCoopPage(Page):
             local_red_cross=local_red_cross,
             image_red_cross_local=image_red_cross_local,
             current_country=current_countryname,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
 
 
 page_sequence = [CrowdingInOutPage,

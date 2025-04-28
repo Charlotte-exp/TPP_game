@@ -17,6 +17,11 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+''' ONLY WHEN TESTING ON ITS OWN'''
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.progress = 1
 
 class Group(BaseGroup):
     pass
@@ -67,12 +72,13 @@ class Filler(Page):
 
         return dict(
             dice_roll=player.dice_roll(),
+            total_pages=player.session.config['total_pages'],
         )
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.label = player.label
-        #participant.progress += 1
+        participant.progress += 1
 
 class Filler_end_block2(Page):
 
@@ -96,7 +102,13 @@ class DiceRatings(Page):
             #dice_roll=player.dice_roll(),
             original_dice=player.original_dice,
             reported_dice=player.reported_dice,
+            total_pages=player.session.config['total_pages'],
         )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
 
 
 class Results(Page):

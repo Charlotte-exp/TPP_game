@@ -4,8 +4,7 @@
 
 <div style="display: flex; justify-content: center">
     <label>
-<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
-        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
         </progress>
     </label>
 </div>
@@ -227,10 +226,10 @@
 </script>
 
 
-    <style>
+<style>
 
-        body {
-            justify-content: center;
+    body {
+        justify-content: center;
         align-items: center;
         height: 100vh;
         margin-top: 4vw;
@@ -327,7 +326,7 @@
         transform-origin: top left; /* Ensure scaling starts from top-left */
         transform: scale(1); /* Default scale */
         transition: transform 0.3s ease; /* Smooth scaling */
-        /*border:1px solid black;*/
+        border:0px solid black;
         margin-left:auto;
         margin-right:auto;
     }

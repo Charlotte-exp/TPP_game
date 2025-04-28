@@ -15,6 +15,12 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+''' ONLY WHEN TESTING ON ITS OWN'''
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.progress = 1
+
 
 class Group(BaseGroup):
     pass
@@ -28,7 +34,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The wealthiest 1% in my country should contribute more to society.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
     wealthy_merit = models.StringField(
@@ -36,7 +42,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
     poor_contribution = models.StringField(
@@ -44,7 +50,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The poorest 1% in my country should contribute more to society.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
     poor_merit = models.StringField(
@@ -52,7 +58,7 @@ class Player(BasePlayer):
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
             [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
         ],
-        verbose_name='The poorest 1% in my country are in their current position largely due to their own actions and decisions.',
+        verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
 
@@ -65,8 +71,12 @@ class Narratives(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
+            total_pages=player.session.config['total_pages'],
         )
 
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
 
 
 page_sequence = [Narratives,
