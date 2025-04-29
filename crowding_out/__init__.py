@@ -242,9 +242,9 @@ class DescriptiveNormPage(Page):
 
 class ConditionalCoopPage(Page):
 
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.crowding_decision == 0
+    # @staticmethod
+    # def is_displayed(player: Player):
+    #     return player.crowding_decision == 0
 
     form_model = 'player'
 
@@ -259,6 +259,8 @@ class ConditionalCoopPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
+        non_donor = player.crowding_decision == 0
+
         current_countryname = player.participant.current_countryname
 
         local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
@@ -272,35 +274,57 @@ class ConditionalCoopPage(Page):
 
         treatment_cond_coop = player.participant.treatment_cond_coop  # conditional cooperation: true (treatment) or false (reminder control)
 
-        text1 = 'You decided that you do not want to give 4 points to charity. <br>'
-
-        if treatment_cond_coop:
-            text3 = '<b>Yes, I <u>am</u> </b> willing, <b>IF</b>'
-            text4 = f'out of 100 people in {current_countryname} also contribute.'
-            text5 = '<b>No, I am <u>not</u> </b> willing, (regardless of what others do)'
-            text6 = f'<br> <b>Important:</b> If the condition is fulfilled, 4 of your bonus points will be converted into money and transferred to the charity. <br>'
-        else:
-            text3 = '<b>Yes, I <u>am</u> </b> willing. Give <b>4 points</b> to charity.'
-            text4 = ''
-            text5 = '<b>No, I am <u>not</u> </b> willing. Give <b>0 points</b> to charity.'
-            text6 = f'<br> <b>Important:</b> If you decide to donate, 4 of your bonus points will be converted into money and transferred to the charity. <br>'
-
-
-        if treatment_incentive:
-            image = 'global/treatments/crowding_incentive.png'
+        if non_donor:
+            text1 = 'You decided not to give 4 points to charity. <br>'
+            text7 = 'at least'
             if treatment_cond_coop:
-                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>,<br> are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+                text3 = '<b>Yes</b>, <b>IF</b>'
+                text4 = f'out of 100 people in {current_countryname} also give.'
+                text5 = '<b>No</b> I still give <b>0 points</b> to charity (regardless of what others do)'
+                text6 = f'<br> <b>Important:</b> If the condition is fulfilled, 4 of your bonus points will be converted into money and transferred to the charity. <br>'
             else:
-                text2 = f'<b style="color: red;">If you think about it again</b>,<br> are you willing to <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+                text3 = '<b>Yes</b>, I now give <b>4 points</b> to charity.'
+                text4 = ''
+                text5 = '<b>No</b>, I still give <b>0 points</b> to charity.'
+                text6 = f'<br> <b>Important:</b> If you decide to donate, 4 of your bonus points will be converted into money and transferred to the charity. <br>'
+
+            if treatment_incentive:
+                image = 'global/treatments/crowding_incentive.png'
+                if treatment_cond_coop:
+                    text2 = f'<b style="color: red;">If others in {current_countryname} give,<br></b> <b> would you change your decision?</b> <br> <br> Do you <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+                else:
+                    text2 = f'<b style="color: red;">If you think about it again,<br> </b> <b> would you change your decision?</b> <br> <br> Do you <b>give 4 points</b> to charity and <b> receive 2 points</b> for yourself?'
+            else:
+                image = 'global/treatments/crowding.png'
+                if treatment_cond_coop:
+                    text2 = f'<b style="color: red;">If others in {current_countryname} give,<br></b> <b> would you change your decision?</b> <br> <br> Do you <b>give 4 points</b> to charity?'
+                else:
+                    text2 = f'<b style="color: red;">If you think about it again</b>,<br> <b> would you change your decision?</b> <br> <br> Do you <b>give 4 points</b> to charity?'
         else:
-            image = 'global/treatments/crowding.png'
+            text1 = 'You decided to give 4 points to charity. <br>'
+            text7 = 'fewer than'
             if treatment_cond_coop:
-                text2 = f'<b style="color: red;">If others in {current_countryname} donate</b>,<br> are you willing to <b>give 4 points</b> to charity?'
+                text3 = '<b>Yes</b>, <b>IF</b>'
+                text4 = f'out of 100 people in {current_countryname} do not give.'
+                text5 = '<b>No</b> I still give <b>4 points</b> to charity (regardless of what others do)'
+                text6 = f'<br> <b>Important:</b> If the condition is fulfilled, none of your bonus points will be converted into money and transferred to the charity. <br>'
+                text2 = f'<b style="color: red;">If others in {current_countryname} <u>do not</u> give,<br></b> <b> would you change your decision?</b> <br> <br> Do you <b>give 0 points</b> to charity?'
             else:
-                text2 = f'<b style="color: red;">If you think about it again</b>,<br> are you willing to <b>give 4 points</b> to charity?'
+                text3 = '<b>Yes</b>, I now give <b>0 points</b> to charity.'
+                text4 = ''
+                text5 = '<b>No</b>, I still give <b>4 points</b> to charity.'
+                text6 = f'<br> <b>Important:</b> If you decide not to donate, none of your bonus points will be converted into money and transferred to the charity. <br>'
+                text2 = f'<b style="color: red;">If you think about it again,<br></b> <b> would you change your decision?</b> <br> <br> Do you <b>give 0 points</b> to charity?'
+
+            if treatment_incentive:
+                image = 'global/treatments/crowding_incentive.png'
+            else:
+                image = 'global/treatments/crowding.png'
+
 
 
         return dict(
+            non_donor = non_donor,
             cond_coop=player.cond_coop,
             cond_coop_control = player.cond_coop_control,
             charity_select = player.field_maybe_none('charity_select'),
@@ -316,6 +340,7 @@ class ConditionalCoopPage(Page):
             text4 = text4,
             text5 = text5,
             text6 = text6,
+            text7=text7,
             local_red_cross=local_red_cross,
             image_red_cross_local=image_red_cross_local,
             current_country=current_countryname,
