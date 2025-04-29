@@ -183,7 +183,7 @@
 
         // Update the points lost text
         let pointsLost = 0;
-        const pointsPerSlider = 2;
+        const pointsPerSlider = {{ points_per_slider }};
         const slidersOnFifty = new Set();
         const pointsDisplay = document.getElementById("points-display");
         const condition = pointsDisplay.dataset.condition;
