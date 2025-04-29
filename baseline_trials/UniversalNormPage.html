@@ -1,11 +1,14 @@
 {{ block title }}
 
+<p style="font-size: 22px; text-decoration: underline;">
+    Block 1
+</p>
+
 <p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
 
-<div style="display: flex; justify-content: center">
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
-<!--        Step {{ participant.progress }} of {{ C.total_pages }}-->
-        <progress value="{{ participant.progress }}" max="{{ C.total_pages }}">
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
         </progress>
     </label>
 </div>

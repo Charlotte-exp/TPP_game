@@ -1,8 +1,12 @@
 {{ block title }}
 
+<p style="font-size: 22px; text-decoration: underline;">
+    Block 2
+</p>
+
 <p style="text-align: center; font-size: 26px; "> Decision {{ participant.decision_page_number }} </p>
 
-<div style="display: flex; justify-content: center">
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
         <progress value="{{ participant.progress }}" max="{{ total_pages }}">
         </progress>
