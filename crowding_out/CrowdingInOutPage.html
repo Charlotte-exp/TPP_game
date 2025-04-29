@@ -94,6 +94,118 @@
     });
 });
 
+
+    /////////  Slider /////////
+
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     const sliders = [
+        //         { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+        //         { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+        //         // { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
+        //     ];
+        //
+        //     sliders.forEach(({ sliderId, outputId, checkId }) => {
+        //         const slider = document.getElementById(sliderId);
+        //         const output = document.getElementById(outputId);
+        //         const checkSlider = document.getElementById(checkId);
+        //
+        //         slider.value = "";
+        //         output.textContent = "";
+        //         checkSlider.value = "0"; // Not moved yet
+        //         slider.classList.add("hidden-thumb");
+        //
+        //         slider.addEventListener("input", function () {
+        //             output.textContent = this.value;
+        //             checkSlider.value = "1"; // Mark as moved
+        //             this.classList.remove("hidden-thumb");
+        //             document.getElementById("error-message").style.display = "none";
+        //
+        //             console.log(`${this.id} moved to ${this.value}`);
+        //         });
+        //     });
+        //
+        //     // Validate all sliders before form submission
+        //     document.querySelector("form").addEventListener("submit", function (event) {
+        //         const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+        //         if (!allMoved) {
+        //             event.preventDefault();
+        //             document.getElementById("error-message").style.display = "block";
+        //         }
+        //     });
+        // });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const sliders = [
+            { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+            { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+            // { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
+        ];
+
+        const customErrorDiv = document.getElementById("custom-error-message"); // Get error div
+
+        sliders.forEach(({ sliderId, outputId, checkId }) => {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(outputId);
+            const checkSlider = document.getElementById(checkId);
+
+            // Ensure slider exists before proceeding
+            if (!slider || !output || !checkSlider) {
+                console.warn(`Elements missing for slider group: ${sliderId}, ${outputId}, ${checkId}`);
+                return; // Skip this slider if elements aren't found
+            }
+
+            // Initial state
+            slider.value = ""; // Start visually empty
+            output.textContent = ""; // No initial text output
+            checkSlider.value = "0"; // Not moved yet
+            slider.classList.add("hidden-thumb");
+
+            slider.addEventListener("input", function () {
+                output.textContent = this.value;
+                checkSlider.value = "1"; // Mark as moved
+                this.classList.remove("hidden-thumb");
+                customErrorDiv.style.display = "none"; // Hide error on interaction
+
+                // Optional: Log movement
+                // console.log(`${this.id} moved to ${this.value}`);
+            });
+        });
+
+        // Validate all sliders before form submission
+        // Ensure you target the correct form if there are multiple
+        const form = document.querySelector('form'); // More specific if needed e.g., form with id='form'
+        if (form) {
+             form.addEventListener("submit", function (event) {
+                // Check if ALL sliders defined in the 'sliders' array have been moved
+                const allMoved = sliders.every(({ checkId }) => {
+                     const checkInput = document.getElementById(checkId);
+                     // Make sure the checkInput exists before reading its value
+                     return checkInput && checkInput.value === "1";
+                 });
+
+                if (!allMoved) {
+                    event.preventDefault(); // Stop form submission
+                    customErrorDiv.style.display = "block"; // Show custom error
+                } else {
+                    customErrorDiv.style.display = "none"; // Hide error if validation passes
+                     // Optional: Explicitly set slider value if it's still "" but slider was moved
+                     // This handles edge cases where 'input' fired but value wasn't set properly
+                     // Or if you want a default value like 0 if moved but left at the start.
+                     // sliders.forEach(({ sliderId, checkId }) => {
+                     //    const slider = document.getElementById(sliderId);
+                     //    const checkInput = document.getElementById(checkId);
+                     //    if (slider && checkInput && checkInput.value === '1' && slider.value === '') {
+                     //        slider.value = slider.min; // Or some default
+                     //    }
+                     // });
+                }
+            });
+        } else {
+            console.error("Form element not found for attaching submit listener.");
+        }
+    });
+
+
     $(document).ready(function () {
 
             // Fill initial coin stacks and number labels (norm condition)
@@ -674,6 +786,126 @@
     left: 3%;
 }
 
+.slider {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.slider-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: -10px; /* optional: pulls labels closer to slider */
+}
+
+.slider-labels span {
+    flex: 1;
+    text-align: center;
+}
+
+/* Webkit-based browsers (Chrome, Safari) */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Firefox */
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Internet Explorer and Edge */
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+            /* Remove default styling for MS track */
+            border-color: transparent;
+            color: transparent;
+            background-color: transparent;
+        }
+
+        /* Style the range input element itself to reset default styling across browsers */
+        input[type=range] {
+            -webkit-appearance: none; /* For Webkit browsers */
+            appearance: none; /* For Firefox and other browsers */
+            width: 100%;
+            height: 8px; /* Adjust the input height */
+            background: transparent; /* Make sure the input background is transparent */
+            border: none; /* Remove default border */
+            margin-top: 5px;
+        }
+
+        /* Hide the thumb initially for Safari/Chrome */
+        .hidden-thumb::-webkit-slider-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for Firefox */
+        .hidden-thumb::-moz-range-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for IE/Edge */
+        .hidden-thumb::-ms-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Style the slider thumb for Safari/Chrome */
+        input[type=range]::-webkit-slider-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for Firefox */
+        input[type=range]::-moz-range-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -moz-appearance: none;  /* Firefox-specific appearance reset */
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for IE/Edge */
+        input[type=range]::-ms-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -ms-appearance: none;  /* Edge/IE-specific appearance reset */
+            margin-top: -7px;
+        }
+
+
     @media (max-width: 1200px) {
       .responsive-div {
         transform: scale(1.0); /* Scale to 80% for smaller screens */
@@ -820,12 +1052,7 @@
         <hr>
     </div>
 
-<!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="crowding_norm_decision1" id="selected-norm-1">
-    <input type="hidden" name="crowding_norm_decision2" id="selected-norm-2">
 
-        {{ formfield_errors 'crowding_norm_decision1' }}
-            {{ formfield_errors 'crowding_norm_decision2' }}
 
     <div class='responsive-div'>
 
@@ -874,24 +1101,48 @@
             {{ text3|safe }}
         </p>
 
-
-<!--        <p style="font-size: 14px; text-align: center; ">-->
-<!--            <strong> What do you think is the most common response? </strong>-->
-<!--        </p>-->
-
         <p style="text-align: center; ">
                 How <b style="color: red;">altruistic</b> is Person A?
             </p>
 
+<!--        &lt;!&ndash; Add hidden input to store the selected value &ndash;&gt;-->
+<!--        <input type="hidden" name="crowding_norm_decision1" id="selected-norm-1">-->
+<!--        {{ formfield_errors 'crowding_norm_decision1' }}-->
 
-                <div class="number-row"  data-input="selected-norm-1">
-                    <div class="norm1" data-value="0" >very <br>selfish</div>
-                    <div class="norm1" data-value="1" > selfish</div>
-                    <div class="norm1" data-value="2" >slightly <br>selfish</div>
-                    <div class="norm1" data-value="3" >slightly <br>altruistic</div>
-                    <div class="norm1" data-value="4" > altruistic</div>
-                    <div class="norm1" data-value="5" >very <br>altruistic</div>
-                </div>
+<!--                <div class="number-row"  data-input="selected-norm-1">-->
+<!--                    <div class="norm1" data-value="0" >very <br>selfish</div>-->
+<!--                    <div class="norm1" data-value="1" > selfish</div>-->
+<!--                    <div class="norm1" data-value="2" >slightly <br>selfish</div>-->
+<!--                    <div class="norm1" data-value="3" >slightly <br>altruistic</div>-->
+<!--                    <div class="norm1" data-value="4" > altruistic</div>-->
+<!--                    <div class="norm1" data-value="5" >very <br>altruistic</div>-->
+<!--                </div>-->
+
+
+
+        <div class="slider-container">
+
+            <input type="hidden" name="slider1_moved" value="0" id="check_slider1">
+            <input type="range" name="crowding_norm_decision1" id="slider1" min="0" max="100" value="" class="slider hidden-thumb">
+
+            <div class="slider-labels">
+                <span>very<br>selfish</span>
+                <span>selfish</span>
+                <span>slightly<br>selfish</span>
+                <span>slightly<br>altruistic</span>
+                <span>altruistic</span>
+                <span>very<br>altruistic</span>
+            </div>
+
+            <div style="text-align: center;">
+                <span style="color: #f4f4f4">
+                    <output id="output1"></output>
+                </span>
+            </div>
+        </div>
+
+
+
 
             <br>
 
@@ -899,25 +1150,61 @@
                 How <b style="color: red;">likeable</b> is Person A?
             </p>
 
-        <div class='numbers' >
-            <div class="number-row"  data-input="selected-norm-2">
-                <div class="norm2" data-value="0" >very <br>unlikeable</div>
-                <div class="norm2" data-value="1" > unlikeable</div>
-                <div class="norm2" data-value="2" >slightly <br>unlikeable</div>
-                <div class="norm2" data-value="3" >slightly <br>likeable</div>
-                <div class="norm2" data-value="4" > likeable</div>
-                <div class="norm2" data-value="5" >very <br>likeable</div>
+<!--        &lt;!&ndash; Add hidden input to store the selected value &ndash;&gt;-->
+<!--        <input type="hidden" name="crowding_norm_decision2" id="selected-norm-2">-->
+<!--        {{ formfield_errors 'crowding_norm_decision2' }}-->
+
+<!--        <div class='numbers' >-->
+<!--            <div class="number-row"  data-input="selected-norm-2">-->
+<!--                <div class="norm2" data-value="0" >very <br>unlikeable</div>-->
+<!--                <div class="norm2" data-value="1" > unlikeable</div>-->
+<!--                <div class="norm2" data-value="2" >slightly <br>unlikeable</div>-->
+<!--                <div class="norm2" data-value="3" >slightly <br>likeable</div>-->
+<!--                <div class="norm2" data-value="4" > likeable</div>-->
+<!--                <div class="norm2" data-value="5" >very <br>likeable</div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="slider-container">
+
+            <input type="hidden" name="slider1_moved" value="0" id="check_slider2">
+            <input type="range" name="crowding_norm_decision2" id="slider2" min="0" max="100" value="" class="slider hidden-thumb">
+
+            <div class="slider-labels">
+                <span>very<br>unlikeable</span>
+                <span>unlikeable</span>
+                <span>slightly<br>unlikeable</span>
+                <span>slightly<br>likeable</span>
+                <span>likeable</span>
+                <span>very<br>likeable</span>
+            </div>
+
+            <div style="text-align: center;">
+                <span style="color: #f4f4f4">
+                    <output id="output2"></output>
+                </span>
             </div>
         </div>
 
         <br>
 
         <p style="text-align: center; ">
+            Please move the sliders to indicate your answers.
+        </p>
+
+        <p style="text-align: center; ">
             {{ text4|safe }}
         </p>
 
 
-    <hr>
+<!--    <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">-->
+<!--            Please move all sliders before continuing.-->
+<!--        </div>-->
+
+        <div id="custom-error-message" style="color: red; display: none; text-align: center; margin-top: 15px;">
+            Please adjust all sliders before proceeding.
+        </div>
+
 
     </div>
 

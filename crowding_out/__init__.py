@@ -48,14 +48,16 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         # Only necessary if not using participant field from baseline_trials
         participant.current_country = "gb"
         participant.current_countryname = "the United Kingdom"
-        participant.decision_page_number = 0
-
+        
         participant.crowding_out_button_pos = random.choice([True, False])
+        participant.treatment_cond_coop = True # For cross-cultural experiment, hard code it to true for now: Everyone sees conditional cooperation task and not control
 
-        ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        participant.progress = 1
-
-        print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        # participant.progress = 1
+        # participant.decision_page_number = 0 # For testing only crowding
+        #
+        # print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+        # print('final treatment_cond_coop', participant.treatment_cond_coop)
 
 
 
@@ -91,17 +93,38 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
+    # crowding_norm_decision1 = models.IntegerField(
+    #     initial=0,
+    #     choices=[(i, f'value {i}') for i in range(12 + 1)],
+    #     widget=widgets.RadioSelect,
+    #     # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    # )
+    # crowding_norm_decision2 = models.IntegerField(
+    #     initial=0,
+    #     choices=[(i, f'value {i}') for i in range(12 + 1)],
+    #     widget=widgets.RadioSelect,
+    #     # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    # )
     crowding_norm_decision1 = models.IntegerField(
-        initial=0,
-        choices=[(i, f'value {i}') for i in range(12 + 1)],
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        min=0,
+        max=100,
+        blank=True
     )
     crowding_norm_decision2 = models.IntegerField(
-        initial=0,
-        choices=[(i, f'value {i}') for i in range(12 + 1)],
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+        min=0,
+        max=100,
+        blank=True
+    )
+    slider1 = models.IntegerField(
+        min=0, max=100
+    )
+
+    slider2 = models.IntegerField(
+        min=0, max=100
+    )
+
+    slider3 = models.IntegerField(
+        min=0, max=100
     )
     descr_norm = models.IntegerField(
         initial=0,
@@ -157,7 +180,7 @@ class CrowdingInOutPage(Page):
         print("treatment_incentive", treatment_incentive)
 
         text2 = '<br> If you donate, we will convert the points into money and transfer it to the charity.'
-        text4 = f'<b>Important:</b> If your response is the same as the most common response in {current_countryname}, you will receive 4 extra points.'
+        text4 = f'<b>Important:</b> If your response is close to the average rating in {current_countryname} (plus or minus 5%), you will receive 8 extra points.'
         text5 = '<b style="color: red;">Do you give 4 points to charity? </b>'
 
         if treatment_incentive:
@@ -172,8 +195,8 @@ class CrowdingInOutPage(Page):
         return dict(
             crowding_decision=player.crowding_decision,
             charity_select = player.field_maybe_none('charity_select'),
-            crowding_norm_decision1=player.crowding_norm_decision1,
-            crowding_norm_decision2=player.crowding_norm_decision2,
+            # crowding_norm_decision1=player.field_maybe_none('crowding_norm_decision1'),
+            # crowding_norm_decision2=player.field_maybe_none('crowding_norm_decision2'),
             treatment_incentive=treatment_incentive,
             crowding_out_button_pos = crowding_out_button_pos,
             total_endowment = total_endowment,
@@ -197,6 +220,24 @@ class CrowdingInOutPage(Page):
         participant.progress += 1
         participant.decision_page_number += 1
 
+
+
+class CrowdingInOutPageFixed(Page):
+    form_model = "player"
+    form_fields = ["slider1", "slider2", "slider3"]
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            total_pages=player.session.config['total_pages'],
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
+
+
 class DescriptiveNormPage(Page):
 
     form_model = 'player'
@@ -215,7 +256,7 @@ class DescriptiveNormPage(Page):
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
 
         text1 = f'<br> <b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision? '
-        text2 = f'<b>Important</b>:</b> If your response is close to the correct number (plus or minus 5), you will receive 4 extra points.'
+        text2 = f'<b>Important</b>:</b> If your response is close to the correct number (plus or minus 5), you will receive 8 extra points.'
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -353,7 +394,8 @@ class ConditionalCoopPage(Page):
         participant.decision_page_number += 1
 
 
-page_sequence = [CrowdingInOutPage,
+page_sequence = [CrowdingInOutPageFixed,
+                 CrowdingInOutPage,
                  DescriptiveNormPage,
                  ConditionalCoopPage,
                  ]
