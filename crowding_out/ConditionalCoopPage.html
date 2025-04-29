@@ -704,15 +704,15 @@
 
             <div class='numbers' >
                 <div class="number-row"  data-input="selected-number-1">
-                    <span class="number" data-value="10" >{{ text3|safe }} at least <b style="color: red;">10</b> {{ text4|safe }}</span>
-                    <div class="number" data-value="20" >{{ text3|safe }} at least <b style="color: red;">20</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="30" >{{ text3|safe }} at least <b style="color: red;">30</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="40" >{{ text3|safe }} at least <b style="color: red;">40</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="50" >{{ text3|safe }} at least <b style="color: red;">50</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="60" >{{ text3|safe }} at least <b style="color: red;">60</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="70" >{{ text3|safe }} at least <b style="color: red;">70</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="80" >{{ text3|safe }} at least <b style="color: red;">80</b> {{ text4|safe }}</div>
-                    <div class="number" data-value="90" >{{ text3|safe }} at least <b style="color: red;">90</b> {{ text4|safe }}</div>
+                    <span class="number" data-value="10" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">10</b> {{ text4|safe }}</span>
+                    <div class="number" data-value="20" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">20</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="30" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">30</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="40" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">40</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="50" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">50</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="60" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">60</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="70" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">70</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="80" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">80</b> {{ text4|safe }}</div>
+                    <div class="number" data-value="90" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">90</b> {{ text4|safe }}</div>
                     <div class="number" data-value="100" >{{ text3|safe }} <b style="color: red;">100</b> {{ text4|safe }}</div>
                     <div class="number" data-value="999" >{{ text5|safe }} </div>
                 </div>
@@ -739,7 +739,9 @@
 
         {% endif %}
 
-        <label for="charity-select" style="">You can choose your own charity:</label>
+        {% if non_donor %}
+
+        <label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>
         <select id="charity-select" style="">
             <option value="" selected >Randomly selected charity</option>
             <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
@@ -755,6 +757,7 @@
         <input type="text" id="custom-charity" placeholder="Enter your charity" style="font-size: 14px; display:none;" />
         <input type="hidden" name="charity_select" id="hidden-charity-select" />
 
+        {% endif %}
 
     </div>
 
