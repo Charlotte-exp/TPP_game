@@ -41,8 +41,16 @@ class Player(BasePlayer):
         min=0, max=100
     )
 
-    trust_points = models.IntegerField(
+    likability = models.IntegerField(
         min=0, max=100
+    )
+
+    trust_points = models.IntegerField(
+        choices=[
+            [1, '1 point'], [2, '2 points'], [3, '3 points'], [4, '4 points'],
+        ],
+        verbose_name='',
+        widget=widgets.RadioSelectHorizontal
     )
 
     def dice_roll(player):
@@ -79,21 +87,9 @@ class Filler(Page):
         participant = player.participant
         participant.label = player.label
 
-class Filler_end_block2(Page):
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(
-            total_pages=player.session.config['total_pages'],
-        )
-
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        #participant.progress += 1
-
 class DiceRatings(Page):
     form_model = "player"
-    form_fields = ["trustworthiness", "trust_points"]
+    form_fields = ["trustworthiness","likability", "trust_points"]
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -109,6 +105,18 @@ class DiceRatings(Page):
         participant = player.participant
         participant.progress += 1
         participant.decision_page_number += 1
+
+class Filler_end_block2(Page):
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            total_pages=player.session.config['total_pages'],
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
 
 
 class Results(Page):

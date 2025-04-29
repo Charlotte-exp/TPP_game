@@ -275,6 +275,7 @@
             const sliders = [
                 { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
                 { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+                { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
             ];
 
             sliders.forEach(({ sliderId, outputId, checkId }) => {
@@ -394,6 +395,31 @@
                 <output id="output1"></output>
             </span>
         </div>
+
+        <p style="text-align: center;">
+            <strong>How likable do you think this person is?</strong>
+        </p>
+        <!-- Slider 2-->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="margin-top: -15px;">
+                Not likable at all
+            </span>
+            <!-- Slider is placed between the two spans -->
+            <span style="flex-grow: 1; margin: 0 10px;">
+                <input type="hidden" name="slider2_moved" value="0" id="check_slider2" />
+                <input type="range" name="likability" id="slider2" min="0" max="100" value="" class="hidden-thumb">
+            </span>
+
+            <span style="margin-top: -15px;">
+                Very likable
+            </span>
+        </div>
+
+        <div style="text-align: center;">
+            <span style="color: #f4f4f4">
+                <output id="output2"></output>
+            </span>
+        </div>
     </div>
 
     <br>
@@ -403,31 +429,13 @@
         The other person can transfer all, some, or none of those (tripled) points back to you.
     </p>
 
+    <br>
     <div class='responsive-div'>
         <p style="text-align: center;">
             <strong>How much do you want to send to the other person?</strong>
         </p>
-        <!-- Slider 2-->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="margin-top: -15px;">
-                Nothing (0pts)
-            </span>
-            <!-- Slider is placed between the two spans -->
-            <span style="flex-grow: 1; margin: 0 10px;">
-                <input type="hidden" name="slider2_moved" value="0" id="check_slider2" />
-                <input type="range" name="trust_points" id="slider2" min="0" max="100" value="" class="hidden-thumb">
-            </span>
 
-            <span style="margin-top: -15px;">
-                Everything (100pts)
-            </span>
-        </div>
-
-        <div style="text-align: center;">
-            <span style="color: #0d6efd">
-                <output id="output2"></output>
-            </span>
-        </div>
+        {{ form.trust_points }}
 
         <!-- Error message -->
         <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
