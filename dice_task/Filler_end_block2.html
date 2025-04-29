@@ -2,6 +2,13 @@
 
     <p style="text-align: center; font-size: 26px; "> Block 2 complete! </p>
 
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
 {{ endblock }}
 
 {{ block style }}

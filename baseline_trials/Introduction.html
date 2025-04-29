@@ -2,7 +2,7 @@
 
     <p style="text-align: center; font-size: 26px;  "> Bonus points </p>
 
-<div style="display: flex; justify-content: center">
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
         <progress value="{{ participant.progress }}" max="{{ total_pages }}">
         </progress>
@@ -10,9 +10,24 @@
 </div>
 
 {{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
 {{ block content }}
-
-
 
 <div class="card-body">
 
@@ -76,6 +91,8 @@
     </div>
 
 </div>
+
+
 
 
 

@@ -78,13 +78,13 @@ class Filler(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.label = player.label
-        participant.progress += 1
 
 class Filler_end_block2(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
+            total_pages=player.session.config['total_pages'],
         )
 
     def before_next_page(player: Player, timeout_happened):

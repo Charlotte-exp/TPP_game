@@ -28,12 +28,14 @@
 
 {{ endblock }}
 
+
 {{ block content }}
 
-    <p>
-      You have now <b> completed the first block</b>, where you made decisions as Person A, Person B, or Person C.
+<div class="card-body">
 
-        </p>
+    <p>
+        You have now <b> completed the first block</b>, where you made decisions as Person A, Person B, or Person C.
+    </p>
 
     <p>
         You will find out how many bonus points you collected in Block 1 only after the study is over, because bonus points are calculated after all participants have completed the study.
@@ -43,10 +45,26 @@
        On the next page, you will be asked <b> one additional question </b> about Block 1.
     </p>
 
-
     <div style="display: flex; justify-content: flex-end">
         <button class="btn btn-primary">Next</button>
     </div>
+
+</div>
+
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+
 
 {{ endblock }}
 
