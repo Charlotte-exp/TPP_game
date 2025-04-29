@@ -13,6 +13,8 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
+    points_per_slider = 1
+
 
 class Subsession(BaseSubsession):
     pass
@@ -72,6 +74,7 @@ class RuleFollowing(Page):
     def vars_for_template(player: Player):
         return dict(
             condition= player.rule_following_condition,
+            points_per_slider=C.points_per_slider,
             total_pages=player.session.config['total_pages'],
         )
 

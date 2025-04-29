@@ -29,11 +29,6 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
-    label = models.StringField(
-        verbose_name='Please create a username',
-        min=0, max=100
-    )
-
     original_dice = models.IntegerField(initial=0)
     reported_dice = models.IntegerField(initial=0)
 
@@ -47,7 +42,7 @@ class Player(BasePlayer):
 
     trust_points = models.IntegerField(
         choices=[
-            [1, '1 point'], [2, '2 points'], [3, '3 points'], [4, '4 points'],
+            [1, '1 point'], [2, '2 points'], [3, '3 points'],
         ],
         verbose_name='',
         widget=widgets.RadioSelectHorizontal
@@ -72,8 +67,6 @@ class Player(BasePlayer):
 ############  PAGES  #############
 
 class Filler(Page):
-    form_model = "player"
-    form_fields = ["label"]
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -85,7 +78,6 @@ class Filler(Page):
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
-        participant.label = player.label
 
 class DiceRatings(Page):
     form_model = "player"
@@ -123,6 +115,5 @@ class Results(Page):
     pass
 
 
-page_sequence = [Filler,
-                 DiceRatings,
+page_sequence = [DiceRatings,
                  Filler_end_block2]
