@@ -24,8 +24,9 @@ def creating_session(subsession):
     for p in subsession.get_players():
         p.rule_following_condition = next(treatments)
         p.participant.rule_following_condition = p.rule_following_condition
-        ''' ONLY WHEN TESTING ON ITS OWN'''
-        p.participant.progress = 1
+        # ''' ONLY WHEN TESTING ON ITS OWN'''
+        # p.participant.decision_page_number = 0  # For testing only
+        # p.participant.progress = 1
 
 
 class Group(BaseGroup):

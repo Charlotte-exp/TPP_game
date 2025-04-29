@@ -1,0 +1,327 @@
+{{ block title }}
+
+<p style="font-size: 22px; text-decoration: underline;">
+    Block 2
+</p>
+
+<p style="text-align: center; font-size: 26px; "> Decision {{ participant.decision_page_number }} </p>
+
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
+{{ endblock }}
+
+{{ block content }}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+        .responsive-div {
+            width: 90%; /* Default width */
+            transform-origin: top left; /* Ensure scaling starts from top-left */
+            transform: scale(1); /* Default scale */
+            transition: transform 0.3s ease; /* Smooth scaling */
+            border:0px solid black;
+            margin-left:auto;
+            margin-right:auto;
+        }
+
+        .wrapper {
+          display: grid;
+          grid-auto-rows: minmax(40px, auto);
+          grid-template-columns: 150px 150px 50px 200x;
+          column-gap: 10px;
+          row-gap: 5px;
+        }
+
+        .wrapper2 {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          column-gap: 10px;
+          row-gap: 10px;
+        }
+
+        .bottom-two {
+          margin-bottom: 2cm;
+          }
+
+            input[type=range] {
+                -webkit-appearance: none;
+                margin: 18px 0;
+                width: 100%;
+            }
+
+            input[type=range]:focus {
+                outline: none;
+            }
+
+        /* Webkit-based browsers (Chrome, Safari) */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Firefox */
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Internet Explorer and Edge */
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+            /* Remove default styling for MS track */
+            border-color: transparent;
+            color: transparent;
+            background-color: transparent;
+        }
+
+        /* Style the range input element itself to reset default styling across browsers */
+        input[type=range] {
+            -webkit-appearance: none; /* For Webkit browsers */
+            appearance: none; /* For Firefox and other browsers */
+            width: 100%;
+            height: 8px; /* Adjust the input height */
+            background: transparent; /* Make sure the input background is transparent */
+            border: none; /* Remove default border */
+            margin-top: 5px;
+        }
+
+        /* Hide the thumb initially for Safari/Chrome */
+        .hidden-thumb::-webkit-slider-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for Firefox */
+        .hidden-thumb::-moz-range-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for IE/Edge */
+        .hidden-thumb::-ms-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Style the slider thumb for Safari/Chrome */
+        input[type=range]::-webkit-slider-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for Firefox */
+        input[type=range]::-moz-range-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -moz-appearance: none;  /* Firefox-specific appearance reset */
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for IE/Edge */
+        input[type=range]::-ms-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -ms-appearance: none;  /* Edge/IE-specific appearance reset */
+            margin-top: -7px;
+        }
+
+    </style>
+
+
+    <script>
+
+        /////////  Slider /////////
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const sliders = [
+            { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+            { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+            { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
+        ];
+
+        // Update the points lost text
+        let pointsLost = 0;
+        const pointsPerSlider = 2;
+        const slidersOnFifty = new Set();
+        const pointsDisplay = document.getElementById("points-display");
+        const condition = pointsDisplay.dataset.condition;
+
+        function updatePointsDisplay() {
+            const baseText = condition === "hurt_other"
+                ? "Another participant loses"
+                : "You lose";
+            pointsDisplay.textContent = `${baseText} ${pointsLost} point${pointsLost !== 1 ? 's' : ''}`;
+        }
+        updatePointsDisplay();
+
+        // not sure exactly what
+        sliders.forEach(({ sliderId, outputId, checkId }) => {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(outputId);
+            const checkSlider = document.getElementById(checkId);
+
+            slider.value = "";
+            output.textContent = "";
+            checkSlider.value = "0"; // Not moved yet
+            slider.classList.add("hidden-thumb");
+
+            slider.addEventListener("input", function () {
+                output.textContent = this.value;
+                checkSlider.value = "1"; // Mark as moved
+                this.classList.remove("hidden-thumb");
+                document.getElementById("error-message").style.display = "none";
+
+                const currentValue = parseInt(this.value);
+                const isOnFifty = currentValue === 50;
+
+                if (isOnFifty && !slidersOnFifty.has(sliderId)) {
+                    slidersOnFifty.add(sliderId);
+                    pointsLost += pointsPerSlider;
+                    updatePointsDisplay();
+                } else if (!isOnFifty && slidersOnFifty.has(sliderId)) {
+                    slidersOnFifty.delete(sliderId);
+                    pointsLost -= pointsPerSlider;
+                    updatePointsDisplay();
+                }
+
+                console.log(`${this.id} moved to ${this.value}`);
+            });
+
+            slider.addEventListener("mousedown", function () {
+                this.classList.remove("hidden-thumb");
+            });
+
+            slider.addEventListener("touchstart", function () {
+                this.classList.remove("hidden-thumb");
+            });
+        });
+
+
+        // Validate all sliders before form submission
+        document.querySelector("form").addEventListener("submit", function (event) {
+            const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+            if (!allMoved) {
+                event.preventDefault();
+                document.getElementById("error-message").style.display = "block";
+            }
+        });
+    });
+
+    </script>
+
+</head>
+
+<body>
+    <div class="card-body">
+
+        <p style="text-align: center; ">
+            In this part, you decide how to position three sliders.
+        </p>
+
+
+
+        <p style="text-align: center; ">
+            <b> The rule of this task is to move each slider to position “50”. </b>
+        </p>
+        <br>
+
+        <div class='responsive-div'>
+
+            <!-- Slider 1 -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>0</span>
+                <span style="flex-grow: 1; margin: 0 10px;">
+                    <input type="hidden" name="slider1_moved" id="check_slider1" value="0" />
+                    <input type="range" name="slider1" id="slider1" min="0" max="100" class="hidden-thumb" />
+                </span>
+                <span>100</span>
+            </div>
+            <div style="text-align: center;"><output id="output1" style="color: #0d6efd"></output></div>
+
+
+            <!-- Slider 2 -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>0</span>
+                <span style="flex-grow: 1; margin: 0 10px;">
+                    <input type="hidden" name="slider2_moved" id="check_slider2" value="0" />
+                    <input type="range" name="slider2" id="slider2" min="0" max="100" class="hidden-thumb" />
+                </span>
+                <span>100</span>
+            </div>
+            <div style="text-align: center;"><output id="output2" style="color: #0d6efd"></output></div>
+
+
+            <!-- Slider 3 -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>0</span>
+                <span style="flex-grow: 1; margin: 0 10px;">
+                    <input type="hidden" name="slider3_moved" id="check_slider3" value="0" />
+                    <input type="range" name="slider3" id="slider3" min="0" max="100" class="hidden-thumb" />
+                </span>
+                <span>100</span>
+            </div>
+            <div style="text-align: center;"><output id="output3" style="color: #0d6efd"></output></div>
+
+
+            <!-- Error message -->
+            <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+                Please move all sliders before continuing.
+            </div>
+        </div>
+
+
+
+
+        <div style="display: flex; justify-content: flex-end">
+            <button class="btn btn-primary">Next</button>
+        </div>
+
+
+
+    </div>
+</body>
+</html>
+
+{{ endblock }}
