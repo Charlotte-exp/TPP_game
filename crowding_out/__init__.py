@@ -221,23 +221,6 @@ class CrowdingInOutPage(Page):
         participant.decision_page_number += 1
 
 
-
-class CrowdingInOutPageFixed(Page):
-    form_model = "player"
-    form_fields = ["slider1", "slider2", "slider3"]
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(
-            total_pages=player.session.config['total_pages'],
-        )
-
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        participant.progress += 1
-        participant.decision_page_number += 1
-
-
 class DescriptiveNormPage(Page):
 
     form_model = 'player'
@@ -394,8 +377,7 @@ class ConditionalCoopPage(Page):
         participant.decision_page_number += 1
 
 
-page_sequence = [CrowdingInOutPageFixed,
-                 CrowdingInOutPage,
+page_sequence = [CrowdingInOutPage,
                  DescriptiveNormPage,
                  ConditionalCoopPage,
                  ]
