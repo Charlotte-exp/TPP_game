@@ -4,14 +4,8 @@
     Block 2
 </p>
 
-<p style="text-align: center; font-size: 26px; "> Decision {{ participant.decision_page_number }} </p>
+<p style="text-align: center; font-size: 26px; "> Decision  </p>
 
-<div style="display: flex; justify-content: center; margin-bottom: 4px;">
-    <label>
-        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
-        </progress>
-    </label>
-</div>
 
 
 {{ endblock }}
@@ -275,7 +269,6 @@
             const sliders = [
                 { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
                 { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
-                { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
             ];
 
             sliders.forEach(({ sliderId, outputId, checkId }) => {
@@ -420,6 +413,12 @@
                 <output id="output2"></output>
             </span>
         </div>
+
+        <!-- Error message -->
+        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+            Please move all sliders before continuing.
+        </div>
+
     </div>
 
     <br>
@@ -437,10 +436,6 @@
 
         {{ form.trust_points }}
 
-        <!-- Error message -->
-        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
-            Please move all sliders before continuing.
-        </div>
     </div>
 
         <div style="display: flex; justify-content: flex-end">
