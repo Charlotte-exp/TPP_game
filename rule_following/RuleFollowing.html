@@ -4,7 +4,7 @@
     Block 2
 </p>
 
-<p style="text-align: center; font-size: 26px; "> Decision {{ participant.decision_page_number }} </p>
+<p style="text-align: center; font-size: 26px;  "> Decision {{ participant.decision_page_number }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -312,11 +312,6 @@
             </div>
             <div style="text-align: center;"><output id="output3" style="color: #0d6efd"></output></div>
 
-
-            <!-- Error message -->
-            <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
-                Please move all sliders before continuing.
-            </div>
         </div>
 
 
@@ -326,6 +321,14 @@
             {{ else }}
                 Another participant loses 0 points.
             {{ endif }}
+        </div>
+
+
+        <!-- Error message -->
+        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+            <p>
+                Please move all sliders before continuing.
+            </p>
         </div>
 
         <div style="display: flex; justify-content: flex-end">
