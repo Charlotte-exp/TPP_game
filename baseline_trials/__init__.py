@@ -18,6 +18,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 38
     NUM_DECISIONS_APPROX = 45
+    STUDY_TIME = 50
     total_pages = 400 # for progress bar
 
     CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
@@ -457,6 +458,11 @@ class Consent(Page):
         return {
             'participation_fee': player.session.config['participation_fee'],
         }
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
 
 class Introduction(Page):
 
