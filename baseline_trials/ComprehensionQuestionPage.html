@@ -21,6 +21,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 
@@ -232,14 +235,6 @@
 
 <style>
 
-    body {
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin-top: 4vw;
-        background-color: #f4f4f4;
-    }
-
     .comprehension-row {
         display: flex;
         flex-direction: column; /* Stack items vertically */
@@ -324,27 +319,6 @@
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .responsive-div {
-        width: 90%; /* Default width */
-        align-items: center;
-        transform-origin: top left; /* Ensure scaling starts from top-left */
-        transform: scale(1); /* Default scale */
-        transition: transform 0.3s ease; /* Smooth scaling */
-        border:0px solid black;
-        margin-left:auto;
-        margin-right:auto;
-    }
-
-    .reminder {
-        background-color: #e0f0ff;
-        color: #004080;
-        border: 1px solid #004080;
-        padding: 8px;
-        margin-top: 15px;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-
     .comprehension-error-red {
         color: #a94442; /* Bootstrap default error text color (dark red) */
         background-color: #f2dede; /* Light red background */
@@ -376,30 +350,6 @@
         margin-bottom: 15px;
         display: none; /* Initially hidden */
         font-size: 14px;
-    }
-
-    @media (max-width: 1200px) {
-      .responsive-div {
-        transform: scale(1.0); /* Scale to 80% for smaller screens */
-      }
-      .container {
-          width:80%; /* otherwise used margin-left:10vw; */
-      }
-      .numbers {
-          transform: scale(0.85);
-      }
-    }
-
-    @media (max-width: 500px) { /* adjustments for smartphones */
-      .responsive-div {
-        transform: scale(1); /* Scale to 60% for even smaller screens */
-      }
-      .container {
-          width:90%; /* otherwise used margin-left:10vw; */
-      }
-      .numbers {
-          transform: scale(0.85);
-      }
     }
 
 </style>

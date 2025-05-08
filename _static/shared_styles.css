@@ -1,0 +1,412 @@
+/* shared_styles.css */
+
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin-top: 4vw;
+        background-color: #f4f4f4;
+        border:1px solid black;
+    }
+
+    .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:1vw;
+        left:calc(50% -10vw);
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.2vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number {
+        width: 30px; /* should not scale */
+        height: 30px; /* should not scale */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px; /* sould not scale */
+        background-color: #e0e0e0;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .norm {
+        width: 6vw; /* Width scales with viewport width */
+        height: 5vw; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9vw; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      border:0px solid black;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .figure-container {
+        width:75%;
+        height:230px;
+        /* top:2vw; */
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .short-figure-container {
+        width:75%;
+        height:100px;  # shorter for dictator
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    @media (min-width: 1300px) { /* adjustments for large screens */
+        .container {
+            width:50%; /* otherwise used margin-left:1vw; */
+        }
+        .number {
+            width: 40px; /* should not scale */
+            height: 40px; /* should not scale */
+            font-size: 22px; /* should not scale */
+        }
+    }
+
+    @media (max-width: 1300px) { /* adjustments for smaller screens */
+        .container {
+            width:60%; /* otherwise used margin-left:1vw; */
+        }
+    }
+
+    @media (max-width: 900px) { /* adjustments for smaller screens */
+        .responsive-div {
+            transform: scale(1.0); /* Scale to 80% for smaller screens */
+        }
+        .container {
+            width:80%; /* otherwise used margin-left:1vw; */
+        }
+        .figure-container {
+            width:100%; /* otherwise used margin-left:1vw; */
+        }
+        .norm {
+            width: 80px; /* Width scales with viewport width */
+            height: 60px; /* Height scales with viewport width */
+            font-size: 12px
+        }
+    }
+
+    @media (max-width: 600px) { /* adjustments for smartphones */
+        .responsive-div {
+            width:100%;
+        }
+        .container {
+            width:100%; /* otherwise used margin-left:1vw; */
+        }
+        .figure-container {
+            width:90%; /* otherwise used margin-left:1vw; */
+        }
+        .number {
+            width: 25px; /* should not scale */
+            height: 25px; /* should not scale */
+            font-size: 14px; /* sould not scale */
+        }
+        .norm {
+            width: 15vw; /* Width scales with viewport width */
+            height: 11vw; /* Height scales with viewport width */
+            font-size: 2.2vw
+        }
+    }
+
+    /* positioning elements in the figure */
+    .person-a {
+        left: calc(50% - 136px);
+        top: 65px;
+        font-size:10px;
+        position: absolute;
+    }
+
+    .person-b {
+        left: calc(50% + 80px);
+        top: 65px;
+        font-size:10px;
+        position: absolute;
+    }
+
+    .person-c {
+        left: calc(50% - 20px);
+        top:190px;
+        font-size:10px;
+        position: absolute;
+    }
+
+    .you {
+        left:calc(50% - 126.5px);
+        top: 36px;
+        font-size:16px;
+        color: red;
+        position: absolute;
+    }
+
+    .scenario_image {
+        width:280px;
+        top:3vw;
+    }
+
+    .receiver-flag {
+        width:100px;
+        position:absolute;
+        z-index: -1;
+        top: -18%;
+        left:calc(50% + 75px);
+    }
+
+    .dictator-flag {
+       width:100px;
+       position:absolute;
+       z-index: -1;
+       top: -18%;
+       left:calc(50% - 176px);
+    }
+
+    .receiver-map {
+        width:60px;
+        position:absolute;
+        top:28px;
+        left:calc(50% + 125px);
+    }
+
+    .dictator-map {
+       width:60px;
+       position:absolute;
+       top:28px;
+       left:calc(50% - 187px);
+    }
+
+    .minus-button-2PP {
+        position: absolute;
+        width: 22px;
+        top: -50%;
+        left:calc(50% - 12px);
+    }
+
+    .minus-button-3PP {
+        position: absolute;
+        width: 22px;
+        top: 50%;
+        left:calc(50% - 75px);
+    }
+
+    .plus-button-3PR {
+        position: absolute;
+        width: 22px;
+        top: 50%;
+        left:calc(50% - 7vw);
+    }
+
+    .plus-button-3PC {
+        position: absolute;
+        width: 22px;
+        top: 50%;
+        left:calc(50% + 6vw);
+    }
+
+    .punish-arrow-2PP {
+        position: absolute;
+        width: 85px;
+        top: -28%;
+        left:calc(50% - 45px);
+    }
+
+    /* Coin stacks */
+    .coin-stack {
+        position: absolute;
+        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
+        max-width: 100px; /* Ensure coins don't get too big */
+    }
+
+    .coin {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 1px solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinR {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 1px solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown {
+        width: 1.8vw; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    /* Coin stacks number labels */
+    .coin-count-labelD {
+        font-size:14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: calc(50% - 50px); /* Center horizontally before offsetting */
+        top: 23%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelDDes {
+        font-size:1.4vw;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 30%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 0%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelR {
+        font-size:14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: calc(50% + 10px); /* Center horizontally before offsetting */
+        top: -1%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP {
+        font-size:1.4vw;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 85%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 80%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP2PP {
+        font-size:1.4vw;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 73%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 8%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    /* Coins vertical position */
+    .coin:nth-child(12)  { top: 26px; }
+    .coin:nth-child(11)  { top: 29px; }
+    .coin:nth-child(10)  { top: 32px; }
+    .coin:nth-child(9)   { top: 35px; }
+    .coin:nth-child(8)   { top: 38px; }
+    .coin:nth-child(7)   { top: 41px; }
+    .coin:nth-child(6)   { top: 44px; }
+    .coin:nth-child(5)   { top: 47px; }
+    .coin:nth-child(4)   { top: 50px; }
+    .coin:nth-child(3)   { top: 53px; }
+    .coin:nth-child(2)   { top: 56px; }
+    .coin:nth-child(1)   { top: 59px; }
+
+    .coinR:nth-child(12) { top: -19px; }
+    .coinR:nth-child(11) { top: -16px; }
+    .coinR:nth-child(10) { top: -13px; }
+    .coinR:nth-child(9)  { top: -10px; }
+    .coinR:nth-child(8)  { top: -7px; }
+    .coinR:nth-child(7)  { top: -4px; }
+    .coinR:nth-child(6)  { top: -1px; }
+    .coinR:nth-child(5)  { top: 2px; }
+    .coinR:nth-child(4)  { top: 5px; }
+    .coinR:nth-child(3)  { top: 8px; }
+    .coinR:nth-child(2)  { top: 11px; }
+    .coinR:nth-child(1)  { top: 14px; }
