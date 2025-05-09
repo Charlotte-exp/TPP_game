@@ -22,8 +22,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 <script>
@@ -212,23 +215,23 @@
 
             // dictator stack
             for (let i = 0; i < total_endowment; i++) {
-                $(`.coinstackD`).append('<div class="coin" style="left:calc(53% - 6vw)"></div>');
+                $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 60px)"></div>');
             }
             // // incentive stack
             // for (let i = 0; i < incentive; i++) {
-            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(53% - 6vw)"></div>');
+            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 105px)"></div>');
             // }
             // dictator stack static (for static display of role labels in norm Q)
             for (let i = 0; i < receiver_endowment; i++) {
-                $(`.coinstackD-static`).append('<div class="coin" style="left:calc(53% - 6vw)"></div>');
+                $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 60px)"></div>');
             }
             // recipient stack static (for static display of role labels in norm Q)
             for (let i = 0; i < total_endowment; i++) {
-                $(`.coinstackR-static`).append('<div class="coinR" style="left:calc(82% - 6vw)"></div>');
+                $(`.coinstackR-static`).append('<div class="coinRbis" style="left:calc(50% - 3px)"></div>');
             }
             // incentive stack static (for static display of role labels in norm Q)
             for (let i = 0; i < incentive; i++) {
-                $(`.coinstackTP3PR-static`).append('<div class="coinown3PR" style="left:calc(30% - 6vw)"></div>');
+                $(`.coinstackTP3PR-static`).append('<div class="coinown3PR" style="left:calc(50% - 105px)"></div>');
             }
 
             // number labels
@@ -240,15 +243,15 @@
             $('.coin-count-labelTP3PR-static').text(`${incentive}`);
 
         // add hover event listener to numbers [number = crowding_decision]
-            $('.number').hover(function () {
+            $('.option').hover(function () {
                 const value = $(this).data('value'); // Get the number value
                 updateCoinStack(value); // Update the coin stack
             });
 
         //Actions on click: crowding_decision
-        $('.number').on('click', function () {
+        $('.option').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.number').removeClass('selected');
+            $(this).closest('.option-row').find('.option').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -257,20 +260,20 @@
             const value = $(this).data('value');
 
             // // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
-            // $(".number").each(function () {
+            // $(".option").each(function () {
             //     if (parseInt($(this).attr("data-value")) <= value) {
             //         $(this).addClass("selected");
             //     }
             // });
 
             // Update the hidden input field
-            $(`#selected-number-1`).val(value);
+            $(`#selected-option-1`).val(value);
 
             // Update the corresponding punishment value in the array
             crowding_decision1_stored = value;
 
-            // Update the display text the clicked number
-            $('#selected-number-display').text('' + value);
+            // Update the display text the clicked option
+            $('#selected-option-display').text('' + value);
 
             // Debugging
             console.log(`Updated norm decision`, value);
@@ -279,7 +282,7 @@
         //Actions on click: crowding_norm_decision-1
         $('.norm1').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.norm1').removeClass('selected');
+            $(this).closest('.option-row').find('.norm1').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -298,7 +301,7 @@
         //Actions on click: crowding_norm_decision-2
         $('.norm2').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.norm2').removeClass('selected');
+            $(this).closest('.option-row').find('.norm2').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -336,13 +339,13 @@
 
                 // Add the specified number of coins
                 for (let i = 0; i < Dupdate; i++) {
-                    $('.coinstackD').append('<div class="coin" style="left:calc(53% - 6vw)"></div>');
+                    $('.coinstackD').append('<div class="coinD" style="left:calc(50% - 60px)"></div>');
                 }
                 for (let i = 0; i < Rupdate; i++) {
-                    $('.coinstackR').append('<div class="coinR" style="left:calc(15% + 6vw)"></div>'); // previously: left:83
+                    $('.coinstackR').append('<div class="coinRbis" style="left:calc(50% - 3px)"></div>'); // previously: left:83
                 }
                 for (let i = 0; i < TPupdate; i++) {
-                    $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(30% - 6vw)"></div>');
+                    $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 105px)"></div>');
                 }
 
                 // Update the number labels
@@ -386,59 +389,6 @@
 
 <style>
 
-    body {
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin-top: 4vw;
-        background-color: #f4f4f4;
-    }
-
-    .number-row {
-        justify-content: center;
-        display: flex;
-        margin-top:0vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .number-row-close {
-        justify-content: center;
-        display: flex;
-        margin-top:3vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .number-row-static {
-        justify-content: center;
-        display: flex;
-        margin-top:-2vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .number {
-        width: 17.5vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 6px; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
     .norm1 {
         width: 5vw; /* Width scales with viewport width */
         height: 3vw; /* Height scales with viewport width */
@@ -473,26 +423,6 @@
         transition: background-color 0.3s ease;
     }
 
-    .number:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .number:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .number.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .number.disabled {
-        background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
-        color:#d3d3d3;
-        cursor: not-allowed;
-        pointer-events: none; /* Disable interactions */
-    }
-
     .norm1:hover {
         background-color: #ffcc00; /* Change background color on hover */
     }
@@ -523,32 +453,32 @@
         max-width: 100px; /* Ensure coins don't get too big */
     }
 
-    .coin {
-        width: 1.8vw; /* Coins take the full width of the stack container */
+    .coinD {
+        width: 20px; /* Coins take the full width of the stack container */
         min-width:10px;
         height: 8px; /* Coin height is proportional to the width */
         border-radius: 50%;
         background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        border: 1px solid #FFFFFF; /* Border size scales with the coin size */
         box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
         position: absolute;
         transform: translateX(-50%);
     }
 
-    .coinR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
+    .coinRbis {
+        width: 20px; /* Coins take the full width of the stack container */
         min-width:10px;
         height: 8px; /* Coin height is proportional to the width */
         border-radius: 50%;
         background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        border: 1px solid #FFFFFF; /* Border size scales with the coin size */
         box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
         position: absolute;
         transform: translateX(-50%);
     }
 
     .coinown3PR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
+        width: 20px; /* Coins take the full width of the stack container */
         min-width:10px;
         height: 8px; /* Coin height is proportional to the width */
         border-radius: 50%;
@@ -560,256 +490,162 @@
     }
 
     .coin-count-labelD {
-        font-size: 1.2rem;
+        font-size: 14px;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left: 30%; /* Center horizontally */
         transform: translateX(-50%); /* Adjust for exact centering */
-        top: 32%; /* Move up; adjust value as needed */
+        left:calc(50% - 40px); /* Center horizontally */
+        top: 95px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 
     .coin-count-labelD-static {
-        font-size: 1.2rem;
+        font-size: 14px;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left: 30%; /* Center horizontally */
+        left:calc(50% - 40px); /* Center horizontally */
         transform: translateX(-50%); /* Adjust for exact centering */
-        top: 32%; /* Move up; adjust value as needed */
+        top: 95px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 
     .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        left:calc(50% + 15px); /* Center horizontally */
+        top: 28px; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
     .coin-count-labelR-static {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
+        font-size: 14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left:calc(50% - 40px); /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 28px; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
 
+    /* Coin labels */
+    .coin-count-labelD,
+    .coin-count-labelR {
+        position: absolute;
+    }
 
-    .coin:nth-child(8)  { top: 6.0vw; }
-    .coin:nth-child(7)  { top: 6.3vw; }
-    .coin:nth-child(6)  { top: 6.6vw; }
-    .coin:nth-child(5)   { top: 6.9vw; }
-    .coin:nth-child(4)   { top: 7.2vw; }
-    .coin:nth-child(3)   { top: 7.5vw; }
-    .coin:nth-child(2)   { top: 7.8vw; }
-    .coin:nth-child(1)   { top: 8.1vw; }
+    .coin-count-labelTP3PR {
+        position: absolute;
+        font-size: 14px;
+        top: 170px;
+        left:calc(50% - 85px);
+    }
 
-    .coinR:nth-child(4)  { top: 1.0vw; }
-    .coinR:nth-child(3)  { top: 1.3vw; }
-    .coinR:nth-child(2)  { top: 1.6vw; }
-    .coinR:nth-child(1)  { top: 1.9vw; }
+    .coin-count-labelTP3PR-static {
+        position: absolute;
+        font-size: 14px;
+        top: 170px;
+        left:calc(50% - 85px);
+    }
 
+    .coinD:nth-child(8)  { top: 6.0vw; }
+    .coinD:nth-child(7)  { top: 6.3vw; }
+    .coinD:nth-child(6)  { top: 6.6vw; }
+    .coinD:nth-child(5)   { top: 6.9vw; }
+    .coinD:nth-child(4)   { top: 7.2vw; }
+    .coinD:nth-child(3)   { top: 7.5vw; }
+    .coinD:nth-child(2)   { top: 7.8vw; }
+    .coinD:nth-child(1)   { top: 8.1vw; }
+
+    .coinRbis:nth-child(4)  { top: 1.0vw; }
+    .coinRbis:nth-child(3)  { top: 1.3vw; }
+    .coinRbis:nth-child(2)  { top: 1.6vw; }
+    .coinRbis:nth-child(1)  { top: 1.9vw; }
 
     .coinown3PR:nth-child(1)  { top: 13.2vw; }
     .coinown3PR:nth-child(2)  { top: 12.9vw; }
 
-
-    .responsive-div {
-      width: 90%; /* Default width */
-      transform-origin: top left; /* Ensure scaling starts from top-left */
-      transform: scale(1); /* Default scale */
-      transition: transform 0.3s ease; /* Smooth scaling */
-      /*border:1px solid black;*/
-      margin-left:auto;
-      margin-right:auto;
-    }
-
-    .container {
-        width:45%;
-        height:11vw;
-        margin-left:auto;
-        margin-right:auto;
-        border:0px solid black;
-        position:relative;
-    }
-
-    .short-figure-container {
-        width:75%;
-        height:10vw;  # shorter for dictator
-        margin-left:auto;
-        margin-right:auto;
-        text-align:center;
-        border:0px solid black;
-        position:relative;
-    }
-
-    .short-container {
-        /*width:45%;*/
-        height:15vw;  # shorter for dictator
-        /*margin-left:auto;*/
-        /*margin-right:auto;*/
-        /*border:0px solid black;*/
-        /*position:relative;*/
-    }
-
     .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align to the top of the container */
-    gap: 30px;
-    margin-top: 20px;
-}
+        display: flex;
+        justify-content: center;
+        position: relative;
+        align-items: flex-start; /* Align to the top of the container */
+        gap: 30px;
+        margin-top: 20px;
+    }
 
-/*    .extras-container {*/
-/*    position: relative;*/
-/*}*/
+    /* Treatment-specific heights */
+    .treatment-true .coin-img {
+        max-height: 155px;
+    }
 
-/* Treatment-specific heights */
-.treatment-true .coin-img {
-    max-height: 210px;
-}
+    .treatment-true .charity-img {
+        max-height: 80px;
+    }
 
-.treatment-true .charity-img {
-    max-height: 110px;
-}
+    .treatment-false .coin-img,
+    .treatment-false .charity-img {
+        max-height: 80px;
+    }
 
-.treatment-false .coin-img,
-.treatment-false .charity-img {
-    max-height: 110px;
-}
+    /* Optional: prevent weird inline spacing */
+    .coin-img, .charity-img {
+        display: block;
+    }
 
-/* Optional: prevent weird inline spacing */
-.coin-img, .charity-img {
-    display: block;
-}
+    .label-a {
+        position: absolute;
+        font-size: 14px;
+        left:calc(50% - 165px);
+        top: 95px;
+    }
 
+    .label-charity {
+        position: absolute;
+        font-size: 14px;
+        left:calc(50% + 90px);
+        top: 96px;
+    }
 
+    .label-you {
+        color: red;
+        font-size: 18px;
+        position: absolute;
+        left:calc(50% - 148px);
+        top: 65px;
+    }
 
-.label-a {
-    position: absolute;
-    left: -32%;
-}
+    .plus-button {
+        position: absolute;
+        width: 1.8vw;
+        top: 150px;
+        left:calc(50% - 90px);
+    }
 
-.label-charity {
-    position: absolute;
-    right: -27%;
-}
+    .slider {
+        width: 100%;
+        margin: 20px 0;
+    }
 
-.label-you {
-    color: red;
-    font-size: 24px;
-    position: absolute;
-    left: -26.5%;
-}
+    .slider-container {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+    }
 
-/* Coin labels */
-.coin-count-labelD,
-.coin-count-labelR {
-    position: absolute;
-}
+    .slider-labels {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        margin-top: -10px; /* optional: pulls labels closer to slider */
+    }
 
-/* Conditional vertical alignment */
-.treatment-true .label-a,
-.treatment-true .label-charity {
-    top: 50%;
-}
+    .slider-labels span {
+        flex: 1;
+        text-align: center;
+    }
 
-.treatment-true .label-you {
-    top: 28%;
-}
-
-.treatment-true .coin-count-labelD {
-    top: 47%;
-}
-
-.treatment-true .coin-count-labelR {
-    top: 5%;
-}
-
-.treatment-true .coin-count-labelD-static {
-    top: 47%;
-}
-
-.treatment-true .coin-count-labelR-static {
-    top: 5%;
-}
-
-/* Alternative layout when treatment is false */
-.treatment-false .label-a,
-.treatment-false .label-charity {
-    top: 68%;
-}
-
-.treatment-false .label-you {
-    top: 38%;
-}
-
-.treatment-false .coin-count-labelD {
-    top: 55%;
-}
-
-.treatment-false .coin-count-labelR {
-    top: 0%;
-}
-
-.treatment-false .coin-count-labelD-static {
-    top: 55%;
-}
-
-.treatment-false .coin-count-labelR-static {
-    top: 0%;
-}
-
-
-.plus-button {
-    position: absolute;
-    width: 1.8vw;
-    top: 80%;
-    left: 10%;
-}
-
-.coin-count-labelTP3PR {
-    position: absolute;
-    font-size: 1.2rem;
-    top: 80%;
-    left: 3%;
-}
-
-.coin-count-labelTP3PR-static {
-    position: absolute;
-    font-size: 1.2rem;
-    top: 80%;
-    left: 3%;
-}
-
-.slider {
-    width: 100%;
-    margin: 20px 0;
-}
-
-.slider-container {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-}
-
-.slider-labels {
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    margin-top: -10px; /* optional: pulls labels closer to slider */
-}
-
-.slider-labels span {
-    flex: 1;
-    text-align: center;
-}
-
-/* Webkit-based browsers (Chrome, Safari) */
+    /* Webkit-based browsers (Chrome, Safari) */
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 8.4px;
@@ -905,42 +741,6 @@
             margin-top: -7px;
         }
 
-
-    @media (max-width: 1200px) {
-      .responsive-div {
-        transform: scale(1.0); /* Scale to 80% for smaller screens */
-      }
-      .container {
-          margin-left:10vw;
-      }
-      .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:6vw;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .responsive-div {
-        transform: scale(2); /* Scale to 60% for even smaller screens */
-      }
-      .container {
-          margin-left:1vw;
-      }
-      .short.container {
-          margin-left:1vw;
-      }
-      .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:-3.2vw;
-      }
-      .number {
-          font-size:2vw;
-          border-width:1px;
-      }
-    }
-
 </style>
 </head>
 
@@ -978,50 +778,45 @@
 
 
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="crowding_decision" id="selected-number-1">
+    <input type="hidden" name="crowding_decision" id="selected-option-1">
 
         {{ formfield_errors 'crowding_decision' }}
 
     <div class='responsive-div'>
 
-        <div class="container {% if treatment_incentive %}short-container{% endif %}">
+        <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
 
-<!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
-            <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
+            <img id="coin-image"
+                 src="{% static image %}"
+                 alt="Coins"
+                 class="coin-img" />
 
-                <img id="coin-image"
-                     src="{% static image %}"
-                     alt="Coins"
-                     class="coin-img" />
-
-                <img id="charity-image"
-                     src="{% static 'global/charities/unknown_charity.png' %}"
-                     alt="Selected charity"
-                     class="charity-img" />
-            </div>
-
-            <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-                <p><b class="label-a">PERSON A</b></p>
-                <p><b class="label-charity">CHARITY</b></p>
-                <p><b class="label-you">YOU</b></p>
-
-                <span class='coinstack coinstackD'></span>
-                <div class="coin-count-labelD" id="countD"></div>
-
-                <span class='coinstack coinstackR'></span>
-                <div class="coin-count-labelR" id="countR"></div>
-
-
-                {% if treatment_incentive %}
-                    <img src="{% static 'global/plus_button.png' %}" alt="+" class="plus-button">
-
-                    <span class="coinstack coinstackTP3PR"></span>
-                    <div class="coin-count-labelTP3PR" id="countTP3PR" ></div>
-                {% endif %}
-
-            </div>
+            <img id="charity-image"
+                 src="{% static 'global/charities/unknown_charity.png' %}"
+                 alt="Selected charity"
+                 class="charity-img" />
         </div>
 
+        <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
+            <p><b class="label-a">PERSON A</b></p>
+            <p><b class="label-charity">CHARITY</b></p>
+            <p><b class="label-you">YOU</b></p>
+
+            <span class='coinstack coinstackD'></span>
+            <div class="coin-count-labelD" id="countD"></div>
+
+            <span class='coinstack coinstackR'></span>
+            <div class="coin-count-labelR" id="countR"></div>
+
+
+            {% if treatment_incentive %}
+                <img src="{% static 'global/plus_button.png' %}" alt="+" class="plus-button">
+
+                <span class="coinstack coinstackTP3PR"></span>
+                <div class="coin-count-labelTP3PR" id="countTP3PR" ></div>
+            {% endif %}
+
+        </div>
 
         <p style="text-align: center; ">
             {{ text5|safe }}
@@ -1031,18 +826,18 @@
         {% if crowding_out_button_pos %}
 
         <div class='numbers' >
-            <div class="number-row"  data-input="selected-number-1">
-                <div class="number" data-value="0" >Give 0 points to charity</div>
-                <div class="number" data-value="4" >Give 4 points to charity</div>
+            <div class="option-row"  data-input="selected-option-1">
+                <div class="option" data-value="0" >Give 0 points to charity</div>
+                <div class="option" data-value="4" >Give 4 points to charity</div>
             </div>
         </div>
 
         {% else %}
 
         <div class='numbers' >
-            <div class="number-row"  data-input="selected-number-1">
-                <div class="number" data-value="4" >Give 4 points to charity</div>
-                <div class="number" data-value="0" >Give 0 points to charity</div>
+            <div class="option-row"  data-input="selected-option-1">
+                <div class="option" data-value="4" >Give 4 points to charity</div>
+                <div class="option" data-value="0" >Give 0 points to charity</div>
             </div>
         </div>
 
@@ -1050,50 +845,46 @@
 
         <br>
         <hr>
+        <br>
+
     </div>
 
 
 
     <div class='responsive-div'>
 
-        <br> <br>
+        <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
 
-        <div class="container {% if treatment_incentive %}short-container{% endif %}">
+            <img id="coin-image"
+                 src="{% static image %}"
+                 alt="Coins"
+                 class="coin-img" />
 
-<!--            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">-->
-            <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-
-                <img id="coin-image"
-                     src="{% static image %}"
-                     alt="Coins"
-                     class="coin-img" />
-
-                <img id="charity-image"
-                     src="{% static 'global/charities/unknown_charity.png' %}"
-                     alt="Selected charity"
-                     class="charity-img" />
-            </div>
-
-            <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-                <p><b class="label-a">PERSON A</b></p>
-                <p><b class="label-charity">CHARITY</b></p>
-
-                <span class='coinstack coinstackD-static'></span>
-                <div class="coin-count-labelD-static" id="countD"></div>
-
-                <span class='coinstack coinstackR-static'></span>
-                <div class="coin-count-labelR-static" id="countR"></div>
-
-
-                {% if treatment_incentive %}
-                    <img src="{% static 'global/plus_button.png' %}" alt="+" class="plus-button">
-
-                    <span class="coinstack coinstackTP3PR-static"></span>
-                    <div class="coin-count-labelTP3PR-static" id="countTP3PR-static"></div>
-                {% endif %}
-
-                 </div>
+            <img id="charity-image"
+                 src="{% static 'global/charities/unknown_charity.png' %}"
+                 alt="Selected charity"
+                 class="charity-img" />
         </div>
+
+        <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
+            <p><b class="label-a">PERSON A</b></p>
+            <p><b class="label-charity">CHARITY</b></p>
+
+            <span class='coinstack coinstackD-static'></span>
+            <div class="coin-count-labelD-static" id="countD"></div>
+
+            <span class='coinstack coinstackR-static'></span>
+            <div class="coin-count-labelR-static" id="countR"></div>
+
+
+            {% if treatment_incentive %}
+                <img src="{% static 'global/plus_button.png' %}" alt="+" class="plus-button">
+
+                <span class="coinstack coinstackTP3PR-static"></span>
+                <div class="coin-count-labelTP3PR-static" id="countTP3PR-static"></div>
+            {% endif %}
+
+         </div>
 
         <br>
 
@@ -1102,8 +893,8 @@
         </p>
 
         <p style="text-align: center; ">
-                How <b style="color: red;">altruistic</b> is Person A?
-            </p>
+            How <b style="color: red;">altruistic</b> is Person A?
+        </p>
 
 <!--        &lt;!&ndash; Add hidden input to store the selected value &ndash;&gt;-->
 <!--        <input type="hidden" name="crowding_norm_decision1" id="selected-norm-1">-->
@@ -1117,7 +908,6 @@
 <!--                    <div class="norm1" data-value="4" > altruistic</div>-->
 <!--                    <div class="norm1" data-value="5" >very <br>altruistic</div>-->
 <!--                </div>-->
-
 
 
         <div class="slider-container">
@@ -1141,14 +931,11 @@
             </div>
         </div>
 
+        <br>
 
-
-
-            <br>
-
-            <p style="text-align: center; ">
-                How <b style="color: red;">likeable</b> is Person A?
-            </p>
+        <p style="text-align: center; ">
+            How <b style="color: red;">likeable</b> is Person A?
+        </p>
 
 <!--        &lt;!&ndash; Add hidden input to store the selected value &ndash;&gt;-->
 <!--        <input type="hidden" name="crowding_norm_decision2" id="selected-norm-2">-->
@@ -1204,11 +991,8 @@
         <div id="custom-error-message" style="color: red; display: none; text-align: center; margin-top: 15px;">
             Please adjust all sliders before proceeding.
         </div>
-
-
-    </div>
-
     <br>
+    </div>
 
     <div style="display: flex; justify-content: flex-end">
         <button style="color: #fff;
@@ -1223,8 +1007,6 @@
 
 
 </form>
-
-
 
 
 </body>

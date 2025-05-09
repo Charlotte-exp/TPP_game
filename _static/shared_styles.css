@@ -4,7 +4,7 @@
         justify-content: center;
         align-items: center;
         height: 200vh;
-        margin-top: 4vw;
+        margin-top: 1vw;
         background-color: #f4f4f4;
         border:1px solid black;
     }
@@ -109,7 +109,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 11.5; /* Font size scales with viewport width */
+        font-size: 11.5px;
         background-color: #e0e0e0;
         border: 1px solid #000000;
         border-radius: 10%; /* Slightly rounded corners */
@@ -308,13 +308,58 @@
         font-size: 14px;
     }
 
+    /* extra tasks text buttons */
+    .option-row {
+        justify-content: center;
+        display: flex;
+        margin-top:0vw;
+        gap: 3vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .option {
+        width: 200px; /* Width scales with viewport width */
+        height: 25px; /* Height scales with viewport width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .option:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .option:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .option.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .option.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
     /* Blocks */
     .responsive-div {
       width: 90%; /* Default width */
       transform-origin: top left; /* Ensure scaling starts from top-left */
       transform: scale(1); /* Default scale */
       transition: transform 0.3s ease; /* Smooth scaling */
-      border:0px solid black;
+      border:0px solid red;
       margin-left:auto;
       margin-right:auto;
     }
@@ -380,17 +425,17 @@
         .norm {
             width: 67px; /* Width scales with viewport width */
             height: 50px; /* Height scales with viewport width */
-            font-size: 10px
+            font-size: 10px;
         }
         .neg-norm {
             width: 67px; /* Width scales with viewport width */
             height: 50px; /* Height scales with viewport width */
-            font-size: 10px
+            font-size: 10px;
         }
         .recorded-norm {
             width: 67px; /* Width scales with viewport width */
             height: 50px; /* Height scales with viewport width */
-            font-size: 10px
+            font-size: 10px;
         }
     }
 
@@ -412,17 +457,17 @@
         .norm {
             width: 55px; /* Width scales with viewport width */
             height: 45px; /* Height scales with viewport width */
-            font-size: 8.5px
+            font-size: 8.5px;
         }
         .neg-norm {
             width: 55px; /* Width scales with viewport width */
             height: 45px; /* Height scales with viewport width */
-            font-size: 8.5px
+            font-size: 8.5px;
         }
         .recorded-norm {
             width: 55px; /* Width scales with viewport width */
             height: 45px; /* Height scales with viewport width */
-            font-size: 8.5px
+            font-size: 8.5px;
         }
     }
 
