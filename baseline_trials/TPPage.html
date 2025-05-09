@@ -567,7 +567,8 @@
             <p style="text-align: center;">
                 <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person B is.</b> <br> <br>
 
-                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b> if your decisions are the same as the most
+                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b>
+                if your decisions are the same as the most
                 common decisions among all other participants in {{current_country}}. <br> <br>
             </p>
         {% endif %}
@@ -790,6 +791,9 @@
             {% endif %}
         {% endif %}
 
+        {% if dic_identity != "baseline"%}
+            <br><br>
+        {% endif %}
 
         {% for TP_decision in TP_decisions %}
         <div class='responsive-div'>

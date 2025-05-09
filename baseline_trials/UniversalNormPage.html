@@ -78,7 +78,7 @@
         });
 
         //Select norm button that participant selected (universal norm -> show previous norm)
-        $(".recorded_norm[data-value='{{recorded_norm_num}}']").addClass("selected");
+        $(".recorded-norm[data-value='{{ recorded_norm_num }}']").addClass("selected");
 
         // Set the default display text of the clicked number
         $('#selected-number-display').text('___');
@@ -145,53 +145,6 @@
     });
 
 </script>
-
-
-<style>
-
-    .number-row-close {
-        justify-content: center;
-        display: flex;
-        margin-top:3vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .number-row-static {
-        justify-content: center;
-        display: flex;
-        margin-top:-2vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .recorded_norm {
-        width: 6vw; /* Width scales with viewport width */
-        height: 5vw; /* Height scales with viewport width */
-        flex-direction: column;
-        text-align: center; /* Center-aligns the text */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 1px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    .recorded_norm.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-
-</style>
 </head>
 
 
@@ -229,31 +182,31 @@
 
         <br>
         <div class="number-row-static" data-index="{{ universal_norm_decision.index }}">
-            <div class="recorded_norm" data-value="0" data-index="{{ universal_norm_decision.index }}">very socially<br>unacceptable</div>
-            <div class="recorded_norm" data-value="1" data-index="{{ universal_norm_decision.index }}">socially<br>unacceptable</div>
-            <div class="recorded_norm" data-value="2" data-index="{{ universal_norm_decision.index }}">slightly socially<br>unacceptable</div>
-            <div class="recorded_norm" data-value="3" data-index="{{ universal_norm_decision.index }}">slightly socially<br>acceptable</div>
-            <div class="recorded_norm" data-value="4" data-index="{{ universal_norm_decision.index }}">socially<br>acceptable</div>
-            <div class="recorded_norm" data-value="5" data-index="{{ universal_norm_decision.index }}">very socially<br>acceptable</div>
+            <div class="recorded-norm" data-value="0" data-index="{{ universal_norm_decision.index }}">very socially<br>unacceptable</div>
+            <div class="recorded-norm" data-value="1" data-index="{{ universal_norm_decision.index }}">socially<br>unacceptable</div>
+            <div class="recorded-norm" data-value="2" data-index="{{ universal_norm_decision.index }}">slightly socially<br>unacceptable</div>
+            <div class="recorded-norm" data-value="3" data-index="{{ universal_norm_decision.index }}">slightly socially<br>acceptable</div>
+            <div class="recorded-norm" data-value="4" data-index="{{ universal_norm_decision.index }}">socially<br>acceptable</div>
+            <div class="recorded-norm" data-value="5" data-index="{{ universal_norm_decision.index }}">very socially<br>acceptable</div>
         </div>
 
         <br>
         <hr>
         <p>
-            In the beginning of the study, you responded that it is <strong> {{recorded_norm}} </strong>
+            In the beginning of the study, you responded that it is <strong> {{ recorded_norm }} </strong>
             for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B
             and keep {{ universal_norm_decision.dictator_keeps }} for themselves.
         </p>
 
         <p>
             <strong> Out of the {{ C.NUM_COUNTRIES }} countries participating in this study,
-            in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{recorded_norm}}</b>
+            in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{ recorded_norm }}</b>
             to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong>
         </p>
 
         <p style="">
             Important: You will receive <b>{{ C.ratings_extra_points }} additional points</b> if you select the correct number of countries
-            where most people also consider it <b>{{recorded_norm}}</b>
+            where most people also consider it <b>{{ recorded_norm }}</b>
             to give {{ universal_norm_decision.receiver_gets }} points to Person B.
             To make a decision, click on a number.
         </p>
@@ -269,7 +222,7 @@
 <!--        <br>-->
 <!--        <p style=" " >-->
 <!--            You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>,-->
-<!--            most people also believe that it is <b>{{recorded_norm}}</b>-->
+<!--            most people also believe that it is <b>{{ recorded_norm }}</b>-->
 <!--            to give {{ universal_norm_decision.receiver_gets }} points to Person B.-->
 <!--        </p>-->
 
@@ -297,12 +250,12 @@
 
         <div class='numbers' data-index="{{ universal_norm_decision.index }}">
             <div class="number-row" data-index="{{ universal_norm_decision.index }}" data-input="selected-people-{{ universal_norm_decision.index }}">
-                <div class="norm" data-value="0" data-index="{{ universal_norm_decision.index }}">many</div>
-                <div class="norm" data-value="1" data-index="{{ universal_norm_decision.index }}">few</div>
-                <div class="norm" data-value="2" data-index="{{ universal_norm_decision.index }}">some</div>
-                <div class="norm" data-value="3" data-index="{{ universal_norm_decision.index }}">many</div>
-                <div class="norm" data-value="4" data-index="{{ universal_norm_decision.index }}">most</div>
-                <div class="norm" data-value="5" data-index="{{ universal_norm_decision.index }}">all</div>
+                <div class="norm" style="font-size: 12px" data-value="0" data-index="{{ universal_norm_decision.index }}">many</div>
+                <div class="norm" style="font-size: 12px" data-value="1" data-index="{{ universal_norm_decision.index }}">few</div>
+                <div class="norm" style="font-size: 12px" data-value="2" data-index="{{ universal_norm_decision.index }}">some</div>
+                <div class="norm" style="font-size: 12px" data-value="3" data-index="{{ universal_norm_decision.index }}">many</div>
+                <div class="norm" style="font-size: 12px" data-value="4" data-index="{{ universal_norm_decision.index }}">most</div>
+                <div class="norm" style="font-size: 12px" data-value="5" data-index="{{ universal_norm_decision.index }}">all</div>
             </div>
         </div>
 
