@@ -585,6 +585,9 @@
         {% for TP_norm_decision in TP_norm_decisions %}
 
         <div class='responsive-div'>
+            {% if "2PP" in player.treatment %}
+                <br>
+            {% endif %}
             <div class="figure-container {% if '2PP' in player.treatment %}short-figure-container{% endif %}" data-index="{{ TP_norm_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
@@ -785,17 +788,11 @@
                 </p> <br>
 
             {% endif %}
-
-        {% endif %}
-
-        {% if dic_identity != "baseline"%}
-            <br><br>
         {% endif %}
 
 
         {% for TP_decision in TP_decisions %}
         <div class='responsive-div'>
-            <br>
             <div class="figure-container {% if '2PP' in player.treatment %}short-figure-container{% endif %}" data-index="{{ TP_decision.index }}">
 
                 {% if dic_identity != "baseline"%}
@@ -818,6 +815,16 @@
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
                 <div class="person-c">
                     <b>PERSON C</b>
+                </div>
+
+                <div class="you-third-party">
+                    <b>YOU</b>
+                </div>
+                {% endif %}
+
+                {% if "2PP" in player.treatment %}
+                <div class="you-receiver">
+                    <b>YOU</b>
                 </div>
                 {% endif %}
 
@@ -864,10 +871,6 @@
                     <img class="minus-button-2PP" src="/static/global/minus_button2.png" alt="-">
                     <img class="punish-arrow-2PP" src="/static/global/punish arrow grey.png" alt="-">
                 {% endif %}
-
-                <div class="you-third-party">
-                    <b>YOU</b>
-                </div>
 
             </div>
 
@@ -916,6 +919,11 @@
         <hr>
         <br>
         </div>
+
+        {% if dic_identity != "baseline"%}
+            <br><br>
+        {% endif %}
+
         {% endfor %}
 
         {% endif %}

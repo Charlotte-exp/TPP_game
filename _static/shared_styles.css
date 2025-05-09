@@ -24,7 +24,6 @@
         justify-content: center;
         display: flex;
         margin-top:1vw;
-        /*gap: 1vw; !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
@@ -38,7 +37,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 18px; /* sould not scale */
+        font-size: 18px; /* should not scale */
         background-color: #e0e0e0;
         padding: 1.5px;
         border: 1.5px solid #000000;
@@ -49,34 +48,34 @@
     }
 
     .norm {
-        width: 6vw; /* Width scales with viewport width */
-        height: 5vw; /* Height scales with viewport width */
+        width: 75px;
+        height: 55px;
         flex-direction: column;
-        text-align: center; /* Center-aligns the text */
+        text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
+        font-size: 11.5px;
         background-color: #e0e0e0;
         border: 1.5px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
+        border-radius: 10%;
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
     .neg-norm {
-        width: 6vw; /* Width scales with viewport width */
-        height: 5vw; /* Height scales with viewport width */
+        width: 75px;
+        height: 55px;
         flex-direction: column;
-        text-align: center; /* Center-aligns the text */
+        text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
+        font-size: 11.5px;
         background-color: #e0e0e0;
         border: 1.5px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
+        border-radius: 10%;
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
@@ -96,7 +95,7 @@
 
     .number.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
+        border: 1px solid #d3d3d3;
         color:#d3d3d3;
         cursor: not-allowed;
         pointer-events: none; /* Disable interactions */
@@ -116,7 +115,7 @@
 
     .norm.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
+        border: 1px solid #d3d3d3;
         color:#d3d3d3;
         cursor: not-allowed;
         pointer-events: none; /* Disable interactions */
@@ -136,7 +135,7 @@
 
     .neg-norm.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
+        border: 1px solid #d3d3d3;
         color:#d3d3d3;
         cursor: not-allowed;
         pointer-events: none; /* Disable interactions */
@@ -202,7 +201,7 @@
 
     @media (max-width: 900px) { /* adjustments for smaller screens */
         .responsive-div {
-            transform: scale(1.0); /* Scale to 80% for smaller screens */
+            width:100%;
         }
         .container {
             width:80%; /* otherwise used margin-left:1vw; */
@@ -211,13 +210,18 @@
             width:100%; /* otherwise used margin-left:1vw; */
         }
         .norm {
-            width: 80px; /* Width scales with viewport width */
-            height: 60px; /* Height scales with viewport width */
-            font-size: 12px
+            width: 67px; /* Width scales with viewport width */
+            height: 50px; /* Height scales with viewport width */
+            font-size: 10px
+        }
+        .neg-norm {
+            width: 67px; /* Width scales with viewport width */
+            height: 50px; /* Height scales with viewport width */
+            font-size: 10px
         }
     }
 
-    @media (max-width: 600px) { /* adjustments for smartphones */
+    @media (max-width: 550px) { /* adjustments for smartphones */
         .responsive-div {
             width:100%;
         }
@@ -233,9 +237,14 @@
             font-size: 14px; /* sould not scale */
         }
         .norm {
-            width: 15vw; /* Width scales with viewport width */
-            height: 11vw; /* Height scales with viewport width */
-            font-size: 2.2vw
+            width: 55px; /* Width scales with viewport width */
+            height: 45px; /* Height scales with viewport width */
+            font-size: 8.5px
+        }
+        .neg-norm {
+            width: 55px; /* Width scales with viewport width */
+            height: 45px; /* Height scales with viewport width */
+            font-size: 8.5px
         }
     }
 
@@ -248,7 +257,7 @@
     }
 
     .person-b {
-        left: calc(50% + 81px);
+        left: calc(50% + 82px);
         top: 64px;
         font-size:10px;
         position: absolute;
@@ -264,6 +273,14 @@
     .you-dictator {
         left:calc(50% - 126.5px);
         top: 36px;
+        font-size:16px;
+        color: red;
+        position: absolute;
+    }
+
+    .you-receiver { /* for 2PP punish */
+        left:calc(50% + 92px);
+        top: 38px;
         font-size:16px;
         color: red;
         position: absolute;
@@ -453,7 +470,7 @@
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
         left: calc(50% - 50px); /* Center horizontally before offsetting */
-        top: 50%; /* Move up; adjust value as needed */
+        top: 50px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 
@@ -472,7 +489,7 @@
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .figure-container */
         left: calc(50% + 10px); /* Center horizontally before offsetting */
-        top: -1%; /* Move up; adjust value as needed */
+        top: 5px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 

@@ -22,6 +22,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -64,22 +66,8 @@
 
                 // dictator stack static (for static display of role labels)
                 for (let i = 0; i < total_endowment; i++) {
-                    $(`.coinstackD-static`).append('<div class="coin" style="left:18%"></div>');
+                    $(`.coinstackD-static`).append('<div class="coin" style="left:calc(50% - 63px);"></div>');
                 }
-
-                // // dictator stack
-                // for (let i = 0; i < total_endowment; i++) {
-                //     $(`.coinstackD[data-index="${index}"]`).append('<div class="coin" style="left:19%;"></div>');
-                // }
-
-        //         // dictator stack
-        // for (let i = 0; i < total_endowment; i++) {
-        //     $(`.coinstackD`).append('<div class="coin" style="left:calc(50% - 6vw)"></div>');
-        // }
-        // // receiver stack
-        // for (let i = 0; i < receiver_endowment; i++) {
-        //     $(`.coinstackR`).append('<div class="coinR" style="left:calc(50% + 6vw)"></div>');
-        // }
 
                 // number labels
                 // $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
@@ -161,24 +149,6 @@
 
 <style>
 
-    body {
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin-top: 4vw;
-        background-color: #f4f4f4;
-    }
-
-    .number-row {
-        justify-content: center;
-        display: flex;
-        margin-top:3vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
     .number-row-close {
         justify-content: center;
         display: flex;
@@ -199,20 +169,6 @@
         align-items: center; /* Ensures proper vertical alignment */
     }
 
-    .number {
-        width: 2.5vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.5vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
     .recorded_norm {
         width: 6vw; /* Width scales with viewport width */
         height: 5vw; /* Height scales with viewport width */
@@ -223,194 +179,17 @@
         align-items: center;
         font-size: 0.9vw; /* Font size scales with viewport width */
         background-color: #e0e0e0;
-        border: 2px solid #000000;
+        border: 1px solid #000000;
         border-radius: 10%; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
-    }
-
-    .norm {
-        width: 4vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        flex-direction: column;
-        text-align: center; /* Center-aligns the text */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    .number:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .number:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .number.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .number.disabled {
-        background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
-        color:#d3d3d3;
-        cursor: not-allowed;
-        pointer-events: none; /* Disable interactions */
-    }
-
-    .norm:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .norm:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .norm.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
     }
 
     .recorded_norm.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .norm.disabled {
-        background-color: #F3F3F3; /* Grey color for disabled buttons */
-        border: 2px solid #d3d3d3;
-        color:#d3d3d3;
-        cursor: not-allowed;
-        pointer-events: none; /* Disable interactions */
-    }
-
-    .coin {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coin-count-labelD {
-        font-size: 1.2rem;
-        color: #333; /* Adjust color as needed */
-        position: absolute; /* Position relative to .container */
-        left: 30%; /* Center horizontally */
-        transform: translateX(-50%); /* Adjust for exact centering */
-        top: 32%; /* Move up; adjust value as needed */
-        text-align: center; /* Align text */
-    }
-
-    .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-    .coin:nth-child(12)  { top: 6.0vw; }
-    .coin:nth-child(11)  { top: 6.3vw; }
-    .coin:nth-child(10)  { top: 6.6vw; }
-    .coin:nth-child(9)   { top: 6.9vw; }
-    .coin:nth-child(8)   { top: 7.2vw; }
-    .coin:nth-child(7)   { top: 7.5vw; }
-    .coin:nth-child(6)   { top: 7.8vw; }
-    .coin:nth-child(5)   { top: 8.1vw; }
-    .coin:nth-child(4)   { top: 8.4vw; }
-    .coin:nth-child(3)   { top: 8.7vw; }
-    .coin:nth-child(2)   { top: 9.0vw; }
-    .coin:nth-child(1)   { top: 9.3vw; }
-
-    .coinR:nth-child(12)  { top: 1.3vw; }
-    .coinR:nth-child(11)  { top: 1.6vw; }
-    .coinR:nth-child(10)  { top: 1.9vw; }
-    .coinR:nth-child(9)   { top: 2.2vw; }
-    .coinR:nth-child(8)   { top: 2.5vw; }
-    .coinR:nth-child(7)   { top: 2.8vw; }
-    .coinR:nth-child(6)   { top: 3.1vw; }
-    .coinR:nth-child(5)   { top: 3.4vw; }
-    .coinR:nth-child(4)   { top: 3.7vw; }
-    .coinR:nth-child(3)   { top: 4.0vw; }
-    .coinR:nth-child(2)   { top: 4.3vw; }
-    .coinR:nth-child(1)   { top: 4.6vw; }
-
-    .responsive-div {
-      width: 90%; /* Default width */
-      transform-origin: top left; /* Ensure scaling starts from top-left */
-      transform: scale(1); /* Default scale */
-      transition: transform 0.3s ease; /* Smooth scaling */
-      /*border:1px solid black;*/
-      margin-left:auto;
-      margin-right:auto;
-    }
-
-    .container {
-        width:45%;
-        height:25vw;
-        margin-left:auto;
-        margin-right:auto;
-        border:0px solid black;
-        position:relative;
-    }
-
-    .short-container {
-        width:45%;
-        height:15vw;  # shorter for dictator
-        margin-left:auto;
-        margin-right:auto;
-        border:0px solid black;
-        position:relative;
-    }
-
-    @media (max-width: 1200px) {
-      .responsive-div {
-        transform: scale(1.0); /* Scale to 80% for smaller screens */
-      }
-      .container {
-          margin-left:10vw;
-      }
-      .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:6vw;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .responsive-div {
-        transform: scale(2); /* Scale to 60% for even smaller screens */
-      }
-      .container {
-          margin-left:1vw;
-      }
-      .short.container {
-          margin-left:1vw;
-      }
-      .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:-3.2vw;
-      }
-      .number {
-          font-size:2vw;
-          border-width:1px;
-      }
-    }
 
 </style>
 </head>
@@ -428,30 +207,27 @@
      {% for universal_norm_decision in universal_norm_decisions %}
     <div class='responsive-div'>
 
-        <div class="container {% if '2PP' in player.treatment or '0DG' in player.treatment
-        or 'universal' in player.treatment %} short-container {% endif %}">
+        <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment
+        or 'universal' in player.treatment %} short-figure-container {% endif %}">
 
-            <img src="/static/{{ image }}" style="width:27vw; position:absolute; left:-25%; top:3vw">
+            <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
-            <p>
-                <b style="position: absolute; top: 60%; left:-25%;">PERSON A</b>
-            </p>
-            <p>
-                <b style="position: absolute; top: 60%; right:-27%;">PERSON B</b>
-            </p>
+            <div class="person-a">
+                <b>PERSON A</b>
+            </div>
+            <div class="person-b">
+                <b>PERSON B</b>
+            </div>
 
             <span class='coinstack coinstackD-static'></span>
-            <div class="coin-count-labelD" id="countD"
-                 style="top: 55%;"></div>
+            <div class="coin-count-labelD" id="countD"></div>
 
             <span class='coinstack coinstackR'></span>
-            <div class="coin-count-labelR" id="countR"
-                 style="{% if '2PP' in player.treatment
-                 or '0DG' in player.treatment %}top: 20%;{% endif %}"></div>
+            <div class="coin-count-labelR" id="countR"></div>
 
         </div>
 
-
+        <br>
         <div class="number-row-static" data-index="{{ universal_norm_decision.index }}">
             <div class="recorded_norm" data-value="0" data-index="{{ universal_norm_decision.index }}">very socially<br>unacceptable</div>
             <div class="recorded_norm" data-value="1" data-index="{{ universal_norm_decision.index }}">socially<br>unacceptable</div>
@@ -485,7 +261,7 @@
         <div class='numbers' data-index="{{ universal_norm_decision.index }}">
             <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-countries-{{ universal_norm_decision.index }}">
                 {{ for num in num_countries }}
-                <div class="number" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
+                <div class="number" style="border-radius: 0%;" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
                 {{ endfor }}
             </div>
         </div>
@@ -511,8 +287,11 @@
         <p>
             We asked 50,000 people around the world how acceptable it is
             to give {{ universal_norm_decision.receiver_gets }} points to Person B
-            and keep {{ universal_norm_decision.dictator_keeps }}. <br><br>
-            <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{recorded_norm}}</b>
+            and keep {{ universal_norm_decision.dictator_keeps }}.
+        </p>
+        <br>
+        <p style="text-align: center;">
+            <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{ recorded_norm }}</b>
             to give 0 points to Person B? </strong>
         </p>
 
