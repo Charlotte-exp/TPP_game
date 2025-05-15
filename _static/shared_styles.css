@@ -6,14 +6,14 @@
         height: 200vh;
         margin-top: 1vw;
         background-color: #f4f4f4;
-        border:1px solid black;
+        border:0px solid black;
     }
 
     .number-row {
         justify-content: center;
         display: flex;
         margin-top:1vw;
-        left:calc(50% -10vw);
+        left:calc(50% - 10vw);
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
@@ -377,7 +377,7 @@
 
     .short-figure-container {
         width:75%;
-        height:100px;  # shorter for dictator
+        height:100px;  /* shorter for dictator */
         margin-left:auto;
         margin-right:auto;
         text-align:center;
