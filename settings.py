@@ -84,7 +84,7 @@ SESSION_CONFIGS = [
 
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=0.33,
-    participation_fee=0.00,
+    participation_fee=8.00,
     total_pages=336,
     doc=""
 )

@@ -23,25 +23,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
     <style>
-
-        body {
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: 4vw;
-            background-color: #f4f4f4;
-        }
-
-        .responsive-div {
-            width: 90%; /* Default width */
-            transform-origin: top left; /* Ensure scaling starts from top-left */
-            transform: scale(1); /* Default scale */
-            transition: transform 0.3s ease; /* Smooth scaling */
-            border:0px solid black;
-            margin-left:auto;
-            margin-right:auto;
-        }
 
         .dice-container {
             justify-content: center;
@@ -93,34 +78,37 @@
             opacity: 1;
         }
 
-        .wrapper {
-          display: grid;
-          grid-auto-rows: minmax(40px, auto);
-          grid-template-columns: 150px 150px 50px 200x;
-          column-gap: 10px;
-          row-gap: 5px;
+        /* Sliders */
+
+        .slider {
+            width: 100%;
+            margin: 20px 0;
         }
 
-        .wrapper2 {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          column-gap: 10px;
-          row-gap: 10px;
+        .slider-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            border:0px solid black;
         }
 
-        .bottom-two {
-          margin-bottom: 2cm;
-          }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: -5px; /* optional: pulls labels closer to slider */
+            padding: 0;
+        }
 
-            input[type=range] {
-                -webkit-appearance: none;
-                margin: 18px 0;
-                width: 100%;
-            }
+        .slider-labels span {
+            font-size: 16px;
+            white-space: nowrap;
+        }
 
-            input[type=range]:focus {
-                outline: none;
+        @media (max-width: 400px) { /* adjustments for tiny screens */
+            .slider-labels span {
+                font-size: 12px;
             }
+        }
 
         /* Webkit-based browsers (Chrome, Safari) */
         input[type=range]::-webkit-slider-runnable-track {
@@ -373,20 +361,18 @@
         <p style="text-align: center;">
             <strong>How trustworthy do you think this person is?</strong>
         </p>
+
         <!-- Slider 1-->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="margin-top: -15px;">
-                Not trustworthy at all
-            </span>
-            <!-- Slider is placed between the two spans -->
-            <span style="flex-grow: 1; margin: 0 10px;">
+        <div class="slider-container">
+            <span style="flex-grow: 1;">
                 <input type="hidden" name="slider1_moved" value="0" id="check_slider1" />
                 <input type="range" name="trustworthiness" id="slider1" min="0" max="100" value="" class="hidden-thumb">
             </span>
 
-            <span style="margin-top: -15px;">
-                Very trustworthy
-            </span>
+            <div class="slider-labels">
+                <span>Not trustworthy at all</span>
+                <span>Very trustworthy</span>
+            </div>
         </div>
 
         <div style="text-align: center;">
@@ -398,20 +384,18 @@
         <p style="text-align: center;">
             <strong>How likable do you think this person is?</strong>
         </p>
+
         <!-- Slider 2-->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="margin-top: -15px;">
-                Not likable at all
-            </span>
-            <!-- Slider is placed between the two spans -->
-            <span style="flex-grow: 1; margin: 0 10px;">
+        <div class="slider-container">
+            <span style="flex-grow: 1;">
                 <input type="hidden" name="slider2_moved" value="0" id="check_slider2" />
                 <input type="range" name="likability" id="slider2" min="0" max="100" value="" class="hidden-thumb">
             </span>
 
-            <span style="margin-top: -15px;">
-                Very likable
-            </span>
+            <div class="slider-labels">
+                <span>Not likable at all</span>
+                <span>Very likable</span>
+            </div>
         </div>
 
         <div style="text-align: center;">

@@ -22,9 +22,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 
@@ -47,7 +48,7 @@
         let lastClickedValue = null; // Store the last clicked value
 
         // add hover event listener to numbers
-        $('.number').hover(
+        $('.option').hover(
             function () {
                 const value = $(this).data('value');
                 updateImageBorder(value); // Preview new selection on hover
@@ -58,9 +59,9 @@
         );
 
         //Actions on click
-        $('.number').on('click', function () {
+        $('.option').on('click', function () {
             // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.number').removeClass('selected');
+            $(this).closest('.option-row').find('.option').removeClass('selected');
 
             // Add 'selected' class to the clicked button
             $(this).addClass('selected');
@@ -69,16 +70,16 @@
             const value = $(this).data('value');
             lastClickedValue = value;
 
-            console.log(`Clicked number`, value);
+            console.log(`Clicked option`, value);
 
             // Update the hidden input field
-            $(`#selected-number-1`).val(value);
+            $(`#selected-option-1`).val(value);
 
             // Update the corresponding punishment value in the array
             // crowding_decision1_stored = value;
 
-            // Update the display text the clicked number button
-            $('#selected-number-display').text('' + value);
+            // Update the display text the clicked option button
+            $('#selected-option-display').text('' + value);
             $(this).addClass('selected');
 
             updateImageBorder(lastClickedValue);
@@ -115,106 +116,43 @@
 
 <style>
 
-    body {
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin-top: 4vw;
-        background-color: #f4f4f4;
-    }
-
-    .number-row {
+    .option-row {
         justify-content: center;
         display: flex;
         margin-top:0vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        gap: 3vw; /* Space between numbers scales with viewport width */
         flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
         align-items: center; /* Ensures proper vertical alignment */
     }
 
-    .number-row-close {
-        justify-content: center;
-        display: flex;
-        margin-top:3vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .number-row-static {
-        justify-content: center;
-        display: flex;
-        margin-top:-2vw;
-        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
-        gap: 0.5vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
-    }
-
-    .number {
-        width: 17.5vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
+    .option {
+        width: 200px; /* Width scales with viewport width */
+        height: 25px; /* Height scales with viewport width */
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 1vw; /* Font size scales with viewport width */
+        font-size: 12px; /* Font size scales with viewport width */
         background-color: #e0e0e0;
-        border: 2px solid #000000;
+        border: 1.5px solid #000000;
         border-radius: 6px; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
-    .norm1 {
-        width: 5vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        flex-direction: column;
-        text-align: center; /* Center-aligns the text */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 6px; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    .norm2 {
-        width: 5vw; /* Width scales with viewport width */
-        height: 3vw; /* Height scales with viewport width */
-        flex-direction: column;
-        text-align: center; /* Center-aligns the text */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9vw; /* Font size scales with viewport width */
-        background-color: #e0e0e0;
-        border: 2px solid #000000;
-        border-radius: 6px; /* Slightly rounded corners */
-        cursor: pointer;
-        font-family: Arial, Helvetica, sans-serif;
-        transition: background-color 0.3s ease;
-    }
-
-    .number:hover {
+    .option:hover {
         background-color: #ffcc00; /* Change background color on hover */
     }
 
-    .number:active {
+    .option:active {
         background-color: #ffa500; /* Change background color on click */
     }
 
-    .number.selected {
+    .option.selected {
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .number.disabled {
+    .option.disabled {
         background-color: #F3F3F3; /* Grey color for disabled buttons */
         border: 2px solid #d3d3d3;
         color:#d3d3d3;
@@ -222,307 +160,86 @@
         pointer-events: none; /* Disable interactions */
     }
 
-    .norm1:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .norm1:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .norm1.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .norm2:hover {
-        background-color: #ffcc00; /* Change background color on hover */
-    }
-
-    .norm2:active {
-        background-color: #ffa500; /* Change background color on click */
-    }
-
-    .norm2.selected {
-             background-color: #ffa500; /* Permanent color when clicked */
-    }
-
-    .coin-stack {
-        position: absolute;
-        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
-        max-width: 100px; /* Ensure coins don't get too big */
-    }
-
-    .coin {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coinown3PR {
-        width: 1.8vw; /* Coins take the full width of the stack container */
-        min-width:10px;
-        height: 8px; /* Coin height is proportional to the width */
-        border-radius: 50%;
-        background: linear-gradient(145deg, #ffd700, #e6c200);
-        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
-        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        transform: translateX(-50%);
-    }
-
-    .coin-count-labelD {
-        font-size: 1.2rem;
-        color: #333; /* Adjust color as needed */
-        position: absolute; /* Position relative to .container */
-        left: 30%; /* Center horizontally */
-        transform: translateX(-50%); /* Adjust for exact centering */
-        top: 32%; /* Move up; adjust value as needed */
-        text-align: center; /* Align text */
-    }
-
-    .coin-count-labelD-static {
-        font-size: 1.2rem;
-        color: #333; /* Adjust color as needed */
-        position: absolute; /* Position relative to .container */
-        left: 30%; /* Center horizontally */
-        transform: translateX(-50%); /* Adjust for exact centering */
-        top: 32%; /* Move up; adjust value as needed */
-        text-align: center; /* Align text */
-    }
-
-    .coin-count-labelR {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-    .coin-count-labelR-static {
-    font-size: 1.2rem;
-    color: #333; /* Adjust color as needed */
-    position: absolute; /* Position relative to .container */
-    left: 60%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
-    top: 13%; /* Move up; adjust value as needed */
-    text-align: center; /* Align text */
-}
-
-
-    .coin:nth-child(8)  { top: 6.0vw; }
-    .coin:nth-child(7)  { top: 6.3vw; }
-    .coin:nth-child(6)  { top: 6.6vw; }
-    .coin:nth-child(5)   { top: 6.9vw; }
-    .coin:nth-child(4)   { top: 7.2vw; }
-    .coin:nth-child(3)   { top: 7.5vw; }
-    .coin:nth-child(2)   { top: 7.8vw; }
-    .coin:nth-child(1)   { top: 8.1vw; }
-
-    .coinR:nth-child(4)  { top: 1.0vw; }
-    .coinR:nth-child(3)  { top: 1.3vw; }
-    .coinR:nth-child(2)  { top: 1.6vw; }
-    .coinR:nth-child(1)  { top: 1.9vw; }
-
-
-    .coinown3PR:nth-child(1)  { top: 13.2vw; }
-    .coinown3PR:nth-child(2)  { top: 12.9vw; }
-
-
-    .responsive-div {
-      width: 100%; /* Default width */
-      transform-origin: top left; /* Ensure scaling starts from top-left */
-      transform: scale(1); /* Default scale */
-      transition: transform 0.3s ease; /* Smooth scaling */
-      /*border:1px solid black;*/
-      margin-left:auto;
-      margin-right:auto;
-    }
-
-    .container {
-        width:45%;
-        height:11vw;
-        margin-left:auto;
-        margin-right:auto;
-        border:0px solid black;
-        position:relative;
-    }
-
-    .short-figure-container {
-        width:75%;
-        height:10vw;  # shorter for dictator
-        margin-left:auto;
-        margin-right:auto;
-        text-align:center;
-        border:0px solid black;
-        position:relative;
-    }
-
-    .short-container {
-        height:15vw;
-    }
-
-/*    .image-container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center; !* Align to the top of the container *!*/
-/*    gap: 30px;*/
-/*    margin-top: 20px;*/
-/*}*/
-
-/*    .image-box {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*}*/
-
-/*    .or-text {*/
-/*    font-weight: bold;*/
-/*    margin: 0;*/
-/*}*/
-
-/*!* Treatment-specific heights *!*/
-/*.T2PP-img {*/
-/*    max-height: 210px;*/
-/*}*/
-
-/*.T3PP-img {*/
-/*    max-height: 210px;*/
-/*}*/
-
-/*!* Optional: prevent weird inline spacing *!*/
-/*.T2PP-img, .T3PP-img {*/
-/*    display: block;*/
-/*    border: 3px solid #ccc; !* Light gray border *!*/
-/*    border-radius: 10px;    !* Optional: rounded corners *!*/
-/*    padding: 5px;           !* Optional: space between image and border *!*/
-/*}*/
-
     .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Align items vertically in the center */
-    gap: 30px;
-    margin-top: 20px;
-}
-
-.image-box {
-    /* Add this line! */
-    position: relative;
-    /* You might want to control its size or let the image define it */
-    /* Example: width: 300px; or display: inline-block; */
-    /* display: inline-block; might be useful if you want the box
-       to shrink-wrap the image, but flexbox handles layout well here. */
-}
-
-/* Optional: Style the images if needed */
-.T2PP-img, .T3PP-img {
-    display: block; /* Removes extra space below the image */
-    max-width: 100%; /* Make images responsive within their container */
-    border: 3px solid #ccc; /* Light gray border */
-    border-radius: 10px;    /* Optional: rounded corners */
-    padding: 5px;           /* Optional: space between image and border */
-    height: auto;
-}
-
-/*.T2PP-img:hover {*/
-/*    border-color: #ffcc00; !* Change background color on hover *!*/
-/*    }*/
-
-.T2PP-img.selected {
-    border-color: #ffa500; /* Permanent color when clicked */
-}
-
-/*T3PP-img:hover {*/
-/*    border-color: #ffcc00; !* Change background color on hover *!*/
-/*    }*/
-
-.T3PP-img.selected {
-    border-color: #ffa500; /* Permanent color when clicked */
-}
-
-.or-label {
-    font-weight: bold;
-    /*margin: 0 0px; !* Adjust spacing around OR *!*/
-}
-
-/* --- Optional: Move inline styles to CSS for better organization --- */
-
-.label { /* Common style for all labels */
-    position: absolute;
-    font-weight: bold;
-    font-size:0.9vw;
-    /* Add other styles like color, background, padding if needed */
-    /*background-color: rgba(255, 255, 255, 0.7); !* Example: semi-transparent background *!*/
-    /*padding: 2px 5px;*/
-    /*border-radius: 3px;*/
-}
-
-.label-person-a { top: 62%; left: 2%; /* Careful: negative left goes outside the box */ }
-.label-person-b { top: 62%; left: 73%; }
-.label-person-c { top: 32%; left: 2%; }
-.label-person-d { top: 32%; left: 73%; }
-.label-person-e { top: 90%; left: 40%; }
-
-/* Consider removing the <p> tags around the <b> tags for cleaner structure,
-   or ensure they don't add unwanted margin/padding */
-.image-box p {
-    margin: 0;
-    padding: 0;
-    /* The <p> itself isn't really needed if it only contains the <b> */
-}
-
-
-    @media (max-width: 1200px) {
-      .responsive-div {
-        transform: scale(1.0); /* Scale to 80% for smaller screens */
-      }
-      .container {
-          margin-left:10vw;
-      }
-      .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:6vw;
-      }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3vw;
+        margin-top: 20px;
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
     }
 
-    @media (max-width: 800px) {
-      .responsive-div {
-        transform: scale(2); /* Scale to 60% for even smaller screens */
-      }
-      .container {
-          margin-left:1vw;
-      }
-      .short.container {
-          margin-left:1vw;
-      }
-      .numbers {
-          position:absolute;
-          transform: scale(0.95);
-          left:-3.2vw;
-      }
-      .number {
-          font-size:2vw;
-          border-width:1px;
-      }
+    .image-box {
+        position: relative;
+        width: 180px; /* Fixed width */
+        flex: 0 0 auto; /* Prevent flex resizing */
+        margin-bottom: 20px;
+    }
+
+    .T2PP-img, .T3PP-img {
+        display: block;
+        width: 100%; /* Fill the .image-box */
+        height: auto;
+        border: 3px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    /* Responsive stacking below 550px width (adjust as needed) */
+    @media (max-width: 550px) {
+        .image-container {
+            flex-direction: column;
+            align-items: center;
+            gap: 1px; /* Smaller gap when stacked vertically */
+        }
+    }
+
+    /*.T2PP-img:hover {*/
+    /*    border-color: #ffcc00; !* Change background color on hover *!*/
+    /*    }*/
+
+    .T2PP-img.selected {
+        border-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    /*T3PP-img:hover {*/
+    /*    border-color: #ffcc00; !* Change background color on hover *!*/
+    /*    }*/
+
+    .T3PP-img.selected {
+        border-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .or-label {
+        font-weight: bold;
+        font-size: 13px
+        /*margin: 0 0px; !* Adjust spacing around OR *!*/
+    }
+
+    /* --- Optional: Move inline styles to CSS for better organization --- */
+
+    .label { /* Common style for all labels */
+        position: absolute;
+        font-weight: bold;
+        font-size: 7px;
+        /* Add other styles like color, background, padding if needed */
+        /*background-color: rgba(255, 255, 255, 0.7); !* Example: semi-transparent background *!*/
+        /*padding: 2px 5px;*/
+        /*border-radius: 3px;*/
+    }
+
+    .label-person-a-3pp { top: 33%; left: 4%; }
+    .label-person-b-3pp { top: 33%; left: 74%; }
+    .label-person-c { top: 90%; left: 42%; }
+    .label-person-a-2pp { top: 60%; left: 4%; /* Careful: negative left goes outside the box */ }
+    .label-person-b-2pp { top: 60%; left: 74%; }
+
+    /* Consider removing the <p> tags around the <b> tags for cleaner structure,
+       or ensure they don't add unwanted margin/padding */
+    .image-box p {
+        margin: 0;
+        padding: 0;
+        /* The <p> itself isn't really needed if it only contains the <b> */
     }
 
 </style>
@@ -534,7 +251,7 @@
 <form method="post">
 
     <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="pref_2PP_3PP" id="selected-number-1">
+    <input type="hidden" name="pref_2PP_3PP" id="selected-option-1">
 
         {{ formfield_errors 'pref_2PP_3PP' }}
 
@@ -546,69 +263,64 @@
                 <div class="image-box">
                     <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
                     <!-- Removed unnecessary <p> tags -->
-                    <b class="label label-person-a">PERSON A</b>
-                    <b class="label label-person-b">PERSON B</b>
+                    <b class="label label-person-a-2pp">PERSON A</b>
+                    <b class="label label-person-b-2pp">PERSON B</b>
                 </div>
 
                 <p class="or-label"><u>OR</u></p>
 
                 <div class="image-box">
                     <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
-                    <b class="label label-person-c">PERSON A</b>
-                    <b class="label label-person-d">PERSON B</b>
-                    <b class="label label-person-e">PERSON C</b>
+                    <b class="label label-person-a-3pp">PERSON A</b>
+                    <b class="label label-person-b-3pp">PERSON B</b>
+                    <b class="label label-person-c">PERSON C</b>
                 </div>
              </div>
 
             <br>
-
-
             <p style="text-align: center; ">
                 {{ text1|safe }}
             </p>
 
-
             <div class='numbers' >
-                <div class="number-row"  data-input="selected-number-1">
-                    <div class="number" data-value="0" > {{ text2PP|safe }}</div>
-                    <div class="number" data-value="1" > {{ text3PP|safe }}</div>
+                <div class="option-row"  data-input="selected-option-1">
+                    <div class="option" data-value="0" > {{ text2PP|safe }}</div>
+                    <div class="option" data-value="1" > {{ text3PP|safe }}</div>
                 </div>
             </div>
 
         {% else %}
 
-        <div class="image-container">
+            <div class="image-container">
                 <div class="image-box">
                     <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
                     <!-- Removed unnecessary <p> tags -->
-                    <b class="label label-person-c">PERSON A</b>
-                    <b class="label label-person-d">PERSON B</b>
-                    <b class="label label-person-e">PERSON C</b>
+                    <b class="label label-person-a-3pp">PERSON A</b>
+                    <b class="label label-person-b-3pp">PERSON B</b>
+                    <b class="label label-person-c">PERSON C</b>
                 </div>
 
                 <p class="or-label"><u>OR</u></p>
 
                 <div class="image-box">
                     <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
-                    <b class="label label-person-a">PERSON A</b>
-                    <b class="label label-person-b">PERSON B</b>
+                    <b class="label label-person-a-2pp">PERSON A</b>
+                    <b class="label label-person-b-2pp">PERSON B</b>
                 </div>
-             </div>
+            </div>
 
             <br>
 
+        <p style="text-align: center; ">
+            {{ text1|safe }}
+        </p>
 
-            <p style="text-align: center; ">
-                {{ text1|safe }}
-            </p>
-
-
-            <div class='numbers' >
-                <div class="number-row"  data-input="selected-number-1">
-                    <div class="number" data-value="1" > {{ text3PP|safe }}</div>
-                    <div class="number" data-value="0" > {{ text2PP|safe }}</div>
-                </div>
+        <div class='numbers' >
+            <div class="option-row"  data-input="selected-option-1">
+                <div class="option" data-value="1" > {{ text3PP|safe }}</div>
+                <div class="option" data-value="0" > {{ text2PP|safe }}</div>
             </div>
+        </div>
 
 
         {% endif %}

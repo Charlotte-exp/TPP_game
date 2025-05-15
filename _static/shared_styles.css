@@ -1,0 +1,869 @@
+/* shared_styles.css */
+
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 200vh;
+        margin-top: 1vw;
+        background-color: #f4f4f4;
+        border:0px solid black;
+    }
+
+    .number-row {
+        justify-content: center;
+        display: flex;
+        margin-top:1vw;
+        left:calc(50% - 10vw);
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.2vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number-row-comp {
+        justify-content: center;
+        display: flex;
+        margin-top:1vw;
+        gap: 0.2vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number-row-close {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number-row-static {
+        justify-content: center;
+        display: flex;
+        margin-top:-2vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .number {
+        width: 30px; /* should not scale */
+        height: 30px; /* should not scale */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px; /* should not scale */
+        background-color: #e0e0e0;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .norm {
+        width: 75px;
+        height: 55px;
+        flex-direction: column;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 11.5px;
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 10%;
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .neg-norm {
+        width: 75px;
+        height: 55px;
+        flex-direction: column;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 11.5px;
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 10%;
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .recorded-norm {
+        width: 75px; /* Width scales with viewport width */
+        height: 55px; /* Height scales with viewport width */
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 11.5px;
+        background-color: #e0e0e0;
+        border: 1px solid #000000;
+        border-radius: 10%; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .number:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .number:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .number.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .number.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 1px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 1px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .neg-norm:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .neg-norm:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .neg-norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .neg-norm.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 1px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .recorded-norm.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    /*  Comprehension questions*/
+    .comprehension-row {
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        justify-content: center; /* Center the items */
+        margin-top: 0vw; /* Adjust the top margin */
+        gap: 0.5vw; /* Space between items */
+    }
+
+    .comprehension-row-close {
+        justify-content: center;
+        display: flex;
+        margin-top:3vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .comprehension-row-static {
+        justify-content: center;
+        display: flex;
+        margin-top:-2vw;
+        /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+        gap: 0.5vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .comprehension-option {
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .comprehension-option:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .comprehension-option:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .comprehension-option.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .comprehension-option.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 1.5px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    .comprehension-optionTF {
+        flex-direction: column;
+        text-align: center; /* Center-aligns the text */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        padding: 1.5px;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .comprehension-optionTF:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .comprehension-optionTF:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .comprehension-optionTF.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .comprehension-error-red {
+        color: #a94442; /* Bootstrap default error text color (dark red) */
+        background-color: #f2dede; /* Light red background */
+        border: 1px solid #ebccd1; /* Red border */
+        padding: 10px; /* Padding for spacing */
+        border-radius: 4px; /* Slightly rounded corners */
+        margin-bottom: 15px; /* Spacing below the error */
+        display: none; /* Initially hidden */
+        font-size: 14px;
+    }
+
+    .comprehension-error-green {
+        color: green; /* Bootstrap default error text color (dark red) */
+        background-color: lightgreen;
+        border: 1px solid #77dd77;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        display: none; /* Initially hidden */
+        font-size: 14px;
+    }
+
+    .comprehension-error-greenTF {
+        color: green; /* Bootstrap default error text color (dark red) */
+        background-color: lightgreen;
+        border: 1px solid #77dd77;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        display: none; /* Initially hidden */
+        font-size: 14px;
+    }
+
+    /* extra tasks text buttons */
+    .option-row {
+        justify-content: center;
+        display: flex;
+        margin-top:0vw;
+        gap: 3vw; /* Space between numbers scales with viewport width */
+        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+        align-items: center; /* Ensures proper vertical alignment */
+    }
+
+    .option {
+        width: 200px; /* Width scales with viewport width */
+        height: 25px; /* Height scales with viewport width */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px; /* Font size scales with viewport width */
+        background-color: #e0e0e0;
+        border: 1.5px solid #000000;
+        border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .option:hover {
+        background-color: #ffcc00; /* Change background color on hover */
+    }
+
+    .option:active {
+        background-color: #ffa500; /* Change background color on click */
+    }
+
+    .option.selected {
+             background-color: #ffa500; /* Permanent color when clicked */
+    }
+
+    .option.disabled {
+        background-color: #F3F3F3; /* Grey color for disabled buttons */
+        border: 2px solid #d3d3d3;
+        color:#d3d3d3;
+        cursor: not-allowed;
+        pointer-events: none; /* Disable interactions */
+    }
+
+    /* Blocks */
+    .responsive-div {
+      width: 90%; /* Default width */
+      transform-origin: top left; /* Ensure scaling starts from top-left */
+      transform: scale(1); /* Default scale */
+      transition: transform 0.3s ease; /* Smooth scaling */
+      border:0px solid red;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .figure-container {
+        width:75%;
+        min-width: 290px;
+        height:230px;
+        /* top:2vw; */
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .short-figure-container {
+        width:75%;
+        height:100px;  /* shorter for dictator */
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        border:0px solid black;
+        position:relative;
+    }
+
+    .reminder {
+        background-color: #e0f0ff;
+        color: #004080;
+        border: 1px solid #004080;
+        padding: 8px;
+        margin-top: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    @media (min-width: 1300px) { /* adjustments for large screens */
+        .container {
+            width:50%; /* otherwise used margin-left:1vw; */
+        }
+        .number {
+            width: 40px; /* should not scale */
+            height: 40px; /* should not scale */
+            font-size: 22px; /* should not scale */
+        }
+    }
+
+    @media (max-width: 1300px) { /* adjustments for smaller screens */
+        .container {
+            width:60%; /* otherwise used margin-left:1vw; */
+        }
+    }
+
+    @media (max-width: 900px) { /* adjustments for smaller screens */
+        .responsive-div {
+            width:100%;
+        }
+        .container {
+            width:80%; /* otherwise used margin-left:1vw; */
+        }
+        .figure-container {
+            width:100%; /* otherwise used margin-left:1vw; */
+        }
+        .norm {
+            width: 67px; /* Width scales with viewport width */
+            height: 50px; /* Height scales with viewport width */
+            font-size: 10px;
+        }
+        .neg-norm {
+            width: 67px; /* Width scales with viewport width */
+            height: 50px; /* Height scales with viewport width */
+            font-size: 10px;
+        }
+        .recorded-norm {
+            width: 67px; /* Width scales with viewport width */
+            height: 50px; /* Height scales with viewport width */
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 550px) { /* adjustments for smartphones */
+        .responsive-div {
+            width:100%;
+        }
+        .container {
+            width:100%; /* otherwise used margin-left:1vw; */
+        }
+        .figure-container {
+            width:90%; /* otherwise used margin-left:1vw; */
+        }
+        .number {
+            width: 25px; /* should not scale */
+            height: 25px; /* should not scale */
+            font-size: 14px; /* sould not scale */
+        }
+        .norm {
+            width: 55px; /* Width scales with viewport width */
+            height: 45px; /* Height scales with viewport width */
+            font-size: 8.5px;
+        }
+        .neg-norm {
+            width: 55px; /* Width scales with viewport width */
+            height: 45px; /* Height scales with viewport width */
+            font-size: 8.5px;
+        }
+        .recorded-norm {
+            width: 55px; /* Width scales with viewport width */
+            height: 45px; /* Height scales with viewport width */
+            font-size: 8.5px;
+        }
+    }
+
+    /* positioning elements in the figure */
+    .person-a {
+        left: calc(50% - 136px);
+        top: 63px;
+        font-size:10px;
+        position: absolute;
+    }
+
+    .person-b {
+        left: calc(50% + 82px);
+        top: 64px;
+        font-size:10px;
+        position: absolute;
+    }
+
+    .person-c {
+        left: calc(50% - 20px);
+        top:191px;
+        font-size:10px;
+        position: absolute;
+    }
+
+    .you-dictator {
+        left:calc(50% - 126.5px);
+        top: 36px;
+        font-size:16px;
+        color: red;
+        position: absolute;
+    }
+
+    .you-receiver { /* for 2PP punish */
+        left:calc(50% + 92px);
+        top: 38px;
+        font-size:16px;
+        color: red;
+        position: absolute;
+    }
+
+    .you-third-party {
+        left:calc(50% - 10px);
+        top: 165px;
+        font-size:16px;
+        color: red;
+        position: absolute;
+    }
+
+    .scenario_image {
+        width:280px;
+        top:3vw;
+    }
+
+    .receiver-flag {
+        width:100px;
+        position:absolute;
+        z-index: -1;
+        top: -18%;
+        left:calc(50% + 75px);
+    }
+
+    .dictator-flag {
+       width:100px;
+       position:absolute;
+       z-index: -1;
+       top: -18%;
+       left:calc(50% - 176px);
+    }
+
+    .receiver-map {
+        width:60px;
+        position:absolute;
+        top:28px;
+        left:calc(50% + 125px);
+    }
+
+    .dictator-map {
+       width:60px;
+       position:absolute;
+       top:28px;
+       left:calc(50% - 187px);
+    }
+
+    .minus-button-2PP {
+        position: absolute;
+        width: 22px;
+        top: -50%;
+        left:calc(50% - 12px);
+    }
+
+    .minus-button-3PP {
+        position: absolute;
+        width: 22px;
+        top: 50%;
+        left:calc(50% - 75px);
+    }
+
+    .plus-button-3PR {
+        position: absolute;
+        width: 22px;
+        top: 50%;
+        left:calc(50% - 7vw);
+    }
+
+    .plus-button-3PC {
+        position: absolute;
+        width: 22px;
+        top: 50%;
+        left:calc(50% + 6vw);
+    }
+
+    .punish-arrow-2PP {
+        position: absolute;
+        width: 85px;
+        top: -28%;
+        left:calc(50% - 45px);
+    }
+
+    /* Coin stacks */
+    .coin-stack {
+        position: absolute;
+        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
+        max-width: 100px; /* Ensure coins don't get too big */
+    }
+
+    .coin {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 1px solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinR {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 1px solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin_destroyed {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background-color: rgba(255, 0, 0, 0.15); /* Semi-transparent red (0.5 is 50% transparency) */
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coin_destroyed2PP {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background-color: rgba(255, 0, 0, 0.15); /* Semi-transparent red (0.5 is 50% transparency) */
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown2PP {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        /*border: 0.1vw solid #FFFFFF; !* Border size scales with the coin size *!*/
+        border: 0.1vw solid darkred; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown3PR {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .coinown3PC {
+        width: 20px; /* Coins take the full width of the stack container */
+        min-width:10px;
+        height: 8px; /* Coin height is proportional to the width */
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #e6c200);
+        border: 0.1vw solid #FFFFFF; /* Border size scales with the coin size */
+        box-shadow: inset -3px -2px 5px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    /* Coin stacks number labels */
+    .coin-count-labelD {
+        font-size:14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: calc(50% - 50px); /* Center horizontally before offsetting */
+        top: 50px; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelDDes {
+        font-size:14px;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: calc(50% - 70px); /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 60%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelR {
+        font-size:14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: calc(50% + 10px); /* Center horizontally before offsetting */
+        top: 5px; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelDDes2PP {
+        font-size:14px;
+        color: rgba(255, 0, 0, 0.15); /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: calc(50% - 43px); /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: -15%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP {
+        font-size:14px;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 85%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 80%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP2PP {
+        font-size:14px;
+        color: darkred; /* Adjust color as needed */
+        position: absolute; /* Position relative to .figure-container */
+        left: 73%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 8%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP3PR {
+        font-size:14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: -4%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 56%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    .coin-count-labelTP3PC {
+        font-size:14px;
+        color: #333; /* Adjust color as needed */
+        position: absolute; /* Position relative to .container */
+        left: 111%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust for exact centering */
+        top: 56%; /* Move up; adjust value as needed */
+        text-align: center; /* Align text */
+    }
+
+    /* Coins vertical position */
+    .coin:nth-child(12)  { top: 26px; }
+    .coin:nth-child(11)  { top: 29px; }
+    .coin:nth-child(10)  { top: 32px; }
+    .coin:nth-child(9)   { top: 35px; }
+    .coin:nth-child(8)   { top: 38px; }
+    .coin:nth-child(7)   { top: 41px; }
+    .coin:nth-child(6)   { top: 44px; }
+    .coin:nth-child(5)   { top: 47px; }
+    .coin:nth-child(4)   { top: 50px; }
+    .coin:nth-child(3)   { top: 53px; }
+    .coin:nth-child(2)   { top: 56px; }
+    .coin:nth-child(1)   { top: 59px; }
+
+    .coinR:nth-child(12) { top: -19px; }
+    .coinR:nth-child(11) { top: -16px; }
+    .coinR:nth-child(10) { top: -13px; }
+    .coinR:nth-child(9)  { top: -10px; }
+    .coinR:nth-child(8)  { top: -7px; }
+    .coinR:nth-child(7)  { top: -4px; }
+    .coinR:nth-child(6)  { top: -1px; }
+    .coinR:nth-child(5)  { top: 2px; }
+    .coinR:nth-child(4)  { top: 5px; }
+    .coinR:nth-child(3)  { top: 8px; }
+    .coinR:nth-child(2)  { top: 11px; }
+    .coinR:nth-child(1)  { top: 14px; }
+
+    .coinown:nth-child(10)  { top: 18.8vw; }
+    .coinown:nth-child(9)   { top: 19.1vw; }
+    .coinown:nth-child(8)   { top: 19.4vw; }
+    .coinown:nth-child(7)   { top: 19.7vw; }
+    .coinown:nth-child(6)   { top: 20.0vw; }
+    .coinown:nth-child(5)   { top: 20.3vw; }
+    .coinown:nth-child(4)   { top: 20.6vw; }
+    .coinown:nth-child(3)   { top: 20.9vw; }
+    .coinown:nth-child(2)   { top: 21.2vw; }
+    .coinown:nth-child(1)   { top: 21.5vw; }
+
+    .coinown2PP:nth-child(10)  { top: 0.6vw; }
+    .coinown2PP:nth-child(9)   { top: 0.9vw; }
+    .coinown2PP:nth-child(8)   { top: 1.2vw; }
+    .coinown2PP:nth-child(7)   { top: 1.5vw; }
+    .coinown2PP:nth-child(6)   { top: 1.8vw; }
+    .coinown2PP:nth-child(5)   { top: 2.1vw; }
+    .coinown2PP:nth-child(4)   { top: 2.4vw; }
+    .coinown2PP:nth-child(3)   { top: 2.7vw; }
+    .coinown2PP:nth-child(2)   { top: 3.0vw; }
+    .coinown2PP:nth-child(1)   { top: 3.3vw; }
+
+    .coinown3PR:nth-child(1)   { top: 111px; }
+    .coinown3PR:nth-child(2)   { top: 114px; }
+    .coinown3PR:nth-child(3)   { top: 117px; }
+    .coinown3PR:nth-child(4)   { top: 120px; }
+    .coinown3PR:nth-child(5)   { top: 123px; }
+    .coinown3PR:nth-child(6)   { top: 126px; }
+    .coinown3PR:nth-child(7)   { top: 129px; }
+    .coinown3PR:nth-child(8)   { top: 132px; }
+    .coinown3PR:nth-child(9)   { top: 135px; }
+    .coinown3PR:nth-child(10)  { top: 138px; }
+    .coinown3PR:nth-child(11)  { top: 141px; }
+    .coinown3PR:nth-child(12)  { top: 144px; }
+
+    .coinown3PC:nth-child(1)   { top: 111px; }
+    .coinown3PC:nth-child(2)   { top: 114px; }
+    .coinown3PC:nth-child(3)   { top: 117px; }
+    .coinown3PC:nth-child(4)   { top: 120px; }
+    .coinown3PC:nth-child(5)   { top: 123px; }
+    .coinown3PC:nth-child(6)   { top: 126px; }
+    .coinown3PC:nth-child(7)   { top: 129px; }
+    .coinown3PC:nth-child(8)   { top: 132px; }
+    .coinown3PC:nth-child(9)   { top: 135px; }
+    .coinown3PC:nth-child(10)  { top: 138px; }
+    .coinown3PC:nth-child(11)  { top: 141px; }
+    .coinown3PC:nth-child(12)  { top: 144px; }
+
+    .coin_destroyed:nth-child(12)  { top: 111px; }
+    .coin_destroyed:nth-child(11)  { top: 114px; }
+    .coin_destroyed:nth-child(10)  { top: 117px; }
+    .coin_destroyed:nth-child(9)   { top: 120px; }
+    .coin_destroyed:nth-child(8)   { top: 123px; }
+    .coin_destroyed:nth-child(7)   { top: 126px; }
+    .coin_destroyed:nth-child(6)   { top: 129px; }
+    .coin_destroyed:nth-child(5)   { top: 132px; }
+    .coin_destroyed:nth-child(4)   { top: 135px; }
+    .coin_destroyed:nth-child(3)   { top: 138px; }
+    .coin_destroyed:nth-child(2)   { top: 141px; }
+    .coin_destroyed:nth-child(1)   { top: 144px; }
+
+    .coin_destroyed2PP:nth-child(12)  { top: -39px; }
+    .coin_destroyed2PP:nth-child(11)  { top: -36px; }
+    .coin_destroyed2PP:nth-child(10)  { top: -33px; }
+    .coin_destroyed2PP:nth-child(9)   { top: -30px; }
+    .coin_destroyed2PP:nth-child(8)   { top: -27px; }
+    .coin_destroyed2PP:nth-child(7)   { top: -24px; }
+    .coin_destroyed2PP:nth-child(6)   { top: -21px; }
+    .coin_destroyed2PP:nth-child(5)   { top: -18px; }
+    .coin_destroyed2PP:nth-child(4)   { top: -15px; }
+    .coin_destroyed2PP:nth-child(3)   { top: -12px; }
+    .coin_destroyed2PP:nth-child(2)   { top: -9px; }
+    .coin_destroyed2PP:nth-child(1)   { top: -6px; }

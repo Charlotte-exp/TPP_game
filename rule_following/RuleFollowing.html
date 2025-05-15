@@ -19,57 +19,44 @@
 
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
     <style>
 
-        body {
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: 4vw;
-            background-color: #f4f4f4;
+        .slider {
+            width: 100%;
+            margin: 20px 0;
         }
 
-        .responsive-div {
-            width: 90%; /* Default width */
-            transform-origin: top left; /* Ensure scaling starts from top-left */
-            transform: scale(1); /* Default scale */
-            transition: transform 0.3s ease; /* Smooth scaling */
+        .slider-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
             border:0px solid black;
-            margin-left:auto;
-            margin-right:auto;
         }
 
-        .wrapper {
-          display: grid;
-          grid-auto-rows: minmax(40px, auto);
-          grid-template-columns: 150px 150px 50px 200x;
-          column-gap: 10px;
-          row-gap: 5px;
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: -5px; /* optional: pulls labels closer to slider */
+            padding: 0;
         }
 
-        .wrapper2 {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          column-gap: 10px;
-          row-gap: 10px;
+        .slider-labels span {
+            font-size: 16px;
+            white-space: nowrap;
         }
 
-        .bottom-two {
-          margin-bottom: 2cm;
-          }
-
-            input[type=range] {
-                -webkit-appearance: none;
-                margin: 18px 0;
-                width: 100%;
+        @media (max-width: 400px) { /* adjustments for tiny screens */
+            .slider-labels span {
+                font-size: 12px;
             }
-
-            input[type=range]:focus {
-                outline: none;
-            }
+        }
 
         /* Webkit-based browsers (Chrome, Safari) */
         input[type=range]::-webkit-slider-runnable-track {
@@ -202,7 +189,7 @@
             const output = document.getElementById(outputId);
             const checkSlider = document.getElementById(checkId);
 
-            slider.value = "";
+            slider.value = "101";
             output.textContent = "";
             checkSlider.value = "0"; // Not moved yet
             slider.classList.add("hidden-thumb");
@@ -277,38 +264,44 @@
 
         <div class='responsive-div'>
 
-            <!-- Slider 1 -->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>0</span>
-                <span style="flex-grow: 1; margin: 0 10px;">
+            <!-- Slider 1-->
+            <div class="slider-container">
+                <span style="flex-grow: 1;">
                     <input type="hidden" name="slider1_moved" id="check_slider1" value="0" />
                     <input type="range" name="slider1" id="slider1" min="0" max="100" class="hidden-thumb" />
                 </span>
-                <span>100</span>
+                <div class="slider-labels">
+                    <span>0</span>
+                    <span>100</span>
+                </div>
             </div>
             <div style="text-align: center;"><output id="output1" style="color: #0d6efd"></output></div>
 
 
-            <!-- Slider 2 -->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>0</span>
-                <span style="flex-grow: 1; margin: 0 10px;">
+            <!-- Slider 2-->
+            <div class="slider-container">
+                <span style="flex-grow: 1;">
                     <input type="hidden" name="slider2_moved" id="check_slider2" value="0" />
                     <input type="range" name="slider2" id="slider2" min="0" max="100" class="hidden-thumb" />
                 </span>
-                <span>100</span>
+                <div class="slider-labels">
+                    <span>0</span>
+                    <span>100</span>
+                </div>
             </div>
             <div style="text-align: center;"><output id="output2" style="color: #0d6efd"></output></div>
 
 
-            <!-- Slider 3 -->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>0</span>
-                <span style="flex-grow: 1; margin: 0 10px;">
+            <!-- Slider 3-->
+            <div class="slider-container">
+                <span style="flex-grow: 1;">
                     <input type="hidden" name="slider3_moved" id="check_slider3" value="0" />
                     <input type="range" name="slider3" id="slider3" min="0" max="100" class="hidden-thumb" />
                 </span>
-                <span>100</span>
+                <div class="slider-labels">
+                    <span>0</span>
+                    <span>100</span>
+                </div>
             </div>
             <div style="text-align: center;"><output id="output3" style="color: #0d6efd"></output></div>
 

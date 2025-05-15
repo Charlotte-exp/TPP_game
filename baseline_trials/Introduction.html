@@ -13,17 +13,8 @@
 
 {{ block style }}
 
-    <style>
-
-        body {
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: 4vw;
-            background-color: #f4f4f4;
-        }
-
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
 {{ endblock }}
 
@@ -78,8 +69,7 @@
     </b>
 
 
-
-    <div style="display: flex; justify-content: flex-end">
+    <div style="display: flex; justify-content: flex-end; margin-top: 20px">
         <button style="
                     color: #fff;
                     background-color: #007bff;
