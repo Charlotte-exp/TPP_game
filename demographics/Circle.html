@@ -14,15 +14,11 @@
 {{ block content }}
 
 
-<style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
-    body {
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin-top: 4vw;
-        background-color: #f4f4f4;
-    }
+
+<style>
 
     table.IOS {
         border-collapse: collapse;
