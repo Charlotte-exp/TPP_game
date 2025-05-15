@@ -366,6 +366,7 @@
 
     .figure-container {
         width:75%;
+        min-width: 290px;
         height:230px;
         /* top:2vw; */
         margin-left:auto;
@@ -381,7 +382,7 @@
         margin-left:auto;
         margin-right:auto;
         text-align:center;
-        border:0px solid black;
+        border:1px solid black;
         position:relative;
     }
 

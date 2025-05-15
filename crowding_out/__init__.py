@@ -52,12 +52,12 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant.crowding_out_button_pos = random.choice([True, False])
         participant.treatment_cond_coop = True # For cross-cultural experiment, hard code it to true for now: Everyone sees conditional cooperation task and not control
 
-        ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        participant.progress = 1
-        participant.decision_page_number = 0 # For testing only crowding
-
-        print('set crowding_out_button_pos', participant.crowding_out_button_pos)
-        print('final treatment_cond_coop', participant.treatment_cond_coop)
+        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        # participant.progress = 1
+        # participant.decision_page_number = 0 # For testing only crowding
+        #
+        # print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+        # print('final treatment_cond_coop', participant.treatment_cond_coop)
 
 
 

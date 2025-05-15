@@ -215,15 +215,15 @@
 
             // dictator stack
             for (let i = 0; i < total_endowment; i++) {
-                $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 60px)"></div>');
+                $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
             }
             // // incentive stack
             // for (let i = 0; i < incentive; i++) {
-            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 105px)"></div>');
+            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
             // }
             // dictator stack static (for static display of role labels in norm Q)
             for (let i = 0; i < receiver_endowment; i++) {
-                $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 60px)"></div>');
+                $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
             }
             // recipient stack static (for static display of role labels in norm Q)
             for (let i = 0; i < total_endowment; i++) {
@@ -231,7 +231,7 @@
             }
             // incentive stack static (for static display of role labels in norm Q)
             for (let i = 0; i < incentive; i++) {
-                $(`.coinstackTP3PR-static`).append('<div class="coinown3PR" style="left:calc(50% - 105px)"></div>');
+                $(`.coinstackTP3PR-static`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
             }
 
             // number labels
@@ -339,13 +339,13 @@
 
                 // Add the specified number of coins
                 for (let i = 0; i < Dupdate; i++) {
-                    $('.coinstackD').append('<div class="coinD" style="left:calc(50% - 60px)"></div>');
+                    $('.coinstackD').append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
                 }
                 for (let i = 0; i < Rupdate; i++) {
                     $('.coinstackR').append('<div class="coinRbis" style="left:calc(50% - 3px)"></div>'); // previously: left:83
                 }
                 for (let i = 0; i < TPupdate; i++) {
-                    $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 105px)"></div>');
+                    $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
                 }
 
                 // Update the number labels
@@ -447,12 +447,6 @@
              background-color: #ffa500; /* Permanent color when clicked */
     }
 
-    .coin-stack {
-        position: absolute;
-        width: 5vw; /* The stack width adjusts to 20% of the viewport width */
-        max-width: 100px; /* Ensure coins don't get too big */
-    }
-
     .coinD {
         width: 20px; /* Coins take the full width of the stack container */
         min-width:10px;
@@ -494,8 +488,8 @@
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
         transform: translateX(-50%); /* Adjust for exact centering */
-        left:calc(50% - 40px); /* Center horizontally */
-        top: 95px; /* Move up; adjust value as needed */
+        left:calc(50% - 56px); /* Center horizontally */
+        top: 58px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 
@@ -503,9 +497,9 @@
         font-size: 14px;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left:calc(50% - 40px); /* Center horizontally */
+        left:calc(50% - 56px); /* Center horizontally */
         transform: translateX(-50%); /* Adjust for exact centering */
-        top: 95px; /* Move up; adjust value as needed */
+        top: 58px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 
@@ -515,16 +509,16 @@
         position: absolute; /* Position relative to .container */
         transform: translateX(-50%); /* Adjust for exact centering */
         left:calc(50% + 15px); /* Center horizontally */
-        top: 28px; /* Move up; adjust value as needed */
+        top: 12px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
     .coin-count-labelR-static {
         font-size: 14px;
         color: #333; /* Adjust color as needed */
         position: absolute; /* Position relative to .container */
-        left:calc(50% - 40px); /* Center horizontally */
+        left:calc(50% + 15px); /* Center horizontally */
         transform: translateX(-50%); /* Adjust for exact centering */
-        top: 28px; /* Move up; adjust value as needed */
+        top: 12px; /* Move up; adjust value as needed */
         text-align: center; /* Align text */
     }
 
@@ -537,33 +531,33 @@
     .coin-count-labelTP3PR {
         position: absolute;
         font-size: 14px;
-        top: 170px;
-        left:calc(50% - 85px);
+        top: 153px;
+        left:calc(50% - 78px);
     }
 
     .coin-count-labelTP3PR-static {
         position: absolute;
         font-size: 14px;
-        top: 170px;
-        left:calc(50% - 85px);
+        top: 153px;
+        left:calc(50% - 83px);
     }
 
-    .coinD:nth-child(8)  { top: 6.0vw; }
-    .coinD:nth-child(7)  { top: 6.3vw; }
-    .coinD:nth-child(6)  { top: 6.6vw; }
-    .coinD:nth-child(5)   { top: 6.9vw; }
-    .coinD:nth-child(4)   { top: 7.2vw; }
-    .coinD:nth-child(3)   { top: 7.5vw; }
-    .coinD:nth-child(2)   { top: 7.8vw; }
-    .coinD:nth-child(1)   { top: 8.1vw; }
+    .coinD:nth-child(8)  { top: 48px; }
+    .coinD:nth-child(7)  { top: 51px; }
+    .coinD:nth-child(6)  { top: 54px; }
+    .coinD:nth-child(5)  { top: 57px; }
+    .coinD:nth-child(4)  { top: 60px; }
+    .coinD:nth-child(3)  { top: 63px; }
+    .coinD:nth-child(2)  { top: 66px; }
+    .coinD:nth-child(1)  { top: 69px; }
 
-    .coinRbis:nth-child(4)  { top: 1.0vw; }
-    .coinRbis:nth-child(3)  { top: 1.3vw; }
-    .coinRbis:nth-child(2)  { top: 1.6vw; }
-    .coinRbis:nth-child(1)  { top: 1.9vw; }
+    .coinRbis:nth-child(4)  { top:12px; }
+    .coinRbis:nth-child(3)  { top: 15px; }
+    .coinRbis:nth-child(2)  { top: 18px; }
+    .coinRbis:nth-child(1)  { top: 21px; }
 
-    .coinown3PR:nth-child(1)  { top: 13.2vw; }
-    .coinown3PR:nth-child(2)  { top: 12.9vw; }
+    .coinown3PR:nth-child(2)  { top: 156px; }
+    .coinown3PR:nth-child(1)  { top: 159px; }
 
     .image-container {
         display: flex;
@@ -572,6 +566,7 @@
         align-items: flex-start; /* Align to the top of the container */
         gap: 30px;
         margin-top: 20px;
+        border:0px solid black;
     }
 
     /* Treatment-specific heights */
@@ -597,14 +592,14 @@
         position: absolute;
         font-size: 14px;
         left:calc(50% - 165px);
-        top: 95px;
+        top: 75px;
     }
 
     .label-charity {
         position: absolute;
         font-size: 14px;
         left:calc(50% + 90px);
-        top: 96px;
+        top: 76px;
     }
 
     .label-you {
@@ -612,14 +607,14 @@
         font-size: 18px;
         position: absolute;
         left:calc(50% - 148px);
-        top: 65px;
+        top: 46px;
     }
 
     .plus-button {
         position: absolute;
-        width: 1.8vw;
-        top: 150px;
-        left:calc(50% - 90px);
+        width: 22px;
+        top: 130px;
+        left:calc(50% - 85px);
     }
 
     .slider {
@@ -643,6 +638,13 @@
     .slider-labels span {
         flex: 1;
         text-align: center;
+        font-size: 16px;
+    }
+
+    @media (max-width: 400px) { /* adjustments for tiny screens */
+        .slider-labels span {
+            font-size: 12px;
+        }
     }
 
 /* Webkit-based browsers (Chrome, Safari) */
@@ -775,8 +777,6 @@
 <!--            {{ formfield_errors 'charity_select' }}-->
 
 
-
-
     <!-- Add hidden input to store the selected value -->
     <input type="hidden" name="crowding_decision" id="selected-option-1">
 
@@ -817,6 +817,7 @@
             {% endif %}
 
         </div>
+        <br>
 
         <p style="text-align: center; ">
             {{ text5|safe }}
@@ -848,7 +849,6 @@
         <br>
 
     </div>
-
 
 
     <div class='responsive-div'>
