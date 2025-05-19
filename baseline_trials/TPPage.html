@@ -1,8 +1,8 @@
 {{ block title }}
 
-<p style="font-size: 22px; text-decoration: underline;">
+<div class="block-header">
     Block 1
-</p>
+</div>
 
 <p style="text-align: center; font-size: 26px; margin-bottom: 4px; "> Decision {{player.round_number}} </p>
 
@@ -129,7 +129,7 @@
             }
 
             for (let i = 0; i < DesRupdate; i++) {
-                $(`.coinstackDDes2PP[data-index="${index}"]`).append('<div class="coin_destroyed2PP" style="left:calc(50% - 63px)"></div>');
+                $(`.coinstackDDes2PP[data-index="${index}"]`).append('<div class="coin_destroyed2PP" style="left:calc(50% - 2px)"></div>');
             }
 
             // Update the number labels
@@ -404,7 +404,7 @@
                     }
                     // destroyed coins for 2PP
                     for (let i = 0; i < norm_TP_points; i++) {
-                        $(`.coinstackDDes2PP[data-index="${index}"]`).append('<div class="coin_destroyed2PP" style="left:19%;"></div>');
+                        $(`.coinstackDDes2PP[data-index="${index}"]`).append('<div class="coin_destroyed2PP" style="left:calc(50% - 2px)"></div>');
                     }
 
                     // number labels
@@ -565,17 +565,19 @@
 
         {% if "2PP" in player.treatment and player.round_number < 6 %}
             <p style="text-align: center;">
-                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person B is.</b> <br> <br>
-
+                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person B is.</b>
+                <br><br>
                 Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b>
                 if your decisions are the same as the most
-                common decisions among all other participants in {{current_country}}. <br> <br>
+                common decisions among all other participants in {{current_country}}.
+                <br><br>
             </p>
         {% endif %}
 
         {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
             <p style="text-align: center;">
-                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person C is.</b> <br> <br>
+                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person C is.</b>
+                <br><br>
             </p>
         {% endif %}
 
@@ -750,12 +752,11 @@
         {% if "2PP" in player.treatment %}
 
             <p style="text-align: center; ">
-                <b style="color: red; ">You are Person B!</b> <br>
-
-                <b> Now, you decide as Person B how many points to <b style="color: red; ">remove from Person A</b>.</b> <br>
-
-                Below are three different possible decisions of Person A. <br> <br>
-
+                <b style="color: red; ">You are Person B!</b>
+                <br>
+                <b>Now, you decide as Person B how many points to <b style="color: red; ">remove from Person A</b>.</b>
+                <br>
+                Below are three different possible decisions of Person A.<br><br>
             </p>
 
         <br>
@@ -768,8 +769,8 @@
 
             {% if "3PP" in player.treatment %}
                 <p style="text-align: center; ">
-                    <b> Now, you decide as Person C how many points to <b style="color: red; ">remove from Person A</b>.</b> <br>
-
+                    <b> Now, you decide as Person C how many points to <b style="color: red; ">remove from Person A</b>.</b>
+                    <br>
                 </p>
             {% endif %}
 
@@ -781,12 +782,16 @@
 
             {% if "3PC" in player.treatment %}
                 <p style="text-align: center; ">
-                    <b> Now, you decide as Person C how many points to <b style="color: red; ">remove from Person A</b> <u>or</u> <b style="color: green; "> give to Person B</b>.</b> <br>
+                    <b> Now, you decide as Person C how many points to <b style="color: red; ">remove from Person A</b>
+                        <u>or</u> <b style="color: green; "> give to Person B</b>.</b>
+                    <br>
                 </p>
 
                 <p style="text-align: center;">
-                    Keep in mind that you can <u>either</u> <b>remove points</b> from <b>Person A <u>or</u> give points</b> to <b>Person B</b>.
-                </p> <br>
+                    Keep in mind that you can <u>either</u> <b>remove points</b> from <b>Person A
+                    <u>or</u> give points</b> to <b>Person B</b>.
+                </p>
+                <br>
 
             {% endif %}
         {% endif %}
@@ -796,6 +801,7 @@
         {% endif %}
 
         {% for TP_decision in TP_decisions %}
+        <br>
         <div class='responsive-div'>
             <div class="figure-container {% if '2PP' in player.treatment %}short-figure-container{% endif %}" data-index="{{ TP_decision.index }}">
 
@@ -921,7 +927,6 @@
             </div>
         <br>
         <hr>
-        <br>
         </div>
 
         {% if dic_identity != "baseline" or "2PP" in player.treatment%}

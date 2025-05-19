@@ -1,8 +1,8 @@
 {{ block title }}
 
-<p style="font-size: 22px; text-decoration: underline;">
+<div class="block-header">
     Block 2
-</p>
+</div>
 
 <p style="text-align: center; font-size: 26px;  "> Decision {{ participant.decision_page_number }} </p>
 
@@ -249,12 +249,12 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-                var original = parseInt("{{ original_dice }}", 10) || 1;
-                var reported = parseInt("{{ reported_dice }}", 10) || 1;
+            var original = parseInt("{{ original_dice }}", 10) || 1;
+            var reported = parseInt("{{ reported_dice }}", 10) || 1;
 
-                showDice('dice1', original);
-                showDice('dice2', reported);
-            });
+            showDice('dice1', original);
+            showDice('dice2', reported);
+        });
 
 
         /////////  Slider /////////
@@ -306,7 +306,8 @@
         In this new part, you will observe the behaviour of another participant and give your opinion of that behaviour.
     </p>
     <p>
-        In a previous, separate survey, a person got the opportunity to roll a die and collect the number of points on it as a bonus.
+        In a previous, separate survey,
+        a person got the opportunity to roll a die and collect the number of points on it as a bonus.
         Below is <b>the number they got after throwing the die: </b>
     </p>
 
@@ -413,7 +414,7 @@
 
     <br>
     <p>
-        Now, you can send X points to the other person, or keep those points to yourself.
+        Now, you can send 3 points to the other person, or keep those points to yourself.
         Each point sent is tripled.
         The other person can transfer all, some, or none of those (tripled) points back to you.
     </p>

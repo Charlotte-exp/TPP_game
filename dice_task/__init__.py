@@ -23,6 +23,15 @@ class Subsession(BaseSubsession):
 #         participant = player.participant
 #         participant.progress = 1
 
+def creating_session(subsession):
+    """
+    Pairs of original and reported dice from the prolific pilot.
+    Must be called from a separate page or in the creating_session
+    """
+    for p in subsession.get_players():
+        p.dice_roll()
+
+
 class Group(BaseGroup):
     pass
 
@@ -42,16 +51,17 @@ class Player(BasePlayer):
 
     trust_points = models.IntegerField(
         choices=[
-            [1, '1 point'], [2, '2 points'], [3, '3 points'],
+            [0, '0 point'], [1, '1 point'], [2, '2 points'], [3, '3 points'],
         ],
         verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
 
+
     def dice_roll(player):
         """
         Pairs of original and reported dice from the prolific pilot.
-        could also be attributed to all participants when the session is created but then must be in the creating_session of the first app...
+        Must be called from a separate page or in the creating_session
         """
         dice_permutations = list(product(range(1, 7), repeat=2))
         while True:
@@ -59,7 +69,7 @@ class Player(BasePlayer):
             if og_dice <= rep_dice:
                 player.original_dice = og_dice
                 player.reported_dice = rep_dice
-                # print(player.original_dice, player.reported_dice)
+                print(player.original_dice, player.reported_dice)
                 return player.original_dice, player.reported_dice
 
 
