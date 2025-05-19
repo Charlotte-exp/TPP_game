@@ -9,6 +9,19 @@
         border:0px solid black;
     }
 
+    .page-header{
+        padding-top: 20px;
+        border:0px solid black;
+    }
+
+    .block-header{
+        font-size: 22px;
+        margin-bottom: 24px;
+        /* color: dimgrey; */
+        font-weight: normal;
+        text-decoration: underline;
+    }
+
     .number-row {
         justify-content: center;
         display: flex;
