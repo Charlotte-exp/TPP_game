@@ -9,17 +9,17 @@
         border:0px solid black;
     }
 
-    .page-header{
-        padding-top: 20px;
+    .page-header {
+        padding-top: 15px;
         border:0px solid black;
     }
 
-    .block-header{
-        font-size: 22px;
-        margin-bottom: 24px;
+    .block-header {
+        font-size: 22px !important;
+        margin-bottom: 24px !important;
         /* color: dimgrey; */
-        font-weight: normal;
-        text-decoration: underline;
+        font-weight: normal !important;
+        text-decoration: underline !important;
     }
 
     .number-row {
