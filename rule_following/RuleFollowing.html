@@ -13,6 +13,7 @@
     </label>
 </div>
 
+
 {{ endblock }}
 
 {{ block content }}
@@ -249,11 +250,11 @@
 
         {{ if condition == 'hurt_me' }}
         <p style="text-align: center; ">
-            For each slider that you move to position “50”, you will lose 2 points.
+            For each slider that you move to position “50”, you will lose {{ points_per_slider }} points.
         </p>
         {{ else }}
         <p style="text-align: center; ">
-            For each slider you move to position "50", another participant in this study will lose 2 points.
+            For each slider you move to position "50", another participant in this study will lose {{ points_per_slider }} points.
         </p>
         {{ endif }}
 
