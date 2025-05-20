@@ -302,67 +302,67 @@ class Player(BasePlayer):
     comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
     role_switch_true = models.BooleanField()
-    comp_failed2PP = models.IntegerField(initial=0)
-    comp_failed3PR = models.IntegerField(initial=0)
-    comp_failed3PC = models.IntegerField(initial=0)
+    comp_failed2PP = models.IntegerField()#initial=0)
+    comp_failed3PR = models.IntegerField()#initial=0)
+    comp_failed3PC = models.IntegerField()#initial=0)
     att_failed1 = models.IntegerField(initial=0)
     att_failed2 = models.IntegerField(initial=0)
 
     # Decisions
     dic_decision1 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],  # Dynamically generate choices
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, #does not display
     )
 
     dic_norm_decision1 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
     punish_or_compensate1 = models.IntegerField(
-        initial=3,
+        #initial=3,
         choices=[[0, f'punish'], [1, f'compensate'],],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     punish_or_compensate2 = models.IntegerField(
-        initial=3,
+        #initial=3,
         choices=[[0, f'punish'], [1, f'compensate'], ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     punish_or_compensate3 = models.IntegerField(
-        initial=3,
+        #initial=3,
         choices=[[0, f'punish'], [1, f'compensate'], ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
     TP_decision1 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision2 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision3 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
     TP_norm_decision1 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
@@ -370,7 +370,7 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_neg_norm_decision1 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
@@ -379,13 +379,13 @@ class Player(BasePlayer):
     )
 
     universal_norm_countries = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(len(C.COUNTRY_LIST) + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     universal_norm_people = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'none'], [1, f'few'], [2, f'some'], [3, f'many'], [4, f'most'], [5, f'all'],
         ],
@@ -393,7 +393,7 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension2PP = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
@@ -401,7 +401,7 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension3PR = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
@@ -409,7 +409,7 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension3PC1 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'],
         ],
@@ -417,7 +417,7 @@ class Player(BasePlayer):
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension3PC2 = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
@@ -964,7 +964,7 @@ class UniversalNormPage(Page):
     def vars_for_template(player: Player):
         image = 'global/treatments/0DG give.png'
         dictator_keeps_1 = C.dictator_keeps_everything
-        recorded_norm_num = max([p.dic_norm_decision1 for p in player.in_rounds(1, 2)])
+        recorded_norm_num = min([p.dic_norm_decision1 for p in player.in_rounds(1, 2)])
         norm_ratings = ['very socially unacceptable', 'socially unacceptable',
                         'slightly socially unacceptable', 'slightly socially acceptable',
                         'socially acceptable', 'very socially acceptable']

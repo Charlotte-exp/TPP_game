@@ -88,7 +88,7 @@ class Player(BasePlayer):
         blank=True  # Optional: allow it to be empty if no donation is made
     )
     crowding_decision = models.IntegerField(
-        initial=3,
+        initial=999,
         choices=[[0, f'keep'], [4, f'give'], ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
@@ -127,19 +127,19 @@ class Player(BasePlayer):
         min=0, max=100
     )
     descr_norm = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(101)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     cond_coop = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(1000)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     cond_coop_control = models.IntegerField(
-        initial=0,
+        initial=999,
         choices=[(i, f'value {i}') for i in range(1000)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
