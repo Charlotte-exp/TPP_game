@@ -31,7 +31,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     pref_2PP_3PP = models.IntegerField(
-        initial=99,
+        initial=999,
         choices=[[0, f'2PP'], [1, f'3PP'], ],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
