@@ -9,12 +9,12 @@
         border:0px solid black;
     }
 
-    .page-header{
+    .page-header {
         padding-top: 20px;
         border:0px solid black;
     }
 
-    .block-subhead{
+    h2.block-header {
         font-size: 22px;
         margin-bottom: 24px;
         /* color: dimgrey; */
