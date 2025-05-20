@@ -573,6 +573,13 @@
         left:calc(50% + 12px);
     }
 
+    .minus-button-2PP {
+        position: absolute;
+        width: 22px;
+        top: -70%;
+        left:calc(50% + 12px);
+    }
+
     .minus-button-3PP {
         position: absolute;
         width: 22px;
