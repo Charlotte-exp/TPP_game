@@ -26,11 +26,16 @@
         Please click on the rung that best represents where you think you stand on the ladder.
     </p>
 
+    <div class="ladder-wrapper">
+        <div class="ladder-label top-label">Best off (most money, education, jobs)</div>
 
-    <div id="ladder-container">
-        {% for i in ladder_values %}
-            <div class="rung" data-value="{{ i }}"></div>
-        {% endfor %}
+        <div id="ladder-container">
+            {% for i in ladder_values %}
+                <div class="rung" data-value="{{ i }}"></div>
+            {% endfor %}
+        </div>
+
+        <div class="ladder-label bottom-label">Worst off (least money, education, jobs)</div>
     </div>
 
     <input type="hidden" name="income_ladder" id="income_ladder">
@@ -101,6 +106,34 @@
         box-shadow: 0 0 5px #2196f3, inset 0 0 4px #0d47a1;
         color: white;
     }
+
+    .ladder-wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+
+    .ladder-label {
+        position: absolute;
+        width: 120px;
+        font-size: 12px;
+        text-align: right;
+        color: #333;
+        font-style: italic;
+        line-height: 1.2;
+    }
+
+    .top-label {
+        left:calc(50% - 45px);
+        top: 20px; /* adjust to align with bottom rung */
+    }
+
+    .bottom-label {
+        left:calc(50% - 105px);
+        bottom: 23px; /* adjust to align with bottom rung */
+    }
+
 </style>
 
 <script>

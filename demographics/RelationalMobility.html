@@ -11,35 +11,83 @@
 
 {{ endblock }}
 
-{{ block style }}
-
-    <style>
-
-        body {
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: 4vw;
-            background-color: #f4f4f4;
-        }
-
-        .responsive-div {
-            width: 90%; /* Default width */
-            transform-origin: top left; /* Ensure scaling starts from top-left */
-            transform: scale(1); /* Default scale */
-            transition: transform 0.3s ease; /* Smooth scaling */
-            border:0px solid black;
-            margin-left:auto;
-            margin-right:auto;
-        }
-
-    </style>
-
-{{ endblock }}
-
 {{ block content }}
 
-<div class="card-body">
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    // Select all rows of answer buttons
+    const rows = document.querySelectorAll(".answer-row");
+
+    rows.forEach(row => {
+        const buttons = row.querySelectorAll(".answer");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                // Remove 'selected' class from any other buttons in this row
+                buttons.forEach(btn => btn.classList.remove("selected"));
+
+                // Add 'selected' class to the clicked button
+                this.classList.add("selected");
+
+                // Get values
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the hidden input field
+                $(`#selected-answer-${index}`).val(value);
+
+            });
+        });
+    });
+
+    // Submit button click handler
+    // Works with custom next button only!
+    $('#submit-button').on('click', function () {
+        // Get the values of the three form fields
+        let answer1 = $(`#selected-answer-${1}`).val();
+        let answer2 = $(`#selected-answer-${2}`).val();
+        let answer3 = $(`#selected-answer-${3}`).val();
+        let answer4 = $(`#selected-answer-${4}`).val();
+        let answer5 = $(`#selected-answer-${5}`).val();
+        let answer6 = $(`#selected-answer-${6}`).val();
+
+        // Check if either field is empty
+        if (!answer1 || !answer2 || !answer3 || !answer4 || !answer5 || !answer6) {
+            alert("Please complete all decisions to continue.");
+        } else {
+            // Submit the form if both fields have values
+            $('form').submit();
+        }
+    });
+
+});
+
+</script>
+</head>
+
+
+<body>
+
+<form method="post">
+
+    <input type="hidden" name="meeting_1" id="selected-answer-1" value="">
+    <input type="hidden" name="meeting_2" id="selected-answer-2" value="">
+    <input type="hidden" name="meeting_3" id="selected-answer-3" value="">
+    <input type="hidden" name="choosing_1" id="selected-answer-4" value="">
+    <input type="hidden" name="choosing_2" id="selected-answer-5" value="">
+    <input type="hidden" name="choosing_3" id="selected-answer-6" value="">
 
     <p>
         First, how much do you feel the following statements accurately describe people in the immediate society in which you live
@@ -54,58 +102,108 @@
 
     <div class="responsive-div">
 
-        <br>
-        <p style="text-align: center;">
-            <strong>They (the people around you) have many chances to get to know other people.</strong>
-        </p>
+        <div class="question">
+            They (the people around you) have many chances to get to know other people.
+        </div>
 
-        {{ formfield "meeting_1" }}
+        <div class='numbers'>
+            <div class="answer-row" data-index="1" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="1">strongly<br>disagree</div>
+                <div class="answer" data-value="1" data-index="1">disagree</div>
+                <div class="answer" data-value="2" data-index="1">slightly<br>disagree</div>
+                <div class="answer" data-value="3" data-index="1">slightly<br>agree</div>
+                <div class="answer" data-value="4" data-index="1">agree</div>
+                <div class="answer" data-value="5" data-index="1">strongly<br>agree</div>
+            </div>
+        </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>It is common for these people to have a conversation with someone they have never met before..</strong>
-        </p>
+        <div class="question">
+            It is common for these people to have a conversation with someone they have never met before..
+        </div>
 
-        {{ formfield "meeting_2" }}
+        <div class='numbers'>
+            <div class="answer-row" data-index="2" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="2">strongly<br>disagree</div>
+                <div class="answer" data-value="1" data-index="2">disagree</div>
+                <div class="answer" data-value="2" data-index="2">slightly<br>disagree</div>
+                <div class="answer" data-value="3" data-index="2">slightly<br>agree</div>
+                <div class="answer" data-value="4" data-index="2">agree</div>
+                <div class="answer" data-value="5" data-index="2">strongly<br>agree</div>
+            </div>
+        </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>There are few opportunities for these people to form new friendships.</strong>
-        </p>
+        <div class="question">
+            There are few opportunities for these people to form new friendships.
+        </div>
 
-        {{ formfield "meeting_3" }}
+        <div class='numbers'>
+            <div class="answer-row" data-index="3" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="3">strongly<br>disagree</div>
+                <div class="answer" data-value="1" data-index="3">disagree</div>
+                <div class="answer" data-value="2" data-index="3">slightly<br>disagree</div>
+                <div class="answer" data-value="3" data-index="3">slightly<br>agree</div>
+                <div class="answer" data-value="4" data-index="3">agree</div>
+                <div class="answer" data-value="5" data-index="3">strongly<br>agree</div>
+            </div>
+        </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>They are able to choose, according to their own preferences,
-                the people whom they interact with in their daily life.</strong>
-        </p>
+        <div class="question">
+            They are able to choose, according to their own preferences,
+                the people whom they interact with in their daily life.
+        </div>
 
-        {{ formfield "choosing_1" }}
+        <div class='numbers'>
+            <div class="answer-row" data-index="4" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="4">strongly<br>disagree</div>
+                <div class="answer" data-value="1" data-index="4">disagree</div>
+                <div class="answer" data-value="2" data-index="4">slightly<br>disagree</div>
+                <div class="answer" data-value="3" data-index="4">slightly<br>agree</div>
+                <div class="answer" data-value="4" data-index="4">agree</div>
+                <div class="answer" data-value="5" data-index="4">strongly<br>agree</div>
+            </div>
+        </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>If they did not like their current groups, they could leave for better ones.</strong>
-        </p>
+        <div class="question">
+            If they did not like their current groups, they could leave for better ones.
+        </div>
 
-        {{ formfield "choosing_2" }}
+        <div class='numbers'>
+            <div class="answer-row" data-index="5" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="5">strongly<br>disagree</div>
+                <div class="answer" data-value="1" data-index="5">disagree</div>
+                <div class="answer" data-value="2" data-index="5">slightly<br>disagree</div>
+                <div class="answer" data-value="3" data-index="5">slightly<br>agree</div>
+                <div class="answer" data-value="4" data-index="5">agree</div>
+                <div class="answer" data-value="5" data-index="5">strongly<br>agree</div>
+            </div>
+        </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>Even if these people were not satisfied with their current relationships,
-                they would often have no choice but to stay with them.</strong>
-        </p>
+        <div class="question">
+            Even if these people were not satisfied with their current relationships,
+                they would often have no choice but to stay with them.
+        </div>
 
-        {{ formfield "choosing_3" }}
+        <div class='numbers'>
+            <div class="answer-row" data-index="6" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="6">strongly<br>disagree</div>
+                <div class="answer" data-value="1" data-index="6">disagree</div>
+                <div class="answer" data-value="2" data-index="6">slightly<br>disagree</div>
+                <div class="answer" data-value="3" data-index="6">slightly<br>agree</div>
+                <div class="answer" data-value="4" data-index="6">agree</div>
+                <div class="answer" data-value="5" data-index="6">strongly<br>agree</div>
+            </div>
+        </div>
 
     </div>
 
-        <div style="display: flex; justify-content: flex-end">
-            {% next_button %}
-        </div>
+    <div class="button-container">
+        <button type="button" id="submit-button" class="submit-button">
+            Next
+        </button>
+    </div>
 
 
-</div>
-
+</form>
+</body>
 
 {{ endblock }}
