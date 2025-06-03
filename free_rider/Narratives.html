@@ -2,16 +2,83 @@
 
 <p style="text-align: center; font-size: 26px; "> Additional questions </p>
 
-<div style="display: flex; justify-content: center; margin-bottom: 4px;">
-    <label>
-        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
-        </progress>
-    </label>
-</div>
 
 {{ endblock }}
 
 {{ block content }}
+
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    // Select all rows of answer buttons
+    const rows = document.querySelectorAll(".answer-row");
+
+    rows.forEach(row => {
+        const buttons = row.querySelectorAll(".answer");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                // Remove 'selected' class from any other buttons in this row
+                buttons.forEach(btn => btn.classList.remove("selected"));
+
+                // Add 'selected' class to the clicked button
+                this.classList.add("selected");
+
+                // Get values
+                const value = $(this).data('value');
+                const index = $(this).data('index');
+
+                // Update the hidden input field
+                $(`#selected-answer-${index}`).val(value);
+
+            });
+        });
+    });
+
+    // Submit button click handler
+    // Works with custom next button only!
+    $('#submit-button').on('click', function () {
+        // Get the values of the three form fields
+        let answer1 = $(`#selected-answer-${1}`).val();
+        let answer2 = $(`#selected-answer-${2}`).val();
+        let answer3 = $(`#selected-answer-${3}`).val();
+        let answer4 = $(`#selected-answer-${4}`).val();
+
+        // Check if either field is empty
+        if (!answer1 || !answer2 || !answer3 || !answer4 ) {
+            alert("Please complete all decisions to continue.");
+        } else {
+            // Submit the form if both fields have values
+            $('form').submit();
+        }
+    });
+
+});
+
+</script>
+</head>
+
+
+<body>
+
+<form method="post">
+
+    <input type="hidden" name="wealthy_contribution" id="selected-answer-1" value="">
+    <input type="hidden" name="wealthy_merit" id="selected-answer-2" value="">
+    <input type="hidden" name="poor_contribution" id="selected-answer-3" value="">
+    <input type="hidden" name="poor_merit" id="selected-answer-4" value="">
+
 
     <div class="card-body">
         <p>
@@ -22,39 +89,79 @@
             Please indicate to what extent you agree or disagree with the following statements.
         </p>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>The wealthiest 1% in my country should contribute more to society.</strong>
-        </p>
+        <div class="responsive-div">
 
-        {{ formfield "wealthy_contribution"}}
+            <div class="question">
+                The wealthiest 1% in my country should contribute more to society.
+            </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.</strong>
-        </p>
+            <div class='numbers'>
+                <div class="answer-row" data-index="1" data-input="selected-answer">
+                    <div class="answer" data-value="0" data-index="1">strongly<br>disagree</div>
+                    <div class="answer" data-value="1" data-index="1">disagree</div>
+                    <div class="answer" data-value="2" data-index="1">slightly<br>disagree</div>
+                    <div class="answer" data-value="3" data-index="1">slightly<br>agree</div>
+                    <div class="answer" data-value="4" data-index="1">agree</div>
+                    <div class="answer" data-value="5" data-index="1">strongly<br>agree</div>
+                </div>
+            </div>
 
-        {{ formfield "wealthy_merit" }}
+            <div class="question">
+                The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.
+            </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>The poorest 1% in my country should contribute more to society.</strong>
-        </p>
+            <div class='numbers'>
+                <div class="answer-row" data-index="2" data-input="selected-answer">
+                    <div class="answer" data-value="0" data-index="2">strongly<br>disagree</div>
+                    <div class="answer" data-value="1" data-index="2">disagree</div>
+                    <div class="answer" data-value="2" data-index="2">slightly<br>disagree</div>
+                    <div class="answer" data-value="3" data-index="2">slightly<br>agree</div>
+                    <div class="answer" data-value="4" data-index="2">agree</div>
+                    <div class="answer" data-value="5" data-index="2">strongly<br>agree</div>
+                </div>
+            </div>
 
-        {{ formfield "poor_contribution" }}
+            <div class="question">
+                The poorest 1% in my country should contribute more to society.
+            </div>
 
-        <br>
-        <p style="text-align: center;">
-            <strong>The poorest 1% in my country are in their current position largely due to their own actions and decisions.</strong>
-        </p>
+            <div class='numbers'>
+                <div class="answer-row" data-index="3" data-input="selected-answer">
+                    <div class="answer" data-value="0" data-index="3">strongly<br>disagree</div>
+                    <div class="answer" data-value="1" data-index="3">disagree</div>
+                    <div class="answer" data-value="2" data-index="3">slightly<br>disagree</div>
+                    <div class="answer" data-value="3" data-index="3">slightly<br>agree</div>
+                    <div class="answer" data-value="4" data-index="3">agree</div>
+                    <div class="answer" data-value="5" data-index="3">strongly<br>agree</div>
+                </div>
+            </div>
 
-        {{ formfield "poor_merit" }}
+            <div class="question">
+                The poorest 1% in my country are in their current position largely due to their own actions and decisions.
+            </div>
+
+            <div class='numbers'>
+                <div class="answer-row" data-index="4" data-input="selected-answer">
+                    <div class="answer" data-value="0" data-index="4">strongly<br>disagree</div>
+                    <div class="answer" data-value="1" data-index="4">disagree</div>
+                    <div class="answer" data-value="2" data-index="4">slightly<br>disagree</div>
+                    <div class="answer" data-value="3" data-index="4">slightly<br>agree</div>
+                    <div class="answer" data-value="4" data-index="4">agree</div>
+                    <div class="answer" data-value="5" data-index="4">strongly<br>agree</div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
-
-   <div style="display: flex; justify-content: flex-end">
-        {{ next_button }}
+    <div class="button-container">
+        <button type="button" id="submit-button" class="submit-button">
+            Next
+        </button>
     </div>
+
+
+</form>
+</body>
 
 {{ endblock }}
