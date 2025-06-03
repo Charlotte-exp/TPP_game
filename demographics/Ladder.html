@@ -27,7 +27,7 @@
     </p>
 
     <div class="ladder-wrapper">
-        <div class="ladder-label top-label">Best off (most money, best jobs)</div>
+        <div class="ladder-label top-label">Best off (most money, education, jobs)</div>
 
         <div id="ladder-container">
             {% for i in ladder_values %}
@@ -35,14 +35,14 @@
             {% endfor %}
         </div>
 
-        <div class="ladder-label bottom-label">Worst off (least money, no job)</div>
+        <div class="ladder-label bottom-label">Worst off (least money, education, jobs)</div>
     </div>
 
-        <input type="hidden" name="income_ladder" id="income_ladder">
+    <input type="hidden" name="income_ladder" id="income_ladder">
 
-        <div style="display: flex; justify-content: flex-end">
-            {{ next_button }}
-        </div>
+    <div style="display: flex; justify-content: flex-end">
+        {{ next_button }}
+    </div>
 
 </div>
 
