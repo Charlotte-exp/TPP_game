@@ -3,15 +3,18 @@ from otree.api import *
 import random
 import logging
 import csv
+import os
 
 from otree.models import player
 
 from itertools import chain
 
+from translations import get_translation
+
+
 doc = """
 Your app description
 """
-
 
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
@@ -89,16 +92,17 @@ class Subsession(BaseSubsession):
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
 
-    ## Set country name in participant field
+    ## Set variables in participant field
     for player in subsession.get_players():
         participant = player.participant
+        # country name
         participant.current_country = C.CURRENT_COUNTRY
         participant.current_countryname = C.CURRENT_COUNTRYNAME
-
-    ## Progress bar
-    for player in subsession.get_players():
-        participant = player.participant
+        # progress bar
         participant.progress = 1
+        # translation
+        participant.language = 'en'
+
 
     ## Make immutable variables for partner-country block
 
@@ -454,10 +458,19 @@ class Consent(Page):
             return False
 
     def vars_for_template(player: Player):
-
-        return {
-            'participation_fee': player.session.config['participation_fee'],
-        }
+        participant = player.participant
+        lang = participant.language
+        return dict(
+            participation_fee= player.session.config['participation_fee'],
+            consent_title=get_translation('Consent_title', lang),
+            consent_thank_you=get_translation('Consent_thank_you', lang),
+            consent_intro=get_translation('Consent_intro', lang),
+            consent_payment=get_translation(
+                'Consent_payment',
+                lang,
+                participation_fee=player.session.config['participation_fee']
+            )
+        )
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -691,11 +704,14 @@ class TPPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         if "2PP punish" in player.treatment:
-            text_action = "remove"
-            text_action_person = "Person B"
+            text_action = get_translation('text_action_remove', lang)
+            text_action_person = get_translation('text_action_personb', lang)
             text_action_person2 = "you"
-            text_receiver = "from Person A"
+            text_receiver = get_translation('text_action_receiver', lang)
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
             ## at the moment they are all the same so it is redundant (could be done straight in the dict).
@@ -832,6 +848,14 @@ class TPPage(Page):
             current_country=current_country,
             role_switch_true=player.role_switch_true,
             total_pages=player.session.config['total_pages'],
+
+            tpp_appropriate=get_translation(
+                'tpp_appropriate',
+                lang,
+                treatment_text_action=text_action,
+                treatment_text_action_person=text_action_person,
+                treatment_text_receiver=text_receiver,
+            )
         )
         # Conditionally add the extra variable
         if "comp" in player.treatment:

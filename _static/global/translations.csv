@@ -1,0 +1,22 @@
+page,key,en
+Consent,Consent_title,Welcome bad bitches!
+Consent,Consent_thank_you,Thank you for participating in this study about decision-making!
+Consent,Consent_intro_title,What happens next
+Consent,Consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.
+Please read them carefully, as <b>your decisions affect your final payment</b>.</li> 
+<li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
+<li> The study is made up of 2 blocks. In total, you will make about <b>X decisions</b>, and the study takes around <b>X minutes</b>. </li></ul>"
+,Consent_payment_title,Payment
+Consent,Consent_payment,"<ul><li>For your participation, you will receive <b>{participation_fee}</b>. Additionally, you can earn <b>bonus points</b> based on your decisions. </li> </ul>"
+,Consent_rights_title,Additional information
+Consent,Consent_rights,"<ul><li>Participation is <b>voluntary</b>. You may leave the study at any time, in which case your data will be deleted. Compensation is only provided upon completion.</li> 
+ <li>Your <b>anonymity</b> is guaranteed throughout the study, both to other participants and researchers.</li> 
+ <li>All data is used solely for <b>scientific purposes</b>.</li></ul>"
+Consent,Consent_click,"By clicking ""I CONSENT,"" you confirm that you have read and understood the information above and agree to participate in the study."
+Consent,Consent_questions,"For questions, concerns, or suggestions, please contact:"
+Consent,Consent_contact,"Charlotte Rossetti, Caroline Graf and Jörg Gross <br> 
+University of Zürich, Switzerland"
+extra,text_action_remove, destroy from
+extra,text_action_personb, Person Z
+extra,text_action_receiver, from Person M
+TPP,tpp_appropriate,How socially appropriate is it for {treatment_text_action_person} to <b style="color: red;">{treatment_text_action} points</b> {treatment_text_receiver}?
