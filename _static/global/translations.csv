@@ -1,5 +1,5 @@
 page,key,en
-Consent,Consent_title,Welcome! bitches!
+Consent,Consent_title,Welcome bad bitches!
 Consent,Consent_thank_you,Thank you for participating in this study about decision-making!
 Consent,Consent_intro_title,What happens next
 Consent,Consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.
@@ -7,7 +7,7 @@ Please read them carefully, as <b>your decisions affect your final payment</b>.<
 <li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
 <li> The study is made up of 2 blocks. In total, you will make about <b>X decisions</b>, and the study takes around <b>X minutes</b>. </li></ul>"
 ,Consent_payment_title,Payment
-Consent,Consent_payment,"<ul><li>For your participation, you will receive <b>{{ participation_fee }}</b>. Additionally, you can earn <b>bonus points</b> based on your decisions. </li> </ul>"
+Consent,Consent_payment,"<ul><li>For your participation, you will receive <b>{participation_fee}</b>. Additionally, you can earn <b>bonus points</b> based on your decisions. </li> </ul>"
 ,Consent_rights_title,Additional information
 Consent,Consent_rights,"<ul><li>Participation is <b>voluntary</b>. You may leave the study at any time, in which case your data will be deleted. Compensation is only provided upon completion.</li> 
  <li>Your <b>anonymity</b> is guaranteed throughout the study, both to other participants and researchers.</li> 

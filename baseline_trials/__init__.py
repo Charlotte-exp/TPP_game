@@ -9,26 +9,12 @@ from otree.models import player
 
 from itertools import chain
 
+from translations import get_translation
+
+
 doc = """
 Your app description
 """
-
-# Translations
-TRANSLATIONS = {}
-
-def load_translations(path='_static/global/CCP_texts.csv'):
-    global TRANSLATIONS
-    with open(path, newline='', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            key = row['key']
-            TRANSLATIONS[key] = {lang: row[lang] for lang in row if lang != 'key'}
-
-load_translations()
-
-def gettext(key, lang='en'):
-    return TRANSLATIONS.get(key, {}).get(lang, f"[{key}]")
-
 
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
@@ -476,10 +462,14 @@ class Consent(Page):
         lang = participant.language
         return dict(
             participation_fee= player.session.config['participation_fee'],
-            consent_title=gettext('Consent_title', lang),
-            consent_thank_you=gettext('Consent_thank_you', lang),
-            consent_intro=gettext('Consent_intro', lang),
-            consent_payment=gettext('Consent_payment', lang),
+            consent_title=get_translation('Consent_title', lang),
+            consent_thank_you=get_translation('Consent_thank_you', lang),
+            consent_intro=get_translation('Consent_intro', lang),
+            consent_payment=get_translation(
+                'Consent_payment',
+                lang,
+                participation_fee=player.session.config['participation_fee']
+            )
         )
 
     @staticmethod
