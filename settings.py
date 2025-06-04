@@ -89,13 +89,14 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
+PARTICIPANT_FIELDS = ['language', 'current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
                       'treatment_incentive', 'treatment_cond_coop', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
 SESSION_FIELDS = []
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
 LANGUAGE_CODE = 'en'
+
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'GBP'

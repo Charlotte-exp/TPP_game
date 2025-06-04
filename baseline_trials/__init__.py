@@ -3,6 +3,7 @@ from otree.api import *
 import random
 import logging
 import csv
+import os
 
 from otree.models import player
 
@@ -11,6 +12,22 @@ from itertools import chain
 doc = """
 Your app description
 """
+
+# Translations
+TRANSLATIONS = {}
+
+def load_translations(path='_static/global/CCP_texts.csv'):
+    global TRANSLATIONS
+    with open(path, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            key = row['key']
+            TRANSLATIONS[key] = {lang: row[lang] for lang in row if lang != 'key'}
+
+load_translations()
+
+def gettext(key, lang='en'):
+    return TRANSLATIONS.get(key, {}).get(lang, f"[{key}]")
 
 
 class C(BaseConstants):
@@ -89,16 +106,17 @@ class Subsession(BaseSubsession):
 def creating_session(subsession):
     print('Creating session; round number: {}'.format(subsession.round_number))
 
-    ## Set country name in participant field
+    ## Set variables in participant field
     for player in subsession.get_players():
         participant = player.participant
+        # country name
         participant.current_country = C.CURRENT_COUNTRY
         participant.current_countryname = C.CURRENT_COUNTRYNAME
-
-    ## Progress bar
-    for player in subsession.get_players():
-        participant = player.participant
+        # progress bar
         participant.progress = 1
+        # translation
+        participant.language = 'en'
+
 
     ## Make immutable variables for partner-country block
 
@@ -454,10 +472,15 @@ class Consent(Page):
             return False
 
     def vars_for_template(player: Player):
-
-        return {
-            'participation_fee': player.session.config['participation_fee'],
-        }
+        participant = player.participant
+        lang = participant.language
+        return dict(
+            participation_fee= player.session.config['participation_fee'],
+            consent_title=gettext('Consent_title', lang),
+            consent_thank_you=gettext('Consent_thank_you', lang),
+            consent_intro=gettext('Consent_intro', lang),
+            consent_payment=gettext('Consent_payment', lang),
+        )
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):

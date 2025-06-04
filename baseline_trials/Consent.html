@@ -5,7 +5,7 @@
 <!--    </div>-->
 
 
-<p style="text-align: center; font-size: 26px;  "> Welcome! </p>
+<p style="text-align: center; font-size: 26px;  ">{{ consent_title }}</p>
 
 {% endblock %}
 
@@ -63,28 +63,18 @@
 
   <div>
       <p>
-      Thank you for participating in this study about decision-making!
+          {{ consent_thank_you }}
       </p>
 
       <h6><u>What happens next</u></h6>
 
-      <ul>
-        <li>After agreeing to participate, you can start immediately. Each part includes <b>specific instructions</b>.
-              Please read them carefully, as <b>your decisions affect your final payment</b>.</li>
-        <li>The study follows the instructions exactly. There is <b><u>no</u> hidden information or deception</b>.</li>
-        <li> The study is made up of 2 blocks. In total, you will make about <b>{{ C.NUM_DECISIONS_APPROX }} decisions</b>, and the study takes around <b>{{ C.STUDY_TIME }} minutes</b>. </li>
-      </ul>
+      {{ consent_intro }}
 
   <!--    {{C.NUM_ROUNDS}}-->
 
       <h6><u>Payment</u></h6>
 
-      <ul>
-        <li>For your participation, you will receive <b>{{ participation_fee }}</b>.
-<!--          Additionally, you can earn <b>bonus points</b> based on your decisions and those of other participants, as explained on the next page.-->
-            Additionally, you can earn <b>bonus points</b> based on your decisions, as explained on the next page.
-        </li>
-      </ul>
+      {{ consent_payment }}
 
       <h6><u>Additional information</u></h6>
 
