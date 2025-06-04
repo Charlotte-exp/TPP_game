@@ -704,11 +704,14 @@ class TPPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         if "2PP punish" in player.treatment:
-            text_action = "remove"
-            text_action_person = "Person B"
+            text_action = get_translation('text_action_remove', lang)
+            text_action_person = get_translation('text_action_personb', lang)
             text_action_person2 = "you"
-            text_receiver = "from Person A"
+            text_receiver = get_translation('text_action_receiver', lang)
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
             ## at the moment they are all the same so it is redundant (could be done straight in the dict).
@@ -845,6 +848,14 @@ class TPPage(Page):
             current_country=current_country,
             role_switch_true=player.role_switch_true,
             total_pages=player.session.config['total_pages'],
+
+            tpp_appropriate=get_translation(
+                'tpp_appropriate',
+                lang,
+                treatment_text_action=text_action,
+                treatment_text_action_person=text_action_person,
+                treatment_text_receiver=text_receiver,
+            )
         )
         # Conditionally add the extra variable
         if "comp" in player.treatment:

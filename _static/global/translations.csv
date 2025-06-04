@@ -16,3 +16,7 @@ Consent,Consent_click,"By clicking ""I CONSENT,"" you confirm that you have read
 Consent,Consent_questions,"For questions, concerns, or suggestions, please contact:"
 Consent,Consent_contact,"Charlotte Rossetti, Caroline Graf and Jörg Gross <br> 
 University of Zürich, Switzerland"
+extra,text_action_remove, destroy from
+extra,text_action_personb, Person Z
+extra,text_action_receiver, from Person M
+TPP,tpp_appropriate,How socially appropriate is it for {treatment_text_action_person} to <b style="color: red;">{treatment_text_action} points</b> {treatment_text_receiver}?

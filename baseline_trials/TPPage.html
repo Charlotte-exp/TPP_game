@@ -681,6 +681,9 @@
                 <strong>How socially appropriate is it for {{treatment_text_action_person}} to
                 <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
             </p>
+            <p>
+                {{ tpp_appropriate|safe }}
+            </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
