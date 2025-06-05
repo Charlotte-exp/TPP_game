@@ -550,6 +550,7 @@ class instructionPage(Page):
         return {
             'treatment': player.treatment,
             # 'treatment_text': text,
+            'cost_per_point': 1/C.TP_cost,
             'image': image,
             'random_trial_numbers': random_trial_numbers,
             'random_trial_numbers_diff': random_trial_numbers_diff,
