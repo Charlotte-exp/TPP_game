@@ -23,6 +23,7 @@ class C(BaseConstants):
     NUM_DECISIONS_APPROX = 45
     STUDY_TIME = 50
     total_pages = 400 # for progress bar
+    prolific = True
 
     CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
 
@@ -461,15 +462,19 @@ class Consent(Page):
         participant = player.participant
         lang = participant.language
         return dict(
-            participation_fee= player.session.config['participation_fee'],
-            consent_title=get_translation('Consent_title', lang),
-            consent_thank_you=get_translation('Consent_thank_you', lang),
-            consent_intro=get_translation('Consent_intro', lang),
-            consent_payment=get_translation(
-                'Consent_payment',
-                lang,
-                participation_fee=player.session.config['participation_fee']
-            )
+            consent_title=get_translation('consent_title', lang),
+            consent_thank_you=get_translation('consent_thank_you', lang),
+            consent_intro_title=get_translation('consent_intro_title', lang),
+            consent_intro=get_translation('consent_intro', lang),
+            consent_payment_title=get_translation('consent_payment_title', lang),
+            consent_payment=get_translation('consent_payment', lang,
+                                            participation_fee=player.session.config['participation_fee']),
+            consent_rights_title= get_translation('consent_rights_title', lang),
+            consent_rights=get_translation('consent_rights', lang),
+            consent_click=get_translation('consent_click', lang),
+            consent_questions=get_translation('consent_questions', lang),
+            consent_contact=get_translation('consent_contact', lang),
+            button_consent=get_translation('button_consent', lang),
         )
 
     @staticmethod
@@ -487,10 +492,24 @@ class Introduction(Page):
             return False
 
     def vars_for_template(player: Player):
-        return {
-            'participation_fee': player.session.config['participation_fee'],
-            'total_pages':player.session.config['total_pages'],
-        }
+        participant = player.participant
+        lang = participant.language
+        return dict(
+            total_pages=player.session.config['total_pages'],
+            intro_pairing=get_translation('intro_pairing', lang),
+            intro_prolific=get_translation('intro_prolific', lang),
+            intro_conversion=get_translation('intro_conversion', lang,
+                                             conversion=player.session.config['real_world_currency_per_point']),
+            intro_toluna=get_translation('intro_toluna', lang),
+            intro_block1_title=get_translation('intro_block1_title', lang),
+            intro_block1=get_translation('intro_block1', lang),
+            intro_block2_title=get_translation('intro_block2_title', lang),
+            intro_block2=get_translation('intro_block2', lang),
+            intro_points_title=get_translation('intro_points_title', lang),
+            intro_points=get_translation('intro_points', lang),
+            intro_carefully=get_translation('intro_carefully', lang),
+            button_start=get_translation('button_start', lang),
+        )
 
 class instructionPage(Page):
     # print('player.participant.instruction_round', player.participant.instruction_round)

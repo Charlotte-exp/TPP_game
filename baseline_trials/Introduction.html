@@ -22,29 +22,64 @@
 
 <div class="card-body">
 
+    {{ if C.prolific == True }}
+
     <p>
-<!--        Throughout the study, you will be paired with other participants who are also taking part in the study.-->
-        Throughout the study, you will be paired with other participants for decision-making.
-        The pairings are hypothetical but based on how participants could interact.
+        {{ intro_pairing }}
     </p>
 
     <p>
-<!--        In addition to the compensation you receive for participating, you can receive <b> bonus points</b> based on <b>your own</b> <u>and</u> <b>other participants'</b> decisions.-->
+        {{ intro_prolific }}
+    </p>
+
+    <p>
+        <b>{{ intro_conversion }}</b>
+    </p>
+
+    <h6><u>{{ intro_block1_title }}</u></h6>
+
+     <p>
+         {{ intro_block1 }}
+     </p>
+
+      <h6><u>{{ intro_block2_title }}</u></h6>
+
+     <p>
+         {{ intro_block2 }}
+     </p>
+
+     <h6><u>{{ intro_points_title }}</u></h6>
+
+     <p>
+         {{ intro_points }}
+     </p>
+
+    <b>
+        {{ intro_carefully }}
+    </b>
+
+    {{ endif }}
+
+    {{ if C.prolific == False }}
+
+    <p>
+        Throughout the study, you will be paired with other participants who are also taking part in the study.
+    </p>
+
+    <p>
         In addition to the compensation you receive for participating,
-        you can receive <b> bonus points</b> based on <b>your</b> decisions.
-        At the end of the study,
-        the bonus points you collected will be converted into money at the following conversion rate:
+        you can receive <b> bonus points</b> based on <b>your own</b> <u>and</u> <b>other participants'</b> decisions.
     </p>
 
     <p>
         <b> 1 point = {{ session.real_world_currency_per_point }} GBP </b>
     </p>
 
-<!--    <p>-->
-<!--        You will make decisions in different <b>situations</b> and in different <b>roles</b>. At the end of the study,-->
-<!--        <b> <u>one</u> situation</b> and <b> <u>one</u> role</b> will be randomly selected to <b>determine your bonus points</b>. Since you will not know-->
-<!--        in advance which decision will count, you should <b>treat each decision as if it is selected</b>.-->
-<!--    </p>-->
+    <p>
+        You will make decisions in different <b>situations</b> and in different <b>roles</b>. At the end of the study,
+        <b> <u>one</u> situation</b> and <b> <u>one</u> role</b> will be randomly selected to <b>determine your bonus points</b>. Since you will not know
+        in advance which decision will count, you should <b>treat each decision as if it is selected</b>.
+    </p>
 
     <h6><u>Block 1</u></h6>
 
@@ -72,9 +107,10 @@
     </p>
 
     <b>
-<!--        Please read the instructions carefully, as your decisions affect not only your payoff but also those of other participants.-->
-        Please read the instructions carefully, as your decisions affect your payoff.
+        Please read the instructions carefully, as your decisions affect not only your payoff but also those of other participants.
     </b>
+
+    {{ endif }}
 
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px">
@@ -84,7 +120,7 @@
                     border: 1px solid #007bff;
                     font-size: 1rem;
                     border-radius: 0.25rem;">
-            START
+            {{ button_start }}
         </button>
     </div>
 
