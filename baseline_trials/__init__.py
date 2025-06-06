@@ -381,20 +381,16 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
-
-    universal_norm_countries = models.IntegerField(
-        initial=999,
-        choices=[(i, f'value {i}') for i in range(len(C.COUNTRY_LIST) + 1)],
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-    universal_norm_people = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'none'], [1, f'few'], [2, f'some'], [3, f'many'], [4, f'most'], [5, f'all'],
-        ],
-        widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    # universal_norm_people = models.IntegerField(
+    #     initial=999,
+    #     choices=[
+    #         [0, f'none'], [1, f'few'], [2, f'some'], [3, f'many'], [4, f'most'], [5, f'all'],
+    #     ],
+    #     widget=widgets.RadioSelect,
+    #     # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    # )
+    slider1 = models.IntegerField(
+        min=0, max=50000
     )
     comprehension2PP = models.IntegerField(
         initial=999,
@@ -982,36 +978,26 @@ class UniversalNormPage(Page):
     form_model = 'player'
 
     def get_form_fields(player: Player):
-        return ['universal_norm_countries', 'universal_norm_people']
+        return ['slider1']
 
     @staticmethod
     def vars_for_template(player: Player):
         image = 'global/treatments/0DG give.png'
         dictator_keeps_1 = C.dictator_keeps_everything
-        recorded_norm_num = min([p.dic_norm_decision1 for p in player.in_rounds(1, 2)])
-        norm_ratings = ['very socially unacceptable', 'socially unacceptable',
-                        'slightly socially unacceptable', 'slightly socially acceptable',
-                        'socially acceptable', 'very socially acceptable']
-        recorded_norm = norm_ratings[recorded_norm_num]
+        receiver_gets = C.total_endowment - dictator_keeps_1
 
-        #print('univnormpage Generating image path and round number - 1', image, player.round_number - 1)
+        text1 = f'We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B.'
+        text2 = f'How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?'
+        text3 = f'<b>Important</b>:</b> If your response is close to the correct number of people, you will receive 8 points.'
 
         return dict(
-            universal_norm_decisions=[ # keep the dict for now in case we decide we need more than 1
-                dict(
-                    index=1,
-                    universal_norm_countries=player.universal_norm_countries,
-                    universal_norm_people=player.universal_norm_people,
-                    dictator_keeps=dictator_keeps_1,
-                    receiver_gets=int(C.total_endowment - dictator_keeps_1),
-                ),
-            ],
             treatment=player.treatment,
+            text1=text1,
+            text2=text2,
+            text3=text3,
             num_countries=list(range(0, C.NUM_COUNTRIES+1)),
             endowments=range(0, int(C.total_endowment) + 1),
             image=image,
-            recorded_norm_num=recorded_norm_num,
-            recorded_norm=recorded_norm,
             total_pages=player.session.config['total_pages'],
             )
 
@@ -1020,14 +1006,14 @@ class UniversalNormPage(Page):
         participant.progress += 1
         # record the last Decision title number and adds 1 ready for the next app title
         participant.decision_page_number = player.round_number +1
-      
+
 
 page_sequence = [Consent,
-                 Introduction,
-                 AttentionCheckPage,
-                 instructionPage,
-                 ComprehensionQuestionPage,
-                 DictatorPage,
-                 TPPage,
-                 UniversalNormPage,
+                 # Introduction,
+                 # AttentionCheckPage,
+                 # instructionPage,
+                 # ComprehensionQuestionPage,
+                 # DictatorPage,
+                 # TPPage,
+                 UniversalNormPage
                  ]

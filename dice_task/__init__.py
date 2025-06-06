@@ -22,6 +22,7 @@ class Subsession(BaseSubsession):
 #     for player in subsession.get_players():
 #         participant = player.participant
 #         participant.progress = 1
+#         participant.decision_page_number = 0
 
 def creating_session(subsession):
     """
