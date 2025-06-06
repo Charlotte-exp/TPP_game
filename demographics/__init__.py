@@ -207,6 +207,10 @@ class Circle(Page):
             'total_pages': player.session.config['total_pages'],
         }
 
+    def error_message(self, values):
+        if values['self_other'] in [None, 0]:
+            return 'Missing response'
+
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
@@ -251,7 +255,7 @@ class ProlificLink(Page):
             return True
 
 
-page_sequence = [RelationalMobility,
+page_sequence = [#RelationalMobility,
                  Circle,
                  Ladder,
                  Demographics,

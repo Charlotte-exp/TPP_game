@@ -96,11 +96,24 @@
 </style>
 
 
+<script>
+
+     /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = 'Please make a decision to continue.'
+    }
+
+</script>
+
+
 <form method="POST">
 
     <!-- Hidden input to hold the slider value -->
     <input type="hidden" name="self_other" id="self_other_input">
-    {{ formfield_errors 'self_other' }}
+
+<!--    {{ formfield_errors 'self_other' }}-->
 
     <p>
         Once you move the slider below, a pair of circles will appear in the box.
