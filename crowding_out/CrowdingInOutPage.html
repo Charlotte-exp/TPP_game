@@ -761,14 +761,18 @@
 <label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>
 <select id="charity-select" style="">
     <option value="" selected>Randomly selected charity</option>
-    <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
-    <option value="Red Cross (local)">{{local_red_cross}}</option>
+    <option value="Red Cross (international)">Red Cross / Red Crescent (International)</option>
+
+    {% if local_red_cross != "Unknown" %}
+        <option value="Red Cross (local)">{{ local_red_cross }}</option>
+    {% endif %}
+
     <option value="The Salvation Army">The Salvation Army</option>
     <option value="Unicef">Unicef</option>
     <option value="World Food Programme">World Food Programme</option>
     <option value="World Health Organization">World Health Organization</option>
     <option value="World Wildlife Fund">World Wildlife Fund</option>
-    <option value="other">Other (write your own)</option>
+<!--    <option value="other">Other (write your own)</option>-->
 </select>
 
 <input type="text" id="custom-charity" placeholder="Enter your charity" style="display:none; font-size: 14px; " />
@@ -820,7 +824,7 @@
         <br>
 
         <p style="text-align: center; ">
-            {{ text5|safe }}
+            <b style="color: red;"> {{ text5|safe }} </b>
         </p>
 
 
