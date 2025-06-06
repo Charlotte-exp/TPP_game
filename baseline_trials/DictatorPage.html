@@ -282,10 +282,9 @@
 
         {% if player.round_number < 3 %}
             <p style="text-align: center;  ">
-                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person A is. <br> <br> </b>
-
-                Important: You will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b> if your decision is the same as the most
-                common decision among all other participants in {{current_country}}.
+                <b> {{ dict_norm_instru }} </b>
+                <br>
+                {{ dict_norm_incentive }}
             </p>
         {% endif %}
 
@@ -341,20 +340,19 @@
             </div>
 
             <p style="text-align: center; ">
-                Person A received <b> {{C.total_endowment }} points</b> and gave <b> 0 points</b> to Person B.
+                {{dict_norm_summary }}
                 <br>
-                How <b style="color: red;">socially appropriate</b> is it for Person A
-                to give <b>{{ dic_norm_decision.receiver_gets }} points</b> to Person B?
+                {{ dict_norm_question }}
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ dic_norm_decision.index }}" data-input="selected-norm-{{ dic_norm_decision.index }}">
-                    <div class="norm" data-value="0" data-index="{{ dic_norm_decision.index }}">very socially<br>inappropriate</div>
-                    <div class="norm" data-value="1" data-index="{{ dic_norm_decision.index }}">socially<br>inappropriate</div>
-                    <div class="norm" data-value="2" data-index="{{ dic_norm_decision.index }}">slightly socially<br>inappropriate</div>
-                    <div class="norm" data-value="3" data-index="{{ dic_norm_decision.index }}">slightly socially<br>appropriate</div>
-                    <div class="norm" data-value="4" data-index="{{ dic_norm_decision.index }}">socially<br>appropriate</div>
-                    <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">very socially<br>appropriate</div>
+                    <div class="norm" data-value="0" data-index="{{ dic_norm_decision.index }}">{{ very_inappropriate }}</div>
+                    <div class="norm" data-value="1" data-index="{{ dic_norm_decision.index }}">{{ inappropriate  }}</div>
+                    <div class="norm" data-value="2" data-index="{{ dic_norm_decision.index }}">{{ slightly_inappropriate  }}</div>
+                    <div class="norm" data-value="3" data-index="{{ dic_norm_decision.index }}">{{ slightly_appropriate }}</div>
+                    <div class="norm" data-value="4" data-index="{{ dic_norm_decision.index }}">{{ appropriate }}</div>
+                    <div class="norm" data-value="5" data-index="{{ dic_norm_decision.index }}">{{ very_appropriate }}</div>
                 </div>
             </div>
         </div>
@@ -374,8 +372,7 @@
 <!--            {% endif %}-->
 
         <p style="text-align: center; ">
-            <b style="color: red;">You are Person A!</b>
-
+            {{ dict_decision_endowment }}
             <br> <br>
 
             {% if "3PP" in player.treatment or "2PP" in player.treatment or "0DG" in player.treatment %}
@@ -405,15 +402,15 @@
                 <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
                 <div class="person-a">
-                        <b>PERSON A</b>
+                        <b>{{ person_a }}</b>
                     </div>
                     <div class="person-b">
-                        <b>PERSON B</b>
+                        <b>{{ person_b }}</b>
                 </div>
 
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
                     <div class="person-c">
-                        <b>PERSON C</b>
+                        <b>{{ person_c }}</b>
                     </div>
                 {% endif %}
 
@@ -448,25 +445,23 @@
             </div>
 
             {% if "IN" in player.treatment or "OUT" in player.treatment %}
-                <p style="text-align: center;"> You live in <b >{{dic_identity_country}}</b> and Person B lives in <b >{{ recip_identity_country }}</b>. </p>
+                <p style="text-align: center;">
+                    {{ dict_decision_IN_OUT }}
+                </p>
             {% endif %}
 
             {% if "country" in player.treatment %}
                 <p style="text-align: center;">
-                    You live in <b style="color: red; ">{{ dic_identity_country }}</b> and Person B lives in <b style="color: red; ">{{ recip_identity_country }}</b>.
+                    {{ dict_decision_countries}}
                 </p>
             {% endif %}
 
-            {% if "0DG" in player.treatment %}
-                <p style="text-align: center;"> You received <b> {{C.total_endowment }} points</b>. </p>
-            {% endif %}
-
             <p style="text-align: center;">
-                <strong> As Person A, how many points do you <b style="color: red;">give</b> to Person B?</strong>
+                <strong>{{ dict_decision_question }}</strong>
             </p>
 
             {% if not "0DG" in player.treatment %}
-                <p style="text-align: center;"> Keep in mind that {{treatment_text_action}} in Stage 2. </p>
+                {{ dict_decision_mind }}
             {% endif %}
 
             <div class="number-row">
@@ -478,8 +473,7 @@
             {% if "0DG" in player.treatment %}
                 <br>
                 <p style="text-align: center;">
-                    To make a decision, click on a number. As you move your cursor over the numbers
-                    (or press them on your phone), you will see how many points you and Person B would receive.
+                    {{ dict_decision_hover }}
                 </p>
             {% endif %}
 

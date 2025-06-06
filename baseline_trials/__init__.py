@@ -563,13 +563,12 @@ class instructionPage(Page):
         first_block_2PP_true = player.first_block_2PP_true
         block2 = "OUT" in player.treatment or "IN" in player.treatment
         block3 = "country" in player.treatment or "universal norm" in player.treatment
-        current_country = C.CURRENT_COUNTRYNAME
         #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
         return {
             'treatment': player.treatment,
             # 'treatment_text': text,
-            'cost_per_point': 1/C.TP_cost,
+            'cost_per_point': round(1/C.TP_cost, 2),
             'image': image,
             'random_trial_numbers': random_trial_numbers,
             'random_trial_numbers_diff': random_trial_numbers_diff,
@@ -580,7 +579,7 @@ class instructionPage(Page):
             'first_block_2PP_true': first_block_2PP_true,
             'block2': block2,
             'block3': block3,
-            'current_country': current_country,
+            'current_country': C.CURRENT_COUNTRYNAME,
             'treatment_type': treatment_type,
             'total_pages':player.session.config['total_pages'],
         }
@@ -632,6 +631,8 @@ class ComprehensionQuestionPage(Page):
         image = image.replace("3PR reward", "3PP punish")
         correct_answers = [2, 3, 1]
 
+        participant = player.participant
+        lang = participant.language
         return dict(
             treatment=player.treatment,
             page_name=ComprehensionQuestionPage,
@@ -642,6 +643,16 @@ class ComprehensionQuestionPage(Page):
             image=image,
             correct_answers=correct_answers,
             total_pages=player.session.config['total_pages'],
+            comprehension_error_green=get_translation('comprehension_error_green', lang),
+            comprehension_error_red=get_translation('comprehension_error_red', lang),
+            comprehension_error_greenTF=get_translation('comprehension_error_greenTF', lang),
+            comprehension_2PP=get_translation('comprehension_2PP', lang),
+            comprehension_2PP_answer0=get_translation('comprehension_2PP_answer0', lang,
+                                                      cost_per_point=round(1/C.TP_cost, 2)),
+            comprehension_2PP_answer1=get_translation('comprehension_2PP_answer1', lang),
+            comprehension_2PP_answer2=get_translation('comprehension_2PP_answer2', lang,
+                                                      cost_per_point=round(1/C.TP_cost, 2)),
+            comprehension_2PP_answer3=get_translation('comprehension_2PP_answer3', lang),
         )
 
     @staticmethod
@@ -729,7 +740,7 @@ class TPPage(Page):
 
         if "2PP punish" in player.treatment:
             text_action = get_translation('text_action_remove', lang)
-            text_action_person = get_translation('text_action_personb', lang)
+            text_action_person = get_translation('text_action_person_b', lang)
             text_action_person2 = "you"
             text_receiver = get_translation('text_action_receiver', lang)
             image = 'global/treatments/2PP punish.png'
@@ -740,8 +751,8 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
-            text_action = "remove"
-            text_action_person = "Person C"
+            text_action = get_translation('text_action_remove', lang)
+            text_action_person = get_translation('text_action_person_c', lang)
             text_action_person2 = "Person C"
             text_receiver = "from Person A"
             image = 'global/treatments/3PP punish.png'
@@ -815,7 +826,6 @@ class TPPage(Page):
             dictator_keeps_3 = C.dictator_keeps_half
 
         image = image.replace("2PP", "2PP_2")
-        current_country = C.CURRENT_COUNTRYNAME
 
         #print('TPPAGE Generating image path and round number - 1', image, player.round_number - 1)
 
@@ -865,17 +875,51 @@ class TPPage(Page):
             treatment_text_action_person2=text_action_person2,
             treatment_text_receiver=text_receiver,
             image=image,
-            current_country=current_country,
+            current_country=C.CURRENT_COUNTRYNAME,
             role_switch_true=player.role_switch_true,
             total_pages=player.session.config['total_pages'],
-
-            tpp_appropriate=get_translation(
-                'tpp_appropriate',
+            person_a=get_translation('person_a', lang),
+            person_b=get_translation('person_b', lang),
+            person_c=get_translation('person_c', lang),
+            you=get_translation('you', lang),
+            tpp_2PP_norm_instru=get_translation('tpp_2PP_norm_instru', lang),
+            tpp_2PP_norm_incentive=get_translation('tpp_2PP_norm_incentive', lang,
+                                                   ratings_extra_points=C.ratings_extra_points,
+                                                   current_country=C.CURRENT_COUNTRYNAME,),
+            tpp_3PP_norm_instru=get_translation('tpp_3PP_norm_instru', lang),
+            tpp_dict_action=get_translation('tpp_dict_action', lang),
+            tpp_norm_question=get_translation(
+                'tpp_norm_question',
                 lang,
                 treatment_text_action=text_action,
                 treatment_text_action_person=text_action_person,
-                treatment_text_receiver=text_receiver,
-            )
+                treatment_text_receiver=text_receiver,),
+            tpp_norm_neg_question=get_translation(
+                'tpp_norm_neg_question',
+                lang,
+                treatment_text_action=text_action,
+                treatment_text_action_person=text_action_person,
+                treatment_text_receiver=text_receiver, ),
+            tpp_decision_strategy=get_translation('tpp_decision_strategy', lang),
+            tpp_decision_you=get_translation('tpp_decision_you', lang,
+                                             treatment_text_action_person=text_action_person),
+            tpp_decision_action=get_translation('tpp_decision_action', lang,
+                                                treatment_text_action_person=text_action_person),
+            tpp_decision_question=get_translation('tpp_decision_question', lang,
+                                                  treatment_text_action_person=text_action_person),
+            tpp_decision_cost=get_translation('tpp_decision_cost', lang),
+            tpp_IN_OUT=get_translation('tpp_IN_OUT', lang,
+                                                 dic_identity_country=dic_identity_country,
+                                                 recip_identity_country=recip_identity_country),
+            tpp_countries=get_translation('tpp_countries', lang,
+                                                 dic_identity_country=dic_identity_country,
+                                                 recip_identity_country=recip_identity_country),
+            very_inappropriate=get_translation('very_inappropriate', lang),
+            inappropriate=get_translation('inappropriate', lang),
+            slightly_inappropriate=get_translation('slightly_inappropriate', lang),
+            slightly_appropriate=get_translation('slightly_appropriate', lang),
+            appropriate=get_translation('appropriate', lang),
+            very_appropriate=get_translation('appropriate', lang),
         )
         # Conditionally add the extra variable
         if "comp" in player.treatment:
@@ -906,13 +950,14 @@ class DictatorPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        # text = "How much do you give to Person B?"
+        participant = player.participant
+        lang = participant.language
+
         image = 'global/treatments/{}.png'.format(player.treatment)
         image = image.replace(" IN", "")
         image = image.replace(" OUT", "")
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
-        current_country = C.CURRENT_COUNTRYNAME
 
         # 3PR trials get same image as 3PP
         if "3PR" in player.treatment:
@@ -925,9 +970,9 @@ class DictatorPage(Page):
 
         # For baseline trials, add condition text for "Keep in mind" text
         if "2PP" in player.treatment:
-            text_action = "Person B can remove points from you"
+            text_action = get_translation('dict_text_action_2PP', lang)
         elif "3PP" in player.treatment:
-            text_action = "Person C can remove points from you"
+            text_action = get_translation('dict_text_action_3PP', lang)
         elif "3PR" in player.treatment:
             text_action = "Person C can give points to you"
         elif "3PC" in player.treatment:
@@ -976,14 +1021,39 @@ class DictatorPage(Page):
             endowments=range(0, int(C.total_endowment) + 1),
             dic_identity=dic_identity,
             recip_identity=recip_identity,
-            dic_identity_country=dic_identity_country,
-            recip_identity_country=recip_identity_country,
             dic_decision1=player.dic_decision1,
             image=image,
-            current_country=current_country,
-            treatment_text_action=text_action,
             role_switch_true = player.role_switch_true,
             total_pages=player.session.config['total_pages'],
+            dict_norm_instru=get_translation('dict_norm_instru', lang),
+            dict_norm_incentive=get_translation('dict_norm_incentive', lang,
+                                                ratings_extra_points=C.ratings_extra_points,
+                                                current_country=C.CURRENT_COUNTRYNAME),
+            dict_norm_summary=get_translation('dict_norm_summary', lang,
+                                              total_endowment=C.total_endowment),
+            dict_norm_question=get_translation('dict_norm_question', lang),
+            very_inappropriate=get_translation('very_inappropriate', lang),
+            inappropriate=get_translation('inappropriate', lang),
+            slightly_inappropriate=get_translation('slightly_inappropriate', lang),
+            slightly_appropriate=get_translation('slightly_appropriate', lang),
+            appropriate=get_translation('appropriate', lang),
+            very_appropriate=get_translation('appropriate', lang),
+            dict_decision_endowment=get_translation('dict_decision_endowment', lang,
+                                              total_endowment=C.total_endowment),
+            dict_decision_IN_OUT=get_translation('dict_decision_IN_OUT', lang,
+                                                 dic_identity_country=dic_identity_country,
+                                                 recip_identity_country=recip_identity_country),
+            dict_decision_countries=get_translation('dict_decision_countries', lang,
+                                                 dic_identity_country=dic_identity_country,
+                                                 recip_identity_country=recip_identity_country),
+            dict_decision_question=get_translation('dict_decision_question', lang),
+            dict_decision_mind=get_translation('dict_decision_mind', lang,
+                                               treatment_text_action=text_action),
+            dict_decision_hover=get_translation('dict_decision_hover', lang),
+            person_a=get_translation('person_a', lang),
+            person_b=get_translation('person_b', lang),
+            person_c=get_translation('person_c', lang),
+
             )
 
     def before_next_page(player: Player, timeout_happened):

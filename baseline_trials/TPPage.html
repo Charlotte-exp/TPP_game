@@ -565,18 +565,16 @@
 
         {% if "2PP" in player.treatment and player.round_number < 6 %}
             <p style="text-align: center;">
-                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person B is.</b>
+                <b> {{ tpp_2PP_norm_instru }}</b>
                 <br><br>
-                Importantly, you will receive an <b>extra bonus of {{ C.ratings_extra_points }} points</b>
-                if your decisions are the same as the most
-                common decisions among all other participants in {{current_country}}.
+                {{ tpp_2PP_norm_incentive }}
                 <br><br>
             </p>
         {% endif %}
 
         {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
             <p style="text-align: center;">
-                <b> Now, you decide how <b style="color: red;">socially appropriate</b> the decision of Person C is.</b>
+                <b> {{ tpp_3PP_norm_instru }}</b>
                 <br><br>
             </p>
         {% endif %}
@@ -604,15 +602,15 @@
                 <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
                 <div class="person-a">
-                    <b>PERSON A</b>
+                    <b>{{ person_a }}</b>
                 </div>
                 <div class="person-b">
-                    <b>PERSON B</b>
+                    <b>{{ person_b }}</b>
                 </div>
 
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
                     <div class="person-c">
-                    <b>PERSON C</b>
+                    <b>{{ person_c }}</b>
                 </div>
                 {% endif %}
 
@@ -661,61 +659,55 @@
 
             {% if "IN" in player.treatment or "OUT" in player.treatment%}
                 <p style="text-align: center;">
-                    Person A lives in <b >{{ dic_identity_country }}</b> and Person B lives in <b >{{ recip_identity_country }}</b>.
+                    {{ tpp_IN_OUT }}
                 </p>
             {% endif %}
 
             {% if "country" in player.treatment %}
                 <p style="text-align: center;">
-                    Person A lives in <b style="color: red; ">{{ dic_identity_country }}</b> and Person B lives in <b style="color: red; ">{{ recip_identity_country }}</b>.
+                    {{ tpp_countries }}
                 </p>
             {% endif %}
 
 
             <p style="text-align: center;">
-                Person A gave <b> {{TP_norm_decision.receiver }} points</b> to Person B
-                and kept <b> {{TP_norm_decision.dictator_keeps }} points</b> for themselves.
+                {{ tpp_dict_action }}
             </p>
 
             <p style="text-align: center;">
-                <strong>How socially appropriate is it for {{treatment_text_action_person}} to
-                <b style="color: red;">{{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
-            </p>
-            <p>
-                {{ tpp_appropriate|safe }}
+                <strong>{{ tpp_norm_question|safe }}</strong>
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
-                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>inappropriate</div>
-                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>inappropriate</div>
-                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>inappropriate</div>
-                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>appropriate</div>
-                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>appropriate</div>
-                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>appropriate</div>
+                    <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">{{ very_inappropriate }}</div>
+                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">{{ inappropriate  }}</div>
+                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">{{ slightly_inappropriate  }}</div>>
+                    <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">{{ slightly_appropriate }}</div>
+                    <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">{{ appropriate }}</div>
+                    <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">{{ very_appropriate }}</div>
                 </div>
             </div>
 
             {% if "punish" in player.treatment or "reward" in player.treatment %}
             <br>
 
-             <p style="text-align: center; ">
+            <p style="text-align: center; ">
                 <b>AND</b>
             </p>
 
             <p style="text-align: center;">
-                <strong>How socially appropriate is it for {{treatment_text_action_person}} to
-                <b style="color: red;"> <u>NOT</u> {{ treatment_text_action }} points</b> {{ treatment_text_receiver }}?</strong>
+                <strong>{{ tpp_norm_neg_question|safe }}</strong>
             </p>
 
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-neg-norm-{{ TP_norm_decision.index }}">
-                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">very socially<br>inappropriate</div>
-                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">socially<br>inappropriate</div>
-                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">slightly socially<br>inappropriate</div>
-                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">slightly socially<br>appropriate</div>
-                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">socially<br>appropriate</div>
-                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">very socially<br>appropriate</div>
+                    <div class="neg-norm" data-value="0" data-index="{{ TP_norm_decision.index }}">{{ very_inappropriate }}</div>
+                    <div class="neg-norm" data-value="1" data-index="{{ TP_norm_decision.index }}">{{ inappropriate  }}</div>
+                    <div class="neg-norm" data-value="2" data-index="{{ TP_norm_decision.index }}">{{ slightly_inappropriate  }}</div>
+                    <div class="neg-norm" data-value="3" data-index="{{ TP_norm_decision.index }}">{{ slightly_appropriate }}</div>
+                    <div class="neg-norm" data-value="4" data-index="{{ TP_norm_decision.index }}">{{ appropriate }}</div>
+                    <div class="neg-norm" data-value="5" data-index="{{ TP_norm_decision.index }}">{{ very_appropriate }}</div>
                 </div>
             </div>
             {% endif %}
@@ -819,25 +811,25 @@
                 <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
                 <div class="person-a">
-                    <b>PERSON A</b>
+                    <b>{{ person_a }}</b>
                 </div>
                 <div class="person-b">
-                    <b>PERSON B</b>
+                    <b>{{ person_b }}</b>
                 </div>
 
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
                 <div class="person-c">
-                    <b>PERSON C</b>
+                    <b>{{ person_c }}</b>
                 </div>
 
                 <div class="you-third-party">
-                    <b>YOU</b>
+                    <b>{{ you }}</b>
                 </div>
                 {% endif %}
 
                 {% if "2PP" in player.treatment %}
                 <div class="you-receiver">
-                    <b>YOU</b>
+                    <b>{{ you }}</b>
                 </div>
                 {% endif %}
 
@@ -925,7 +917,8 @@
                 </div>
 
             <div data-index="{{ TP_decision.index }}">
-                <p style="text-align: center; "> This costs you <span class="TP-cost-display" data-index="{{ TP_decision.index }}"></span> points.
+                <p style="text-align: center; ">
+                    This costs you <span class="TP-cost-display" data-index="{{ TP_decision.index }}"></span> points.
                 </p>
             </div>
         <br>

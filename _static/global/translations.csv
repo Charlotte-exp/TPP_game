@@ -6,10 +6,18 @@ Specials,button_consent,I CONSENT
 Specials,person_a,PERSON A
 Specials,person_b,PERSON B
 Specials,person_c,PERSON C
+Specials,you,YOU
+Specials,very_inappropriate,very socially<br>inappropriate
+Specials,inappropriate,socially<br>inappropriate
+Specials,slightly_inappropriate,slightly socially<br>inappropriate
+Specials,slightly_appropriate,slightly socially<br>appropriate
+Specials,appropriate,socially<br>appropriate
+Specials,very_appropriate,very socially<br>appropriate
 Consent,consent_title,Welcome!
 Consent,consent_thank_you,Thank you for participating in this study about decision-making!
 Consent,consent_intro_title,What happens next
 Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.  
+
 Please read them carefully, as <b>your decisions affect your final payment</b>.</li> 
 <li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
 <li> The study is made up of 2 blocks. In total, you will make about <b>X decisions</b>, and the study takes around <b>X minutes</b>. </li></ul>"
@@ -64,27 +72,38 @@ Comprehension,comprehension_2PP_answer1,Person A loses 3 points and Person B los
 Comprehension,comprehension_2PP_answer2,Person A loses 1 point and Person B loses {cost_per_point} points.
 Comprehension,comprehension_2PP_answer3,Person A loses 1 point and Person B loses 1 point.
 Dictator,dict_norm_instru,"Now, <u>you</u> decide how <b style=""color: red;"">socially appropriate</b> the decision of Person A is"
-Dictator,dict _norm_incentive,Important: You will receive <b> {C.ratings_extra_points} points</b> if your answer is the same as the most common answer among all other participants in {current_country}.
-Dictator,dict _norm_summary,Person A received <b> {C.total_endowment} points</b> and <u>gave</u> <b>0 points</b> to Person B.
-Dictator,dict _norm_question,"<br>How <b style=""color: red;"">socially appropriate</b> is it for Person A to give <b>XX points</b> to Person B?"
-Dictator,dict _norm_very_inapp,very socially<br>inappropriate
-Dictator,dict _norm_inapp,socially<br>inappropriate
-Dictator,dict _norm_sli_inapp,slightly socially<br>inappropriate
-Dictator,dict _norm_sli_app,slightly socially<br>appropriate
-Dictator,dict _norm_app,socially<br>appropriate
-Dictator,dict _norm_very_app,very socially<br>appropriate
-Dictator,dict _decision_endowment,You are Person A and received {C.total_endowment} points!
-Dictator,dict _decision_country,You live in <b COUNTRY X</b> and Person B lives in <b COUNTRY Y</b>.
-Dictator,dict _decision_question,"As Person A, how many points do you <b style=""color: red;"">give</b> to Person B?"
-Dictator,dict _decision_mind,Keep in mind: {treatment_text_action} in Stage 2.
-Dictator,dict _decision_hover,"To make a decision, click on a number. As you move over the numbers (or press them), you see how many points you and Person B would receive."
+Dictator,dict_norm_incentive,Important: You will receive <b> {ratings_extra_points} points</b> if your answer is the same as the most common answer among all other participants in {current_country}.
+Dictator,dict_norm_summary,Person A received <b> {total_endowment} points</b> and <u>gave</u> <b>0 points</b> to Person B.
+Dictator,dict_norm_question,"How <b style=""color: red;"">socially appropriate</b> is it for Person A to give <b>0 points</b> to Person B?"
+Dictator,dict_norm_very_inapp,very socially<br>inappropriate
+Dictator,dict_norm_inapp,socially<br>inappropriate
+Dictator,dict_norm_sli_inapp,slightly socially<br>inappropriate
+Dictator,dict_norm_sli_app,slightly socially<br>appropriate
+Dictator,dict_norm_app,socially<br>appropriate
+Dictator,dict_norm_very_app,very socially<br>appropriate
+Dictator,dict_decision_endowment,You are Person A and received {total_endowment} points!
+Dictator,dict_decision_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
+Dictator,dict_decision_countries,"Person A lives in <b style=""color: red; "">{dic_identity_country}</b> and Person B lives in <b style=""color: red; "">{recip_identity_country}</b>."
+Dictator,dict_decision_question,"As Person A, how many points do you <b style=""color: red;"">give</b> to Person B?"
+Dictator,dict_decision_mind,Keep in mind: {treatment_text_action} in Stage 2.
+Dictator,dict_decision_hover,"To make a decision, click on a number. As you move over the numbers (or press them), you see how many points you and Person B would receive."
 Dictator,dict_text_action_2PP,Person B can remove points from you
 Dictator,dict_text_action_3PP,Person C can remove points from you
 TPP,tpp_2PP_norm_instru,"Now, you decide how <b style=""color: red;"">socially appropriate</b> the decision of Person B is."
-TPP,tpp_2PP_norm_incentive,Important: You will receive <b>{C.ratings_extra_points} points</b> if your answers are the same as the most common answers among all other participants in {current_country}.
+TPP,tpp_2PP_norm_incentive,Important: You will receive <b>{ratings_extra_points} points</b> if your answers are the same as the most common answers among all other participants in {current_country}.
 TPP,tpp_3PP_norm_instru,"Now, you decide how <b style=""color: red;"">socially appropriate</b> the decision of Person C is."
 TPP,tpp_dict_action,Person A kept <b>{TP_norm_decision.receiver}</b> to themselves and gave <b> {TP_norm_decision.dictator_keeps}</b> to Person B.
-TPP,tpp_norm_instru,"How socially appropriate is it for {treatment_text_action_person}} to <b style=""color: red;"">{treatment_text_action} points</b> {treatment_text_receiver}?"
+TPP,tpp_norm_question,"How socially appropriate is it for {treatment_text_action_person} to <b style=""color: red;"">{treatment_text_action} points</b> {treatment_text_receiver}?"
+TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_action_person} to 
+<b style=""color: red;""> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
 TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.
+TPP,tpp_decision_you,You are {treatment_text_action_person}!
+TPP,tpp_decision_action,"Now, you decide as {treatment_text_action_person} how many points to <b style=""color: red; "">remove from Person A</b>."
+TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you remove from Person A ?"
+TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{{ TP_decision.index }}""></span> points."
 TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
 TPP,tpp_countries,"Person A lives in <b style=""color: red; "">{dic_identity_country}</b> and Person B lives in <b style=""color: red; "">{recip_identity_country}</b>."
+TPP,tpp_text_action_remove,remove
+TPP,tpp_text_action_receiver,from Person A
+TPP,tpp_2PP_text_action_person_b,Person B
+TPP,tpp_3PP_text_action_person_b,Person C
