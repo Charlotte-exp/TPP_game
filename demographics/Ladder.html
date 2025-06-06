@@ -144,6 +144,14 @@
             document.getElementById('income_ladder').value = rung.dataset.value;
         });
     });
+
+        /// Function for showing customized error messages
+        const errorDiv = document.querySelector('.otree-form-errors');
+
+        if (errorDiv) {
+        errorDiv.textContent = 'Please make a decision to continue.'
+    }
+
 </script>
 
 {{ endblock }}
