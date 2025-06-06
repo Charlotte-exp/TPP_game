@@ -762,13 +762,17 @@
 <select id="charity-select" style="">
     <option value="" selected>Randomly selected charity</option>
     <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
-    <option value="Red Cross (local)">{{local_red_cross}}</option>
+
+    {% if local_red_cross != "Unknown" %}
+        <option value="Red Cross (local)">{{ local_red_cross }}</option>
+    {% endif %}
+
     <option value="The Salvation Army">The Salvation Army</option>
     <option value="Unicef">Unicef</option>
     <option value="World Food Programme">World Food Programme</option>
     <option value="World Health Organization">World Health Organization</option>
     <option value="World Wildlife Fund">World Wildlife Fund</option>
-    <option value="other">Other (write your own)</option>
+<!--    <option value="other">Other (write your own)</option>-->
 </select>
 
 <input type="text" id="custom-charity" placeholder="Enter your charity" style="display:none; font-size: 14px; " />
@@ -780,7 +784,7 @@
     <!-- Add hidden input to store the selected value -->
     <input type="hidden" name="crowding_decision" id="selected-option-1">
 
-        {{ formfield_errors 'crowding_decision' }}
+<!--        {{ formfield_errors 'crowding_decision' }}-->
 
     <div class='responsive-div'>
 
@@ -820,7 +824,7 @@
         <br>
 
         <p style="text-align: center; ">
-            {{ text5|safe }}
+            <b style="color: red;"> {{ text5|safe }} </b>
         </p>
 
 
@@ -896,19 +900,6 @@
             How <b style="color: red;">altruistic</b> is Person A?
         </p>
 
-<!--        &lt;!&ndash; Add hidden input to store the selected value &ndash;&gt;-->
-<!--        <input type="hidden" name="crowding_norm_decision1" id="selected-norm-1">-->
-<!--        {{ formfield_errors 'crowding_norm_decision1' }}-->
-
-<!--                <div class="number-row"  data-input="selected-norm-1">-->
-<!--                    <div class="norm1" data-value="0" >very <br>selfish</div>-->
-<!--                    <div class="norm1" data-value="1" > selfish</div>-->
-<!--                    <div class="norm1" data-value="2" >slightly <br>selfish</div>-->
-<!--                    <div class="norm1" data-value="3" >slightly <br>altruistic</div>-->
-<!--                    <div class="norm1" data-value="4" > altruistic</div>-->
-<!--                    <div class="norm1" data-value="5" >very <br>altruistic</div>-->
-<!--                </div>-->
-
 
         <div class="slider-container">
 
@@ -937,21 +928,6 @@
             How <b style="color: red;">likeable</b> is Person A?
         </p>
 
-<!--        &lt;!&ndash; Add hidden input to store the selected value &ndash;&gt;-->
-<!--        <input type="hidden" name="crowding_norm_decision2" id="selected-norm-2">-->
-<!--        {{ formfield_errors 'crowding_norm_decision2' }}-->
-
-<!--        <div class='numbers' >-->
-<!--            <div class="number-row"  data-input="selected-norm-2">-->
-<!--                <div class="norm2" data-value="0" >very <br>unlikeable</div>-->
-<!--                <div class="norm2" data-value="1" > unlikeable</div>-->
-<!--                <div class="norm2" data-value="2" >slightly <br>unlikeable</div>-->
-<!--                <div class="norm2" data-value="3" >slightly <br>likeable</div>-->
-<!--                <div class="norm2" data-value="4" > likeable</div>-->
-<!--                <div class="norm2" data-value="5" >very <br>likeable</div>-->
-<!--            </div>-->
-<!--        </div>-->
-
         <div class="slider-container">
 
             <input type="hidden" name="slider2_moved" value="0" id="check_slider2">
@@ -976,34 +952,30 @@
         <br>
 
         <p style="text-align: center; ">
-            Please move the sliders to indicate your answers.
-        </p>
-
-        <p style="text-align: center; ">
             {{ text4|safe }}
         </p>
 
 
-<!--    <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">-->
-<!--            Please move all sliders before continuing.-->
-<!--        </div>-->
-
         <div id="custom-error-message" style="color: red; display: none; text-align: center; margin-top: 15px;">
-            Please adjust all sliders before proceeding.
+            Please move all sliders before continuing.
         </div>
     <br>
     </div>
 
+<!--    <div style="display: flex; justify-content: flex-end">-->
+<!--        <button style="color: #fff;-->
+<!--                       background-color: #007bff;-->
+<!--                       border: 1px solid #007bff;-->
+<!--                       font-size: 1rem;-->
+<!--                       border-radius: 0.25rem;-->
+<!--                       padding: 4px 12px;" type="button" id="submit-button">-->
+<!--            Next-->
+<!--        </button>-->
+<!--    </div>-->
+
     <div style="display: flex; justify-content: flex-end">
-        <button style="color: #fff;
-                       background-color: #007bff;
-                       border: 1px solid #007bff;
-                       font-size: 1rem;
-                       border-radius: 0.25rem;
-                       padding: 4px 12px;" type="button" id="submit-button">
-            Next
-        </button>
-    </div>
+            <button class="btn btn-primary">Next</button>
+        </div>
 
 
 </form>

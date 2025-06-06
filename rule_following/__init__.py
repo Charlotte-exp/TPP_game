@@ -29,6 +29,7 @@ def creating_session(subsession):
         p.participant.rule_following_condition = p.rule_following_condition
 
         p.aim_number()
+
         # ''' ONLY WHEN TESTING ON ITS OWN'''
         # p.participant.decision_page_number = 0  # For testing only
         # p.participant.progress = 1

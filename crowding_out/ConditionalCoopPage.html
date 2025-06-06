@@ -38,8 +38,6 @@
 
     var current_treatment = "{{ treatment_incentive }}";
 
-    //var treatment_cond_coop = "{{ treatment_cond_coop }}";
-
     total_endowment = {{ total_endowment }}
     receiver_endowment = {{ receiver_endowment }}
     incentive = {{ incentive }}
@@ -449,68 +447,47 @@
         </p>
         <br>
 
-        {% if treatment_cond_coop %}
-
             <input type="hidden" name="cond_coop" id="selected-proportion-1">
 
         <!--{{ formfield_errors 'cond_coop' }}-->
 
             <div class='numbers' >
                 <div class="proportion-row"  data-input="selected-proportion-1">
-                    <span class="proportion" data-value="10" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">10</b> {{ text4|safe }}</span>
-                    <div class="proportion" data-value="20" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">20</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="30" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">30</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="40" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">40</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="50" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">50</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="60" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">60</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="70" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">70</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="80" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">80</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="90" >{{ text3|safe }} {{ text7|safe }} <b style="color: red;">90</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="100" >{{ text3|safe }} <b style="color: red;">100</b> {{ text4|safe }}</div>
-                    <div class="proportion" data-value="999" >{{ text5|safe }} </div>
+                    <div class="proportion" data-value="80" >{{ text3|safe }} <b style="color: red;">80</b> {{ text4|safe }}</div>
+                    <div class="proportion" data-value="60" >{{ text3|safe }} <b style="color: red;">60</b> {{ text4|safe }}</div>
+                    <div class="proportion" data-value="40" >{{ text3|safe }} <b style="color: red;">40</b> {{ text4|safe }}</div>
+                    <div class="proportion" data-value="20" >{{ text3|safe }} <b style="color: red;">20</b> {{ text4|safe }}</div>
+                    <div class="proportion" data-value="0" >{{ text5|safe }} </div>
                 </div>
             </div>
 
-        <p style="text-align: center; ">
-            {{ text6|safe }}
-        </p>
-
-        {% else %}
-
-        <input type="hidden" name="cond_coop_control" id="selected-proportion-1">
-
-        <div class='numbers' >
-            <div class="proportion-row"  data-input="selected-proportion-1">
-                <div class="proportion" data-value="4" >{{ text3|safe }} </div>
-                <div class="proportion" data-value="0" >{{ text5|safe }} </div>
-            </div>
-        </div>
+        <br>
 
         <p style="text-align: center; ">
             {{ text6|safe }}
         </p>
 
-        {% endif %}
+        <br>
 
-        {% if non_donor %}
+<!--        {% if non_donor %}-->
 
-        <label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>
-        <select id="charity-select" style="">
-            <option value="" selected >Randomly selected charity</option>
-            <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
-            <option value="Red Cross (local)">{{local_red_cross}}</option>
-            <option value="The Salvation Army">The Salvation Army</option>
-            <option value="Unicef">Unicef</option>
-            <option value="World Food Programme">World Food Programme</option>
-            <option value="World Health Organization">World Health Organization</option>
-            <option value="World Wildlife Fund">World Wildlife Fund</option>
-            <option value="other">Other (write your own)</option>
-        </select>
+<!--        <label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>-->
+<!--        <select id="charity-select" style="">-->
+<!--            <option value="" selected >Randomly selected charity</option>-->
+<!--            <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>-->
+<!--            <option value="Red Cross (local)">{{local_red_cross}}</option>-->
+<!--            <option value="The Salvation Army">The Salvation Army</option>-->
+<!--            <option value="Unicef">Unicef</option>-->
+<!--            <option value="World Food Programme">World Food Programme</option>-->
+<!--            <option value="World Health Organization">World Health Organization</option>-->
+<!--            <option value="World Wildlife Fund">World Wildlife Fund</option>-->
+<!--            <option value="other">Other (write your own)</option>-->
+<!--        </select>-->
 
-        <input type="text" id="custom-charity" placeholder="Enter your charity" style="font-size: 14px; display:none;" />
-        <input type="hidden" name="charity_select" id="hidden-charity-select" />
+<!--        <input type="text" id="custom-charity" placeholder="Enter your charity" style="font-size: 14px; display:none;" />-->
+<!--        <input type="hidden" name="charity_select" id="hidden-charity-select" />-->
 
-        {% endif %}
+<!--        {% endif %}-->
 
     </div>
     <br>

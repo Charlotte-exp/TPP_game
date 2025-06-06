@@ -25,6 +25,136 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
+        <style>
+
+        .slider {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .slider-container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            border:0px solid black;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: -5px; /* optional: pulls labels closer to slider */
+            padding: 0;
+        }
+
+        .slider-labels span {
+            font-size: 16px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 400px) { /* adjustments for tiny screens */
+            .slider-labels span {
+                font-size: 12px;
+            }
+        }
+
+        /* Webkit-based browsers (Chrome, Safari) */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Firefox */
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+        }
+
+        /* Internet Explorer and Edge */
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: white;
+            border-radius: 1px;
+            border: 1px solid lightgrey;
+            /* Remove default styling for MS track */
+            border-color: transparent;
+            color: transparent;
+            background-color: transparent;
+        }
+
+        /* Style the range input element itself to reset default styling across browsers */
+        input[type=range] {
+            -webkit-appearance: none; /* For Webkit browsers */
+            appearance: none; /* For Firefox and other browsers */
+            width: 100%;
+            height: 8px; /* Adjust the input height */
+            background: transparent; /* Make sure the input background is transparent */
+            border: none; /* Remove default border */
+            margin-top: 5px;
+        }
+
+        /* Hide the thumb initially for Safari/Chrome */
+        .hidden-thumb::-webkit-slider-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for Firefox */
+        .hidden-thumb::-moz-range-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Hide the thumb initially for IE/Edge */
+        .hidden-thumb::-ms-thumb {
+            opacity: 0;  /* Instead of visibility: hidden */
+            pointer-events: none;  /* Prevent user from interacting */
+        }
+
+        /* Style the slider thumb for Safari/Chrome */
+        input[type=range]::-webkit-slider-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for Firefox */
+        input[type=range]::-moz-range-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -moz-appearance: none;  /* Firefox-specific appearance reset */
+            margin-top: -7px;
+        }
+
+        /* Style the slider thumb for IE/Edge */
+        input[type=range]::-ms-thumb {
+            border: 0px solid #000000;
+            height: 21px;
+            width: 10px;
+            background: #0d6efd;
+            cursor: pointer;
+            -ms-appearance: none;  /* Edge/IE-specific appearance reset */
+            margin-top: -7px;
+        }
+
+    </style>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -32,37 +162,16 @@
 
     /////////// global variables
 
-    let universal_norm_decisions_stored = [0, 0, 0, 0]; // Array to store selected values for each row
-    //console.log(`norm decisions values: ${dic_norm_decisions_stored}`);
-
-    var current_treatment = "{{ treatment }}";
-    //console.log("Current treatment:", current_treatment );
-
-    const universal_norm_decisions = {{ universal_norm_decisions | safe }};
-    console.log('Decisions:', {{ universal_norm_decisions | safe }});
-
     total_endowment = {{ C.total_endowment }}
     receiver_endowment = {{ C.receiver_endowment }}
 
-    /// Function for showing customized error messages
-    const errorDiv = document.querySelector('.otree-form-errors');
-
-    if (errorDiv) {
-        errorDiv.textContent = 'Please make a decision to continue.'
-    }
 
 
 ////////////// function for displaying the task, numbers, and labels and managing the click event
 
     $(document).ready(function () {
 
-                // Initialize coin stacks and number labels for each decision
-        universal_norm_decisions.forEach((universal_norm_decision) => {
-            const index = universal_norm_decision.index;
-            const dictatorKeeps = universal_norm_decision.dictator_keeps;
-            const receiverGets = universal_norm_decision.receiver_gets;
-
-            // Fill initial coin stacks and number labels (norm condition)
+        // Initialize coin stacks and number labels for each decision
 
                 // dictator stack static (for static display of role labels)
                 for (let i = 0; i < total_endowment; i++) {
@@ -70,79 +179,80 @@
                 }
 
                 // number labels
-                // $('#countD[data-index="' + index + '"]').text(`${dictatorKeeps}`);
-                // $('#countR[data-index="' + index + '"]').text(`${receiverGets}`);
                 $('.coin-count-labelD').text(`${total_endowment}`);
                 $('.coin-count-labelR').text(`${receiver_endowment}`);
 
-        });
-
-        //Select norm button that participant selected (universal norm -> show previous norm)
-        $(".recorded-norm[data-value='{{ recorded_norm_num }}']").addClass("selected");
+        // });
 
         // Set the default display text of the clicked number
         $('#selected-number-display').text('___');
 
-        //Actions on click: NUMBER OF COUNTRIES AGREEING
-        $('.number').on('click', function () {
-            // Remove 'selected' class from all buttons
-            $(this).closest('.number-row-close').find('.number').removeClass('selected');
+        // //Actions on click: ALTERNATIVE NORM MEASURE
+        // $('.norm').on('click', function () {
+        //     // Remove 'selected' class from all buttons
+        //     $(this).closest('.number-row').find('.norm').removeClass('selected');
+        //
+        //     // Add 'selected' class to the clicked button
+        //     $(this).addClass('selected');
+        //
+        //     // Get the value of the clicked button
+        //     const value = $(this).data('value');
+        //     const index = $(this).data('index');
+        //
+        //     // Update the hidden input field
+        //     $(`#selected-people-1`).val(value);
+        //
+        //     // Debugging
+        //     console.log(`Updated norm people decision at index ${index}: ${value}`);
+        //
+        // });
+        //
+        // // Submit button click handler
+        // $('#submit-button').on('click', function () {
+        //     // Submit the form
+        //     $('form').submit();
+        // });
 
-            // Add 'selected' class to the clicked button
-            $(this).addClass('selected');
 
-            // Get the value of the clicked button
-            const value = $(this).data('value');
-            const index = $(this).data('index');
+    });
 
-            // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
-            $(".number").each(function () {
-                if (parseInt($(this).attr("data-value")) <= value) {
-                    $(this).addClass("selected");
-                }
+    /////////  Slider /////////
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sliders = [
+                { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+            ];
+
+            sliders.forEach(({ sliderId, outputId, checkId }) => {
+                const slider = document.getElementById(sliderId);
+                const output = document.getElementById(outputId);
+                const checkSlider = document.getElementById(checkId);
+
+                slider.value = "";
+                output.textContent = "";
+                checkSlider.value = "0"; // Not moved yet
+                slider.classList.add("hidden-thumb");
+
+                slider.addEventListener("input", function () {
+                    output.textContent = this.value;
+                    checkSlider.value = "1"; // Mark as moved
+                    this.classList.remove("hidden-thumb");
+                    document.getElementById("error-message").style.display = "none";
+
+                    console.log(`${this.id} moved to ${this.value}`);
+                });
             });
 
-            // Update the hidden input field
-            $(`#selected-countries-${index}`).val(value);
-
-            // Update the corresponding punishment value in the array
-            universal_norm_decisions_stored[index - 1] = value;
-
-            // Update the display text the clicked number
-            $('#selected-number-display').text('' + value);
-
-            // Debugging
-            console.log(`Updated norm decision at index ${index}: ${value}`);
-            //console.log('universal norm Decisions:', universal_norm_decisions);
-            console.log(`universal norm countries decision values list: ${universal_norm_decisions_stored}`);
+            // Validate all sliders before form submission
+            document.querySelector("form").addEventListener("submit", function (event) {
+                const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+                if (!allMoved) {
+                    event.preventDefault();
+                    document.getElementById("error-message").style.display = "block";
+                }
+            });
         });
 
-        //Actions on click: ALTERNATIVE NORM MEASURE
-        $('.norm').on('click', function () {
-            // Remove 'selected' class from all buttons
-            $(this).closest('.number-row').find('.norm').removeClass('selected');
-
-            // Add 'selected' class to the clicked button
-            $(this).addClass('selected');
-
-            // Get the value of the clicked button
-            const value = $(this).data('value');
-            const index = $(this).data('index');
-
-            // Update the hidden input field
-            $(`#selected-people-${index}`).val(value);
-
-            // Debugging
-            console.log(`Updated norm people decision at index ${index}: ${value}`);
-
-        });
-
-        // Submit button click handler
-        $('#submit-button').on('click', function () {
-            // Submit the form
-            $('form').submit();
-        });
-    });
 
 </script>
 </head>
@@ -150,14 +260,9 @@
 
 <body>
 
-<form method="post">
+<div class="card-body">
 
-    <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="universal_norm_countries" id="selected-countries-1">
 
-<!--        {{ formfield_errors 'universal_norm_countries' }}-->
-
-     {% for universal_norm_decision in universal_norm_decisions %}
     <div class='responsive-div'>
 
         <div class="figure-container {% if '2PP' in player.treatment or '0DG' in player.treatment
@@ -180,106 +285,64 @@
 
         </div>
 
-        <br>
-        <div class="number-row-static" data-index="{{ universal_norm_decision.index }}">
-            <div class="recorded-norm" data-value="0" data-index="{{ universal_norm_decision.index }}">very socially<br>unacceptable</div>
-            <div class="recorded-norm" data-value="1" data-index="{{ universal_norm_decision.index }}">socially<br>unacceptable</div>
-            <div class="recorded-norm" data-value="2" data-index="{{ universal_norm_decision.index }}">slightly socially<br>unacceptable</div>
-            <div class="recorded-norm" data-value="3" data-index="{{ universal_norm_decision.index }}">slightly socially<br>acceptable</div>
-            <div class="recorded-norm" data-value="4" data-index="{{ universal_norm_decision.index }}">socially<br>acceptable</div>
-            <div class="recorded-norm" data-value="5" data-index="{{ universal_norm_decision.index }}">very socially<br>acceptable</div>
-        </div>
-
-        <br>
-        <hr>
-        <p>
-            In the beginning of the study, you responded that it is <strong> {{ recorded_norm }} </strong>
-            for Person A to give {{ universal_norm_decision.receiver_gets }} points to Person B
-            and keep {{ universal_norm_decision.dictator_keeps }} for themselves.
-        </p>
-
-        <p>
-            <strong> Out of the {{ C.NUM_COUNTRIES }} countries participating in this study,
-            in how many countries do you think do <b style="color: red;">most people</b> also consider it <b style="color: red;"> {{ recorded_norm }}</b>
-            to give {{ universal_norm_decision.receiver_gets }} points to Person B? </strong>
-        </p>
-
-        <p style="">
-            Important: You will receive <b>{{ C.ratings_extra_points }} additional points</b> if you select the correct number of countries
-            where most people also consider it <b>{{ recorded_norm }}</b>
-            to give {{ universal_norm_decision.receiver_gets }} points to Person B.
-            To make a decision, click on a number.
-        </p>
-
-        <div class='numbers' data-index="{{ universal_norm_decision.index }}">
-            <div class="number-row-close" data-index="{{ universal_norm_decision.index }}" data-input="selected-countries-{{ universal_norm_decision.index }}">
-                {{ for num in num_countries }}
-                <div class="number" style="border-radius: 0%;" data-value="{{ num }}" data-index="{{ universal_norm_decision.index }}">{{ num }}</div>
-                {{ endfor }}
-            </div>
-        </div>
-
-<!--        <br>-->
-<!--        <p style=" " >-->
-<!--            You believe that in <b> <span id="selected-number-display"> </span> out of {{ C.NUM_COUNTRIES }} countries</b>,-->
-<!--            most people also believe that it is <b>{{ recorded_norm }}</b>-->
-<!--            to give {{ universal_norm_decision.receiver_gets }} points to Person B.-->
-<!--        </p>-->
-
-    <br>
-    <hr>
-    </div>
-
-<!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="universal_norm_people" id="selected-people-1">
-
-<!--        {{ formfield_errors 'universal_norm_people' }}-->
-
-    <div class='responsive-div'>
-
-        <p>
-            We asked 50,000 people around the world how acceptable it is
-            to give {{ universal_norm_decision.receiver_gets }} points to Person B
-            and keep {{ universal_norm_decision.dictator_keeps }}.
-        </p>
-        <br>
         <p style="text-align: center;">
-            <strong>How many of those people do you think agree with you that it is <b style="color: red;">{{ recorded_norm }}</b>
-            to give 0 points to Person B? </strong>
+            {{ text1|safe }}
         </p>
 
-        <div class='numbers' data-index="{{ universal_norm_decision.index }}">
-            <div class="number-row" data-index="{{ universal_norm_decision.index }}" data-input="selected-people-{{ universal_norm_decision.index }}">
-                <div class="norm" style="font-size: 12px" data-value="0" data-index="{{ universal_norm_decision.index }}">many</div>
-                <div class="norm" style="font-size: 12px" data-value="1" data-index="{{ universal_norm_decision.index }}">few</div>
-                <div class="norm" style="font-size: 12px" data-value="2" data-index="{{ universal_norm_decision.index }}">some</div>
-                <div class="norm" style="font-size: 12px" data-value="3" data-index="{{ universal_norm_decision.index }}">many</div>
-                <div class="norm" style="font-size: 12px" data-value="4" data-index="{{ universal_norm_decision.index }}">most</div>
-                <div class="norm" style="font-size: 12px" data-value="5" data-index="{{ universal_norm_decision.index }}">all</div>
+        <p style="text-align: center;">
+            <b> {{ text2|safe }} </b>
+        </p>
+
+
+            <!-- Slider 1-->
+            <div class="slider-container">
+                <span style="flex-grow: 1;">
+                    <input type="hidden" name="slider1_moved" id="check_slider1" value="0" />
+                    <input type="range" name="slider1" id="slider1" min="0" max="50000" step="100" class="hidden-thumb" />
+                </span>
+                <div class="slider-labels">
+                    <span>0</span>
+                    <span>50000</span>
+                </div>
             </div>
+            <div style="text-align: center;"><output id="output1" style="color: #0d6efd"></output></div>
+
+
+         <br>
+
+        <p style="text-align: center;">
+            <b> {{ text3|safe }} </b>
+        </p>
+
         </div>
 
+     <!-- Error message -->
+        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+            <p>
+                Please move the slider before continuing.
+            </p>
+        </div>
+
+
     <br>
-    <hr>
 
-    </div>
-    {% endfor %}
+<!--    <div style="display: flex; justify-content: flex-end">-->
+<!--        <button style="color: #fff;-->
+<!--                       background-color: #007bff;-->
+<!--                       border: 1px solid #007bff;-->
+<!--                       font-size: 1rem;-->
+<!--                       border-radius: 0.25rem;-->
+<!--                       padding: 4px 12px;" type="button" id="submit-button">-->
+<!--            Next-->
+<!--        </button>-->
+<!--    </div>-->
 
-    <br>
-
-    <div style="display: flex; justify-content: flex-end">
-        <button style="color: #fff;
-                       background-color: #007bff;
-                       border: 1px solid #007bff;
-                       font-size: 1rem;
-                       border-radius: 0.25rem;
-                       padding: 4px 12px;" type="button" id="submit-button">
-            Next
-        </button>
-    </div>
+     <div style="display: flex; justify-content: flex-end">
+            <button class="btn btn-primary">Next</button>
+        </div>
 
 
-</form>
+</div>
 
 
 

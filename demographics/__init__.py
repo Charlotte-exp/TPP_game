@@ -181,6 +181,10 @@ class Ladder(Page):
             total_pages=player.session.config['total_pages'],
         )
 
+    def error_message(self, values):
+        if values['income_ladder'] in [None, 0]:
+            return 'Missing response'
+
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
@@ -206,6 +210,10 @@ class Circle(Page):
         return {
             'total_pages': player.session.config['total_pages'],
         }
+
+    def error_message(self, values):
+        if values['self_other'] in [None, 0]:
+            return 'Missing response'
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
