@@ -19,8 +19,8 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 38
-    NUM_DECISIONS_APPROX = 45
+    NUM_ROUNDS = 36
+    NUM_DECISIONS_APPROX = 43
     STUDY_TIME = 50
     total_pages = 400 # for progress bar
 
@@ -67,7 +67,7 @@ class C(BaseConstants):
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
                         '3PP punish OUT OUT']
-    trials_3PP_INOUT_TP_norm = ['3PP punish norm IN IN', '3PP punish norm OUT OUT']
+    #trials_3PP_INOUT_TP_norm = ['3PP punish norm IN IN', '3PP punish norm OUT OUT']
     # trials_3PR_INOUT = ['3PR give IN', '3PR give OUT',
     #                     '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
     #                     '3PR reward OUT OUT',
@@ -193,13 +193,13 @@ def creating_session(subsession):
             trials_3PC_INOUT_DIC_current = random.sample(C.trials_3PC_INOUT_DIC, len(C.trials_3PC_INOUT_DIC))
             # Second, randomize the TP trials (UPDATE: Separately randomize norms and TP, so that they're not mixed
             trials_3PP_INOUT_TP_current = random.sample(C.trials_3PP_INOUT_TP, len(C.trials_3PP_INOUT_TP))
-            trials_3PP_INOUT_TP_norm_current = random.sample(C.trials_3PP_INOUT_TP_norm, len(C.trials_3PP_INOUT_TP_norm))
-            trials_3PP_INOUT_TP_full_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_TP_norm_current if random.choice(
-                [True, False]) else trials_3PP_INOUT_TP_norm_current + trials_3PP_INOUT_TP_current
+            #trials_3PP_INOUT_TP_norm_current = random.sample(C.trials_3PP_INOUT_TP_norm, len(C.trials_3PP_INOUT_TP_norm))
+            # trials_3PP_INOUT_TP_full_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_TP_norm_current if random.choice(
+            #     [True, False]) else trials_3PP_INOUT_TP_norm_current + trials_3PP_INOUT_TP_current
             trials_3PC_INOUT_TP_current = random.sample(C.trials_3PC_INOUT_TP, len(C.trials_3PC_INOUT_TP))
             # Third, randomize order of DIC/TP
-            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_full_current + trials_3PP_INOUT_DIC_current if random.choice(
-                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_full_current
+            trials_3PP_INOUT_current = trials_3PP_INOUT_TP_current + trials_3PP_INOUT_DIC_current if random.choice(
+                [True, False]) else trials_3PP_INOUT_DIC_current + trials_3PP_INOUT_TP_current
             trials_3PC_INOUT_current = trials_3PC_INOUT_TP_current + trials_3PC_INOUT_DIC_current if random.choice(
                 [True, False]) else trials_3PC_INOUT_DIC_current + trials_3PC_INOUT_TP_current
             # Fourth, randomize order of treatments (3PP, 2PP, 3PR, 3PC) # UPDATE: FIXED ORDER: 3PC, 3PP
