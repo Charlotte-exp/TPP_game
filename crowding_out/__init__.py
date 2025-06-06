@@ -46,16 +46,16 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant = player.participant
 
         # Only necessary if not using participant field from baseline_trials
-        participant.current_country = "pr"
-        participant.current_countryname = "Peru"
+        participant.current_country = "gb"
+        participant.current_countryname = "the United Kingdom"
         
         participant.crowding_out_button_pos = random.choice([True, False])
 
-        ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        participant.progress = 1
-        participant.decision_page_number = 0 # For testing only crowding
-
-        print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        # participant.progress = 1
+        # participant.decision_page_number = 0 # For testing only crowding
+        #
+        # print('set crowding_out_button_pos', participant.crowding_out_button_pos)
 
 
 def get_local_red_cross_info(country_name):

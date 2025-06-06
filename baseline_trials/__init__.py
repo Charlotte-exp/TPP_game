@@ -1009,11 +1009,11 @@ class UniversalNormPage(Page):
 
 
 page_sequence = [Consent,
-                 # Introduction,
-                 # AttentionCheckPage,
-                 # instructionPage,
-                 # ComprehensionQuestionPage,
-                 # DictatorPage,
-                 # TPPage,
+                 Introduction,
+                 AttentionCheckPage,
+                 instructionPage,
+                 ComprehensionQuestionPage,
+                 DictatorPage,
+                 TPPage,
                  UniversalNormPage
                  ]
