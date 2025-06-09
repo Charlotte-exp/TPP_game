@@ -384,60 +384,6 @@
 
     });
 
-    ///////// CHARITY BUTTONS
-    const donateOption = document.querySelector('.donate-option');
-    const charityLogos = donateOption.querySelectorAll('.charity-logo');
-    const hiddenCharityField = document.getElementById('hidden-charity-select');
-    const decisionField = document.getElementById('selected-option-1');
-
-    const charities = [
-        "Red Cross / Red Crescent",
-        "Unicef",
-        "World Food Programme"
-        // Add more if needed
-    ];
-
-    let selectedCharity = "";
-
-    charityLogos.forEach(logo => {
-        logo.addEventListener('click', function(event) {
-            event.stopPropagation();  // prevent parent div click
-            selectedCharity = this.dataset.charity;
-            hiddenCharityField.value = selectedCharity;
-            decisionField.value = 4;
-            donateOption.classList.add('selected');
-        });
-    });
-
-    donateOption.addEventListener('click', function(event) {
-        if (!selectedCharity) {
-            // No specific logo was clicked
-            const randomCharity = charities[Math.floor(Math.random() * charities.length)];
-            hiddenCharityField.value = randomCharity;
-        }
-        decisionField.value = 4;
-        donateOption.classList.add('selected');
-    });
-
-    // Handle the "Give 0 points" click
-    document.querySelector('.option[data-value="0"]').addEventListener('click', function () {
-        decisionField.value = 0;
-    });
-
-    document.querySelectorAll('.charity-logo').forEach(logo => {
-        logo.addEventListener('click', function () {
-            // Remove 'selected' class from all logos
-            document.querySelectorAll('.charity-logo').forEach(l => l.classList.remove('selected'));
-
-            // Add 'selected' class to the clicked logo
-            this.classList.add('selected');
-
-            // Optionally: store selected charity in a hidden input
-            const selectedCharity = this.getAttribute('data-charity');
-            document.getElementById('hidden-charity-select').value = selectedCharity;
-        });
-    });
-
 </script>
 
 
@@ -797,87 +743,6 @@
         margin-top: -7px;
     }
 
-/*    .donate-option {*/
-/*    padding: 12px;*/
-/*    border: 2px solid #444;*/
-/*    background-color: #f5f5f5;*/
-/*    cursor: pointer;*/
-/*    margin-top: 10px;*/
-/*    border-radius: 8px;*/
-/*    text-align: center;*/
-/*    width: 100%;*/
-/*}*/
-
-    .option-row {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: stretch; /* makes all options same height */
-    margin-top: 20px;
-}
-
-    .option-row {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: stretch; /* keeps buttons same height */
-}
-
-.option {
-    flex: 1;
-    padding: 20px;
-    border: 2px solid #444;
-    background-color: #f9f9f9;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 500;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* allow content to stack top-down */
-    min-height: auto; /* remove fixed height */
-    height: auto;     /* let height grow based on content */
-}
-
-
-.charity-logo {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    border: 2px solid transparent;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.option:hover {
-    background-color: #ffa500;
-}
-
-.charity-logos {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.charity-logo:hover {
-    border-color: #444;
-}
-
-.charity-logo.selected {
-    border-color: #444;
-    box-shadow: 0 0 0 2px #444;
-}
-
-.centered-text {
-    margin: auto; /* centers vertically & horizontally */
-}
-
-
 </style>
 </head>
 
@@ -893,42 +758,101 @@
             {{ text2|safe }}
         </p>
 
+<label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>
+<select id="charity-select" style="">
+    <option value="" selected>Randomly selected charity</option>
+    <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
 
+    {% if local_red_cross != "Unknown" %}
+        <option value="Red Cross (local)">{{ local_red_cross }}</option>
+    {% endif %}
+
+    <option value="The Salvation Army">The Salvation Army</option>
+    <option value="Unicef">Unicef</option>
+    <option value="World Food Programme">World Food Programme</option>
+    <option value="World Health Organization">World Health Organization</option>
+    <option value="World Wildlife Fund">World Wildlife Fund</option>
+<!--    <option value="other">Other (write your own)</option>-->
+</select>
+
+<input type="text" id="custom-charity" placeholder="Enter your charity" style="display:none; font-size: 14px; " />
 <input type="hidden" name="charity_select" id="hidden-charity-select" />
-<input type="hidden" name="crowding_decision" id="selected-option-1" />
 
-{% load static %}
-
+<!--            {{ formfield_errors 'charity_select' }}-->
 
 
-    <div class="option-row" data-input="selected-option-1">
+    <!-- Add hidden input to store the selected value -->
+    <input type="hidden" name="crowding_decision" id="selected-option-1">
 
-    <div class="option" data-value="0">
-        <div class="centered-text">Give 0 points to charity</div>
-    </div>
+<!--        {{ formfield_errors 'crowding_decision' }}-->
 
-    <div class="option donate-option" data-value="4">
-        Give 4 points to charity
-        <div class="charity-logos">
-            <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
-            <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
-            <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">
-            <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">
-            <img src="{% static 'global/charities/padded_who.png' %}" alt="World Health Organization" data-charity="World Health Organization" class="charity-logo">
-            <img src="{% static 'global/charities/padded_WWF.png' %}" alt="World Wildlife Fund" data-charity="World Wildlife Fund" class="charity-logo">
+    <div class='responsive-div'>
 
+        <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
+
+            <img id="coin-image"
+                 src="{% static image %}"
+                 alt="Coins"
+                 class="coin-img" />
+
+            <img id="charity-image"
+                 src="{% static 'global/charities/unknown_charity.png' %}"
+                 alt="Selected charity"
+                 class="charity-img" />
+        </div>
+
+        <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
+            <p><b class="label-a">PERSON A</b></p>
+            <p><b class="label-charity">CHARITY</b></p>
+            <p><b class="label-you">YOU</b></p>
+
+            <span class='coinstack coinstackD'></span>
+            <div class="coin-count-labelD" id="countD"></div>
+
+            <span class='coinstack coinstackR'></span>
+            <div class="coin-count-labelR" id="countR"></div>
+
+
+            {% if treatment_incentive %}
+                <img src="{% static 'global/plus_button.png' %}" alt="+" class="plus-button">
+
+                <span class="coinstack coinstackTP3PR"></span>
+                <div class="coin-count-labelTP3PR" id="countTP3PR" ></div>
+            {% endif %}
 
         </div>
+        <br>
+
+        <p style="text-align: center; ">
+            <b style="color: red;"> {{ text5|safe }} </b>
+        </p>
+
+
+        {% if crowding_out_button_pos %}
+
+        <div class='numbers' >
+            <div class="option-row"  data-input="selected-option-1">
+                <div class="option" data-value="0" >Give 0 points to charity</div>
+                <div class="option" data-value="4" >Give 4 points to charity</div>
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class='numbers' >
+            <div class="option-row"  data-input="selected-option-1">
+                <div class="option" data-value="4" >Give 4 points to charity</div>
+                <div class="option" data-value="0" >Give 0 points to charity</div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <br>
+        <hr>
+        <br>
+
     </div>
-</div>
-
-
-
-
-
-
-
-
 
 
     <div class='responsive-div'>
@@ -1057,29 +981,7 @@
 </form>
 
 
-
 </body>
-
-
-
-<script>
-
-document.querySelectorAll('.charity-logo').forEach(logo => {
-        logo.addEventListener('click', function () {
-            // Remove 'selected' class from all logos
-            document.querySelectorAll('.charity-logo').forEach(l => l.classList.remove('selected'));
-
-            // Add 'selected' class to the clicked logo
-            this.classList.add('selected');
-
-            // Optionally: store selected charity in a hidden input
-            const selectedCharity = this.getAttribute('data-charity');
-            document.getElementById('hidden-charity-select').value = selectedCharity;
-        });
-    });
-
-</script>
-
 </html>
 
 
