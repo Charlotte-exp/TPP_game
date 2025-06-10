@@ -92,7 +92,7 @@ Dictator,dict_text_action_3PP,Person C can remove points from you
 TPP,tpp_2PP_norm_instru,"Now, you decide how <b style=""color: red;"">socially appropriate</b> the decision of Person B is."
 TPP,tpp_2PP_norm_incentive,Important: You will receive <b>{ratings_extra_points} points</b> if your answers are the same as the most common answers among all other participants in {current_country}.
 TPP,tpp_3PP_norm_instru,"Now, you decide how <b style=""color: red;"">socially appropriate</b> the decision of Person C is."
-TPP,tpp_dict_action,Person A kept <b>{TP_norm_decision.receiver}</b> to themselves and gave <b> {TP_norm_decision.dictator_keeps}</b> to Person B.
+TPP,tpp_dict_action,Person A kept <b>{receiver}</b> to themselves and gave <b> {dictator_keeps}</b> to Person B.
 TPP,tpp_norm_question,"How socially appropriate is it for {treatment_text_action_person} to <b style=""color: red;"">{treatment_text_action} points</b> {treatment_text_receiver}?"
 TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_action_person} to 
 <b style=""color: red;""> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
@@ -100,10 +100,10 @@ TPP,tpp_decision_strategy,Below are three different possible decisions of Person
 TPP,tpp_decision_you,You are {treatment_text_action_person}!
 TPP,tpp_decision_action,"Now, you decide as {treatment_text_action_person} how many points to <b style=""color: red; "">remove from Person A</b>."
 TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you remove from Person A ?"
-TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{{ TP_decision.index }}""></span> points."
+TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}""></span> points."
 TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
 TPP,tpp_countries,"Person A lives in <b style=""color: red; "">{dic_identity_country}</b> and Person B lives in <b style=""color: red; "">{recip_identity_country}</b>."
 TPP,tpp_text_action_remove,remove
 TPP,tpp_text_action_receiver,from Person A
 TPP,tpp_2PP_text_action_person_b,Person B
-TPP,tpp_3PP_text_action_person_b,Person C
+TPP,tpp_3PP_text_action_person_c,Person C

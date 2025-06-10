@@ -514,6 +514,24 @@
         });
 
     });
+
+
+    ///////// Template rendering
+    const tpNormTemplate = {{ tpp_dict_action|json }};
+
+    TP_norm_decisions.forEach((TP_norm_decision) => {
+        const sentence = tpNormTemplate
+            .replace("{receiver}", TP_norm_decision.receiver)
+            .replace("{dictator_keeps}", TP_norm_decision.dictator_keeps)
+            //.replace("{index}", TP_norm_decision.index)
+
+        // Example use: insert sentence into the page
+        document.getElementById("sentence-" + TP_norm_decision.index).innerHTML = sentence;
+
+        console.log("Replacing values in:", tpNormTemplate);
+    });
+
+
 </script>
 </head>
 
@@ -657,22 +675,21 @@
 
             </div>
 
-            {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                <p style="text-align: center;">
-                    {{ tpp_IN_OUT }}
-                </p>
-            {% endif %}
+            <div id="sentence-{{ TP_norm_decision.index }}" style="text-align: center; font-size: 14px">
+                {% if "IN" in player.treatment or "OUT" in player.treatment%}
+                    <p>
+                        {{ tpp_IN_OUT }}
+                        <br>
+                {% endif %}
 
-            {% if "country" in player.treatment %}
-                <p style="text-align: center;">
-                    {{ tpp_countries }}
-                </p>
-            {% endif %}
-
-
-            <p style="text-align: center;">
-                {{ tpp_dict_action }}
-            </p>
+                {% if "country" in player.treatment %}
+                    <p>
+                        {{ tpp_countries }}
+                        <br>
+                {% endif %}
+                        {{ tpp_dict_action }}
+                    </p>
+            </div>
 
             <p style="text-align: center;">
                 <strong>{{ tpp_norm_question|safe }}</strong>
@@ -681,8 +698,8 @@
             <div class='numbers'>
                 <div class="number-row" data-index="{{ TP_norm_decision.index }}" data-input="selected-norm-{{ TP_norm_decision.index }}">
                     <div class="norm" data-value="0" data-index="{{ TP_norm_decision.index }}">{{ very_inappropriate }}</div>
-                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">{{ inappropriate  }}</div>
-                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">{{ slightly_inappropriate  }}</div>>
+                    <div class="norm" data-value="1" data-index="{{ TP_norm_decision.index }}">{{ inappropriate }}</div>
+                    <div class="norm" data-value="2" data-index="{{ TP_norm_decision.index }}">{{ slightly_inappropriate }}</div>
                     <div class="norm" data-value="3" data-index="{{ TP_norm_decision.index }}">{{ slightly_appropriate }}</div>
                     <div class="norm" data-value="4" data-index="{{ TP_norm_decision.index }}">{{ appropriate }}</div>
                     <div class="norm" data-value="5" data-index="{{ TP_norm_decision.index }}">{{ very_appropriate }}</div>
@@ -691,10 +708,6 @@
 
             {% if "punish" in player.treatment or "reward" in player.treatment %}
             <br>
-
-            <p style="text-align: center; ">
-                <b>AND</b>
-            </p>
 
             <p style="text-align: center;">
                 <strong>{{ tpp_norm_neg_question|safe }}</strong>
@@ -746,49 +759,19 @@
 
         {% if "2PP" in player.treatment %}
 
-            <p style="text-align: center; ">
-                <b style="color: red; ">You are Person B!</b>
-                <br>
-                <b>Now, you decide as Person B how many points to <b style="color: red; ">remove from Person A</b>.</b>
-                <br>
-                Below are three different possible decisions of Person A.<br><br>
-            </p>
-
-        <br>
+        <div style="text-align: center; margin-bottom: 60px;">
+            <b style="color: red; ">{{ tpp_decision_you }}</b>
+            <br>
+            {{ tpp_decision_strategy }}
+        </div>
         {% endif %}
 
         {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
-            <p style="text-align: center; ">
-                <b style="color: red;">You are Person C!</b>
-            </p>
-
-            {% if "3PP" in player.treatment %}
-                <p style="text-align: center; ">
-                    <b> Now, you decide as Person C how many points to <b style="color: red; ">remove from Person A</b>.</b>
-                    <br>
-                </p>
-            {% endif %}
-
-            {% if "3PR" in player.treatment %}
-                <p style="text-align: center; ">
-                    <b> Now, you decide as Person C how many points to <b style="color: green; "> give to Person A</b>.</b> <br>
-                </p>
-            {% endif %}
-
-            {% if "3PC" in player.treatment %}
-                <p style="text-align: center; ">
-                    <b> Now, you decide as Person C how many points to <b style="color: red; ">remove from Person A</b>
-                        <u>or</u> <b style="color: green; "> give to Person B</b>.</b>
-                    <br>
-                </p>
-
-                <p style="text-align: center;">
-                    Keep in mind that you can <u>either</u> <b>remove points</b> from <b>Person A
-                    <u>or</u> give points</b> to <b>Person B</b>.
-                </p>
-                <br>
-
-            {% endif %}
+        <div style="text-align: center; margin-bottom: 10px;">
+            <b style="color: red; ">{{ tpp_decision_you }}</b>
+            <br>
+            {{ tpp_decision_strategy }}
+        </div>
         {% endif %}
 
         {% if dic_identity != "baseline"%}
@@ -879,47 +862,50 @@
 
             </div>
 
+            <div id="sentence-{{ TP_decision.index }}" style="text-align: center; font-size: 14px">
                 {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                    <p style="text-align: center; "> Person A lives in <b >{{ dic_identity_country }}</b> and Person B lives in <b >{{ recip_identity_country }}</b>. </p>
+                    <p>
+                        {{ tpp_IN_OUT }}
+                        <br>
                 {% endif %}
 
                 {% if "country" in player.treatment %}
-                    <p style="text-align: center; ">
-                        Person A lives in <b style="color: red; ">{{ dic_identity_country }}</b> and Person B lives in <b style="color: red; ">{{ recip_identity_country }}</b>.
-                    </p>
+                    <p>
+                        {{ tpp_countries }}
+                        <br>
                 {% endif %}
-
-                <p style="text-align: center; "> Person A gave <b> {{TP_decision.receiver }} points</b> to {{treatment_text_action_person2}} and kept <b> {{TP_decision.dictator_keeps }} points </b> for themselves. </p>
-
-                <div class='numbers'>
-                    <p style="text-align: center; ">  <strong>As {{treatment_text_action_person}}, how many points do you <b style="color: red;"> {{ treatment_text_action }} {{ treatment_text_receiver }} </b> ? </strong> </p>
-
-                    <div class="number-row" data-index="{{ TP_decision.index }}" data-row="punish" data-input="selected-number-{{ TP_decision.index }}">
-                        {{ for num in TP_points }}
-                        <div class="number" data-value="{{ num }}" data-row="punish" data-index="{{ TP_decision.index }}">{{ num }}</div>
-                        {{ endfor }}
-                    </div>
-                    {% if "3PC" in player.treatment%}
-                    <br>
-
-                    <p style="text-align: center; ">
-                        <b>OR</b>
+                        {{ tpp_dict_action }}
                     </p>
+            </div>
 
-                    <p style="text-align: center; "> <strong>How many points do you <b style="color: green;"> {{ treatment_text_action_comp }}  {{ treatment_text_receiver_comp }}</b> ? </strong> </p>
+            <div class='numbers'>
+                <p style="text-align: center; font-weight: bold">{{ tpp_decision_question }}</p>
 
-                    <div class="number-row-comp" data-index="{{ TP_decision.index }}" data-row="compensate" data-input="selected-number-{{ TP_decision.index }}">
-                        {{ for num in TP_points }}
-                        <div class="number" data-value="{{ num }}" data-row="compensate" data-index="{{ TP_decision.index }}">{{ num }}</div>
-                        {{ endfor }}
-                    </div>
-                    {% endif %}
+                <div class="number-row" data-index="{{ TP_decision.index }}" data-row="punish" data-input="selected-number-{{ TP_decision.index }}">
+                    {{ for num in TP_points }}
+                    <div class="number" data-value="{{ num }}" data-row="punish" data-index="{{ TP_decision.index }}">{{ num }}</div>
+                    {{ endfor }}
                 </div>
+                {% if "3PC" in player.treatment%}
+                <br>
 
-            <div data-index="{{ TP_decision.index }}">
                 <p style="text-align: center; ">
-                    This costs you <span class="TP-cost-display" data-index="{{ TP_decision.index }}"></span> points.
+                    <b>OR</b>
                 </p>
+
+                <p style="text-align: center; "> <strong>How many points do you <b style="color: green;"> {{ treatment_text_action_comp }}  {{ treatment_text_receiver_comp }}</b> ? </strong> </p>
+
+                <div class="number-row-comp" data-index="{{ TP_decision.index }}" data-row="compensate" data-input="selected-number-{{ TP_decision.index }}">
+                    {{ for num in TP_points }}
+                    <div class="number" data-value="{{ num }}" data-row="compensate" data-index="{{ TP_decision.index }}">{{ num }}</div>
+                    {{ endfor }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div id="cost-sentences" data-index="{{ TP_decision.index }}" style="text-align: center;">
+                {{ tpp_decision_cost }}
+                This costs you <span class="TP-cost-display" data-index="{{ TP_decision.index }}"></span> points.
             </div>
         <br>
         <hr>
