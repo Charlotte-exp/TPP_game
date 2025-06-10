@@ -68,7 +68,7 @@ def get_local_red_cross_info(country_name):
                 iso2_code = row["iso2"]
                 # Construct the image path
                 # image_path = f"../_static/global/charities/local_red_cross/iso2_{iso2_code}_fitted.png"
-                image_path = f"/local_red_cross/iso2_{iso2_code}.png"
+                image_path = f"global/charities/local_red_cross/iso2_{iso2_code}.png"
                 return red_cross_local, image_path
     return " ", "../_static/global/charities/unknown_charity.png"  # default if not found
 
@@ -174,7 +174,7 @@ class CrowdingInOutPage(Page):
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
         print("treatment_incentive", treatment_incentive)
 
-        text2 = '<br> If you donate, we will convert the points into money and transfer it to the charity.'
+        text2 = 'If you donate, we will convert the points into money and transfer it to the charity.'
         text4 = f'<b>Important:</b> If your response is close to the average rating in {current_countryname}, you receive 8 points.'
         text5 = 'Make your decision:'
 
@@ -300,7 +300,7 @@ class ConditionalCoopPage(Page):
             text1 = 'You decided not to give 4 points to charity.'
             text4 = f'or more <u>did give</u>, I also want to give my points to charity.'
             text5 = 'Regardless of the choices of others, I do not want to give my points to charity. '
-            text6 = f'<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to the charity.'
+            text6 = f'<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to a charity.'
         else:
             text1 = 'You decided to give 4 points to charity.'
             text4 = f'or more <u>did not give</u>, I also do not want to give my points to charity.'
