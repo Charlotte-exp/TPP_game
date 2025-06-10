@@ -1,8 +1,9 @@
 from otree.api import *
 
 import itertools
-
 import random
+
+from translations import get_translation
 
 doc = """
 Your app description
@@ -92,8 +93,18 @@ class RuleFollowing(Page):
     def vars_for_template(player: Player):
         return dict(
             condition= player.rule_following_condition,
-            points_per_slider=C.points_per_slider,
             total_pages=player.session.config['total_pages'],
+            rule_instru=get_translation("rule_instru", lang),
+            rule_aim_another=get_translation("rule_aim_another", lang,
+                                             aim=player.rule_aim,
+                                             points_per_slider=C.points_per_slider),
+            rule_aim_me=get_translation("rule_aim_you", lang,
+                                             aim=player.rule_aim,
+                                            points_per_slider=C.points_per_slider),
+            rule_rule=get_translation("rule_rule", lang,
+                                      aim=player.rule_aim),
+            rule_another_lose=get_translation("rule_me_lose", lang),
+            rule_me_lose=get_translation("rule_me_lose", lang),
             aim= player.rule_aim,
         )
 

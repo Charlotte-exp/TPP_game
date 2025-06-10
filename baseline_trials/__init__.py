@@ -6,9 +6,7 @@ import csv
 import os
 
 from otree.models import player
-
 from itertools import chain
-
 from translations import get_translation
 
 
