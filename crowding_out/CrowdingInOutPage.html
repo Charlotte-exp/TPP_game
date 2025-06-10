@@ -51,91 +51,7 @@
     }
 
 
-////////////// function for displaying the task, numbers, and labels and managing the click event
-
-    document.addEventListener("DOMContentLoaded", function () {
-    const charitySelect = document.getElementById("charity-select");
-    const customInput = document.getElementById("custom-charity");
-    const hiddenInput = document.getElementById("hidden-charity-select");
-    const charityImage = document.getElementById("charity-image");
-
-    const knownCharities = {
-        "Red Cross / Red Crescent": "padded_red_cross.png",
-        "Red Cross (local)": image_red_cross_local,
-        "The Salvation Army": "padded_The_Salvation_Army.png",
-        "Unicef": "padded_unicef.png",
-        "World Food Programme": "padded_wfp.png",
-        "World Health Organization": "padded_who.png",
-        "World Wildlife Fund": "padded_WWF.png"
-    };
-
-    function updateImage(charityName) {
-        const fileName = knownCharities[charityName];
-        if (fileName) {
-            charityImage.src = `/static/global/charities/${fileName}`;
-        } else {
-            charityImage.src = `/static/global/charities/unknown_charity.png`;
-        }
-    }
-
-    charitySelect.addEventListener("change", function () {
-        const value = this.value;
-        if (value === "other") {
-            customInput.style.display = "inline-block";
-            hiddenInput.value = "";
-            charityImage.src = `/static/global/charities/unknown_charity.png`;
-        } else {
-            customInput.style.display = "none";
-            hiddenInput.value = value || "";
-            updateImage(value);
-        }
-    });
-
-    customInput.addEventListener("input", function () {
-        hiddenInput.value = this.value;
-        updateImage(this.value);
-    });
-});
-
-
     /////////  Slider /////////
-
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     const sliders = [
-        //         { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
-        //         { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
-        //         // { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
-        //     ];
-        //
-        //     sliders.forEach(({ sliderId, outputId, checkId }) => {
-        //         const slider = document.getElementById(sliderId);
-        //         const output = document.getElementById(outputId);
-        //         const checkSlider = document.getElementById(checkId);
-        //
-        //         slider.value = "";
-        //         output.textContent = "";
-        //         checkSlider.value = "0"; // Not moved yet
-        //         slider.classList.add("hidden-thumb");
-        //
-        //         slider.addEventListener("input", function () {
-        //             output.textContent = this.value;
-        //             checkSlider.value = "1"; // Mark as moved
-        //             this.classList.remove("hidden-thumb");
-        //             document.getElementById("error-message").style.display = "none";
-        //
-        //             console.log(`${this.id} moved to ${this.value}`);
-        //         });
-        //     });
-        //
-        //     // Validate all sliders before form submission
-        //     document.querySelector("form").addEventListener("submit", function (event) {
-        //         const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
-        //         if (!allMoved) {
-        //             event.preventDefault();
-        //             document.getElementById("error-message").style.display = "block";
-        //         }
-        //     });
-        // });
 
     document.addEventListener("DOMContentLoaded", function () {
         const sliders = [
@@ -211,42 +127,48 @@
 
     $(document).ready(function () {
 
-            // Fill initial coin stacks and number labels (norm condition)
+        // Fill initial coin stacks and number labels (norm condition)
 
-            // dictator stack
-            for (let i = 0; i < total_endowment; i++) {
-                $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
-            }
-            // // incentive stack
-            // for (let i = 0; i < incentive; i++) {
-            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
-            // }
-            // dictator stack static (for static display of role labels in norm Q)
-            for (let i = 0; i < receiver_endowment; i++) {
-                $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
-            }
-            // recipient stack static (for static display of role labels in norm Q)
-            for (let i = 0; i < total_endowment; i++) {
-                $(`.coinstackR-static`).append('<div class="coinRbis" style="left:calc(50% - 3px)"></div>');
-            }
-            // incentive stack static (for static display of role labels in norm Q)
-            for (let i = 0; i < incentive; i++) {
-                $(`.coinstackTP3PR-static`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
-            }
+        // dictator stack
+        for (let i = 0; i < total_endowment; i++) {
+            $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
+        }
+        // dictator stack static (for static display of role labels in norm Q)
+        for (let i = 0; i < receiver_endowment; i++) {
+            $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
+        }
+        // recipient stack static (for static display of role labels in norm Q)
+        for (let i = 0; i < total_endowment; i++) {
+            $(`.coinstackR-static`).append('<div class="coinRbis" style="left:calc(50% - 3px)"></div>');
+        }
+        // incentive stack static (for static display of role labels in norm Q)
+        for (let i = 0; i < incentive; i++) {
+            $(`.coinstackTP3PR-static`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
+        }
 
-            // number labels
-            $('.coin-count-labelD').text(`${total_endowment}`);
-            $('.coin-count-labelR').text(`${receiver_endowment}`);
-            $('.coin-count-labelTP3PR').text(`${receiver_endowment}`);
-            //$('.coin-count-labelD-static').text(`${receiver_endowment}`);
-            $('.coin-count-labelR-static').text(`${total_endowment}`);
-            $('.coin-count-labelTP3PR-static').text(`${incentive}`);
+        // number labels
+        $('.coin-count-labelD').text(`${total_endowment}`);
+        $('.coin-count-labelR').text(`${receiver_endowment}`);
+        $('.coin-count-labelTP3PR').text(`${receiver_endowment}`);
+        //$('.coin-count-labelD-static').text(`${receiver_endowment}`);
+        $('.coin-count-labelR-static').text(`${total_endowment}`);
+        $('.coin-count-labelTP3PR-static').text(`${incentive}`);
 
-        // add hover event listener to numbers [number = crowding_decision]
-            $('.option').hover(function () {
-                const value = $(this).data('value'); // Get the number value
-                updateCoinStack(value); // Update the coin stack
-            });
+        // let isHoveringOverOption = false;
+        //
+        // // On hover over any .option → preview coin update
+        // $('.option').on('mouseenter', function () {
+        //     isHoveringOverOption = true;
+        //     const value = $(this).data('value');
+        //     updateCoinStack(value);
+        // });
+        //
+        // // On mouse leave of the entire option row → reset coins
+        // $('.option-row').on('mouseleave', function () {
+        //     if (!isHoveringOverOption) return;
+        //     isHoveringOverOption = false;
+        //     updateCoinStack(crowding_decision1_stored);
+        // });
 
         //Actions on click: crowding_decision
         $('.option').on('click', function () {
@@ -259,24 +181,29 @@
             // Get the value of the clicked button
             const value = $(this).data('value');
 
-            // // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
-            // $(".option").each(function () {
-            //     if (parseInt($(this).attr("data-value")) <= value) {
-            //         $(this).addClass("selected");
-            //     }
-            // });
-
             // Update the hidden input field
             $(`#selected-option-1`).val(value);
 
             // Update the corresponding punishment value in the array
             crowding_decision1_stored = value;
+            console.log('Clicked option, updated crowding_decision1_stored to:', crowding_decision1_stored);
 
             // Update the display text the clicked option
             $('#selected-option-display').text('' + value);
 
             // Debugging
             console.log(`Updated norm decision`, value);
+        });
+
+        // add hover event listener to option [= crowding_decision]
+        $('.option').hover(function () {
+            const value = $(this).data('value'); // Get the number value
+            updateCoinStack(value); // Update the coin stack
+        });
+
+        $('.option-row').on('mouseleave', function () {
+            console.log("Mouse left option row. Reverting to:", crowding_decision1_stored);
+            updateCoinStack(crowding_decision1_stored);
         });
 
         //Actions on click: crowding_norm_decision-1
@@ -354,35 +281,10 @@
                 $('#countTP3PR').text(`${TPupdate}`);
             }
 
-    //     function updateCharitySelection() {
-    //     const select = document.getElementById('charity-select');
-    //     const selected = select.value;
-    //     const hiddenInput = document.getElementById('hidden-charity-select');
-    //     const charityImage = document.getElementById('charity-image');
-    //
-    //     console.log("Selected charity:", selected); // 🔍 Debug
-    //
-    //     hiddenInput.value = selected;
-    //
-    //     if (!selected) {
-    //         charityImage.src = "/static/global/charities/unknown_charity.png";
-    //         return;
-    //     }
-    //
-    //     // Generate filename: lowercase, replace spaces and special characters
-    //     let filename = selected.toLowerCase()
-    //         .replace(/ /g, "_")
-    //         .replace(/[^a-z0-9_]/g, ""); // removes commas, hyphens, etc.
-    //
-    //     charityImage.src = "/static/global/charities/" + filename + ".png";
-    //     console.log("Image path:", charityImage.src); // 🔍 Debug
-    // }
-
-
-
 
 
     });
+
 
 </script>
 
@@ -743,6 +645,92 @@
         margin-top: -7px;
     }
 
+/*    .donate-option {*/
+/*    padding: 12px;*/
+/*    border: 2px solid #444;*/
+/*    background-color: #f5f5f5;*/
+/*    cursor: pointer;*/
+/*    margin-top: 10px;*/
+/*    border-radius: 8px;*/
+/*    text-align: center;*/
+/*    width: 100%;*/
+/*}*/
+
+    .option-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: stretch; /* makes all options same height */
+    margin-top: 20px;
+}
+
+    .option-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: stretch; /* keeps buttons same height */
+}
+
+.option {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid #444;
+    background-color: #f9f9f9;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* allow content to stack top-down */
+    min-height: auto; /* remove fixed height */
+    height: auto;     /* let height grow based on content */
+}
+
+
+.charity-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #ffa500;
+}
+
+.charity-logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.charity-logo:hover {
+    border-color: #444;
+}
+
+.charity-logo.selected {
+    border-color: #444;
+    box-shadow: 0 0 0 2px #444;
+}
+
+.centered-text {
+    margin: auto; /* centers vertically & horizontally */
+}
+
+.responsive-div {
+    width: 100%;
+    max-width: 800px;
+}
+
+
 </style>
 </head>
 
@@ -751,42 +739,24 @@
 
 <form method="post">
 
+    <!--    DONATION PART-->
 
-    <p style="text-align: center; "> {{text1}} </p>
+
+    <p style="text-align: center; ">
+        {{text1}}
+    </p>
 
     <p style="">
-            {{ text2|safe }}
-        </p>
+        {{ text2|safe }}
+    </p>
 
-<label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>
-<select id="charity-select" style="">
-    <option value="" selected>Randomly selected charity</option>
-    <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>
 
-    {% if local_red_cross != "Unknown" %}
-        <option value="Red Cross (local)">{{ local_red_cross }}</option>
-    {% endif %}
-
-    <option value="The Salvation Army">The Salvation Army</option>
-    <option value="Unicef">Unicef</option>
-    <option value="World Food Programme">World Food Programme</option>
-    <option value="World Health Organization">World Health Organization</option>
-    <option value="World Wildlife Fund">World Wildlife Fund</option>
-<!--    <option value="other">Other (write your own)</option>-->
-</select>
-
-<input type="text" id="custom-charity" placeholder="Enter your charity" style="display:none; font-size: 14px; " />
 <input type="hidden" name="charity_select" id="hidden-charity-select" />
+<input type="hidden" name="crowding_decision" id="selected-option-1" />
 
-<!--            {{ formfield_errors 'charity_select' }}-->
 
 
-    <!-- Add hidden input to store the selected value -->
-    <input type="hidden" name="crowding_decision" id="selected-option-1">
-
-<!--        {{ formfield_errors 'crowding_decision' }}-->
-
-    <div class='responsive-div'>
+<div class='responsive-div'>
 
         <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
 
@@ -823,27 +793,62 @@
         </div>
         <br>
 
-        <p style="text-align: center; ">
-            <b style="color: red;"> {{ text5|safe }} </b>
-        </p>
-
+<!--        <p style="text-align: center; ">-->
+<!--            <b style="color: red;"> {{ text5|safe }} </b>-->
+<!--        </p>-->
 
         {% if crowding_out_button_pos %}
 
-        <div class='numbers' >
-            <div class="option-row"  data-input="selected-option-1">
-                <div class="option" data-value="0" >Give 0 points to charity</div>
-                <div class="option" data-value="4" >Give 4 points to charity</div>
+        <div class="option-row" data-input="selected-option-1">
+
+            <div class="option" data-value="0">
+                <div class="centered-text">Give 0 points to charity</div>
             </div>
+
+            <div class="option donate-option" data-value="4">
+                Give 4 points to charity
+                <div class="charity-logos">
+                    <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_who.png' %}" alt="World Health Organization" data-charity="World Health Organization" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_WWF.png' %}" alt="World Wildlife Fund" data-charity="World Wildlife Fund" class="charity-logo">
+
+<!--                    {% if local_red_cross != "Unknown" %}-->
+<!--                        <img src="{% static image_red_cross_local %}" alt="Red Cross (local)" data-charity="{{ local_red_cross }}" class="charity-logo">-->
+<!--                    {% endif %}-->
+
+                </div>
+            </div>
+
         </div>
 
         {% else %}
 
-        <div class='numbers' >
-            <div class="option-row"  data-input="selected-option-1">
-                <div class="option" data-value="4" >Give 4 points to charity</div>
-                <div class="option" data-value="0" >Give 0 points to charity</div>
+        <div class="option-row" data-input="selected-option-1">
+
+            <div class="option donate-option" data-value="4">
+                Give 4 points to charity
+                <div class="charity-logos">
+                    <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_who.png' %}" alt="World Health Organization" data-charity="World Health Organization" class="charity-logo">
+                    <img src="{% static 'global/charities/padded_WWF.png' %}" alt="World Wildlife Fund" data-charity="World Wildlife Fund" class="charity-logo">
+
+<!--                    {% if local_red_cross != "Unknown" %}-->
+<!--                        <img src="{% static image_red_cross_local %}" alt="Red Cross (local)" data-charity="{{ local_red_cross }}" class="charity-logo">-->
+<!--                    {% endif %}-->
+
+                </div>
             </div>
+
+            <div class="option" data-value="0">
+                <div class="centered-text">Give 0 points to charity</div>
+            </div>
+
         </div>
 
         {% endif %}
@@ -854,6 +859,8 @@
 
     </div>
 
+
+<!--    NORM ELICITATION PART-->
 
     <div class='responsive-div'>
 
@@ -974,14 +981,127 @@
 <!--    </div>-->
 
     <div style="display: flex; justify-content: flex-end">
-            <button class="btn btn-primary">Next</button>
-        </div>
+        <button class="btn btn-primary">Next</button>
+    </div>
 
 
 </form>
 
 
+
 </body>
+
+
+
+<script>
+
+    /////////////// Charity buttons
+
+    const donateOption = document.querySelector('.donate-option');
+    const charityLogos = donateOption.querySelectorAll('.charity-logo');
+    const hiddenCharityField = document.getElementById('hidden-charity-select');
+    const decisionField = document.getElementById('selected-option-1');
+    const zeroOption = document.querySelector('.option[data-value="0"]');
+
+    let selectedCharity = "";
+
+    // Handle clicking a charity logo
+    charityLogos.forEach(logo => {
+        logo.addEventListener('click', function (event) {
+            event.stopPropagation();  // prevent triggering the parent button
+
+            // Deselect all other logos
+            charityLogos.forEach(l => l.classList.remove('selected'));
+
+            // Select clicked logo
+            this.classList.add('selected');
+
+            // Set selected charity
+            selectedCharity = this.dataset.charity;
+            hiddenCharityField.value = selectedCharity;
+
+            // Set the decision and style
+            decisionField.value = 4;
+            donateOption.classList.add('selected');
+
+            // Visually deselect the "Give 0" option
+            zeroOption.classList.remove('selected');
+
+            // Update image
+            updateImage(selectedCharity);
+
+            // ALSO update the donation decision variable:
+            crowding_decision1_stored = 4;
+            $('#selected-option-1').val(4);
+            $('#selected-option-display').text('4');
+
+            });
+
+    });
+
+    // Handle clicking the donate option without choosing a charity
+    donateOption.addEventListener('click', function (event) {
+        if (!selectedCharity) {
+            const fallbackCharities = [
+                "Red Cross / Red Crescent",
+                "Unicef",
+                "World Food Programme"
+            ];
+            const randomCharity = fallbackCharities[Math.floor(Math.random() * fallbackCharities.length)];
+            hiddenCharityField.value = randomCharity;
+        }
+
+        decisionField.value = 4;
+        donateOption.classList.add('selected');
+        zeroOption.classList.remove('selected');
+    });
+
+    // Handle clicking "Give 0 points"
+    zeroOption.addEventListener('click', function () {
+        decisionField.value = 0;
+
+        // Deselect all logos visually
+        charityLogos.forEach(logo => logo.classList.remove('selected'));
+
+        // Clear internal state
+        hiddenCharityField.value = '';
+        selectedCharity = '';
+
+        // Unselect donate button
+        donateOption.classList.remove('selected');
+
+        // Mark this as selected (optional)
+        zeroOption.classList.add('selected');
+
+        // Reset image
+        updateImage("");
+    });
+
+
+    const charityImage = document.getElementById("charity-image");
+
+    const knownCharities = {
+        "Red Cross / Red Crescent": "padded_red_cross.png",
+        //"Red Cross (local)": "padded_red_cross_local.png", // replace if needed
+        "Red Cross (local)": image_red_cross_local,
+        "The Salvation Army": "padded_The_Salvation_Army.png",
+        "Unicef": "padded_unicef.png",
+        "World Food Programme": "padded_wfp.png",
+        "World Health Organization": "padded_who.png",
+        "World Wildlife Fund": "padded_WWF.png"
+    };
+
+    function updateImage(charityName) {
+        const fileName = knownCharities[charityName];
+        if (fileName) {
+            charityImage.src = `/static/global/charities/${fileName}`;
+        } else {
+            charityImage.src = `/static/global/charities/unknown_charity.png`;
+        }
+    }
+
+</script>
+
 </html>
 
 
