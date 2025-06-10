@@ -1,10 +1,10 @@
 {{ block title }}
 
 <div class="block-header">
-    Block 2
+    {{ button_block|safe }} 2
 </div>
 
-<p style="text-align: center; font-size: 26px;  "> Decision {{ participant.decision_page_number }} </p>
+<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{ participant.decision_page_number }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -38,6 +38,8 @@
 
     var current_treatment = "{{ treatment_incentive }}";
 
+    var error3 = "{{ error3 }}";
+
     total_endowment = {{ total_endowment }}
     receiver_endowment = {{ receiver_endowment }}
     incentive = {{ incentive }}
@@ -47,7 +49,7 @@
     const errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-        errorDiv.textContent = 'Please make all three decisions to continue.'
+        errorDiv.textContent = error3
     }
 
 
@@ -743,11 +745,20 @@
 
 
     <p style="text-align: center; ">
-        {{text1}}
+        {{crowding_intro|safe}}
+
+        {% if treatment_incentive %}
+
+            <br>
+
+            {{crowding_incentive|safe}}
+
+        {% endif %}
+
     </p>
 
     <p style="">
-        {{ text2|safe }}
+        {{ crowding_intro2|safe }}
     </p>
 
 
@@ -772,9 +783,9 @@
         </div>
 
         <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-            <p><b class="label-a">PERSON A</b></p>
-            <p><b class="label-charity">CHARITY</b></p>
-            <p><b class="label-you">YOU</b></p>
+            <p><b class="label-a">{{ person_a|safe }}</b></p>
+            <p><b class="label-charity">{{ button_charity|safe }}</b></p>
+            <p><b class="label-you">{{ you|safe }}</b></p>
 
             <span class='coinstack coinstackD'></span>
             <div class="coin-count-labelD" id="countD"></div>
@@ -793,20 +804,16 @@
         </div>
         <br>
 
-<!--        <p style="text-align: center; ">-->
-<!--            <b style="color: red;"> {{ text5|safe }} </b>-->
-<!--        </p>-->
-
         {% if crowding_out_button_pos %}
 
         <div class="option-row" data-input="selected-option-1">
 
             <div class="option" data-value="0">
-                <div class="centered-text">Give 0 points to charity</div>
+                <div class="centered-text">{{ crowding_decision_keep|safe }}</div>
             </div>
 
             <div class="option donate-option" data-value="4">
-                Give 4 points to charity
+                {{ crowding_decision_give|safe }}
                 <div class="charity-logos">
                     <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
                     <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
@@ -829,7 +836,7 @@
         <div class="option-row" data-input="selected-option-1">
 
             <div class="option donate-option" data-value="4">
-                Give 4 points to charity
+                {{ crowding_decision_give|safe }}
                 <div class="charity-logos">
                     <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
                     <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
@@ -846,7 +853,7 @@
             </div>
 
             <div class="option" data-value="0">
-                <div class="centered-text">Give 0 points to charity</div>
+                <div class="centered-text">{{ crowding_decision_keep|safe }}</div>
             </div>
 
         </div>
@@ -878,8 +885,8 @@
         </div>
 
         <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-            <p><b class="label-a">PERSON A</b></p>
-            <p><b class="label-charity">CHARITY</b></p>
+            <p><b class="label-a">{{ person_a|safe }}</b></p>
+            <p><b class="label-charity">{{ button_charity|safe }}</b></p>
 
             <span class='coinstack coinstackD-static'></span>
             <div class="coin-count-labelD-static" id="countD"></div>
@@ -899,12 +906,22 @@
 
         <br>
 
-        <p style="text-align: center; ">
-            {{ text3|safe }}
-        </p>
+        {% if treatment_incentive %}
 
         <p style="text-align: center; ">
-            How <b style="color: red;">altruistic</b> is Person A?
+            {{ crowding_norm_incentive|safe }}
+        </p>
+
+        {% else %}
+
+        <p style="text-align: center; ">
+            {{ crowding_norm|safe }}
+        </p>
+
+        {% endif %}
+
+        <p style="text-align: center; ">
+            {{ crowding_altruistic|safe }}
         </p>
 
 
@@ -914,12 +931,12 @@
             <input type="range" name="crowding_norm_decision1" id="slider1" min="0" max="100" value="" class="slider hidden-thumb">
 
             <div class="slider-labels">
-                <span>very<br>selfish</span>
-                <span>selfish</span>
-                <span>slightly<br>selfish</span>
-                <span>slightly<br>altruistic</span>
-                <span>altruistic</span>
-                <span>very<br>altruistic</span>
+                <span>{{ very_selfish|safe }}</span>
+                <span>{{ selfish|safe }}</span>
+                <span>{{ slightly_selfish|safe }}</span>
+                <span>{{ slightly_altruistic|safe }}</span>
+                <span>{{ altruistic|safe }}</span>
+                <span>{{ very_altruistic|safe }}</span>
             </div>
 
             <div style="text-align: center;">
@@ -932,7 +949,7 @@
         <br>
 
         <p style="text-align: center; ">
-            How <b style="color: red;">likeable</b> is Person A?
+            {{ crowding_likable|safe }}
         </p>
 
         <div class="slider-container">
@@ -941,12 +958,12 @@
             <input type="range" name="crowding_norm_decision2" id="slider2" min="0" max="100" value="" class="slider hidden-thumb">
 
             <div class="slider-labels">
-                <span>very<br>unlikeable</span>
-                <span>unlikeable</span>
-                <span>slightly<br>unlikeable</span>
-                <span>slightly<br>likeable</span>
-                <span>likeable</span>
-                <span>very<br>likeable</span>
+                <span>{{ very_unlikable|safe }}</span>
+                <span>{{ unlikable|safe }}</span>
+                <span>{{ slightly_unlikable|safe }}</span>
+                <span>{{ slightly_likable|safe }}</span>
+                <span>{{ likable|safe }}</span>
+                <span>{{ very_likable|safe }}</span>
             </div>
 
             <div style="text-align: center;">
@@ -959,12 +976,12 @@
         <br>
 
         <p style="text-align: center; ">
-            {{ text4|safe }}
+            {{ crowding_norm_bonus|safe }}
         </p>
 
 
         <div id="custom-error-message" style="color: red; display: none; text-align: center; margin-top: 15px;">
-            Please move all sliders before continuing.
+            {{ error_all_sliders|safe }}
         </div>
     <br>
     </div>
@@ -981,7 +998,7 @@
 <!--    </div>-->
 
     <div style="display: flex; justify-content: flex-end">
-        <button class="btn btn-primary">Next</button>
+        <button class="btn btn-primary">{{ button_next|safe }}</button>
     </div>
 
 
@@ -1103,9 +1120,6 @@
 </script>
 
 </html>
-
-
-
 
 
 {{ endblock }}

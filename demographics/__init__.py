@@ -2,6 +2,8 @@ from otree.api import *
 import csv
 import os
 
+from translations import get_translation
+
 doc = """
 Your app description
 """
@@ -35,9 +37,8 @@ def creating_session(subsession):
         participant.current_country = "gb"
         participant.current_countryname = "the United Kingdom"
 
-        # Only necessary if not using participant field from baseline_trials
-        participant.current_country = "gb"
-        participant.current_countryname = "the United Kingdom"
+        # translation
+        participant.language = 'en'
 
 
 class Group(BaseGroup):
@@ -153,6 +154,9 @@ class Demographics(Page):
     form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural']
 
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         current_countryname = player.participant.current_countryname
         #participant = player.participant
         all_countries = get_country_list()
@@ -176,6 +180,10 @@ class Ladder(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+
+        participant = player.participant
+        lang = participant.language
+
         return dict(
             ladder_values=list(range(10, 0, -1)),  # From 10 to 1
             total_pages=player.session.config['total_pages'],
@@ -194,6 +202,10 @@ class RelationalMobility(Page):
     form_fields = ['meeting_1', 'meeting_2', 'meeting_3', 'choosing_1', 'choosing_2', 'choosing_3']
 
     def vars_for_template(player: Player):
+
+        participant = player.participant
+        lang = participant.language
+
         return {
             'total_pages': player.session.config['total_pages'],
         }
@@ -207,6 +219,10 @@ class Circle(Page):
     form_fields = ['self_other']
 
     def vars_for_template(player: Player):
+
+        participant = player.participant
+        lang = participant.language
+
         return {
             'total_pages': player.session.config['total_pages'],
         }
@@ -224,6 +240,10 @@ class CommentBox(Page):
     form_fields = ['question_box', 'comment_box']
 
     def vars_for_template(player: Player):
+
+        participant = player.participant
+        lang = participant.language
+
         return {
             'total_pages': player.session.config['total_pages'],
         }
@@ -239,6 +259,10 @@ class Payment(Page):
         return player.round_number == C.NUM_ROUNDS
 
     def vars_for_template(player: Player):
+
+        participant = player.participant
+        lang = participant.language
+
         return {
             'participation_fee': player.session.config['participation_fee'],
             'total_pages': player.session.config['total_pages'],
@@ -257,6 +281,14 @@ class ProlificLink(Page):
     def is_displayed(player: Player):
         if player.round_number == C.NUM_ROUNDS:
             return True
+
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        return {
+
+        }
 
 
 page_sequence = [RelationalMobility,

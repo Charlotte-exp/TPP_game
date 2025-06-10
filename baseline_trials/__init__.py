@@ -1076,15 +1076,21 @@ class UniversalNormPage(Page):
         dictator_keeps_1 = C.dictator_keeps_everything
         receiver_gets = C.total_endowment - dictator_keeps_1
 
-        text1 = f'We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B.'
-        text2 = f'How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?'
-        text3 = f'<b>Important</b>:</b> If your response is close to the correct number of people, you will receive 8 points.'
+        participant = player.participant
+        lang = participant.language
 
         return dict(
             treatment=player.treatment,
-            text1=text1,
-            text2=text2,
-            text3=text3,
+
+            univ_norm_instru=get_translation('univ_norm_instru', lang, dictator_keeps_1 = dictator_keeps_1, receiver_gets = receiver_gets),
+            univ_norm_question=get_translation('univ_norm_question', lang, receiver_gets = receiver_gets),
+            univ_norm_incentive =get_translation('univ_norm_incentive', lang),
+            error_1slider=get_translation('error_1slider', lang),
+            person_a =get_translation('person_a', lang),
+            person_b =get_translation('person_b', lang),
+            button_next = get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
             num_countries=list(range(0, C.NUM_COUNTRIES+1)),
             endowments=range(0, int(C.total_endowment) + 1),
             image=image,

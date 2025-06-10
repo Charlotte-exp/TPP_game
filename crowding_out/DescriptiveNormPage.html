@@ -1,10 +1,10 @@
 {{ block title }}
 
 <div class="block-header">
-    Block 2
+    {{ button_block|safe }} 2
 </div>
 
-<p style="text-align: center; font-size: 26px;  "> Decision {{ participant.decision_page_number }} </p>
+<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{ participant.decision_page_number }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -35,6 +35,8 @@
 
     var current_treatment = "{{ treatment_incentive }}";
 
+    var error1 = "{{ error1 }}";
+
     total_endowment = {{ total_endowment }}
     receiver_endowment = {{ receiver_endowment }}
     incentive = {{ incentive }}
@@ -43,7 +45,7 @@
     const errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-        errorDiv.textContent = 'Please make a decision to continue.'
+        errorDiv.textContent = error1
     }
 
 
@@ -340,8 +342,8 @@
             </div>
 
             <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-                <p><b class="label-a">PERSON A</b></p>
-                <p><b class="label-charity">CHARITY</b></p>
+                <p><b class="label-a">{{ person_a|safe }}</b></p>
+                <p><b class="label-charity">{{ button_charity|safe }}</b></p>
 
                 <span class='coinstack coinstackD-static'></span>
                 <div class="coin-count-labelD-static" id="countD"></div>
@@ -360,9 +362,10 @@
                  </div>
         </div>
 
+        <br>
 
         <p style="text-align: center; ">
-            {{ text1|safe }}
+            {{ descr_question|safe }}
         </p>
 
     <div class='numbers' >
@@ -385,7 +388,7 @@
     <br>
 
     <p style="text-align: center; ">
-            {{ text2|safe }}
+            {{ descr_incentive|safe }}
         </p>
 
     <br>
@@ -397,7 +400,7 @@
                        font-size: 1rem;
                        border-radius: 0.25rem;
                        padding: 4px 12px;" type="button" id="submit-button">
-            Next
+            {{ button_next|safe }}
         </button>
     </div>
 

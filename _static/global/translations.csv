@@ -1,18 +1,4 @@
 page,key,en
-Specials,button_start,START
-Specials,button_next,NEXT
-Specials,button_understood,Understood!
-Specials,button_consent,I CONSENT
-Specials,person_a,PERSON A
-Specials,person_b,PERSON B
-Specials,person_c,PERSON C
-Specials,you,YOU
-Specials,very_inappropriate,very socially<br>inappropriate
-Specials,inappropriate,socially<br>inappropriate
-Specials,slightly_inappropriate,slightly socially<br>inappropriate
-Specials,slightly_appropriate,slightly socially<br>appropriate
-Specials,appropriate,socially<br>appropriate
-Specials,very_appropriate,very socially<br>appropriate
 Consent,consent_title,Welcome!
 Consent,consent_thank_you,Thank you for participating in this study about decision-making!
 Consent,consent_intro_title,What happens next
@@ -107,3 +93,66 @@ TPP,tpp_text_action_remove,remove
 TPP,tpp_text_action_receiver,from Person A
 TPP,tpp_2PP_text_action_person_b,Person B
 TPP,tpp_3PP_text_action_person_b,Person C
+Universal norm,univ_norm_instru,"We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B."
+Universal norm,univ_norm_question,How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?
+Universal norm,univ_norm_incentive,"<b>Important</b>:</b> If your response is close to the correct number of people, you receive 8 points."
+crowding,crowding_intro,"Now, you decide if you want to <b style=""color: green;"">give</b> <b>4 of your bonus points to charity</b>."
+crowding,crowding_incentive,<b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.
+crowding,crowding_intro2,"If you donate, we will convert the points into money and transfer it to the charity."
+crowding,crowding_norm_incentive,<b>How is someone perceived in {current_countryname} </b> <br> if they <b>give 4 points</b> to charity and <b>received 2 points</b> for themselves?
+crowding,crowding_norm,<b>How is someone perceived in {current_countryname} </b> if they <b>give 4 points</b> to charity?
+crowding,crowding_norm_bonus,"<b>Important:</b> If your response is close to the average rating in {current_countryname}, you receive 8 points."
+crowding,crowding_decision_give,Give {choice_give} points to charity
+crowding,crowding_decision_keep,Give {choice_keep} points to charity
+crowding,crowding_altruistic,"How <b style=""color: red;"">altruistic</b> is Person A?"
+crowding,crowding_likable,"How <b style=""color: red;"">likable</b> is Person A?"
+crowding,descr_question,"<b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision?"
+crowding,descr_incentive,"<b>Important</b>:</b> If your response is close to the correct number, you will receive 8 points."
+crowding,cond_coop_kept,You decided not to give 4 points to charity.
+crowding,cond_coop_gave,You decided to give 4 points to charity.
+crowding,cond_coop_question,"<b style=""color: red;"">Depending on what others in {current_countryname} do,<br></b> would you change your decision?"
+crowding,gave_unconditionally,"Regardless of the choices of others, I want to give my points to charity."
+crowding,kept_unconditionally,"Regardless of the choices of others, I do not want to give my points to charity."
+crowding,cond_coop_decision_gave,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did give</u>, I also want to give my points to charity."
+crowding,cond_coop_decision_kept,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did not give</u>, I also do not want to give my points to charity."
+crowding,cond_coop_incentive_kept,"<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to a charity."
+crowding,cond_coop_incentive_gave,"<b>Important:</b> If the condition in your answer is met, your bonus points will not be transferred to the charity."
+Specials,button_start,START
+Specials,button_next,NEXT
+Specials,button_understood,Understood!
+Specials,button_consent,I CONSENT
+Specials,person_a,PERSON A
+Specials,person_b,PERSON B
+Specials,person_c,PERSON C
+Specials,you,YOU
+Specials,very_inappropriate,very socially<br>inappropriate
+Specials,inappropriate,socially<br>inappropriate
+Specials,slightly_inappropriate,slightly socially<br>inappropriate
+Specials,slightly_appropriate,slightly socially<br>appropriate
+Specials,appropriate,socially<br>appropriate
+Specials,very_appropriate,very socially<br>appropriate
+Specials,button_block,Block
+Specials,button_decision,Decision
+Specials,button_charity,CHARITY
+Specials,very_inappropriate,very socially<br>inappropriate
+Specials,inappropriate,socially<br>inappropriate
+Specials,slightly_inappropriate,slightly socially<br>inappropriate
+Specials,slightly_appropriate,slightly socially<br>appropriate
+Specials,appropriate,socially<br>appropriate
+Specials,very_appropriate,very socially<br>appropriate
+Specials,very_selfish,very<br>selfish
+Specials,selfish,selfish
+Specials,slightly_selfish,slightly<br>selfish
+Specials,slightly_altruistic,slightly<br>altruistic
+Specials,altruistic,altruistic
+Specials,very_altruistic,very<br>altruistic
+Specials,very_unlikable,very<br>unlikable
+Specials,unlikable,unlikable
+Specials,slightly_unlikable,slightly<br>unlikable
+Specials,slightly_likable,slightly<br>likable
+Specials,likable,likable
+Specials,very_likable,very<br>likable
+Specials,error_1slider,Please move the slider before continuing.
+Specials,error_all_sliders,Please move all sliders before continuing.
+Specials,error3,Please make all three decisions to continue.
+Specials,error1,Please make a decision to continue.

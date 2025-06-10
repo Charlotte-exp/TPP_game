@@ -1,10 +1,10 @@
 {{ block title }}
 
 <div class="block-header">
-    Block 1
+    {{ button_block|safe }} 1
 </div>
 
-<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
+<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{player.round_number}} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -271,10 +271,10 @@
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
             <div class="person-a">
-                <b>PERSON A</b>
+                <b> {{ person_a|safe }} </b>
             </div>
             <div class="person-b">
-                <b>PERSON B</b>
+                <b>{{ person_b|safe }}</b>
             </div>
 
             <span class='coinstack coinstackD-static'></span>
@@ -286,11 +286,11 @@
         </div>
 
         <p style="text-align: center;">
-            {{ text1|safe }}
+            {{ univ_norm_instru|safe }}
         </p>
 
         <p style="text-align: center;">
-            <b> {{ text2|safe }} </b>
+            <b> {{ univ_norm_question|safe }} </b>
         </p>
 
 
@@ -311,7 +311,7 @@
          <br>
 
         <p style="text-align: center;">
-            <b> {{ text3|safe }} </b>
+            <b> {{ univ_norm_incentive|safe }} </b>
         </p>
 
         </div>
@@ -319,7 +319,7 @@
      <!-- Error message -->
         <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
             <p>
-                Please move the slider before continuing.
+                {{ error_1slider|safe }}
             </p>
         </div>
 
@@ -338,7 +338,7 @@
 <!--    </div>-->
 
      <div style="display: flex; justify-content: flex-end">
-            <button class="btn btn-primary">Next</button>
+            <button class="btn btn-primary">{{ button_next|safe }}</button>
         </div>
 
 
