@@ -162,80 +162,78 @@
 
         /////////  Slider /////////
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const sliders = [
-            { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
-            { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
-            { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
-        ];
+        document.addEventListener("DOMContentLoaded", function () {
+            const ruleMeLose = {{ rule_me_lose|json }};
+            const ruleAnotherLose = {{ rule_another_lose|json }};
+            const sliders = [
+                { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
+                { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
+                { sliderId: "slider3", outputId: "output3", checkId: "check_slider3" },
+            ];
 
-        // Update the points lost text
-        let pointsLost = 0;
-        const pointsPerSlider = {{ points_per_slider }};
-        const slidersOnFifty = new Set();
-        const pointsDisplay = document.getElementById("points-display");
-        const condition = pointsDisplay.dataset.condition;
+            let pointsLost = 0;
+            const pointsPerSlider = {{ points_per_slider }};
+            const slidersOnFifty = new Set();
+            const pointsDisplay = document.getElementById("points-display");
+            const condition = pointsDisplay.dataset.condition;
 
-        function updatePointsDisplay() {
-            const baseText = condition === "hurt_other"
-                ? "Another participant loses"
-                : "You lose";
-            pointsDisplay.textContent = `${baseText} ${pointsLost} point${pointsLost !== 1 ? 's' : ''}`;
-        }
-        updatePointsDisplay();
-
-        // not sure exactly what
-        sliders.forEach(({ sliderId, outputId, checkId }) => {
-            const slider = document.getElementById(sliderId);
-            const output = document.getElementById(outputId);
-            const checkSlider = document.getElementById(checkId);
-
-            slider.value = "101";
-            output.textContent = "";
-            checkSlider.value = "0"; // Not moved yet
-            slider.classList.add("hidden-thumb");
-
-            slider.addEventListener("input", function () {
-                output.textContent = this.value;
-                checkSlider.value = "1"; // Mark as moved
-                this.classList.remove("hidden-thumb");
-                document.getElementById("error-message").style.display = "none";
-
-                const currentValue = parseInt(this.value);
-                const isOnFifty = currentValue === {{ aim }};
-
-                if (isOnFifty && !slidersOnFifty.has(sliderId)) {
-                    slidersOnFifty.add(sliderId);
-                    pointsLost += pointsPerSlider;
-                    updatePointsDisplay();
-                } else if (!isOnFifty && slidersOnFifty.has(sliderId)) {
-                    slidersOnFifty.delete(sliderId);
-                    pointsLost -= pointsPerSlider;
-                    updatePointsDisplay();
-                }
-
-                console.log(`${this.id} moved to ${this.value}`);
-            });
-
-            slider.addEventListener("mousedown", function () {
-                this.classList.remove("hidden-thumb");
-            });
-
-            slider.addEventListener("touchstart", function () {
-                this.classList.remove("hidden-thumb");
-            });
-        });
-
-
-        // Validate all sliders before form submission
-        document.querySelector("form").addEventListener("submit", function (event) {
-            const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
-            if (!allMoved) {
-                event.preventDefault();
-                document.getElementById("error-message").style.display = "block";
+            function updatePointsDisplay() {
+                const baseText = condition === "hurt_other" ? ruleAnotherLose : ruleMeLose;
+                pointsDisplay.textContent = `${baseText.replace('{points}', pointsLost)}`;
             }
+
+            updatePointsDisplay();
+
+            sliders.forEach(({ sliderId, outputId, checkId }) => {
+                const slider = document.getElementById(sliderId);
+                const output = document.getElementById(outputId);
+                const checkSlider = document.getElementById(checkId);
+
+                slider.value = "101";
+                output.textContent = "";
+                checkSlider.value = "0";
+                slider.classList.add("hidden-thumb");
+
+                slider.addEventListener("input", function () {
+                    output.textContent = this.value;
+                    checkSlider.value = "1";
+                    this.classList.remove("hidden-thumb");
+                    document.getElementById("error-message").style.display = "none";
+
+                    const currentValue = parseInt(this.value);
+                    const isOnFifty = currentValue === {{ aim }};
+
+                    if (isOnFifty && !slidersOnFifty.has(sliderId)) {
+                        slidersOnFifty.add(sliderId);
+                        pointsLost += pointsPerSlider;
+                        updatePointsDisplay();
+                    } else if (!isOnFifty && slidersOnFifty.has(sliderId)) {
+                        slidersOnFifty.delete(sliderId);
+                        pointsLost -= pointsPerSlider;
+                        updatePointsDisplay();
+                    }
+
+                    console.log(`${this.id} moved to ${this.value}`);
+                });
+
+                slider.addEventListener("mousedown", function () {
+                    this.classList.remove("hidden-thumb");
+                });
+
+                slider.addEventListener("touchstart", function () {
+                    this.classList.remove("hidden-thumb");
+                });
+            });
+
+            document.querySelector("form").addEventListener("submit", function (event) {
+                const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+                if (!allMoved) {
+                    event.preventDefault();
+                    document.getElementById("error-message").style.display = "block";
+                }
+            });
         });
-    });
+
 
     </script>
 
@@ -310,13 +308,6 @@
 
 
         <div id="points-display" data-condition="{{ condition }}" style="text-align: center;">
-            {{ if condition == 'hurt_me' }}
-                You lose 0 points.
-                {{ rule_me_lose }}
-            {{ else }}
-                Another participant loses 0 points.
-                {{ rule_another_lose }}
-            {{ endif }}
         </div>
 
 

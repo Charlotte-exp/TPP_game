@@ -100,8 +100,8 @@ rule following,rule_instru,"In this part, you decide how to position three slide
 rule following,rule_aim_another,"For each slider you move to position {aim}, another participant in this study will lose {points_per_slider} points."
 rule following,rule_aim_me,"For each slider you move to position {aim}, you will lose {points_per_slider} points."
 rule following,rule_rule,The rule of this task is to move each slider to position {aim}.
-rule following,rule_another_lose,Another participant loses {} points
-rule following,rule_me_lose,You lose {} points
+rule following,rule_another_lose,Another participant loses {points} points.
+rule following,rule_me_lose,You lose {points} points.
 crowding,crowding_intro,"Now, you decide if you want to <b style='color: green;'>give</b> <b>4 of your bonus points to charity</b>."
 crowding,crowding_incentive,<b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.
 crowding,crowding_intro2,"If you donate, we will convert the points into money and transfer it to the charity."
