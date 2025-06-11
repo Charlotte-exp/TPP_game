@@ -263,29 +263,29 @@
                 <div class="image-box">
                     <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
                     <!-- Removed unnecessary <p> tags -->
-                    <b class="label label-person-a-2pp">PERSON A</b>
-                    <b class="label label-person-b-2pp">PERSON B</b>
+                    <b class="label label-person-a-2pp">{{ person_a }}</b>
+                    <b class="label label-person-b-2pp">{{ person_b }}</b>
                 </div>
 
                 <p class="or-label"><u>OR</u></p>
 
                 <div class="image-box">
                     <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
-                    <b class="label label-person-a-3pp">PERSON A</b>
-                    <b class="label label-person-b-3pp">PERSON B</b>
-                    <b class="label label-person-c">PERSON C</b>
+                    <b class="label label-person-a-3pp">{{ person_a }}</b>
+                    <b class="label label-person-b-3pp">{{ person_b }}</b>
+                    <b class="label label-person-c">{{ person_c}}</b>
                 </div>
              </div>
 
             <br>
             <p style="text-align: center; ">
-                {{ text1|safe }}
+                {{ pref_2PP_first }}
             </p>
 
             <div class='numbers' >
                 <div class="option-row"  data-input="selected-option-1">
-                    <div class="option" data-value="0" > {{ text2PP|safe }}</div>
-                    <div class="option" data-value="1" > {{ text3PP|safe }}</div>
+                    <div class="option" data-value="0" > {{ pref_2PP|safe }}</div>
+                    <div class="option" data-value="1" > {{ pref_3PP|safe }}</div>
                 </div>
             </div>
 
@@ -295,30 +295,30 @@
                 <div class="image-box">
                     <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
                     <!-- Removed unnecessary <p> tags -->
-                    <b class="label label-person-a-3pp">PERSON A</b>
-                    <b class="label label-person-b-3pp">PERSON B</b>
-                    <b class="label label-person-c">PERSON C</b>
+                    <b class="label label-person-a-3pp">{{ person_a }}</b>
+                    <b class="label label-person-b-3pp">{{ person_b }}</b>
+                    <b class="label label-person-c">{{ person_c}}</b>
                 </div>
 
                 <p class="or-label"><u>OR</u></p>
 
                 <div class="image-box">
                     <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
-                    <b class="label label-person-a-2pp">PERSON A</b>
-                    <b class="label label-person-b-2pp">PERSON B</b>
+                    <b class="label label-person-a-2pp">{{ person_a }}</b>
+                    <b class="label label-person-b-2pp">{{ person_b }}</b>
                 </div>
             </div>
 
             <br>
 
         <p style="text-align: center; ">
-            {{ text1|safe }}
+            {{ pref_3PP_first }}
         </p>
 
         <div class='numbers' >
             <div class="option-row"  data-input="selected-option-1">
-                <div class="option" data-value="1" > {{ text3PP|safe }}</div>
-                <div class="option" data-value="0" > {{ text2PP|safe }}</div>
+                <div class="option" data-value="1" > {{ pref_3PP|safe }}</div>
+                <div class="option" data-value="0" > {{ pref_2PP|safe }}</div>
             </div>
         </div>
 
@@ -338,7 +338,7 @@
                        font-size: 1rem;
                        border-radius: 0.25rem;
                        padding: 4px 12px;" type="button" id="submit-button">
-            Next
+            {{ button_next }}
         </button>
     </div>
 

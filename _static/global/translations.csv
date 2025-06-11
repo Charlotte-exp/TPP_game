@@ -1,18 +1,4 @@
 page,key,en
-Specials,button_start,START
-Specials,button_next,NEXT
-Specials,button_understood,Understood!
-Specials,button_consent,I CONSENT
-Specials,person_a,PERSON A
-Specials,person_b,PERSON B
-Specials,person_c,PERSON C
-Specials,you,YOU
-Specials,very_inappropriate,very socially<br>inappropriate
-Specials,inappropriate,socially<br>inappropriate
-Specials,slightly_inappropriate,slightly socially<br>inappropriate
-Specials,slightly_appropriate,slightly socially<br>appropriate
-Specials,appropriate,socially<br>appropriate
-Specials,very_appropriate,very socially<br>appropriate
 Consent,consent_title,Welcome!
 Consent,consent_thank_you,Thank you for participating in this study about decision-making!
 Consent,consent_intro_title,What happens next
@@ -20,7 +6,7 @@ Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.
 
 Please read them carefully, as <b>your decisions affect your final payment</b>.</li> 
 <li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
-<li> The study is made up of 2 blocks. In total, you will make about <b>X decisions</b>, and the study takes around <b>X minutes</b>. </li></ul>"
+<li> The study is made up of 2 blocks. In total, you will make about <b>{decisions_approx} decisions</b>, and the study takes around <b>{time} minutes</b>. </li></ul>"
 ,consent_payment_title,Payment
 Consent,consent_payment,"<ul><li>For your participation, you will receive <b>{participation_fee}</b>. Additionally, you can earn <b>bonus points</b> based on your decisions. </li> </ul>"
 ,consent_rights_title,Additional information
@@ -53,7 +39,7 @@ Instructions,instru_2PP_remove,"In  <b> Stage 2</b>, Person A and Person B both 
 Instructions,instru_2PP_role,"Depending on the situation, you can be Person A or Person B."
 Instructions,instru_3PP_change,Now there is one change.
 Instructions,instru_3PP_personc,There will be a third person: <b >Person C.</b>
-Instructions,instru_3PP_remove,"Person B is <u>not</u> able to remove points anymore. Instead, <b style=""color: red; "">Person C</b> is able to <b>remove points</b> from Person A."
+Instructions,instru_3PP_remove,"Person B is <u>not</u> able to remove points anymore. Instead, <b style='color: red; '>Person C</b> is able to <b>remove points</b> from Person A."
 Instructions,instru_3PP_rules,"In <b>Stage 2</b>, Person C receives additional 4 points. Removing <b>1 point</b> from Person A costs Person C <b> {cost_per_point}</b>. Points removed by Person C are eliminated."
 Attention Check,attention_error_green,Correct answer! Please press 'Next'.
 Attention Check,attention_error_red,Wrong answer! Please select the correct answer.
@@ -71,39 +57,122 @@ Comprehension,comprehension_2PP_answer0,Person A loses 3 points and Person B los
 Comprehension,comprehension_2PP_answer1,Person A loses 3 points and Person B loses 1 point.
 Comprehension,comprehension_2PP_answer2,Person A loses 1 point and Person B loses {cost_per_point} points.
 Comprehension,comprehension_2PP_answer3,Person A loses 1 point and Person B loses 1 point.
-Dictator,dict_norm_instru,"Now, <u>you</u> decide how <b style=""color: red;"">socially appropriate</b> the decision of Person A is"
+Comprehension,comprehension_error_green,Correct answer! Please press 'Next'.
+Comprehension,comprehension_error_red,Wrong answer! Please select the correct answer.
+Comprehension,comprehension_error_greenTF,Correct answer! Please answer the other question correctly.
+Dictator,dict_norm_instru,"Now, <u>you</u> decide how <b style='color: red;'>socially appropriate</b> the decision of Person A is"
 Dictator,dict_norm_incentive,Important: You will receive <b> {ratings_extra_points} points</b> if your answer is the same as the most common answer among all other participants in {current_country}.
 Dictator,dict_norm_summary,Person A received <b> {total_endowment} points</b> and <u>gave</u> <b>0 points</b> to Person B.
-Dictator,dict_norm_question,"How <b style=""color: red;"">socially appropriate</b> is it for Person A to give <b>0 points</b> to Person B?"
-Dictator,dict_norm_very_inapp,very socially<br>inappropriate
-Dictator,dict_norm_inapp,socially<br>inappropriate
-Dictator,dict_norm_sli_inapp,slightly socially<br>inappropriate
-Dictator,dict_norm_sli_app,slightly socially<br>appropriate
-Dictator,dict_norm_app,socially<br>appropriate
-Dictator,dict_norm_very_app,very socially<br>appropriate
+Dictator,dict_norm_question,How <b style='color: red;'>socially appropriate</b> is it for Person A to give <b>0 points</b> to Person B?
 Dictator,dict_decision_endowment,You are Person A and received {total_endowment} points!
 Dictator,dict_decision_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
-Dictator,dict_decision_countries,"Person A lives in <b style=""color: red; "">{dic_identity_country}</b> and Person B lives in <b style=""color: red; "">{recip_identity_country}</b>."
-Dictator,dict_decision_question,"As Person A, how many points do you <b style=""color: red;"">give</b> to Person B?"
+Dictator,dict_decision_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.
+Dictator,dict_decision_question,"As Person A, how many points do you <b style='color: red;'>give</b> to Person B?"
 Dictator,dict_decision_mind,Keep in mind: {treatment_text_action} in Stage 2.
 Dictator,dict_decision_hover,"To make a decision, click on a number. As you move over the numbers (or press them), you see how many points you and Person B would receive."
 Dictator,dict_text_action_2PP,Person B can remove points from you
 Dictator,dict_text_action_3PP,Person C can remove points from you
-TPP,tpp_2PP_norm_instru,"Now, you decide how <b style=""color: red;"">socially appropriate</b> the decision of Person B is."
+TPP,tpp_2PP_norm_instru,"Now, you decide how <b style='color: red;'>socially appropriate</b> the decision of Person B is."
 TPP,tpp_2PP_norm_incentive,Important: You will receive <b>{ratings_extra_points} points</b> if your answers are the same as the most common answers among all other participants in {current_country}.
-TPP,tpp_3PP_norm_instru,"Now, you decide how <b style=""color: red;"">socially appropriate</b> the decision of Person C is."
+TPP,tpp_3PP_norm_instru,"Now, you decide how <b style='color: red;'>socially appropriate</b> the decision of Person C is."
 TPP,tpp_dict_action,Person A kept <b>{receiver}</b> to themselves and gave <b> {dictator_keeps}</b> to Person B.
-TPP,tpp_norm_question,"How socially appropriate is it for {treatment_text_action_person} to <b style=""color: red;"">{treatment_text_action} points</b> {treatment_text_receiver}?"
+TPP,tpp_norm_question,How socially appropriate is it for {treatment_text_action_person} to <b style='color: red;'>{treatment_text_action} points</b> {treatment_text_receiver}?
 TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_action_person} to 
-<b style=""color: red;""> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
+<b style='color: red;'> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
 TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.
 TPP,tpp_decision_you,You are {treatment_text_action_person}!
-TPP,tpp_decision_action,"Now, you decide as {treatment_text_action_person} how many points to <b style=""color: red; "">remove from Person A</b>."
-TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you remove from Person A ?"
-TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}""></span> points."
+TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A ?"
+TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}'></span> points."
 TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
-TPP,tpp_countries,"Person A lives in <b style=""color: red; "">{dic_identity_country}</b> and Person B lives in <b style=""color: red; "">{recip_identity_country}</b>."
+TPP,tpp_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.
 TPP,tpp_text_action_remove,remove
 TPP,tpp_text_action_receiver,from Person A
 TPP,tpp_2PP_text_action_person_b,Person B
 TPP,tpp_3PP_text_action_person_c,Person C
+Universal norm,univ_norm_instru,"We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B."
+Universal norm,univ_norm_question,How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?
+Universal norm,univ_norm_incentive,"<b>Important</b>:</b> If your response is close to the correct number of people, you receive 8 points."
+2PP vs 3PP,pref_2PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person B can remove points</b> (left) <u>or</u> <b>Person C can remove points</b> (right) in Stage 2?"
+2PP vs 3PP,pref_3PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person C can remove points</b> (left) <u>or</u> <b>Person B can remove points</b> (right) in Stage 2?"
+2PP vs 3PP,pref_2PP,<b>Person B</b>&nbsp;can remove points.
+2PP vs 3PP,pref_3PP,<b>Person C</b>&nbsp;can remove points.
+rule following,rule_instru,"In this part, you decide how to position three sliders."
+rule following,rule_aim_another,"For each slider you move to position {aim}, another participant in this study will lose {points_per_slider} points."
+rule following,rule_aim_me,"For each slider you move to position {aim}, you will lose {points_per_slider} points."
+rule following,rule_rule,The rule of this task is to move each slider to position {aim}.
+rule following,rule_another_lose,Another participant loses {} points
+rule following,rule_me_lose,You lose {} points
+crowding,crowding_intro,"Now, you decide if you want to <b style='color: green;'>give</b> <b>4 of your bonus points to charity</b>."
+crowding,crowding_incentive,<b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.
+crowding,crowding_intro2,"If you donate, we will convert the points into money and transfer it to the charity."
+crowding,crowding_norm_incentive,<b>How is someone perceived in {current_countryname} </b> <br> if they <b>give 4 points</b> to charity and <b>received 2 points</b> for themselves?
+crowding,crowding_norm,<b>How is someone perceived in {current_countryname} </b> if they <b>give 4 points</b> to charity?
+crowding,crowding_norm_bonus,"<b>Important:</b> If your response is close to the average rating in {current_countryname}, you receive 8 points."
+crowding,crowding_ decision_give,Give {choice_give} points to charity
+crowding,crowding_ decision_keep,Give {choice_keep} points to charity
+crowding,crowding_altruistic,How <b style='color: red;'>altruistic</b> is Person A?
+crowding,crowding_likable,How <b style='color: red;'>likeable</b> is Person A?
+crowding,descr_question,"<b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision?"
+crowding,descr_incentive,"<b>Important</b>:</b> If your response is close to the correct number, you will receive 8 points."
+crowding,cond_coop_kept,You decided not to give 4 points to charity.
+crowding,cond_coop_gave,You decided to give 4 points to charity.
+crowding,cond_coop_question,"<b style='color: red;'>Depending on what others in {current_countryname} do,<br></b> would you change your decision?"
+crowding,gave_unconditionally,"Regardless of the choices of others, I want to give my points to charity."
+crowding,kept_unconditionally,"Regardless of the choices of others, I do not want to give my points to charity."
+crowding,cond_coop_decision_gave,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did give</u>, I also want to give my points to charity."
+crowding,cond_coop_decision_kept,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did not give</u>, I also do not want to give my points to charity."
+crowding,cond_coop_incentive_kept,"<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to a charity."
+crowding,cond_coop_incentive_gave,"<b>Important:</b> If the condition in your answer is met, your bonus points will not be transferred to the charity."
+Dice,dice_observe,"In this part, you observe the behaviour of another person."
+Dice,dice_previous,"In a previous survey, a person had to roll a die. The person got paid depending on the number of the die roll they reported to us. The higher the reported number, the more money the person earned."
+Dice,dice_actual,Here is <b>the number they actually rolled</b>:
+Dice,dice_rolled,Die rolled
+Dice,dice_lie,"The person was explicitly told to report the number they threw. However, the person could lie and report a higher number to us to earn more."
+Dice,dice_report,Below is <b>the number they reported to us</b>:
+Dice,dice_reported,Die reported
+Dice,dice_trustworthy,How trustworthy do you think this person is?
+Dice,dice_not_trust,Not trustworthy at all
+Dice,dice_very_trust,Very trustworthy
+Dice,dice_likable,How likable do you think this person is?
+Dice,dice_not_like,Not likable at all
+Dice,dice_very_like,Very likable
+Dice,dice_error,Please move all sliders before continuing.
+Dice,dice_trust_game,"Now, you can send up to {points_to_send} points to this person. Each point you sent to this person is tripled. The other person can then transfer any amount of those (tripled) points back to you."
+Dice,dice_question,How many points do you want to send to this person?
+Dice,dice_0points,0 points
+Dice,dice_1points,1 point
+Dice,dice_2points,2 points
+Dice,dice_3points,3 points
+Specials,button_start,START
+Specials,button_next,NEXT
+Specials,button_understood,Understood!
+Specials,button_consent,I CONSENT
+Specials,person_a,PERSON A
+Specials,person_b,PERSON B
+Specials,person_c,PERSON C
+Specials,you,YOU
+Specials,button_charity,CHARITY
+Specials,very_inappropriate,very socially<br>inappropriate
+Specials,inappropriate,socially<br>inappropriate
+Specials,slightly_inappropriate,slightly socially<br>inappropriate
+Specials,slightly_appropriate,slightly socially<br>appropriate
+Specials,appropriate,socially<br>appropriate
+Specials,very_appropriate,very socially<br>appropriate
+Specials,very_selfish,very<br>selfish
+Specials,selfish,selfish
+Specials,slightly_selfish,slightly<br>selfish
+Specials,slightly_altruistic,slightly<br>altruistic
+Specials,altruistic,altruistic
+Specials,very_altruistic,very<br>altruistic
+Specials,very_unlikable,very<br>unlikable
+Specials,unlikable,unlikable
+Specials,slightly_unlikable,slightly<br>unlikable
+Specials,slightly_likable,slightly<br>likable
+Specials,likable,likable
+Specials,very_ likable,very<br>likable
+Specials,button_block,Block
+Specials,button_decision,Decision
+Specials,error_1slider,Please move the slider before continuing.
+Specials,error_all_sliders,Please move all sliders before continuing.
+Specials,error3,Please make all three decisions to continue.
+Specials,error1,Please make a decision to continue.

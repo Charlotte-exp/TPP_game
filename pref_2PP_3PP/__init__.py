@@ -1,6 +1,8 @@
 from otree.api import *
 import random
 
+from translations import get_translation
+
 doc = """
 Your app description
 """
@@ -23,7 +25,7 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
 
         ''' ONLY WHEN TESTING APP ON ITS OWN'''
         participant.progress = 1
-
+        participant.language = 'en'
 
 class Group(BaseGroup):
     pass
@@ -38,7 +40,7 @@ class Player(BasePlayer):
     )
 
 
-# PAGES
+#############  PAGES  ###############
 
 class Filler(Page):
 
@@ -53,6 +55,39 @@ class Filler(Page):
         participant.progress += 1
 
 
+class pref_2PP_3PP_Page(Page):
+    form_model = 'player'
+    form_fields = ["pref_2PP_3PP"]
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        image2PP = 'global/treatments/pref2PP.png'
+        image3PP = 'global/treatments/pref3PP.png'
+        return dict(
+            pref_2PP_3PP=player.pref_2PP_3PP,
+            pref_2PP_3PP_button_pos = player.participant.pref_2PP_3PP_button_pos,
+            image2PP=image2PP,
+            image3PP=image3PP,
+            person_a=get_translation("person_a", lang),
+            person_b=get_translation("person_b", lang),
+            person_c=get_translation("person_c", lang),
+            pref_2PP_first=get_translation("pref_2PP_first", lang),
+            pref_3PP_first=get_translation("pref_3PP_first", lang),
+            pref_2PP=get_translation("pref_2PP", lang),
+            pref_3PP=get_translation("pref_3PP", lang),
+            button_next=get_translation("button_next", lang),
+            total_pages=player.session.config['total_pages'],
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
+
+
 class Filler_end_block1(Page):
 
     @staticmethod
@@ -64,44 +99,6 @@ class Filler_end_block1(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
-
-
-class pref_2PP_3PP_Page(Page):
-    form_model = 'player'
-
-    form_fields = ["pref_2PP_3PP"]
-
-    @staticmethod
-    def vars_for_template(player: Player):
-
-        pref_2PP_3PP_button_pos = player.participant.pref_2PP_3PP_button_pos
-
-        if pref_2PP_3PP_button_pos:
-            text1 = f'You are either Person A or Person B, but you do not know which one. <br> Would you prefer to be in a situation where <b>Person B can remove points from Person A</b> (left) <u>or</u> <b>Person C can remove points from Person A</b> (right) in Stage 2?'
-        else:
-            text1 = f'You are either Person A or Person B, but you do not know which one. <br> Would you prefer to be in a situation where <b>Person C can remove points from Person A</b> (left) <u>or</u> <b>Person B can remove points from Person A</b> (right) in Stage 2?'
-
-        text2PP = f'<b>Person B</b>&nbsp;can remove points.'
-        text3PP = f'<b>Person C</b>&nbsp;can remove points.'
-
-        image2PP = 'global/treatments/pref2PP.png'
-        image3PP = 'global/treatments/pref3PP.png'
-
-        return dict(
-            pref_2PP_3PP=player.pref_2PP_3PP,
-            pref_2PP_3PP_button_pos = pref_2PP_3PP_button_pos,
-            text1=text1,
-            text2PP=text2PP,
-            text3PP=text3PP,
-            image2PP=image2PP,
-            image3PP=image3PP,
-            total_pages=player.session.config['total_pages'],
-        )
-
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        participant.progress += 1
-        participant.decision_page_number += 1
 
 
 

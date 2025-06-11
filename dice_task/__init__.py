@@ -35,6 +35,10 @@ def creating_session(subsession):
     for p in subsession.get_players():
         p.dice_roll()
 
+        ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        participant = p.participant
+        participant.language = 'en'
+
 
 class Group(BaseGroup):
     pass
@@ -98,6 +102,8 @@ class DiceRatings(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
 
         return dict(
             original_dice=player.original_dice,
@@ -107,7 +113,7 @@ class DiceRatings(Page):
             dice_actual=get_translation("dice_actual", lang),
             dice_rolled=get_translation("dice_rolled", lang),
             dice_lie=get_translation("dice_lie", lang),
-            dice_reports=get_translation("dice_report", lang),
+            dice_report=get_translation("dice_report", lang),
             dice_reported=get_translation("dice_reported", lang),
             dice_trustworthy=get_translation("dice_trustworthy", lang),
             dice_not_trust=get_translation("dice_not_trust", lang),
