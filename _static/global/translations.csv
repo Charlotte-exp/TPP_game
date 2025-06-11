@@ -81,7 +81,7 @@ TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_ac
 <b style='color: red;'> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
 TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.
 TPP,tpp_decision_you,You are {treatment_text_action_person}!
-TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A ?</b>"
+TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A</b>?"
 TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}""></span> points."
 TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
 TPP,tpp_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.
@@ -143,6 +143,11 @@ Dice,dice_0points,0 points
 Dice,dice_1points,1 point
 Dice,dice_2points,2 points
 Dice,dice_3points,3 points
+Narratives,narratives_question,Please indicate to what extent you agree or disagree with the following statements.
+Narratives,narratives_wealthy_contribution,The wealthiest 1% in my country should contribute more to society.
+Narratives,narratives_wealthy_merit,The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.
+Narratives,narratives_poor_contribution,The poorest 1% in my country should contribute more to society.
+Narratives,narratives_poor_merit,The poorest 1% in my country are in their current position largely due to their own actions and decisions.
 Specials,button_start,START
 Specials,button_next,NEXT
 Specials,button_understood,Understood!
@@ -170,9 +175,13 @@ Specials,slightly_unlikable,slightly<br>unlikable
 Specials,slightly_likable,slightly<br>likable
 Specials,likable,likable
 Specials,very_ likable,very<br>likable
+Specials,strongly_disagree,strongly<br>disagree
+Specials,disagree,disagree
+Specials,slightly_disagree,slightly<br>disagree
+Specials,slightly_agree,slightly<br>agree
+Specials,agree,agree
+Specials,strongly_agree,strongly<br>agree
 Specials,button_block,Block
 Specials,button_decision,Decision
 Specials,error_1slider,Please move the slider before continuing.
 Specials,error_all_sliders,Please move all sliders before continuing.
-Specials,error3,Please make all three decisions to continue.
-Specials,error1,Please make a decision to continue.
