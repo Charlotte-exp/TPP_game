@@ -519,7 +519,6 @@
     ///////// Template rendering
     document.addEventListener("DOMContentLoaded", () => {
         const tpDecisionTemplate = {{ tpp_dict_action|json }};
-
         TP_decisions.forEach(decision => {
             const sentence = tpDecisionTemplate
                 .replace("{receiver}", decision.receiver)
@@ -530,7 +529,6 @@
         });
 
         const tpNormTemplate = {{ tpp_dict_action|json }};
-
         TP_norm_decisions.forEach(TP_norm_decision => {
             const norm_sentence = tpNormTemplate
                 .replace("{receiver}", TP_norm_decision.receiver)
@@ -538,6 +536,15 @@
 
             const el = document.getElementById("norm_sentence-" + TP_norm_decision.index);
             if (el) el.innerHTML = norm_sentence;
+        });
+
+        const tpCostTemplate = {{ tpp_decision_cost|json }};
+        TP_decisions.forEach(decision => {
+            const cost_sentence = tpCostTemplate
+                .replace("{index}", decision.index)
+
+            const el = document.getElementById("cost-sentence-" + decision.index);
+            if (el) el.innerHTML = cost_sentence;
         });
     })
 
@@ -907,9 +914,8 @@
                 {% endif %}
             </div>
 
-            <div id="cost-sentences" data-index="{{ TP_decision.index }}" style="text-align: center;">
+            <div id="cost-sentence-{{ TP_decision.index }}" style="text-align: center;">
                 {{ tpp_decision_cost }}
-                This costs you <span class="TP-cost-display" data-index="{{ TP_decision.index }}"></span> points.
             </div>
         <br>
         <hr>
