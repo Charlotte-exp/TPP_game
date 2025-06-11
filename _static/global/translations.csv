@@ -81,7 +81,7 @@ TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_ac
 <b style='color: red;'> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
 TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.
 TPP,tpp_decision_you,You are {treatment_text_action_person}!
-TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A ?"
+TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A ?</b>"
 TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}'></span> points."
 TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
 TPP,tpp_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.

@@ -517,19 +517,29 @@
 
 
     ///////// Template rendering
-    const tpNormTemplate = {{ tpp_dict_action|json }};
+    document.addEventListener("DOMContentLoaded", () => {
+        const tpDecisionTemplate = {{ tpp_dict_action|json }};
 
-    TP_norm_decisions.forEach((TP_norm_decision) => {
-        const sentence = tpNormTemplate
-            .replace("{receiver}", TP_norm_decision.receiver)
-            .replace("{dictator_keeps}", TP_norm_decision.dictator_keeps)
-            //.replace("{index}", TP_norm_decision.index)
+        TP_decisions.forEach(decision => {
+            const sentence = tpDecisionTemplate
+                .replace("{receiver}", decision.receiver)
+                .replace("{dictator_keeps}", decision.dictator_keeps);
 
-        // Example use: insert sentence into the page
-        document.getElementById("sentence-" + TP_norm_decision.index).innerHTML = sentence;
+            const el = document.getElementById("sentence-" + decision.index);
+            if (el) el.innerHTML = sentence;
+        });
 
-        console.log("Replacing values in:", tpNormTemplate);
-    });
+        const tpNormTemplate = {{ tpp_dict_action|json }};
+
+        TP_norm_decisions.forEach(TP_norm_decision => {
+            const norm_sentence = tpNormTemplate
+                .replace("{receiver}", TP_norm_decision.receiver)
+                .replace("{dictator_keeps}", TP_norm_decision.dictator_keeps);
+
+            const el = document.getElementById("norm_sentence-" + TP_norm_decision.index);
+            if (el) el.innerHTML = norm_sentence;
+        });
+    })
 
 
 </script>
@@ -675,20 +685,17 @@
 
             </div>
 
-            <div id="sentence-{{ TP_norm_decision.index }}" style="text-align: center; font-size: 14px">
-                {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                    <p>
+            <div id="norm_sentence-{{ TP_norm_decision.index }}" style="text-align: center; font-size: 14px; margin-bottom: 20px">
+                <p>
+                    {% if "IN" in player.treatment or "OUT" in player.treatment%}
                         {{ tpp_IN_OUT }}
-                        <br>
-                {% endif %}
-
-                {% if "country" in player.treatment %}
-                    <p>
+                    {% endif %}
+                    {% if "country" in player.treatment %}
                         {{ tpp_countries }}
-                        <br>
-                {% endif %}
-                        {{ tpp_dict_action }}
-                    </p>
+                    {% endif %}
+                    <br>
+                    {{ tpp_dict_action }}
+                </p>
             </div>
 
             <p style="text-align: center;">
@@ -862,20 +869,17 @@
 
             </div>
 
-            <div id="sentence-{{ TP_decision.index }}" style="text-align: center; font-size: 14px">
-                {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                    <p>
+            <div id="sentence-{{ TP_decision.index }}" style="text-align: center; font-size: 14px; margin-bottom: 20px">
+                <p>
+                    {% if "IN" in player.treatment or "OUT" in player.treatment%}
                         {{ tpp_IN_OUT }}
-                        <br>
-                {% endif %}
-
-                {% if "country" in player.treatment %}
-                    <p>
+                    {% endif %}
+                    {% if "country" in player.treatment %}
                         {{ tpp_countries }}
-                        <br>
-                {% endif %}
-                        {{ tpp_dict_action }}
-                    </p>
+                    {% endif %}
+                    <br>
+                    {{ tpp_dict_action }}
+                </p>
             </div>
 
             <div class='numbers'>
