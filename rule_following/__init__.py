@@ -1,8 +1,9 @@
 from otree.api import *
 
 import itertools
-
 import random
+
+from translations import get_translation
 
 doc = """
 Your app description
@@ -30,9 +31,10 @@ def creating_session(subsession):
 
         p.aim_number()
 
-        # ''' ONLY WHEN TESTING ON ITS OWN'''
-        # p.participant.decision_page_number = 0  # For testing only
-        # p.participant.progress = 1
+        ''' ONLY WHEN TESTING ON ITS OWN'''
+        p.participant.decision_page_number = 0  # For testing only
+        p.participant.progress = 1
+        p.participant.language = 'en'
 
 
 class Group(BaseGroup):
@@ -90,10 +92,24 @@ class RuleFollowing(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         return dict(
             condition= player.rule_following_condition,
             points_per_slider=C.points_per_slider,
             total_pages=player.session.config['total_pages'],
+            rule_instru=get_translation("rule_instru", lang),
+            rule_aim_another=get_translation("rule_aim_another", lang,
+                                             aim=player.rule_aim,
+                                             points_per_slider=C.points_per_slider),
+            rule_aim_me=get_translation("rule_aim_me", lang,
+                                             aim=player.rule_aim,
+                                            points_per_slider=C.points_per_slider),
+            rule_rule=get_translation("rule_rule", lang,
+                                      aim=player.rule_aim),
+            rule_another_lose=get_translation("rule_another_lose", lang),
+            rule_me_lose=get_translation("rule_me_lose", lang),
             aim= player.rule_aim,
         )
 

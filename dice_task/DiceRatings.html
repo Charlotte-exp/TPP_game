@@ -14,7 +14,6 @@
 </div>
 
 
-
 {{ endblock }}
 
 {{ block content }}
@@ -28,6 +27,10 @@
     <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
     <style>
+
+        body {
+            text-align: center;
+        }
 
         .dice-container {
             justify-content: center;
@@ -304,12 +307,13 @@
 <div class="card-body">
 
     <p>
-        In this new part, you will observe the behaviour of another participant and give your opinion of that behaviour.
+        {{ dice_observe }}
     </p>
     <p>
-        In a previous, separate survey,
-        a person got the opportunity to roll a die and collect the number of points on it as a bonus.
-        Below is <b>the number they got after throwing the die: </b>
+        {{ dice_previous }}
+    </p>
+    <p>
+        {{ dice_actual }}
     </p>
 
     <div class='dice-container'>
@@ -325,18 +329,16 @@
             <div class="dot" id="dice1-9"></div>
         </div>
         <div>
-            Die thrown
+            {{ dice_rolled }}
         </div>
     </div>
     <br>
 
     <p>
-        However, the bonus was paid based on the number the person reported, not the number they actually threw.
-        As such, they could lie and report a different number than that on the dice they threw,
-        even though they were explicitly told to report the number they threw.
+        {{ dice_lie }}
     </p>
     <p>
-        Below is <b>the number they reported and were paid: </b>
+        {{ dice_report }}
     </p>
 
     <div class='dice-container'>
@@ -352,7 +354,7 @@
             <div class="dot" id="dice2-9"></div>
         </div>
         <div>
-            Die reported
+            {{ dice_reported }}
         </div>
     </div>
 
@@ -361,7 +363,7 @@
 
         <br>
         <p style="text-align: center;">
-            <strong>How trustworthy do you think this person is?</strong>
+            <strong>{{ dice_trustworthy }}</strong>
         </p>
 
         <!-- Slider 1-->
@@ -372,8 +374,8 @@
             </span>
 
             <div class="slider-labels">
-                <span>Not trustworthy at all</span>
-                <span>Very trustworthy</span>
+                <span>{{ dice_not_trust }}</span>
+                <span>{{ dice_very_trust }}</span>
             </div>
         </div>
 
@@ -384,7 +386,7 @@
         </div>
 
         <p style="text-align: center;">
-            <strong>How likable do you think this person is?</strong>
+            <strong>{{ dice_likable }}</strong>
         </p>
 
         <!-- Slider 2-->
@@ -395,8 +397,8 @@
             </span>
 
             <div class="slider-labels">
-                <span>Not likable at all</span>
-                <span>Very likable</span>
+                <span>{{ dice_not_like }}</span>
+                <span>{{ dice_very_like }}</span>
             </div>
         </div>
 
@@ -408,22 +410,20 @@
 
         <!-- Error message -->
         <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
-            Please move all sliders before continuing.
+            {{ dice_error }}
         </div>
 
     </div>
 
     <br>
     <p>
-        Now, you can send 3 points to the other person, or keep those points to yourself.
-        Each point sent is tripled.
-        The other person can transfer all, some, or none of those (tripled) points back to you.
+        {{ dice_trust_game }}
     </p>
 
     <br>
     <div class='responsive-div'>
         <p style="text-align: center;">
-            <strong>How many points do you want to send to the other person?</strong>
+            <strong>{{ dice_question }}</strong>
         </p>
 
         {{ form.trust_points }}

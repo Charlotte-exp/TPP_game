@@ -6,9 +6,7 @@ import csv
 import os
 
 from otree.models import player
-
 from itertools import chain
-
 from translations import get_translation
 
 
@@ -461,7 +459,9 @@ class Consent(Page):
             consent_title=get_translation('consent_title', lang),
             consent_thank_you=get_translation('consent_thank_you', lang),
             consent_intro_title=get_translation('consent_intro_title', lang),
-            consent_intro=get_translation('consent_intro', lang),
+            consent_intro=get_translation('consent_intro', lang,
+                                          decisions_approx=C.NUM_DECISIONS_APPROX,
+                                          time=C.STUDY_TIME),
             consent_payment_title=get_translation('consent_payment_title', lang),
             consent_payment=get_translation('consent_payment', lang,
                                             participation_fee=player.session.config['participation_fee']),
@@ -735,10 +735,10 @@ class TPPage(Page):
         lang = participant.language
 
         if "2PP punish" in player.treatment:
-            text_action = get_translation('text_action_remove', lang)
-            text_action_person = get_translation('text_action_person_b', lang)
+            text_action = get_translation('tpp_text_action_remove', lang)
+            text_action_person = get_translation('tpp_2PP_text_action_person_b', lang)
             text_action_person2 = "you"
-            text_receiver = get_translation('text_action_receiver', lang)
+            text_receiver = get_translation('tpp_text_action_receiver', lang)
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
             ## at the moment they are all the same so it is redundant (could be done straight in the dict).
@@ -747,10 +747,10 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
-            text_action = get_translation('text_action_remove', lang)
-            text_action_person = get_translation('text_action_person_c', lang)
+            text_action = get_translation('tpp_text_action_remove', lang)
+            text_action_person = get_translation('tpp_3PP_text_action_person_c', lang)
             text_action_person2 = "Person C"
-            text_receiver = "from Person A"
+            text_receiver = get_translation('tpp_text_action_receiver', lang)
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
@@ -881,26 +881,20 @@ class TPPage(Page):
             tpp_2PP_norm_instru=get_translation('tpp_2PP_norm_instru', lang),
             tpp_2PP_norm_incentive=get_translation('tpp_2PP_norm_incentive', lang,
                                                    ratings_extra_points=C.ratings_extra_points,
-                                                   current_country=C.CURRENT_COUNTRYNAME,),
+                                                   current_country=C.CURRENT_COUNTRYNAME),
             tpp_3PP_norm_instru=get_translation('tpp_3PP_norm_instru', lang),
             tpp_dict_action=get_translation('tpp_dict_action', lang),
-            tpp_norm_question=get_translation(
-                'tpp_norm_question',
-                lang,
-                treatment_text_action=text_action,
-                treatment_text_action_person=text_action_person,
-                treatment_text_receiver=text_receiver,),
-            tpp_norm_neg_question=get_translation(
-                'tpp_norm_neg_question',
-                lang,
-                treatment_text_action=text_action,
-                treatment_text_action_person=text_action_person,
-                treatment_text_receiver=text_receiver, ),
+            tpp_norm_question=get_translation('tpp_norm_question', lang,
+                                              treatment_text_action=text_action,
+                                              treatment_text_action_person=text_action_person,
+                                              treatment_text_receiver=text_receiver),
+            tpp_norm_neg_question=get_translation('tpp_norm_neg_question', lang,
+                                                  treatment_text_action=text_action,
+                                                  treatment_text_action_person=text_action_person,
+                                                  treatment_text_receiver=text_receiver),
             tpp_decision_strategy=get_translation('tpp_decision_strategy', lang),
             tpp_decision_you=get_translation('tpp_decision_you', lang,
                                              treatment_text_action_person=text_action_person),
-            tpp_decision_action=get_translation('tpp_decision_action', lang,
-                                                treatment_text_action_person=text_action_person),
             tpp_decision_question=get_translation('tpp_decision_question', lang,
                                                   treatment_text_action_person=text_action_person),
             tpp_decision_cost=get_translation('tpp_decision_cost', lang),

@@ -372,12 +372,8 @@
 <!--            {% endif %}-->
 
         <p style="text-align: center; ">
-            {{ dict_decision_endowment }}
+            <b style='color: red; '>{{ dict_decision_endowment }}</b>
             <br> <br>
-
-            {% if "3PP" in player.treatment or "2PP" in player.treatment or "0DG" in player.treatment %}
-                <b> Now, you decide as Person A how many of the 12 points to give to Person B.</b> <br> <br>
-            {% endif %}
 
             {% if "2PP" in player.treatment %}
                 <br>
