@@ -143,6 +143,9 @@ Dice,dice_0points,0 points
 Dice,dice_1points,1 point
 Dice,dice_2points,2 points
 Dice,dice_3points,3 points
+Filler2,filler_title,Block 2 complete!
+Filler2,filler_completed,You have now <b> completed the second block</b>!
+Filler2,filler_next_page,"On the next page, you will be asked <b>some additional questions </b>."
 Narratives,narratives_question,Please indicate to what extent you agree or disagree with the following statements.
 Narratives,narratives_wealthy_contribution,The wealthiest 1% in my country should contribute more to society.
 Narratives,narratives_wealthy_merit,The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.
@@ -180,7 +183,7 @@ Specials,disagree,disagree
 Specials,slightly_disagree,slightly<br>disagree
 Specials,slightly_agree,slightly<br>agree
 Specials,agree,agree
-Specials,strongly_agree,strongly<br>agree
+Specials,strongly_disagree,strongly<br>agree
 Specials,button_block,Block
 Specials,button_decision,Decision
 Specials,error_1slider,Please move the slider before continuing.

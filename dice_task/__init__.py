@@ -133,11 +133,19 @@ class DiceRatings(Page):
         participant.progress += 1
         participant.decision_page_number += 1
 
-class Filler_end_block2(Page):
+
+class FillerEndBlock2(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         return dict(
+            filler_title=get_translation("filler_title", lang),
+            filler_completed=get_translation("filler_completed", lang),
+            filler_next_page=get_translation("filler_next_page", lang),
+            button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
         )
 
@@ -151,4 +159,4 @@ class Results(Page):
 
 
 page_sequence = [DiceRatings,
-                 Filler_end_block2]
+                 FillerEndBlock2]
