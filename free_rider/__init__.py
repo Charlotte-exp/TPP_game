@@ -1,5 +1,6 @@
 from otree.api import *
 
+from translations import get_translation
 
 doc = """
 Your app description
@@ -20,6 +21,7 @@ def creating_session(subsession):
     for player in subsession.get_players():
         participant = player.participant
         participant.progress = 1
+        participant.language = 'en'
 
 
 class Group(BaseGroup):
@@ -70,7 +72,22 @@ class Narratives(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         return dict(
+            narratives_question=get_translation("narratives_question", lang),
+            narratives_wealthy_contribution=get_translation("narratives_wealthy_contribution", lang),
+            narratives_wealthy_merit=get_translation("narratives_wealthy_merit", lang),
+            narratives_poor_contribution=get_translation("narratives_poor_contribution", lang),
+            narratives_poor_merit=get_translation("narratives_poor_merit", lang),\
+            strongly_disagree=get_translation("strongly_disagree", lang),
+            disagree=get_translation("disagree", lang),
+            slightly_disagree=get_translation("slightly_disagree", lang),
+            slightly_agree=get_translation("slightly_agree", lang),
+            agree=get_translation("agree", lang),
+            strongly_agree=get_translation("strongly_agree", lang),
+            button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
         )
 

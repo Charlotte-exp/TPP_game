@@ -81,7 +81,7 @@ TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_ac
 <b style='color: red;'> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
 TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.
 TPP,tpp_decision_you,You are {treatment_text_action_person}!
-TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A ?</b>"
+TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A</b>?"
 TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}""></span> points."
 TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
 TPP,tpp_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.
@@ -92,10 +92,18 @@ TPP,tpp_3PP_text_action_person_c,Person C
 Universal norm,univ_norm_instru,"We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B."
 Universal norm,univ_norm_question,How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?
 Universal norm,univ_norm_incentive,"<b>Important</b>:</b> If your response is close to the correct number of people, you receive 8 points."
+Filler block 1,filler1_title,Block 1 complete!
+Filler block 1,filler1_completed,"You have now <b> completed the first block</b>, where you made decisions as Person A, Person B, or Person C."
+Filler block 1,filler1_end,"You will find out how many bonus points you collected in Block 1 only after the study is over, because bonus points are calculated after all participants have completed the study."
+Filler block 1,filler1_next_page,"On the next page, you will be asked <b> one additional question </b> about Block 1."
 2PP vs 3PP,pref_2PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person B can remove points</b> (left) <u>or</u> <b>Person C can remove points</b> (right) in Stage 2?"
 2PP vs 3PP,pref_3PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person C can remove points</b> (left) <u>or</u> <b>Person B can remove points</b> (right) in Stage 2?"
 2PP vs 3PP,pref_2PP,<b>Person B</b>&nbsp;can remove points.
 2PP vs 3PP,pref_3PP,<b>Person C</b>&nbsp;can remove points.
+Filler block 2a,filler2a_title,Start of Block 2
+Filler block 2a,filler2a_beginning,"You are now <b> beginning the second block</b>, where you will make <b> additional </b> decisions, using your bonus points from Block 1."
+Filler block 2a,filler2_selected,"After Block 2, <b> <u>one</u> situation</b> will be randomly selected to <b>determine your final bonus points</b>."
+Filler block 2a,filler2a_different,The situations you will see are different from those in the first block.
 rule following,rule_instru,"In this part, you decide how to position three sliders."
 rule following,rule_aim_another,"For each slider you move to position {aim}, another participant in this study will lose {points_per_slider} points."
 rule following,rule_aim_me,"For each slider you move to position {aim}, you will lose {points_per_slider} points."
@@ -136,13 +144,21 @@ Dice,dice_very_trust,Very trustworthy
 Dice,dice_likable,How likable do you think this person is?
 Dice,dice_not_like,Not likable at all
 Dice,dice_very_like,Very likable
-Dice,dice_error,Please move all sliders before continuing.
+Dice,dice_error,Please answer all questions before continuing.
 Dice,dice_trust_game,"Now, you can send up to {points_to_send} points to this person. Each point you sent to this person is tripled. The other person can then transfer any amount of those (tripled) points back to you."
 Dice,dice_question,How many points do you want to send to this person?
 Dice,dice_0points,0 points
 Dice,dice_1points,1 point
 Dice,dice_2points,2 points
 Dice,dice_3points,3 points
+Filler block 2b,filler2b_title,Block 2 complete!
+Filler block 2b,filler2b_completed,You have now <b> completed the second block</b>!
+Filler block 2b,filler2b_next_page,"On the next page, you will be asked <b>some additional questions </b>."
+Narratives,narratives_question,Please indicate to what extent you agree or disagree with the following statements.
+Narratives,narratives_wealthy_contribution,The wealthiest 1% in my country should contribute more to society.
+Narratives,narratives_wealthy_merit,The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.
+Narratives,narratives_poor_contribution,The poorest 1% in my country should contribute more to society.
+Narratives,narratives_poor_merit,The poorest 1% in my country are in their current position largely due to their own actions and decisions.
 Specials,button_start,START
 Specials,button_next,NEXT
 Specials,button_understood,Understood!
@@ -170,9 +186,13 @@ Specials,slightly_unlikable,slightly<br>unlikable
 Specials,slightly_likable,slightly<br>likable
 Specials,likable,likable
 Specials,very_ likable,very<br>likable
+Specials,strongly_disagree,strongly<br>disagree
+Specials,disagree,disagree
+Specials,slightly_disagree,slightly<br>disagree
+Specials,slightly_agree,slightly<br>agree
+Specials,agree,agree
+Specials,strongly_disagree,strongly<br>agree
 Specials,button_block,Block
 Specials,button_decision,Decision
 Specials,error_1slider,Please move the slider before continuing.
 Specials,error_all_sliders,Please move all sliders before continuing.
-Specials,error3,Please make all three decisions to continue.
-Specials,error1,Please make a decision to continue.
