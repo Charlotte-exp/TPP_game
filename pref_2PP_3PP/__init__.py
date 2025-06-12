@@ -42,11 +42,19 @@ class Player(BasePlayer):
 
 #############  PAGES  ###############
 
-class Filler(Page):
+class FillerEndBlock1(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         return dict(
+            filler1_title=get_translation("filler1_title", lang),
+            filler1_completed=get_translation("filler1_completed", lang),
+            filler1_end=get_translation("filler1_end", lang),
+            filler1_next_page=get_translation("filler1_next_page", lang),
+            button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
         )
 
@@ -55,7 +63,7 @@ class Filler(Page):
         participant.progress += 1
 
 
-class pref_2PP_3PP_Page(Page):
+class Pref_2PP_3PP(Page):
     form_model = 'player'
     form_fields = ["pref_2PP_3PP"]
 
@@ -71,6 +79,7 @@ class pref_2PP_3PP_Page(Page):
             pref_2PP_3PP_button_pos = player.participant.pref_2PP_3PP_button_pos,
             image2PP=image2PP,
             image3PP=image3PP,
+            button_decision=get_translation("button_decision", lang),
             person_a=get_translation("person_a", lang),
             person_b=get_translation("person_b", lang),
             person_c=get_translation("person_c", lang),
@@ -88,11 +97,19 @@ class pref_2PP_3PP_Page(Page):
         participant.decision_page_number += 1
 
 
-class Filler_end_block1(Page):
+class FillerStartBlock2(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
         return dict(
+            filler2a_title=get_translation("filler1_title", lang),
+            filler2a_beginning=get_translation("filler1_beginning", lang),
+            filler2a_selected=get_translation("filler1_selected", lang),
+            filler2a_different=get_translation("filler1_different", lang),
+            button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
         )
 
@@ -102,6 +119,6 @@ class Filler_end_block1(Page):
 
 
 
-page_sequence = [Filler,
-                 pref_2PP_3PP_Page,
-                 Filler_end_block1]
+page_sequence = [FillerEndBlock1,
+                 Pref_2PP_3PP,
+                 FillerStartBlock2]
