@@ -32,6 +32,56 @@
             text-align: center;
         }
 
+        .points-row {
+            justify-content: center;
+            display: flex;
+            margin-top:1vw;
+            margin-bottom:25px;
+            left:calc(50% - 10vw);
+            /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
+            gap: 1.5vw; /* Space between numbers scales with viewport width */
+            flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
+            align-items: center; /* Ensures proper vertical alignment */
+        }
+            
+        .points {
+            width: 65px; /* should not scale */
+            height: 35px; /* should not scale */
+            flex-direction: column;
+            text-align: center; /* Center-aligns the text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px; /* should not scale */
+            background-color: #e0e0e0;
+            padding: 1.5px;
+            border: 1.5px solid #000000;
+            border-radius: 6px; /* Slightly rounded corners */
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+    
+        .points:hover {
+            background-color: #ffcc00; /* Change background color on hover */
+        }
+    
+        .points:active {
+            background-color: #ffa500; /* Change background color on click */
+        }
+    
+        .points.selected {
+                 background-color: #ffa500; /* Permanent color when clicked */
+        }
+    
+        .points.disabled {
+            background-color: #F3F3F3; /* Grey color for disabled buttons */
+            border: 1px solid #d3d3d3;
+            color:#d3d3d3;
+            cursor: not-allowed;
+            pointer-events: none; /* Disable interactions */
+        }
+
         .dice-container {
             justify-content: center;
             align-items: center;
@@ -111,6 +161,11 @@
         @media (max-width: 400px) { /* adjustments for tiny screens */
             .slider-labels span {
                 font-size: 12px;
+            }
+            .points {
+                width: 55px; /* should not scale */
+                height: 35px; /* should not scale */
+                font-size: 12px; /* sould not scale */
             }
         }
 
@@ -260,10 +315,8 @@
             showDice('dice2', reported);
         });
 
-
-        /////////  Slider /////////
-
         document.addEventListener("DOMContentLoaded", function () {
+            // Slider setup
             const sliders = [
                 { sliderId: "slider1", outputId: "output1", checkId: "check_slider1" },
                 { sliderId: "slider2", outputId: "output2", checkId: "check_slider2" },
@@ -283,20 +336,46 @@
                     output.textContent = this.value;
                     checkSlider.value = "1"; // Mark as moved
                     this.classList.remove("hidden-thumb");
-                    document.getElementById("error-message").style.display = "none";
-
-                    console.log(`${this.id} moved to ${this.value}`);
+                    hideError();
                 });
             });
 
-            // Validate all sliders before form submission
-            document.querySelector("form").addEventListener("submit", function (event) {
-                const allMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
-                if (!allMoved) {
-                    event.preventDefault();
-                    document.getElementById("error-message").style.display = "block";
+            // Button selection setup
+            const rows = document.querySelectorAll(".points-row");
+            rows.forEach(row => {
+                const buttons = row.querySelectorAll(".points");
+
+                buttons.forEach(button => {
+                    button.addEventListener("click", function () {
+                        buttons.forEach(btn => btn.classList.remove("selected"));
+                        this.classList.add("selected");
+                        const value = $(this).data('value');
+                        $("#selected-points").val(value);
+                        hideError();
+                    });
+                });
+            });
+
+            // Combined form validation
+            $('#submit-button').on('click', function (e) {
+                const allSlidersMoved = sliders.every(({ checkId }) => document.getElementById(checkId).value === "1");
+                const points = $("#selected-points").val();
+
+                if (!allSlidersMoved || !points) {
+                    e.preventDefault();
+                    showError();
+                } else {
+                    $('form').submit();
                 }
             });
+
+            function showError() {
+                document.getElementById("error-message").style.display = "block";
+            }
+
+            function hideError() {
+                document.getElementById("error-message").style.display = "none";
+            }
         });
 
     </script>
@@ -407,12 +486,6 @@
                 <output id="output2"></output>
             </span>
         </div>
-
-        <!-- Error message -->
-        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
-            {{ dice_error }}
-        </div>
-
     </div>
 
     <br>
@@ -420,19 +493,32 @@
         {{ dice_trust_game }}
     </p>
 
-    <br>
     <div class='responsive-div'>
-        <p style="text-align: center;">
+        <p>
             <strong>{{ dice_question }}</strong>
         </p>
 
-        {{ form.trust_points }}
-
+        <div class='numbers'>
+            <div class="points-row" data-input="selected-points">
+            <input type="hidden" name="trust_points" id="selected-points" value="">
+                <div class="points" data-value="0">{{ dice_0points }}</div>
+                <div class="points" data-value="1">{{ dice_1points }}</div>
+                <div class="points" data-value="2">{{ dice_2points }}</div>
+                <div class="points" data-value="3">{{ dice_3points }}</div>
+            </div>
+        </div>
     </div>
 
-        <div style="display: flex; justify-content: flex-end">
-            <button class="btn btn-primary">Next</button>
-        </div>
+    <!-- Error message -->
+    <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+        {{ dice_error }}
+    </div>
+
+    <div class="button-container">
+        <button type="button" id="submit-button" class="submit-button">
+            {{ button_next }}
+        </button>
+    </div>
 
 
 

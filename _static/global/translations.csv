@@ -136,7 +136,7 @@ Dice,dice_very_trust,Very trustworthy
 Dice,dice_likable,How likable do you think this person is?
 Dice,dice_not_like,Not likable at all
 Dice,dice_very_like,Very likable
-Dice,dice_error,Please move all sliders before continuing.
+Dice,dice_error,Please answer all questions before continuing.
 Dice,dice_trust_game,"Now, you can send up to {points_to_send} points to this person. Each point you sent to this person is tripled. The other person can then transfer any amount of those (tripled) points back to you."
 Dice,dice_question,How many points do you want to send to this person?
 Dice,dice_0points,0 points

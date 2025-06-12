@@ -20,13 +20,6 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-# ''' ONLY WHEN TESTING ON ITS OWN'''
-# def creating_session(subsession):
-#     for player in subsession.get_players():
-#         participant = player.participant
-#         participant.progress = 1
-#         participant.decision_page_number = 0
-
 def creating_session(subsession):
     """
     Pairs of original and reported dice from the prolific pilot.
@@ -37,6 +30,8 @@ def creating_session(subsession):
 
         ''' ONLY WHEN TESTING APP ON ITS OWN'''
         participant = p.participant
+        participant.progress = 1
+        participant.decision_page_number = 0
         participant.language = 'en'
 
 
@@ -129,6 +124,7 @@ class DiceRatings(Page):
             dice_1points=get_translation("dice_1points", lang),
             dice_2points=get_translation("dice_2points", lang),
             dice_3points=get_translation("dice_3points", lang),
+            button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
         )
 
