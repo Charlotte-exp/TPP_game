@@ -1,7 +1,7 @@
 {{ block title }}
 
 
-    <p style="text-align: center; font-size: 26px; "> Additional questions </p>
+    <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -14,79 +14,177 @@
 
 {{ block content }}
 
+<script>
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+    var error3 = "{{ error3 }}";
+
+    /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = error3
+    }
+
+    </script>
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'shared_styles.css' %}"/>
 
 
-    <style>
-        label[for="id_born"] {
+        <style>
+            label[for="id_born"] {
             display: none;
         }
-    </style>
+        </style>
 
 
-<div class="card-body">
+        <div class="card-body">
 
-<!--    <p>-->
-<!--        Please answer the following questions. These are used for demographic purposes only.-->
-<!--        This information will not be associated with your name. You remain anonymous to all the other players and the experimenters.-->
-<!--    </p>-->
-
-
-    {{ formfield 'age' }}
-    {{ formfield 'gender' }}
-
-<!--    {{ born_question }}-->
-<!--    {{ form.born }}-->
-
-    <div style="margin-bottom: 1rem;">
-        <label>{{ born_question }}</label><br>
-
-        <select name="born" required>
-            <option value="" disabled selected>Select country</option> <!-- Placeholder option -->
-            {% for country in countries %}
-                <option value="{{ country }}">{{ country }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div style="margin-bottom: 1rem;">
-        <label>{{ born_mother_question }}</label><br>
-
-        <select name="born_mother" required>
-            <option value="" disabled selected>Select country</option> <!-- Placeholder option -->
-            {% for country in countries %}
-                <option value="{{ country }}">{{ country }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div style="margin-bottom: 1rem;">
-        <label>{{ born_father_question }}</label><br>
-
-        <select name="born_father" required>
-            <option value="" disabled selected>Select country</option> <!-- Placeholder option -->
-            {% for country in countries %}
-                <option value="{{ country }}">{{ country }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-<!--    {{ born_mother_question }}-->
-<!--    {{ form.born_mother }}-->
-<!--    {{ born_father_question }}-->
-<!--    {{ form.born_father }}-->
-
-    {{ formfield 'education' }}
-    {{ formfield 'rural' }}
+            <!--    <p>-->
+            <!--        Please answer the following questions. These are used for demographic purposes only.-->
+            <!--        This information will not be associated with your name. You remain anonymous to all the other players and the experimenters.-->
+            <!--    </p>-->
 
 
+            {{formfield 'age' label=age_question}}
+
+            <!--    {{ formfield 'gender' label=gender_question }}-->
+
+            <label>{{gender_question}}</label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Female"/>
+                {{female}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Male"/>
+                {{male}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Other"/>
+                {{other}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Prefer not to say"/>
+                {{pnts}}
+            </label><br/><br/>
 
 
-    <div style="display: flex; justify-content: flex-end">
-        {% next_button %}
-    </div>
+            <div style="margin-bottom: 1rem;">
+                <label>{{born_question}}</label><br/>
+
+                <select name="born" required>
+                    <option value="" disabled selected>{{select_country}}</option>
+                    <!-- Placeholder option -->
+                    {% for country in countries %}
+                    <option value="{{ country }}">{{country}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>{{born_mother_question}}</label><br/>
+
+                <select name="born_mother" required>
+                    <option value="" disabled selected>{{select_country}}</option>
+                    <!-- Placeholder option -->
+                    {% for country in countries %}
+                    <option value="{{ country }}">{{country}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label>{{born_father_question}}</label><br/>
+
+                <select name="born_father" required>
+                    <option value="" disabled selected>{{select_country}}</option>
+                    <!-- Placeholder option -->
+                    {% for country in countries %}
+                    <option value="{{ country }}">{{country}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--    {{ born_mother_question }}-->
+            <!--    {{ form.born_mother }}-->
+            <!--    {{ born_father_question }}-->
+            <!--    {{ form.born_father }}-->
+
+            <label>{{education_question}}</label><br/>
+
+            <label>
+                <input type="radio" name="education" value="No formal education/Early childhood education"/>
+                {{edu0}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education" value="Primary education (ages 5–12)"/>
+                {{edu1}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education" value="Lower secondary education (ages ~12–15)"/>
+                {{edu2}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education" value="Upper secondary education (ages ~15–18)"/>
+                {{edu3}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education"
+                       value="Post-secondary non-tertiary education (e.g., vocational training, certificates)"/>
+                {{edu4}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education"
+                       value="Short-cycle tertiary education (e.g., associate degree, advanced diploma)"/>
+                {{edu5}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education" value="Bachelor’s degree or equivalent"/>
+                {{edu6}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education" value="Master’s degree or equivalent"/>
+                {{edu7}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="education" value="Doctoral degree (PhD) or equivalent"/>
+                {{edu8}}
+            </label><br/><br/>
+
+
+            <label>{{rural_urban_question}}</label><br/>
+
+            <label>
+                <input type="radio" name="rural_urban" value="Rural"/>
+                {{rural}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="rural_urban" value="Town"/>
+                {{town}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="rural_urban" value="City"/>
+                {{city}}
+            </label><br/>
+
+
+            <div style="display: flex; justify-content: flex-end">
+                <button class="btn btn-primary">{{button_next | safe}}</button>
+            </div>
 
 </div>
 

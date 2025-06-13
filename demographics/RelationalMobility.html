@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Additional questions </p>
+    <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -25,6 +25,8 @@
 
 
 <script>
+
+    var error3 = "{{ error3 }}";
 
     document.addEventListener("DOMContentLoaded", function () {
     // Select all rows of answer buttons
@@ -62,10 +64,11 @@
         let answer4 = $(`#selected-answer-${4}`).val();
         let answer5 = $(`#selected-answer-${5}`).val();
         let answer6 = $(`#selected-answer-${6}`).val();
+        let answer7 = $(`#selected-answer-${7}`).val();
 
         // Check if either field is empty
-        if (!answer1 || !answer2 || !answer3 || !answer4 || !answer5 || !answer6) {
-            alert("Please complete all decisions to continue.");
+        if (!answer1 || !answer2 || !answer3 || !answer4 || !answer5 || !answer6 || !answer7) {
+            alert(error3);
         } else {
             // Submit the form if both fields have values
             $('form').submit();
@@ -88,109 +91,116 @@
     <input type="hidden" name="choosing_1" id="selected-answer-4" value="">
     <input type="hidden" name="choosing_2" id="selected-answer-5" value="">
     <input type="hidden" name="choosing_3" id="selected-answer-6" value="">
+    <input type="hidden" name="choosing_4" id="selected-answer-7" value="">
 
     <p>
-        How much do you feel the following statements accurately describe people in the immediate society in which you live
-        (such as your friends and acquaintances, colleagues in your workplace, and people in your neighborhood etc.)?
-        Regarding those people around you, please indicate to what extent you agree or disagree with the following statements.
-    </p>
-
-    <p>
-        NOTE: The term "groups" in some items refers to collections of people who know each other or who share the same goals,
-        such as friendship groups, hobby groups, sports teams, and companies.
+        {{ rel_intro|safe }}
     </p>
 
     <div class="responsive-div">
 
         <div class="question">
-            They (the people around you) have many chances to get to know other people.
+            {{ rmob1|safe }}
         </div>
 
         <div class='numbers'>
             <div class="answer-row" data-index="1" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="1">strongly<br>disagree</div>
-                <div class="answer" data-value="1" data-index="1">disagree</div>
-                <div class="answer" data-value="2" data-index="1">slightly<br>disagree</div>
-                <div class="answer" data-value="3" data-index="1">slightly<br>agree</div>
-                <div class="answer" data-value="4" data-index="1">agree</div>
-                <div class="answer" data-value="5" data-index="1">strongly<br>agree</div>
+                <div class="answer" data-value="0" data-index="1">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="1">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="1">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="1">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="1">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="1">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
         <div class="question">
-            It is common for these people to have a conversation with someone they have never met before..
+            {{ rmob2|safe }}
         </div>
 
         <div class='numbers'>
             <div class="answer-row" data-index="2" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="2">strongly<br>disagree</div>
-                <div class="answer" data-value="1" data-index="2">disagree</div>
-                <div class="answer" data-value="2" data-index="2">slightly<br>disagree</div>
-                <div class="answer" data-value="3" data-index="2">slightly<br>agree</div>
-                <div class="answer" data-value="4" data-index="2">agree</div>
-                <div class="answer" data-value="5" data-index="2">strongly<br>agree</div>
+                <div class="answer" data-value="0" data-index="2">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="2">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="2">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="2">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="2">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="2">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
         <div class="question">
-            There are few opportunities for these people to form new friendships.
+            {{ rmob4|safe }}
         </div>
 
         <div class='numbers'>
             <div class="answer-row" data-index="3" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="3">strongly<br>disagree</div>
-                <div class="answer" data-value="1" data-index="3">disagree</div>
-                <div class="answer" data-value="2" data-index="3">slightly<br>disagree</div>
-                <div class="answer" data-value="3" data-index="3">slightly<br>agree</div>
-                <div class="answer" data-value="4" data-index="3">agree</div>
-                <div class="answer" data-value="5" data-index="3">strongly<br>agree</div>
+                <div class="answer" data-value="0" data-index="3">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="3">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="3">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="3">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="3">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="3">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
         <div class="question">
-            They are able to choose, according to their own preferences,
-                the people whom they interact with in their daily life.
+            {{ rmob3|safe }}
         </div>
 
         <div class='numbers'>
             <div class="answer-row" data-index="4" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="4">strongly<br>disagree</div>
-                <div class="answer" data-value="1" data-index="4">disagree</div>
-                <div class="answer" data-value="2" data-index="4">slightly<br>disagree</div>
-                <div class="answer" data-value="3" data-index="4">slightly<br>agree</div>
-                <div class="answer" data-value="4" data-index="4">agree</div>
-                <div class="answer" data-value="5" data-index="4">strongly<br>agree</div>
+                <div class="answer" data-value="0" data-index="4">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="4">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="4">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="4">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="4">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="4">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
         <div class="question">
-            If they did not like their current groups, they could leave for better ones.
+            {{ rmob10|safe }}
         </div>
 
         <div class='numbers'>
             <div class="answer-row" data-index="5" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="5">strongly<br>disagree</div>
-                <div class="answer" data-value="1" data-index="5">disagree</div>
-                <div class="answer" data-value="2" data-index="5">slightly<br>disagree</div>
-                <div class="answer" data-value="3" data-index="5">slightly<br>agree</div>
-                <div class="answer" data-value="4" data-index="5">agree</div>
-                <div class="answer" data-value="5" data-index="5">strongly<br>agree</div>
+                <div class="answer" data-value="0" data-index="5">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="5">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="5">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="5">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="5">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="5">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
         <div class="question">
-            Even if these people were not satisfied with their current relationships,
-                they would often have no choice but to stay with them.
+            {{ rmob11|safe }}
         </div>
 
         <div class='numbers'>
             <div class="answer-row" data-index="6" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="6">strongly<br>disagree</div>
-                <div class="answer" data-value="1" data-index="6">disagree</div>
-                <div class="answer" data-value="2" data-index="6">slightly<br>disagree</div>
-                <div class="answer" data-value="3" data-index="6">slightly<br>agree</div>
-                <div class="answer" data-value="4" data-index="6">agree</div>
-                <div class="answer" data-value="5" data-index="6">strongly<br>agree</div>
+                <div class="answer" data-value="0" data-index="6">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="6">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="6">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="6">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="6">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="6">{{ strongly_agree|safe }}</div>
+            </div>
+        </div>
+
+        <div class="question">
+            {{ rmob12|safe }}
+        </div>
+
+        <div class='numbers'>
+            <div class="answer-row" data-index="5" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="7">{{ strongly_disagree|safe }}</div>
+                <div class="answer" data-value="1" data-index="7">{{ disagree|safe }}</div>
+                <div class="answer" data-value="2" data-index="7">{{ slightly_disagree|safe }}</div>
+                <div class="answer" data-value="3" data-index="7">{{ slightly_agree|safe }}</div>
+                <div class="answer" data-value="4" data-index="7">{{ agree|safe }}</div>
+                <div class="answer" data-value="5" data-index="7">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
@@ -198,7 +208,7 @@
 
     <div class="button-container">
         <button type="button" id="submit-button" class="submit-button">
-            Next
+            {{button_next | safe}}
         </button>
     </div>
 

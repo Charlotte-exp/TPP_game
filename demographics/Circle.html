@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Additional questions </p>
+    <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -12,6 +12,19 @@
 {{ endblock }}
 
 {{ block content }}
+
+<script>
+
+    var error1 = "{{ error1 }}";
+
+    /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = error1
+    }
+
+    </script>
 
 
     {% load static %}
@@ -96,18 +109,6 @@
 </style>
 
 
-<script>
-
-     /// Function for showing customized error messages
-    const errorDiv = document.querySelector('.otree-form-errors');
-
-    if (errorDiv) {
-        errorDiv.textContent = 'Please make a decision to continue.'
-    }
-
-</script>
-
-
 <form method="POST">
 
     <!-- Hidden input to hold the slider value -->
@@ -116,13 +117,11 @@
 <!--    {{ formfield_errors 'self_other' }}-->
 
     <p>
-        Once you move the slider below, a pair of circles will appear in the box.
-        The position of the slider will determine how much the circles overlap.
-        This overlap represents the relationship between you and your country.
+        {{ circle_intro|safe }}
     </p>
 
     <p style="text-align: center;">
-        <strong>Please position the slider to reflect how connected you feel to your country.</strong>
+        <b>{{ circle_question|safe }}</b>
     </p>
 
     <table class="IOS">
@@ -151,7 +150,7 @@
     </table>
 
     <div style="display: flex; justify-content: flex-end">
-        {% next_button %}
+        <button class="btn btn-primary">{{button_next | safe}}</button>
     </div>
 
 </form>
@@ -209,8 +208,10 @@
         ctx.font = "16px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = 'middle';
-        ctx.fillText("You", center-((radius*headers)/2), horizontal);
-        ctx.fillText("Your country", center+((radius*headers)/2), horizontal);
+        var you = "{{ you }}";
+        var your_country = "{{ your_country }}";
+        ctx.fillText(you, center-((radius*headers)/2), horizontal);
+        ctx.fillText(your_country, center+((radius*headers)/2), horizontal);
 
         // Update the hidden input with current Value
         document.getElementById("self_other_input").value = Value;
