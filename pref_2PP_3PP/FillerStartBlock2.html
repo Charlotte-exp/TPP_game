@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Start of Block 2 </p>
+    <p style="text-align: center; font-size: 26px; "> {{ filler2a_title|safe }} </p>
 
     <div style="display: flex; justify-content: center; margin-bottom: 4px;">
         <label>
@@ -31,20 +31,20 @@
 
 
     <p>
-      You are now <b> beginning the second block</b>, where you will make <b> additional decisions in different situations</b>, using your bonus points from Block 1.
+      {{ filler2a_beginning|safe }}
     </p>
 
     <p>
-        After Block 2, <b> <u>one</u> situation</b> will again be randomly selected to <b>determine your final bonus points</b>.
+        {{ filler2_selected|safe }}
     </p>
 
     <p>
-        The situations you will see are different from those in the first block. <b>All information</b> needed to make your decisions will be displayed <b>on the decision page</b>.
+        {{ filler2a_different|safe }}
     </p>
 
 
     <div style="display: flex; justify-content: flex-end">
-        <button class="btn btn-primary">Next</button>
+        <button class="btn btn-primary">{{ button_next|safe }}</button>
     </div>
 
 {{ endblock }}

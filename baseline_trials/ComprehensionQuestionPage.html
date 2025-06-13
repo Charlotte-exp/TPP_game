@@ -1,10 +1,10 @@
 {{ block title }}
 
 <div class="block-header">
-    Block 1
+    {{ button_block|safe }} 1
 </div>
 
-<p style="text-align: center"> Knowledge check </p>
+<p style="text-align: center"> {{ comprehension_title|safe }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -368,7 +368,7 @@
                        font-size: 1rem;
                        border-radius: 0.25rem;
                        padding: 4px 12px;" type="button" id="submit-button">
-            Next
+            {{ button_next|safe }}
         </button>
     </div>
 

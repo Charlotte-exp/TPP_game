@@ -1,10 +1,10 @@
 {{ block title }}
 
 <div class="block-header">
-    Block 1
+    {{ button_block|safe }} 1
 </div>
 
-<p style="text-align: center; font-size: 26px;  "> Decision {{player.round_number}} </p>
+<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{player.round_number}} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -434,7 +434,7 @@
                 {% endif %}
 
                 <div class="you-dictator">
-                    <b>YOU</b>
+                    <b>{{ you }}</b>
                 </div>
 
 
@@ -457,7 +457,11 @@
             </p>
 
             {% if not "0DG" in player.treatment %}
+
+            <p style="text-align: center;">
                 {{ dict_decision_mind }}
+            </p>
+
             {% endif %}
 
             <div class="number-row">
@@ -480,7 +484,7 @@
 
     <div class="button-container">
         <button type="button" id="submit-button" class="submit-button">
-            Next
+            {{ button_next|safe }}
         </button>
     </div>
 

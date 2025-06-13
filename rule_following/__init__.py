@@ -34,7 +34,7 @@ def creating_session(subsession):
         ''' ONLY WHEN TESTING ON ITS OWN'''
         p.participant.decision_page_number = 0  # For testing only
         p.participant.progress = 1
-        p.participant.language = 'en'
+        p.participant.language = 'de'
 
 
 class Group(BaseGroup):
@@ -111,6 +111,10 @@ class RuleFollowing(Page):
             rule_another_lose=get_translation("rule_another_lose", lang),
             rule_me_lose=get_translation("rule_me_lose", lang),
             aim= player.rule_aim,
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
+            error_all_sliders=get_translation('error_all_sliders', lang),
         )
 
     def before_next_page(player: Player, timeout_happened):

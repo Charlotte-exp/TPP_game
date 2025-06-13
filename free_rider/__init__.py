@@ -21,7 +21,7 @@ def creating_session(subsession):
     for player in subsession.get_players():
         participant = player.participant
         participant.progress = 1
-        participant.language = 'en'
+        participant.language = 'de'
 
 
 class Group(BaseGroup):
@@ -88,6 +88,8 @@ class Narratives(Page):
             agree=get_translation("agree", lang),
             strongly_agree=get_translation("strongly_agree", lang),
             button_next=get_translation("button_next", lang),
+            error3=get_translation("error3", lang),
+            additional_questions=get_translation("additional_questions", lang),
             total_pages=player.session.config['total_pages'],
         )
 

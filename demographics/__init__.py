@@ -39,7 +39,7 @@ def creating_session(subsession):
         participant.current_countryname = "the United Kingdom"
 
         # translation
-        participant.language = 'en'
+        participant.language = 'de'
 
 
 class Group(BaseGroup):

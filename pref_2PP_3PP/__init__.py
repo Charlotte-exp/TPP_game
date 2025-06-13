@@ -25,7 +25,7 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
 
         ''' ONLY WHEN TESTING APP ON ITS OWN'''
         participant.progress = 1
-        participant.language = 'en'
+        participant.language = 'de'
 
 class Group(BaseGroup):
     pass
@@ -52,7 +52,6 @@ class FillerEndBlock1(Page):
         return dict(
             filler1_title=get_translation("filler1_title", lang),
             filler1_completed=get_translation("filler1_completed", lang),
-            filler1_end=get_translation("filler1_end", lang),
             filler1_next_page=get_translation("filler1_next_page", lang),
             button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
@@ -87,7 +86,10 @@ class Pref_2PP_3PP(Page):
             pref_3PP_first=get_translation("pref_3PP_first", lang),
             pref_2PP=get_translation("pref_2PP", lang),
             pref_3PP=get_translation("pref_3PP", lang),
+            or_button=get_translation("or_button", lang),
             button_next=get_translation("button_next", lang),
+            button_block=get_translation("button_block", lang),
+            error3=get_translation("error3", lang),
             total_pages=player.session.config['total_pages'],
         )
 
@@ -105,10 +107,10 @@ class FillerStartBlock2(Page):
         lang = participant.language
 
         return dict(
-            filler2a_title=get_translation("filler1_title", lang),
-            filler2a_beginning=get_translation("filler1_beginning", lang),
-            filler2a_selected=get_translation("filler1_selected", lang),
-            filler2a_different=get_translation("filler1_different", lang),
+            filler2a_title=get_translation("filler2a_title", lang),
+            filler2a_beginning=get_translation("filler2a_beginning", lang),
+            filler2_selected=get_translation("filler2_selected", lang),
+            filler2a_different=get_translation("filler2a_different", lang),
             button_next=get_translation("button_next", lang),
             total_pages=player.session.config['total_pages'],
         )
