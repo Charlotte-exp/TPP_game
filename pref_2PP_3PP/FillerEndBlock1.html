@@ -1,0 +1,55 @@
+{{ block title }}
+
+    <p style="text-align: center; font-size: 26px; "> {{ filler1_title }} </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
+
+{{ endblock }}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            text-align: center;
+        }
+
+    </style>
+
+{{ endblock }}
+
+{{ block content }}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
+
+<div class="card-body">
+
+    <p>
+        {{ filler1_completed }}
+    </p>
+
+    <p>
+        {{ filler1_end }}
+    </p>
+
+    <p>
+        {{ filler1_next_page }}
+    </p>
+
+    <div style="display: flex; justify-content: flex-end">
+        <button class="btn btn-primary">{{ button_next }}</button>
+    </div>
+
+</div>
+
+
+{{ endblock }}
+

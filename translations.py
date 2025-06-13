@@ -14,4 +14,6 @@ load_translations()
 
 def get_translation(key, lang='en', **kwargs):
     template = TRANSLATIONS.get(key, {}).get(lang, f"[{key}]")
-    return template.format(**kwargs)
+    if kwargs:
+        return template.format(**kwargs)
+    return template  # Leave as-is if no values passed

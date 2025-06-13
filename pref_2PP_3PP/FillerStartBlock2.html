@@ -17,11 +17,7 @@
     <style>
 
         body {
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: 4vw;
-            background-color: #f4f4f4;
+            text-align: center;
         }
 
     </style>
@@ -29,6 +25,10 @@
 {{ endblock }}
 
 {{ block content }}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
 
     <p>
       You are now <b> beginning the second block</b>, where you will make <b> additional decisions in different situations</b>, using your bonus points from Block 1.

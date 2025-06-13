@@ -397,7 +397,7 @@
     .question {
         text-align: center;
         margin-top:20px;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: bold;
     }
 
@@ -405,6 +405,7 @@
         justify-content: center;
         display: flex;
         margin-top:1vw;
+        margin-bottom:25px;
         left:calc(50% - 10vw);
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
@@ -567,6 +568,9 @@
             width: 55px; /* Width scales with viewport width */
             height: 45px; /* Height scales with viewport width */
             font-size: 8.5px;
+        }
+        .question {
+            font-size: 12px;
         }
         .answer {
             width: 55px; /* should not scale */

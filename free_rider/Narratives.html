@@ -86,83 +86,76 @@
     <input type="hidden" name="poor_merit" id="selected-answer-4" value="">
 
 
-    <div class="card-body">
-        <p>
-            In this part, we will ask you to answer four short questions.
-        </p>
+    <div style="text-align: center">
+        {{ narratives_question }}
+    </div>
 
-        <p>
-            Please indicate to what extent you agree or disagree with the following statements.
-        </p>
+    <div class="responsive-div">
 
-        <div class="responsive-div">
+        <div class="question">
+            {{ narratives_wealthy_contribution }}
+        </div>
 
-            <div class="question">
-                The wealthiest 1% in my country should contribute more to society.
-            </div>
-
-            <div class='numbers'>
-                <div class="answer-row" data-index="1" data-input="selected-answer">
-                    <div class="answer" data-value="0" data-index="1">strongly<br>disagree</div>
-                    <div class="answer" data-value="1" data-index="1">disagree</div>
-                    <div class="answer" data-value="2" data-index="1">slightly<br>disagree</div>
-                    <div class="answer" data-value="3" data-index="1">slightly<br>agree</div>
-                    <div class="answer" data-value="4" data-index="1">agree</div>
-                    <div class="answer" data-value="5" data-index="1">strongly<br>agree</div>
-                </div>
-            </div>
-
-            <div class="question">
-                The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.
-            </div>
-
-            <div class='numbers'>
-                <div class="answer-row" data-index="2" data-input="selected-answer">
-                    <div class="answer" data-value="0" data-index="2">strongly<br>disagree</div>
-                    <div class="answer" data-value="1" data-index="2">disagree</div>
-                    <div class="answer" data-value="2" data-index="2">slightly<br>disagree</div>
-                    <div class="answer" data-value="3" data-index="2">slightly<br>agree</div>
-                    <div class="answer" data-value="4" data-index="2">agree</div>
-                    <div class="answer" data-value="5" data-index="2">strongly<br>agree</div>
-                </div>
-            </div>
-
-            <div class="question">
-                The poorest 1% in my country should contribute more to society.
-            </div>
-
-            <div class='numbers'>
-                <div class="answer-row" data-index="3" data-input="selected-answer">
-                    <div class="answer" data-value="0" data-index="3">strongly<br>disagree</div>
-                    <div class="answer" data-value="1" data-index="3">disagree</div>
-                    <div class="answer" data-value="2" data-index="3">slightly<br>disagree</div>
-                    <div class="answer" data-value="3" data-index="3">slightly<br>agree</div>
-                    <div class="answer" data-value="4" data-index="3">agree</div>
-                    <div class="answer" data-value="5" data-index="3">strongly<br>agree</div>
-                </div>
-            </div>
-
-            <div class="question">
-                The poorest 1% in my country are in their current position largely due to their own actions and decisions.
-            </div>
-
-            <div class='numbers'>
-                <div class="answer-row" data-index="4" data-input="selected-answer">
-                    <div class="answer" data-value="0" data-index="4">strongly<br>disagree</div>
-                    <div class="answer" data-value="1" data-index="4">disagree</div>
-                    <div class="answer" data-value="2" data-index="4">slightly<br>disagree</div>
-                    <div class="answer" data-value="3" data-index="4">slightly<br>agree</div>
-                    <div class="answer" data-value="4" data-index="4">agree</div>
-                    <div class="answer" data-value="5" data-index="4">strongly<br>agree</div>
-                </div>
+        <div class='numbers'>
+            <div class="answer-row" data-index="1" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="1">{{ strongly_disagree }}</div>
+                <div class="answer" data-value="1" data-index="1">{{ disagree }}</div>
+                <div class="answer" data-value="2" data-index="1">{{ slightly_disagree }}</div>
+                <div class="answer" data-value="3" data-index="1">{{ slightly_agree }}</div>
+                <div class="answer" data-value="4" data-index="1">{{ agree }}</div>
+                <div class="answer" data-value="5" data-index="1">{{ strongly_agree }}</div>
             </div>
         </div>
 
+        <div class="question">
+            {{ narratives_wealthy_merit }}
+        </div>
+
+        <div class='numbers'>
+            <div class="answer-row" data-index="2" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="2">{{ strongly_disagree }}</div>
+                <div class="answer" data-value="1" data-index="2">{{ disagree }}</div>
+                <div class="answer" data-value="2" data-index="2">{{ slightly_disagree }}</div>
+                <div class="answer" data-value="3" data-index="2">{{ slightly_agree }}</div>
+                <div class="answer" data-value="4" data-index="2">{{ agree }}</div>
+                <div class="answer" data-value="5" data-index="2">{{ strongly_agree }}</div>
+            </div>
+        </div>
+
+        <div class="question">
+            {{ narratives_poor_contribution }}
+        </div>
+
+        <div class='numbers'>
+            <div class="answer-row" data-index="3" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="3">{{ strongly_disagree }}</div>
+                <div class="answer" data-value="1" data-index="3">{{ disagree }}</div>
+                <div class="answer" data-value="2" data-index="3">{{ slightly_disagree }}</div>
+                <div class="answer" data-value="3" data-index="3">{{ slightly_agree }}</div>
+                <div class="answer" data-value="4" data-index="3">{{ agree }}</div>
+                <div class="answer" data-value="5" data-index="3">{{ strongly_agree }}</div>
+            </div>
+        </div>
+
+        <div class="question">
+            {{ narratives_poor_merit }}
+        </div>
+
+        <div class='numbers'>
+            <div class="answer-row" data-index="4" data-input="selected-answer">
+                <div class="answer" data-value="0" data-index="4">{{ strongly_disagree }}</div>
+                <div class="answer" data-value="1" data-index="4">{{ disagree }}</div>
+                <div class="answer" data-value="2" data-index="4">{{ slightly_disagree }}</div>
+                <div class="answer" data-value="3" data-index="4">{{ slightly_agree }}</div>
+                <div class="answer" data-value="4" data-index="4">{{ agree }}</div>
+                <div class="answer" data-value="5" data-index="4">{{ strongly_agree }}</div>
+            </div>
+        </div>
     </div>
 
     <div class="button-container">
         <button type="button" id="submit-button" class="submit-button">
-            Next
+            {{ button_next }}
         </button>
     </div>
 

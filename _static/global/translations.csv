@@ -2,8 +2,7 @@ page,key,en,Arabic,Chinese_traditional,Dutch,Estonian,French,German,Hebrew,Hindi
 Consent,consent_title,Welcome!,,,,,,,,,,,,,,,,,,,,,,
 Consent,consent_thank_you,Thank you for participating in this study about decision-making!,,,,,,,,,,,,,,,,,,,,,,
 Consent,consent_intro_title,What happens next,,,,,,,,,,,,,,,,,,,,,,
-Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.  
-
+Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>. 
 Please read them carefully, as <b>your decisions affect your final payment</b>.</li> 
 <li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
 <li> The study is made up of 2 blocks. In total, you will make about <b>{decisions_approx} decisions</b>, and the study takes around <b>{time} minutes</b>. </li></ul>",,,,,,,,,,,,,,,,,,,,,,
