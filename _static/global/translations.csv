@@ -2,7 +2,8 @@ page,key,en,Arabic,Chinese_traditional,Dutch,Estonian,French,German,Hebrew,Hindi
 Consent,consent_title,Welcome!,,,,,,,,,,,,,,,,,,,,,,
 Consent,consent_thank_you,Thank you for participating in this study about decision-making!,,,,,,,,,,,,,,,,,,,,,,
 Consent,consent_intro_title,What happens next,,,,,,,,,,,,,,,,,,,,,,
-Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>. 
+Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.  
+
 Please read them carefully, as <b>your decisions affect your final payment</b>.</li> 
 <li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
 <li> The study is made up of 2 blocks. In total, you will make about <b>{decisions_approx} decisions</b>, and the study takes around <b>{time} minutes</b>. </li></ul>",,,,,,,,,,,,,,,,,,,,,,
@@ -27,6 +28,11 @@ Introduction,intro_block2,"In the second block, you will make additional decisio
 Introduction,intro_points_title,After the study,,,,,,,,,,,,,,,,,,,,,,
 Introduction,intro_points,"Bonus points are calculated after all participants have completed the study. They cannot be negative. Since you will not know which decisions will count, you should <b>treat each decision as if it is selected</b>.",,,,,,,,,,,,,,,,,,,,,,
 Introduction,intro_carefully,"Please read the instructions carefully, as your decisions affect your payoff.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_part1,Part 1,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_part2,Part 2,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_part3,Part 3,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_part4,Part 4,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_part5,Part 5,,,,,,,,,,,,,,,,,,,,,,
 Instructions,instru_0DG_pairing,"In <u>each</u> decision, you will be paired with a <b>different study participant</b>. You will also be assigned a role for every decision (for example, Person A or Person B).",,,,,,,,,,,,,,,,,,,,,,
 Instructions,instru_0DG_decision,A decision can look like this:,,,,,,,,,,,,,,,,,,,,,,
 Instructions,instru_0DG_points,<strong>Person A</strong> receives 12 points. <br><strong>Person B</strong> receives 0 points.,,,,,,,,,,,,,,,,,,,,,,
@@ -40,6 +46,13 @@ Instructions,instru_3PP_change,Now there is one change.,,,,,,,,,,,,,,,,,,,,,,
 Instructions,instru_3PP_personc,There will be a third person: <b >Person C.</b>,,,,,,,,,,,,,,,,,,,,,,
 Instructions,instru_3PP_remove,"Person B is <u>not</u> able to remove points anymore. Instead, <b style='color: red; '>Person C</b> is able to <b>remove points</b> from Person A.",,,,,,,,,,,,,,,,,,,,,,
 Instructions,instru_3PP_rules,"In <b>Stage 2</b>, Person C receives additional 4 points. Removing <b>1 point</b> from Person A costs Person C <b> {cost_per_point}</b>. Points removed by Person C are eliminated.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_INOUT,"You will know if Person A and Person B <b style=""color: red; "">also live in {current_country}</b> or in <b style=""color: red; "">one of {number_countries} countries</b> around the globe which also participate in this study:",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_countries_list,"<i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece, Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco, Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, United Arab Emirates, United States, Uruguay, Venezuela, Vietnam </i>",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_countries,"You will know <b style=""color: red; "">in which specific country</b> Person A and Person B live.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_countries_here,Here is an example:,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_countries_example,"In this example, Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_countries_personc,You will not see where Person C lives.,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_countries_remove,<b>Person C</b> is <u>still able</u> to <b>remove points</b> from Person A.,,,,,,,,,,,,,,,,,,,,,,
 Attention Check,attention_error_green,Correct answer! Please press 'Next'.,,,,,,,,,,,,,,,,,,,,,,
 Attention Check,attention_error_red,Wrong answer! Please select the correct answer.,,,,,,,,,,,,,,,,,,,,,,
 Attention Check,attention_check1,"To show us that you are paying attention, please select <b>4 points</b>.",,,,,,,,,,,,,,,,,,,,,,

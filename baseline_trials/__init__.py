@@ -492,6 +492,7 @@ class Introduction(Page):
         lang = participant.language
         return dict(
             total_pages=player.session.config['total_pages'],
+            intro_title=get_translation('intro_title', lang),
             intro_pairing=get_translation('intro_pairing', lang),
             intro_prolific=get_translation('intro_prolific', lang),
             intro_conversion=get_translation('intro_conversion', lang,
@@ -561,24 +562,61 @@ class instructionPage(Page):
         block3 = "country" in player.treatment or "universal norm" in player.treatment
         #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
 
-        return {
-            'treatment': player.treatment,
-            # 'treatment_text': text,
-            'cost_per_point': round(1/C.TP_cost, 2),
-            'image': image,
-            'random_trial_numbers': random_trial_numbers,
-            'random_trial_numbers_diff': random_trial_numbers_diff,
-            'dic_identity':dic_identity,
-            'recip_identity':recip_identity,
-            'dic_identity_country':dic_identity_country,
-            'recip_identity_country':recip_identity_country,
-            'first_block_2PP_true': first_block_2PP_true,
-            'block2': block2,
-            'block3': block3,
-            'current_country': C.CURRENT_COUNTRYNAME,
-            'treatment_type': treatment_type,
-            'total_pages':player.session.config['total_pages'],
-        }
+        participant = player.participant
+        lang = participant.language
+        return dict(
+            treatment=player.treatment,
+            cost_per_point=round(1 / C.TP_cost, 2),
+            image=image,
+            random_trial_numbers=random_trial_numbers,
+            random_trial_numbers_diff=random_trial_numbers_diff,
+            dic_identity=dic_identity,
+            recip_identity=recip_identity,
+            dic_identity_country=dic_identity_country,
+            recip_identity_country=recip_identity_country,
+            first_block_2PP_true=first_block_2PP_true,
+            block2=block2,
+            block3=block3,
+            current_country=C.CURRENT_COUNTRYNAME,
+            treatment_type=treatment_type,
+            intro_block1_title=get_translation('intro_block1_title', lang),
+            instru_part1=get_translation('instru_part1', lang),
+            instru_part2=get_translation('instru_part2', lang),
+            instru_part3=get_translation('instru_part3', lang),
+            instru_part4=get_translation('instru_part4', lang),
+            instru_part5=get_translation('instru_part5', lang),
+            instru_0DG_pairing=get_translation('instru_0DG_pairing', lang),
+            instru_0DG_decision=get_translation('instru_0DG_decision', lang),
+            instru_0DG_points=get_translation('instru_0DG_points', lang),
+            instru_0DG_rules=get_translation('instru_0DG_rules', lang),
+            instru_2PP_stages=get_translation('instru_2PP_stages', lang),
+            instru_2PP_points=get_translation('instru_2PP_points', lang),
+            instru_2PP_stage2=get_translation('instru_2PP_stages2', lang),
+            instru_2PP_remove=get_translation('instru_2PP_remove', lang,
+                                              cost_per_point=round(1/C.TP_cost, 2)),
+            instru_2PP_role=get_translation('instru_2PP_role', lang),
+            instru_3PP_change=get_translation('instru_3PP_change', lang),
+            instru_3PP_personc=get_translation('instru_3PP_personc', lang),
+            instru_3PP_remove=get_translation('instru_3PP_remove', lang),
+            instru_3PP_rules=get_translation('instru_3PP_rules', lang,
+                                              cost_per_point=round(1/C.TP_cost, 2)),
+            instru_INOUT=get_translation('instru_INOUT', lang,
+                                         current_country=C.CURRENT_COUNTRYNAME,
+                                         number_countries=C.NUM_COUNTRIES,),
+            instru_countries_list=get_translation('instru_countries_list', lang),
+            instru_countries=get_translation('instru_countries', lang),
+            instru_countries_here=get_translation('instru_countries_here', lang),
+            instru_countries_example=get_translation('instru_countries_example', lang,
+                                                     dic_identity_country=dic_identity_country,
+                                                     recip_identity_country=recip_identity_country,),
+            instru_countries_personc=get_translation('instru_countries_personc', lang),
+            instru_countries_remove=get_translation('instru_countries_remove', lang),
+            person_a=get_translation('person_a', lang),
+            person_b=get_translation('person_b', lang),
+            person_c=get_translation('person_c', lang),
+            button_understood=get_translation('button_understood', lang),
+            total_pages=player.session.config['total_pages'],
+        )
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -649,6 +687,7 @@ class ComprehensionQuestionPage(Page):
             comprehension_2PP_answer2=get_translation('comprehension_2PP_answer2', lang,
                                                       cost_per_point=round(1/C.TP_cost, 2)),
             comprehension_2PP_answer3=get_translation('comprehension_2PP_answer3', lang),
+            button_next=get_translation('button_next', lang),
         )
 
     @staticmethod
@@ -691,6 +730,8 @@ class AttentionCheckPage(Page):
         correct_answers = [3, 1]
         attention_round1 = C.attention_check_rounds[0]
 
+        participant = player.participant
+        lang = participant.language
         return dict(
             treatment=player.treatment,
             page_name=AttentionCheckPage,
@@ -699,6 +740,7 @@ class AttentionCheckPage(Page):
             attention_round1=attention_round1,
             attention1=player.attention1,
             attention2=player.attention2,
+            button_next=get_translation('button_next', lang),
             total_pages=player.session.config['total_pages'],
         )
 
@@ -873,7 +915,7 @@ class TPPage(Page):
             image=image,
             current_country=C.CURRENT_COUNTRYNAME,
             role_switch_true=player.role_switch_true,
-            total_pages=player.session.config['total_pages'],
+            button_decision=get_translation('button_decision', lang),
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
@@ -910,6 +952,8 @@ class TPPage(Page):
             slightly_appropriate=get_translation('slightly_appropriate', lang),
             appropriate=get_translation('appropriate', lang),
             very_appropriate=get_translation('appropriate', lang),
+            button_next=get_translation('button_next', lang),
+            total_pages=player.session.config['total_pages'],
         )
         # Conditionally add the extra variable
         if "comp" in player.treatment:
@@ -1014,7 +1058,7 @@ class DictatorPage(Page):
             dic_decision1=player.dic_decision1,
             image=image,
             role_switch_true = player.role_switch_true,
-            total_pages=player.session.config['total_pages'],
+            button_decision=get_translation('button_decision', lang),
             dict_norm_instru=get_translation('dict_norm_instru', lang),
             dict_norm_incentive=get_translation('dict_norm_incentive', lang,
                                                 ratings_extra_points=C.ratings_extra_points,
@@ -1043,7 +1087,8 @@ class DictatorPage(Page):
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
-
+            button_next=get_translation('button_next', lang),
+            total_pages=player.session.config['total_pages'],
             )
 
     def before_next_page(player: Player, timeout_happened):
