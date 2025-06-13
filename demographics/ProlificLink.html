@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Thank you! </p>
+    <p style="text-align: center; font-size: 26px; "> {{ thank_you_short|safe }} </p>
 
 {{ endblock }}
 
@@ -13,17 +13,17 @@
 
 
 <div style="font-size: 14px">
-    <p> You will shortly be redirected to Prolific to receive your payment.</p>
+    <p> {{ redirect_prolific_info|safe }}</p>
 
-    <p>If you are not redirected within 5 seconds, please click on this
+    <p>{{ redirect_prolific_wait|safe }}
         <b><a href="https://app.prolific.com/submissions/complete?cc=C1B0FPN9"> https://app.prolific.com/submissions/complete?cc=C1B0FPN9 </a></b>
     </p>
     <p>
-        If the link does not work, please use this completion code: <b>C1B0FPN9</b>
+        {{ redirect_prolific_code|safe }} <b>C1B0FPN9</b>
     </p>
 
     <div style="display: flex; justify-content: flex-end">
-        {{ next_button }}
+        <button class="btn btn-primary">{{button_next | safe}}</button>
     </div>
 
 </div>

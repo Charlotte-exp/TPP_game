@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Feedback </p>
+    <p style="text-align: center; font-size: 26px; "> {{ feedback|safe }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -20,16 +20,16 @@
 <div class="card-body">
 
     <p>
-        This is a new study, and we are still testing it. We would really appreciate your feedback.
+        {{ comment_intro|safe }}
     </p>
 
-    {{ formfield player.question_box }}
+    {{ formfield player.question_box label=question_box }}
 
-    {{ formfield player.comment_box }}
+    {{ formfield player.comment_box label=comment_box }}
 </div>
 
     <div style="display: flex; justify-content: flex-end">
-        {{ next_button }}
+        <button class="btn btn-primary">{{button_next | safe}}</button>
     </div>
 
 {{ endblock }}

@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Additional questions </p>
+    <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -20,14 +20,15 @@
 <div class="card-body">
 
     <p>
-        Imagine this 10 steps ladder represents the socio-economic distribution in your country.
-        At the top of the ladder are the people who are the best off, those who have the most money, most education, and best jobs.
-        At the bottom are the people who are the worst off, those who have the least money, least education, worst jobs, or no job.
-        Please click on the rung that best represents where you think you stand on the ladder.
+        {{ ladder_intro|safe }}
+    </p>
+
+    <p>
+        <b> {{ ladder_question|safe }} </b>
     </p>
 
     <div class="ladder-wrapper">
-        <div class="ladder-label top-label">Best off (most money, education, jobs)</div>
+        <div class="ladder-label top-label">{{ ladder_best_off|safe }}</div>
 
         <div id="ladder-container">
             {% for i in ladder_values %}
@@ -35,13 +36,13 @@
             {% endfor %}
         </div>
 
-        <div class="ladder-label bottom-label">Worst off (least money, education, jobs)</div>
+        <div class="ladder-label bottom-label">{{ ladder_worst_off|safe }}</div>
     </div>
 
     <input type="hidden" name="income_ladder" id="income_ladder">
 
     <div style="display: flex; justify-content: flex-end">
-        {{ next_button }}
+        <button class="btn btn-primary">{{button_next | safe}}</button>
     </div>
 
 </div>
@@ -146,10 +147,12 @@
     });
 
         /// Function for showing customized error messages
+        var error1 = "{{ error1 }}";
+
         const errorDiv = document.querySelector('.otree-form-errors');
 
         if (errorDiv) {
-        errorDiv.textContent = 'Please make a decision to continue.'
+        errorDiv.textContent = error1
     }
 
 </script>

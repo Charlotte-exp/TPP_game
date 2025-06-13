@@ -1,198 +1,262 @@
-page,key,en
-Consent,consent_title,Welcome!
-Consent,consent_thank_you,Thank you for participating in this study about decision-making!
-Consent,consent_intro_title,What happens next
-Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>.  
-
+page,key,en,Arabic,Chinese_traditional,Dutch,Estonian,French,German,Hebrew,Hindi,Hungarian,Italian,Japanese,Korean,Malay,Polish,Portuguese (Brazillian),Portuguese (Portugal),Spanish (Latin America version),Spanish (for Mexico),Spanish (Spain),Swedish,Turkish,Ukrainian
+Consent,consent_title,Welcome!,,,,,,,,,,,,,,,,,,,,,,
+Consent,consent_thank_you,Thank you for participating in this study about decision-making!,,,,,,,,,,,,,,,,,,,,,,
+Consent,consent_intro_title,What happens next,,,,,,,,,,,,,,,,,,,,,,
+Consent,consent_intro,"<ul><li>Each part includes <b>specific instructions</b>. 
 Please read them carefully, as <b>your decisions affect your final payment</b>.</li> 
 <li>In this study, there is <b><u>no</u> hidden information or deception</b>.</li> 
-<li> The study is made up of 2 blocks. In total, you will make about <b>{decisions_approx} decisions</b>, and the study takes around <b>{time} minutes</b>. </li></ul>"
-,consent_payment_title,Payment
-Consent,consent_payment,"<ul><li>For your participation, you will receive <b>{participation_fee}</b>. Additionally, you can earn <b>bonus points</b> based on your decisions. </li> </ul>"
-,consent_rights_title,Additional information
+<li> The study is made up of 2 blocks. In total, you will make about <b>{decisions_approx} decisions</b>, and the study takes around <b>{time} minutes</b>. </li></ul>",,,,,,,,,,,,,,,,,,,,,,
+,consent_payment_title,Payment,,,,,,,,,,,,,,,,,,,,,,
+Consent,consent_payment,"<ul><li>For your participation, you will receive <b>{participation_fee}</b>. Additionally, you can earn <b>bonus points</b> based on your decisions. </li> </ul>",,,,,,,,,,,,,,,,,,,,,,
+,consent_rights_title,Additional information,,,,,,,,,,,,,,,,,,,,,,
 Consent,consent_rights,"<ul><li>Participation is <b>voluntary</b>. You may leave the study at any time, in which case your data will be deleted. Compensation is only provided upon completion.</li> 
  <li>Your <b>anonymity</b> is guaranteed throughout the study, both to other participants and researchers.</li> 
- <li>All data is used solely for <b>scientific purposes</b>.</li></ul>"
-Consent,consent_click,"By clicking ""I CONSENT,"" you confirm that you have read and understood the information above and agree to participate in the study."
-Consent,consent_questions,"For questions, concerns, or suggestions, please contact:"
+ <li>All data is used solely for <b>scientific purposes</b>.</li></ul>",,,,,,,,,,,,,,,,,,,,,,
+Consent,consent_click,"By clicking ""I CONSENT,"" you confirm that you have read and understood the information above and agree to participate in the study.",,,,,,,,,,,,,,,,,,,,,,
+Consent,consent_questions,"For questions, concerns, or suggestions, please contact:",,,,,,,,,,,,,,,,,,,,,,
 Consent,consent_contact,"Charlotte Rossetti, Caroline Graf and Jörg Gross <br> 
-University of Zürich, Switzerland"
-Introduction,intro_pairing,"Throughout the study, you will be paired with other participants. The pairings are hypothetical but based on how participants could interact."
-Introduction,intro_prolific,"You can receive <b> bonus points</b> based on <b>your</b> decisions. At the end of the study, the bonus points you collected will be converted into money at the following conversion rate:"
-Introduction,intro_conversion,1 point = {conversion} GBP
-Introduction,intro_toluna,"In addition to the compensation you receive for participating, you can receive <b> bonus points</b> based on <b>your own</b> <u>and</u> <b>other participants'</b> decisions."
-Introduction,intro_block1_title,Block 1
-Introduction,intro_block1,"There are two blocks in this study. In the first block, you will make decisions in different <b>situations</b> and in different <b>roles</b>. <b><u>One</u> situation</b> and <b><u>one</u> role</b> from this block will be randomly selected to <b>determine your bonus points</b>."
-Introduction,intro_block2_title,Block 2
-Introduction,intro_block2,"In the second block, you will make additional decisions in different <b>situations</b>, using your bonus points from the first block. After the second block, <b><u>one</u> situation</b> will be randomly selected to <b>determine your final bonus points</b>."
-Introduction,intro_points_title,After the study
-Introduction,intro_points,"Bonus points are calculated after all participants have completed the study. They cannot be negative. Since you will not know which decisions will count, you should <b>treat each decision as if it is selected</b>."
-Introduction,intro_carefully,"Please read the instructions carefully, as your decisions affect your payoff."
-Instructions,instru_0DG_pairing,"In <u>each</u> decision, you will be paired with a <b>different study participant</b>. You will also be assigned a role for every decision (for example, Person A or Person B)."
-Instructions,instru_0DG_decision,A decision can look like this:
-Instructions,instru_0DG_points,<strong>Person A</strong> receives 12 points. <br><strong>Person B</strong> receives 0 points.
-Instructions,instru_0DG_rules,<strong>Person A</strong> decides how many of the 12 points to <b>give</b> to <b>Person B</b> and how many to keep for themselves. Person B does not make a decision.
-Instructions,instru_2PP_stages,"In the next parts, each interaction has <strong>two stages</strong>."
-Instructions,instru_2PP_points,"In <b>Stage 1</b>, Person A always receives 12 points and decides how many to give to Person B."
-Instructions,instru_2PP_stage2,"<b>After</b> Person A makes their decision, <strong>Stage 2</strong> begins."
-Instructions,instru_2PP_remove,"In  <b> Stage 2</b>, Person A and Person B both receive additional 4 points. Then, <b> Person B</b> can <b> remove points</b> from  <b> Person A</b>. Removing <b>1 point</b> from Person A costs Person B <b> {cost_per_point}</b>."
-Instructions,instru_2PP_role,"Depending on the situation, you can be Person A or Person B."
-Instructions,instru_3PP_change,Now there is one change.
-Instructions,instru_3PP_personc,There will be a third person: <b >Person C.</b>
-Instructions,instru_3PP_remove,"Person B is <u>not</u> able to remove points anymore. Instead, <b style='color: red; '>Person C</b> is able to <b>remove points</b> from Person A."
-Instructions,instru_3PP_rules,"In <b>Stage 2</b>, Person C receives additional 4 points. Removing <b>1 point</b> from Person A costs Person C <b> {cost_per_point}</b>. Points removed by Person C are eliminated."
-Attention Check,attention_error_green,Correct answer! Please press 'Next'.
-Attention Check,attention_error_red,Wrong answer! Please select the correct answer.
-Attention Check,attention_check1,"To show us that you are paying attention, please select <b>4 points</b>."
-Attention Check,attention_0points,0 points
-Attention Check,attention_2points,2 points
-Attention Check,attention_4points,4 points
-Attention Check,attention_6points,6 points
-Attention Check,attention_check2,"To show us that you are paying attention, please select <b>2 points</b>."
-Comprehension,comprehension_error_green,Correct answer! Please press 'Next'.
-Comprehension,comprehension_error_red,Wrong answer! Please select the correct answer.
-Comprehension,comprehension_error_greenTF,Correct answer! Please answer the other question correctly.
-Comprehension,comprehension_2PP,"If <b>Person B</b> removes <b>1 point</b> from <b>Person A</b> in Stage 2, <b>what happens?</b>"
-Comprehension,comprehension_2PP_answer0,Person A loses 3 points and Person B loses {cost_per_point} points.
-Comprehension,comprehension_2PP_answer1,Person A loses 3 points and Person B loses 1 point.
-Comprehension,comprehension_2PP_answer2,Person A loses 1 point and Person B loses {cost_per_point} points.
-Comprehension,comprehension_2PP_answer3,Person A loses 1 point and Person B loses 1 point.
-Comprehension,comprehension_error_green,Correct answer! Please press 'Next'.
-Comprehension,comprehension_error_red,Wrong answer! Please select the correct answer.
-Comprehension,comprehension_error_greenTF,Correct answer! Please answer the other question correctly.
-Dictator,dict_norm_instru,"Now, <u>you</u> decide how <b style='color: red;'>socially appropriate</b> the decision of Person A is"
-Dictator,dict_norm_incentive,Important: You will receive <b> {ratings_extra_points} points</b> if your answer is the same as the most common answer among all other participants in {current_country}.
-Dictator,dict_norm_summary,Person A received <b> {total_endowment} points</b> and <u>gave</u> <b>0 points</b> to Person B.
-Dictator,dict_norm_question,How <b style='color: red;'>socially appropriate</b> is it for Person A to give <b>0 points</b> to Person B?
-Dictator,dict_decision_endowment,You are Person A and received {total_endowment} points!
-Dictator,dict_decision_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
-Dictator,dict_decision_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.
-Dictator,dict_decision_question,"As Person A, how many points do you <b style='color: red;'>give</b> to Person B?"
-Dictator,dict_decision_mind,Keep in mind: {treatment_text_action} in Stage 2.
-Dictator,dict_decision_hover,"To make a decision, click on a number. As you move over the numbers (or press them), you see how many points you and Person B would receive."
-Dictator,dict_text_action_2PP,Person B can remove points from you
-Dictator,dict_text_action_3PP,Person C can remove points from you
-TPP,tpp_2PP_norm_instru,"Now, you decide how <b style='color: red;'>socially appropriate</b> the decision of Person B is."
-TPP,tpp_2PP_norm_incentive,Important: You will receive <b>{ratings_extra_points} points</b> if your answers are the same as the most common answers among all other participants in {current_country}.
-TPP,tpp_3PP_norm_instru,"Now, you decide how <b style='color: red;'>socially appropriate</b> the decision of Person C is."
-TPP,tpp_dict_action,Person A kept <b>{receiver}</b> to themselves and gave <b> {dictator_keeps}</b> to Person B.
-TPP,tpp_norm_question,How socially appropriate is it for {treatment_text_action_person} to <b style='color: red;'>{treatment_text_action} points</b> {treatment_text_receiver}?
+University of Zürich, Switzerland",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_pairing,"Throughout the study, you will be paired with other participants. The pairings are hypothetical but based on how participants could interact.",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_prolific,"You can receive <b> bonus points</b> based on <b>your</b> decisions. At the end of the study, the bonus points you collected will be converted into money at the following conversion rate:",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_conversion,1 point = {conversion} GBP,,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_toluna,"In addition to the compensation you receive for participating, you can receive <b> bonus points</b> based on <b>your own</b> <u>and</u> <b>other participants'</b> decisions.",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_block1_title,Block 1,,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_block1,"There are two blocks in this study. In the first block, you will make decisions in different <b>situations</b> and in different <b>roles</b>. <b><u>One</u> situation</b> and <b><u>one</u> role</b> from this block will be randomly selected to <b>determine your bonus points</b>.",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_block2_title,Block 2,,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_block2,"In the second block, you will make additional decisions in different <b>situations</b>, using your bonus points from the first block. After the second block, <b><u>one</u> situation</b> will be randomly selected to <b>determine your final bonus points</b>.",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_points_title,After the study,,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_points,"Bonus points are calculated after all participants have completed the study. They cannot be negative. Since you will not know which decisions will count, you should <b>treat each decision as if it is selected</b>.",,,,,,,,,,,,,,,,,,,,,,
+Introduction,intro_carefully,"Please read the instructions carefully, as your decisions affect your payoff.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_0DG_pairing,"In <u>each</u> decision, you will be paired with a <b>different study participant</b>. You will also be assigned a role for every decision (for example, Person A or Person B).",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_0DG_decision,A decision can look like this:,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_0DG_points,<strong>Person A</strong> receives 12 points. <br><strong>Person B</strong> receives 0 points.,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_0DG_rules,<strong>Person A</strong> decides how many of the 12 points to <b>give</b> to <b>Person B</b> and how many to keep for themselves. Person B does not make a decision.,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_2PP_stages,"In the next parts, each interaction has <strong>two stages</strong>.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_2PP_points,"In <b>Stage 1</b>, Person A always receives 12 points and decides how many to give to Person B.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_2PP_stage2,"<b>After</b> Person A makes their decision, <strong>Stage 2</strong> begins.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_2PP_remove,"In  <b> Stage 2</b>, Person A and Person B both receive additional 4 points. Then, <b> Person B</b> can <b> remove points</b> from  <b> Person A</b>. Removing <b>1 point</b> from Person A costs Person B <b> {cost_per_point}</b>.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_2PP_role,"Depending on the situation, you can be Person A or Person B.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_3PP_change,Now there is one change.,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_3PP_personc,There will be a third person: <b >Person C.</b>,,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_3PP_remove,"Person B is <u>not</u> able to remove points anymore. Instead, <b style='color: red; '>Person C</b> is able to <b>remove points</b> from Person A.",,,,,,,,,,,,,,,,,,,,,,
+Instructions,instru_3PP_rules,"In <b>Stage 2</b>, Person C receives additional 4 points. Removing <b>1 point</b> from Person A costs Person C <b> {cost_per_point}</b>. Points removed by Person C are eliminated.",,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_error_green,Correct answer! Please press 'Next'.,,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_error_red,Wrong answer! Please select the correct answer.,,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_check1,"To show us that you are paying attention, please select <b>4 points</b>.",,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_0points,0 points,,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_2points,2 points,,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_4points,4 points,,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_6points,6 points,,,,,,,,,,,,,,,,,,,,,,
+Attention Check,attention_check2,"To show us that you are paying attention, please select <b>2 points</b>.",,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_error_green,Correct answer! Please press 'Next'.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_error_red,Wrong answer! Please select the correct answer.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_error_greenTF,Correct answer! Please answer the other question correctly.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_2PP,"If <b>Person B</b> removes <b>1 point</b> from <b>Person A</b> in Stage 2, <b>what happens?</b>",,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_2PP_answer0,Person A loses 3 points and Person B loses {cost_per_point} points.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_2PP_answer1,Person A loses 3 points and Person B loses 1 point.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_2PP_answer2,Person A loses 1 point and Person B loses {cost_per_point} points.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_2PP_answer3,Person A loses 1 point and Person B loses 1 point.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_error_green,Correct answer! Please press 'Next'.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_error_red,Wrong answer! Please select the correct answer.,,,,,,,,,,,,,,,,,,,,,,
+Comprehension,comprehension_error_greenTF,Correct answer! Please answer the other question correctly.,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_norm_instru,"Now, <u>you</u> decide how <b style='color: red;'>socially appropriate</b> the decision of Person A is",,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_norm_incentive,Important: You will receive <b> {ratings_extra_points} points</b> if your answer is the same as the most common answer among all other participants in {current_country}.,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_norm_summary,Person A received <b> {total_endowment} points</b> and <u>gave</u> <b>0 points</b> to Person B.,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_norm_question,How <b style='color: red;'>socially appropriate</b> is it for Person A to give <b>0 points</b> to Person B?,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_decision_endowment,You are Person A and received {total_endowment} points!,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_decision_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_decision_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_decision_question,"As Person A, how many points do you <b style='color: red;'>give</b> to Person B?",,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_decision_mind,Keep in mind: {treatment_text_action} in Stage 2.,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_decision_hover,"To make a decision, click on a number. As you move over the numbers (or press them), you see how many points you and Person B would receive.",,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_text_action_2PP,Person B can remove points from you,,,,,,,,,,,,,,,,,,,,,,
+Dictator,dict_text_action_3PP,Person C can remove points from you,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_2PP_norm_instru,"Now, you decide how <b style='color: red;'>socially appropriate</b> the decision of Person B is.",,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_2PP_norm_incentive,Important: You will receive <b>{ratings_extra_points} points</b> if your answers are the same as the most common answers among all other participants in {current_country}.,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_3PP_norm_instru,"Now, you decide how <b style='color: red;'>socially appropriate</b> the decision of Person C is.",,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_dict_action,Person A kept <b>{receiver}</b> to themselves and gave <b> {dictator_keeps}</b> to Person B.,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_norm_question,How socially appropriate is it for {treatment_text_action_person} to <b style='color: red;'>{treatment_text_action} points</b> {treatment_text_receiver}?,,,,,,,,,,,,,,,,,,,,,,
 TPP,tpp_norm_neg_question,"How socially appropriate is it for {treatment_text_action_person} to 
-<b style='color: red;'> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?"
-TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.
-TPP,tpp_decision_you,You are {treatment_text_action_person}!
-TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A</b>?"
-TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}""></span> points."
-TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.
-TPP,tpp_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.
-TPP,tpp_text_action_remove,remove
-TPP,tpp_text_action_receiver,from Person A
-TPP,tpp_2PP_text_action_person_b,Person B
-TPP,tpp_3PP_text_action_person_c,Person C
-Universal norm,univ_norm_instru,"We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B."
-Universal norm,univ_norm_question,How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?
-Universal norm,univ_norm_incentive,"<b>Important</b>:</b> If your response is close to the correct number of people, you receive 8 points."
-Filler block 1,filler1_title,Block 1 complete!
-Filler block 1,filler1_completed,"You have now <b> completed the first block</b>, where you made decisions as Person A, Person B, or Person C."
-Filler block 1,filler1_end,"You will find out how many bonus points you collected in Block 1 only after the study is over, because bonus points are calculated after all participants have completed the study."
-Filler block 1,filler1_next_page,"On the next page, you will be asked <b> one additional question </b> about Block 1."
-2PP vs 3PP,pref_2PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person B can remove points</b> (left) <u>or</u> <b>Person C can remove points</b> (right) in Stage 2?"
-2PP vs 3PP,pref_3PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person C can remove points</b> (left) <u>or</u> <b>Person B can remove points</b> (right) in Stage 2?"
-2PP vs 3PP,pref_2PP,<b>Person B</b>&nbsp;can remove points.
-2PP vs 3PP,pref_3PP,<b>Person C</b>&nbsp;can remove points.
-Filler block 2a,filler2a_title,Start of Block 2
-Filler block 2a,filler2a_beginning,"You are now <b> beginning the second block</b>, where you will make <b> additional </b> decisions, using your bonus points from Block 1."
-Filler block 2a,filler2_selected,"After Block 2, <b> <u>one</u> situation</b> will be randomly selected to <b>determine your final bonus points</b>."
-Filler block 2a,filler2a_different,The situations you will see are different from those in the first block.
-rule following,rule_instru,"In this part, you decide how to position three sliders."
-rule following,rule_aim_another,"For each slider you move to position {aim}, another participant in this study will lose {points_per_slider} points."
-rule following,rule_aim_me,"For each slider you move to position {aim}, you will lose {points_per_slider} points."
-rule following,rule_rule,The rule of this task is to move each slider to position {aim}.
-rule following,rule_another_lose,Another participant loses {points} points.
-rule following,rule_me_lose,You lose {points} points.
-crowding,crowding_intro,"Now, you decide if you want to <b style='color: green;'>give</b> <b>4 of your bonus points to charity</b>."
-crowding,crowding_incentive,<b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.
-crowding,crowding_intro2,"If you donate, we will convert the points into money and transfer it to the charity."
-crowding,crowding_norm_incentive,<b>How is someone perceived in {current_countryname} </b> <br> if they <b>give 4 points</b> to charity and <b>received 2 points</b> for themselves?
-crowding,crowding_norm,<b>How is someone perceived in {current_countryname} </b> if they <b>give 4 points</b> to charity?
-crowding,crowding_norm_bonus,"<b>Important:</b> If your response is close to the average rating in {current_countryname}, you receive 8 points."
-crowding,crowding_ decision_give,Give {choice_give} points to charity
-crowding,crowding_ decision_keep,Give {choice_keep} points to charity
-crowding,crowding_altruistic,How <b style='color: red;'>altruistic</b> is Person A?
-crowding,crowding_likable,How <b style='color: red;'>likeable</b> is Person A?
-crowding,descr_question,"<b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision?"
-crowding,descr_incentive,"<b>Important</b>:</b> If your response is close to the correct number, you will receive 8 points."
-crowding,cond_coop_kept,You decided not to give 4 points to charity.
-crowding,cond_coop_gave,You decided to give 4 points to charity.
-crowding,cond_coop_question,"<b style='color: red;'>Depending on what others in {current_countryname} do,<br></b> would you change your decision?"
-crowding,gave_unconditionally,"Regardless of the choices of others, I want to give my points to charity."
-crowding,kept_unconditionally,"Regardless of the choices of others, I do not want to give my points to charity."
-crowding,cond_coop_decision_gave,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did give</u>, I also want to give my points to charity."
-crowding,cond_coop_decision_kept,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did not give</u>, I also do not want to give my points to charity."
-crowding,cond_coop_incentive_kept,"<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to a charity."
-crowding,cond_coop_incentive_gave,"<b>Important:</b> If the condition in your answer is met, your bonus points will not be transferred to the charity."
-Dice,dice_observe,"In this part, you observe the behaviour of another person."
-Dice,dice_previous,"In a previous survey, a person had to roll a die. The person got paid depending on the number of the die roll they reported to us. The higher the reported number, the more money the person earned."
-Dice,dice_actual,Here is <b>the number they actually rolled</b>:
-Dice,dice_rolled,Die rolled
-Dice,dice_lie,"The person was explicitly told to report the number they threw. However, the person could lie and report a higher number to us to earn more."
-Dice,dice_report,Below is <b>the number they reported to us</b>:
-Dice,dice_reported,Die reported
-Dice,dice_trustworthy,How trustworthy do you think this person is?
-Dice,dice_not_trust,Not trustworthy at all
-Dice,dice_very_trust,Very trustworthy
-Dice,dice_likable,How likable do you think this person is?
-Dice,dice_not_like,Not likable at all
-Dice,dice_very_like,Very likable
-Dice,dice_error,Please answer all questions before continuing.
-Dice,dice_trust_game,"Now, you can send up to {points_to_send} points to this person. Each point you sent to this person is tripled. The other person can then transfer any amount of those (tripled) points back to you."
-Dice,dice_question,How many points do you want to send to this person?
-Dice,dice_0points,0 points
-Dice,dice_1points,1 point
-Dice,dice_2points,2 points
-Dice,dice_3points,3 points
-Filler block 2b,filler2b_title,Block 2 complete!
-Filler block 2b,filler2b_completed,You have now <b> completed the second block</b>!
-Filler block 2b,filler2b_next_page,"On the next page, you will be asked <b>some additional questions </b>."
-Narratives,narratives_question,Please indicate to what extent you agree or disagree with the following statements.
-Narratives,narratives_wealthy_contribution,The wealthiest 1% in my country should contribute more to society.
-Narratives,narratives_wealthy_merit,The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.
-Narratives,narratives_poor_contribution,The poorest 1% in my country should contribute more to society.
-Narratives,narratives_poor_merit,The poorest 1% in my country are in their current position largely due to their own actions and decisions.
-Specials,button_start,START
-Specials,button_next,NEXT
-Specials,button_understood,Understood!
-Specials,button_consent,I CONSENT
-Specials,person_a,PERSON A
-Specials,person_b,PERSON B
-Specials,person_c,PERSON C
-Specials,you,YOU
-Specials,button_charity,CHARITY
-Specials,very_inappropriate,very socially<br>inappropriate
-Specials,inappropriate,socially<br>inappropriate
-Specials,slightly_inappropriate,slightly socially<br>inappropriate
-Specials,slightly_appropriate,slightly socially<br>appropriate
-Specials,appropriate,socially<br>appropriate
-Specials,very_appropriate,very socially<br>appropriate
-Specials,very_selfish,very<br>selfish
-Specials,selfish,selfish
-Specials,slightly_selfish,slightly<br>selfish
-Specials,slightly_altruistic,slightly<br>altruistic
-Specials,altruistic,altruistic
-Specials,very_altruistic,very<br>altruistic
-Specials,very_unlikable,very<br>unlikable
-Specials,unlikable,unlikable
-Specials,slightly_unlikable,slightly<br>unlikable
-Specials,slightly_likable,slightly<br>likable
-Specials,likable,likable
-Specials,very_ likable,very<br>likable
-Specials,strongly_disagree,strongly<br>disagree
-Specials,disagree,disagree
-Specials,slightly_disagree,slightly<br>disagree
-Specials,slightly_agree,slightly<br>agree
-Specials,agree,agree
-Specials,strongly_disagree,strongly<br>agree
-Specials,button_block,Block
-Specials,button_decision,Decision
-Specials,error_1slider,Please move the slider before continuing.
-Specials,error_all_sliders,Please move all sliders before continuing.
+<b style='color: red;'> <u>NOT</u> {treatment_text_action} points</b> {treatment_text_receiver}?",,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_decision_strategy,Below are three different possible decisions of Person A.,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_decision_you,You are {treatment_text_action_person}!,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_decision_question,"As {treatment_text_action_person}, how many points do you  <b style='color: red;'> remove from Person A </b>?",,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_decision_cost,"This costs you <span class=""TP-cost-display"" data-index=""{index}”></span> points.",,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_IN_OUT,Person A lives in <b>{dic_identity_country}</b> and Person B lives in <b>{recip_identity_country}</b>.,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_countries,Person A lives in <b style='color: red; '>{dic_identity_country}</b> and Person B lives in <b style='color: red; '>{recip_identity_country}</b>.,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_text_action_remove,remove,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_text_action_receiver,from Person A,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_2PP_text_action_person_b,Person B,,,,,,,,,,,,,,,,,,,,,,
+TPP,tpp_3PP_text_action_person_c,Person C,,,,,,,,,,,,,,,,,,,,,,
+Universal norm,univ_norm_instru,"We will have asked around 50,000 people around the world how socially inappropriate it is for Person A to keep {dictator_keeps_1} points and give {receiver_gets} points to Person B.",,,,,,,,,,,,,,,,,,,,,,
+Universal norm,univ_norm_question,How many people do you think consider it very inappropriate or inappropriate in their country to give {receiver_gets} points to Person B?,,,,,,,,,,,,,,,,,,,,,,
+Universal norm,univ_norm_incentive,"<b>Important</b>:</b> If your response is close to the correct number of people, you receive 8 points.",,,,,,,,,,,,,,,,,,,,,,
+Filler block 1,filler1_title,Block 1 complete!,,,,,,,,,,,,,,,,,,,,,,
+Filler block 1,filler1_completed,"You have now <b> completed the first block</b>, where you made decisions as Person A, Person B, or Person C.",,,,,,,,,,,,,,,,,,,,,,
+Filler block 1,filler1_end,"You will find out how many bonus points you collected in Block 1 only after the study is over, because bonus points are calculated after all participants have completed the study.",,,,,,,,,,,,,,,,,,,,,,
+Filler block 1,filler1_next_page,"On the next page, you will be asked <b> one additional question </b> about Block 1.",,,,,,,,,,,,,,,,,,,,,,
+2PP vs 3PP,pref_2PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person B can remove points</b> (left) <u>or</u> <b>Person C can remove points</b> (right) in Stage 2?",,,,,,,,,,,,,,,,,,,,,,
+2PP vs 3PP,pref_3PP_first,"You are either Person A or Person B, but you do not know which one. <br> Would you prefer that <b>Person C can remove points</b> (left) <u>or</u> <b>Person B can remove points</b> (right) in Stage 2?",,,,,,,,,,,,,,,,,,,,,,
+2PP vs 3PP,pref_2PP,<b>Person B</b>&nbsp;can remove points.,,,,,,,,,,,,,,,,,,,,,,
+2PP vs 3PP,pref_3PP,<b>Person C</b>&nbsp;can remove points.,,,,,,,,,,,,,,,,,,,,,,
+Filler block 2a,filler2a_title,Start of Block 2,,,,,,,,,,,,,,,,,,,,,,
+Filler block 2a,filler2a_beginning,"You are now <b> beginning the second block</b>, where you will make <b> additional </b> decisions, using your bonus points from Block 1.",,,,,,,,,,,,,,,,,,,,,,
+Filler block 2a,filler2_selected,"After Block 2, <b> <u>one</u> situation</b> will be randomly selected to <b>determine your final bonus points</b>.",,,,,,,,,,,,,,,,,,,,,,
+Filler block 2a,filler2a_different,The situations you will see are different from those in the first block.,,,,,,,,,,,,,,,,,,,,,,
+rule following,rule_instru,"In this part, you decide how to position three sliders.",,,,,,,,,,,,,,,,,,,,,,
+rule following,rule_aim_another,"For each slider you move to position {aim}, another participant in this study will lose {points_per_slider} points.",,,,,,,,,,,,,,,,,,,,,,
+rule following,rule_aim_me,"For each slider you move to position {aim}, you will lose {points_per_slider} points.",,,,,,,,,,,,,,,,,,,,,,
+rule following,rule_rule,The rule of this task is to move each slider to position {aim}.,,,,,,,,,,,,,,,,,,,,,,
+rule following,rule_another_lose,Another participant loses {points} points.,,,,,,,,,,,,,,,,,,,,,,
+rule following,rule_me_lose,You lose {points} points.,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_intro,"Now, you decide if you want to <b style='color: green;'>give</b> <b>4 of your bonus points to charity</b>.",,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_incentive,<b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_intro2,"If you donate, we will convert the points into money and transfer it to the charity.",,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_norm_incentive,<b>How is someone perceived in {current_countryname} </b> <br> if they <b>give 4 points</b> to charity and <b>received 2 points</b> for themselves?,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_norm,<b>How is someone perceived in {current_countryname} </b> if they <b>give 4 points</b> to charity?,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_norm_bonus,"<b>Important:</b> If your response is close to the average rating in {current_countryname}, you receive 8 points.",,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_ decision_give,Give {choice_give} points to charity,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_ decision_keep,Give {choice_keep} points to charity,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_altruistic,How <b style='color: red;'>altruistic</b> is Person A?,,,,,,,,,,,,,,,,,,,,,,
+crowding,crowding_likable,How <b style='color: red;'>likeable</b> is Person A?,,,,,,,,,,,,,,,,,,,,,,
+crowding,descr_question,"<b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision?",,,,,,,,,,,,,,,,,,,,,,
+crowding,descr_incentive,"<b>Important</b>:</b> If your response is close to the correct number, you will receive 8 points.",,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_kept,You decided not to give 4 points to charity.,,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_gave,You decided to give 4 points to charity.,,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_question,"<b style='color: red;'>Depending on what others in {current_countryname} do,<br></b> would you change your decision?",,,,,,,,,,,,,,,,,,,,,,
+crowding,gave_unconditionally,"Regardless of the choices of others, I want to give my points to charity.",,,,,,,,,,,,,,,,,,,,,,
+crowding,kept_unconditionally,"Regardless of the choices of others, I do not want to give my points to charity.",,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_decision_gave,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did give</u>, I also want to give my points to charity.",,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_decision_kept,"Out of 100 people, if <b style='color: red;'> {proportion} </b> or more <u>did not give</u>, I also do not want to give my points to charity.",,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_incentive_kept,"<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to a charity.",,,,,,,,,,,,,,,,,,,,,,
+crowding,cond_coop_incentive_gave,"<b>Important:</b> If the condition in your answer is met, your bonus points will not be transferred to the charity.",,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_observe,"In this part, you observe the behaviour of another person.",,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_previous,"In a previous survey, a person had to roll a die. The person got paid depending on the number of the die roll they reported to us. The higher the reported number, the more money the person earned.",,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_actual,Here is <b>the number they actually rolled</b>:,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_rolled,Die rolled,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_lie,"The person was explicitly told to report the number they threw. However, the person could lie and report a higher number to us to earn more.",,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_report,Below is <b>the number they reported to us</b>:,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_reported,Die reported,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_trustworthy,How trustworthy do you think this person is?,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_not_trust,Not trustworthy at all,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_very_trust,Very trustworthy,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_likable,How likable do you think this person is?,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_not_like,Not likable at all,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_very_like,Very likable,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_error,Please answer all questions before continuing.,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_trust_game,"Now, you can send up to {points_to_send} points to this person. Each point you sent to this person is tripled. The other person can then transfer any amount of those (tripled) points back to you.",,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_question,How many points do you want to send to this person?,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_0points,0 points,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_1points,1 point,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_2points,2 points,,,,,,,,,,,,,,,,,,,,,,
+Dice,dice_3points,3 points,,,,,,,,,,,,,,,,,,,,,,
+Filler block 2b,filler2b_title,Block 2 complete!,,,,,,,,,,,,,,,,,,,,,,
+Filler block 2b,filler2b_completed,You have now <b> completed the second block</b>!,,,,,,,,,,,,,,,,,,,,,,
+Filler block 2b,filler2b_next_page,"On the next page, you will be asked <b>some additional questions </b>.",,,,,,,,,,,,,,,,,,,,,,
+Narratives,narratives_question,Please indicate to what extent you agree or disagree with the following statements.,,,,,,,,,,,,,,,,,,,,,,
+Narratives,narratives_wealthy_contribution,The wealthiest 1% in my country should contribute more to society.,,,,,,,,,,,,,,,,,,,,,,
+Narratives,narratives_wealthy_merit,The wealthiest 1% in my country are in their current position largely due to their own actions and decisions.,,,,,,,,,,,,,,,,,,,,,,
+Narratives,narratives_poor_contribution,The poorest 1% in my country should contribute more to society.,,,,,,,,,,,,,,,,,,,,,,
+Narratives,narratives_poor_merit,The poorest 1% in my country are in their current position largely due to their own actions and decisions.,,,,,,,,,,,,,,,,,,,,,,
+demographics,age_question,What is your age?,,,,,,,,,,,,,,,,,,,,,,
+demographics,gender_question,What is your gender?,,,,,,,,,,,,,,,,,,,,,,
+demographics,born_question,In which country were you born?,,,,,,,,,,,,,,,,,,,,,,
+demographics,born_mother_question,In which country was your mother born?,,,,,,,,,,,,,,,,,,,,,,
+demographics,born_father_question,In which country was your father born?,,,,,,,,,,,,,,,,,,,,,,
+demographics,education_question,What is the highest level of education you have completed?,,,,,,,,,,,,,,,,,,,,,,
+demographics,rural_urban_question,Would you say you live in...?,,,,,,,,,,,,,,,,,,,,,,
+demographics,ladder_intro,"Imagine this 10 steps ladder represents the socio-economic distribution in your country. At the top of the ladder are the people who are the best off, those who have the most money, most education, and best jobs. At the bottom are the people who are the worst off, those who have the least money, least education, worst jobs, or no job. Please click on the rung that best represents where you think you stand on the ladder.",,,,,,,,,,,,,,,,,,,,,,
+demographics,ladder_question,Where would you place yourself on this ladder?,,,,,,,,,,,,,,,,,,,,,,
+demographics,ladder_best_off,"Best off (most money, education, jobs)",,,,,,,,,,,,,,,,,,,,,,
+demographics,ladder_worst_off,"Worst off (least money, education, jobs)",,,,,,,,,,,,,,,,,,,,,,
+demographics,feedback,Feedback,,,,,,,,,,,,,,,,,,,,,,
+demographics,question_box,"Could you tell us, in your own words, what the study was about?",,,,,,,,,,,,,,,,,,,,,,
+demographics,comment_box,If you have any additional comments on the study content or presentation please let us know in the box below.,,,,,,,,,,,,,,,,,,,,,,
+demographics,female,Female,,,,,,,,,,,,,,,,,,,,,,
+demographics,male,Male,,,,,,,,,,,,,,,,,,,,,,
+demographics,other,Other,,,,,,,,,,,,,,,,,,,,,,
+demographics,pnts,Prefer not to say,,,,,,,,,,,,,,,,,,,,,,
+demographics,rural,A rural area or village,,,,,,,,,,,,,,,,,,,,,,
+demographics,town,Small or medium-sized town,,,,,,,,,,,,,,,,,,,,,,
+demographics,city,Large town/city,,,,,,,,,,,,,,,,,,,,,,
+demographics,edu0,No formal education/Early childhood education,,,,,,,,,,,,,,,,,,,,,,
+demographics,edu1,Primary education (ages 5–12),,,,,,,,,,,,,,,,,,,,,,
+demographics,edu2,Lower secondary education (ages ~12–15),,,,,,,,,,,,,,,,,,,,,,
+demographics,edu3,Upper secondary education (ages ~15–18),,,,,,,,,,,,,,,,,,,,,,
+demographics,edu4,"Post-secondary non-tertiary education (e.g., vocational training, certificates)",,,,,,,,,,,,,,,,,,,,,,
+demographics,edu5,"Short-cycle tertiary education (e.g., associate degree, advanced diploma)",,,,,,,,,,,,,,,,,,,,,,
+demographics,edu6,Bachelor’s degree or equivalent,,,,,,,,,,,,,,,,,,,,,,
+demographics,edu7,Master’s degree or equivalent,,,,,,,,,,,,,,,,,,,,,,
+demographics,edu8,Doctoral degree (PhD) or equivalent',,,,,,,,,,,,,,,,,,,,,,
+demographics,select_country,Select country,,,,,,,,,,,,,,,,,,,,,,
+demographics,additional_questions,Additional questions,,,,,,,,,,,,,,,,,,,,,,
+demographics,circle_intro,"Once you move the slider below, a pair of circles will appear in the box. The position of the slider will determine how much the circles overlap. This overlap represents the relationship between you and your country.",,,,,,,,,,,,,,,,,,,,,,
+demographics,circle_question,Please position the slider to reflect how connected you feel to your country.,,,,,,,,,,,,,,,,,,,,,,
+demographics,your_country,Your country,,,,,,,,,,,,,,,,,,,,,,
+demographics,comment_intro,"This is a new study, and we are still testing it. We would really appreciate your feedback.",,,,,,,,,,,,,,,,,,,,,,
+demographics,thank_you_short,Thank you!,,,,,,,,,,,,,,,,,,,,,,
+demographics,study_complete,You have completed the study!,,,,,,,,,,,,,,,,,,,,,,
+demographics,thank_you,Thank you for participating!,,,,,,,,,,,,,,,,,,,,,,
+demographics,end_bonus,Your final bonus points are calculated after all participants have completed the study. You will receive your bonus points through Prolific. Please note that this may take a couple of weeks.,,,,,,,,,,,,,,,,,,,,,,
+demographics,redirect_prolific,Click on the <b>next button</b> to be redirected to Prolific. The participation payment will be paid immediately.,,,,,,,,,,,,,,,,,,,,,,
+demographics,redirect_prolific_info,You will shortly be redirected to Prolific to receive your payment.,,,,,,,,,,,,,,,,,,,,,,
+demographics,redirect_prolific_wait,"If you are not redirected within 5 seconds, please click on this:",,,,,,,,,,,,,,,,,,,,,,
+demographics,redirect_prolific_code,"If the link does not work, please use this completion code:",,,,,,,,,,,,,,,,,,,,,,
+Specials,button_start,START,,,,,,,,,,,,,,,,,,,,,,
+Specials,button_next,NEXT,,,,,,,,,,,,,,,,,,,,,,
+Specials,button_understood,Understood!,,,,,,,,,,,,,,,,,,,,,,
+Specials,button_consent,I CONSENT,,,,,,,,,,,,,,,,,,,,,,
+Specials,person_a,PERSON A,,,,,,,,,,,,,,,,,,,,,,
+Specials,person_b,PERSON B,,,,,,,,,,,,,,,,,,,,,,
+Specials,person_c,PERSON C,,,,,,,,,,,,,,,,,,,,,,
+Specials,you,YOU,,,,,,,,,,,,,,,,,,,,,,
+Specials,button_charity,CHARITY,,,,,,,,,,,,,,,,,,,,,,
+Specials,very_inappropriate,very socially<br>inappropriate,,,,,,,,,,,,,,,,,,,,,,
+Specials,inappropriate,socially<br>inappropriate,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_inappropriate,slightly socially<br>inappropriate,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_appropriate,slightly socially<br>appropriate,,,,,,,,,,,,,,,,,,,,,,
+Specials,appropriate,socially<br>appropriate,,,,,,,,,,,,,,,,,,,,,,
+Specials,very_appropriate,very socially<br>appropriate,,,,,,,,,,,,,,,,,,,,,,
+Specials,very_selfish,very<br>selfish,,,,,,,,,,,,,,,,,,,,,,
+Specials,selfish,selfish,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_selfish,slightly<br>selfish,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_altruistic,slightly<br>altruistic,,,,,,,,,,,,,,,,,,,,,,
+Specials,altruistic,altruistic,,,,,,,,,,,,,,,,,,,,,,
+Specials,very_altruistic,very<br>altruistic,,,,,,,,,,,,,,,,,,,,,,
+Specials,very_unlikable,very<br>unlikable,,,,,,,,,,,,,,,,,,,,,,
+Specials,unlikable,unlikable,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_unlikable,slightly<br>unlikable,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_likable,slightly<br>likable,,,,,,,,,,,,,,,,,,,,,,
+Specials,likable,likable,,,,,,,,,,,,,,,,,,,,,,
+Specials,very_ likable,very<br>likable,,,,,,,,,,,,,,,,,,,,,,
+Specials,strongly_disagree,strongly<br>disagree,,,,,,,,,,,,,,,,,,,,,,
+Specials,disagree,disagree,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_disagree,slightly<br>disagree,,,,,,,,,,,,,,,,,,,,,,
+Specials,slightly_agree,slightly<br>agree,,,,,,,,,,,,,,,,,,,,,,
+Specials,agree,agree,,,,,,,,,,,,,,,,,,,,,,
+Specials,strongly_agree,strongly<br>agree,,,,,,,,,,,,,,,,,,,,,,
+Specials,button_block,Block,,,,,,,,,,,,,,,,,,,,,,
+Specials,button_decision,Decision,,,,,,,,,,,,,,,,,,,,,,
+Specials,error_1slider,Please move the slider before continuing.,,,,,,,,,,,,,,,,,,,,,,
+Specials,error_all_sliders,Please move all sliders before continuing.,,,,,,,,,,,,,,,,,,,,,,
+Specials,error3,Please make all decisions to continue.,,,,,,,,,,,,,,,,,,,,,,
+Specials,error1,Please make a decision to continue.,,,,,,,,,,,,,,,,,,,,,,
+rel_mobility,rel_intro,"First, how much do you feel the following statements accurately describe people in the immediate society in which you live (such as your friends and acquaintances, colleagues in your workplace, and people in your neighborhood etc.)? Regarding those people around you, please indicate to what extent you agree or disagree with the following statements. </p> <p> NOTE: The term groups in some items refers to collections of people who know each other or who share the same goals, such as friendship groups, hobby groups, sports teams, and companies.",أولاً، ما هو شعورك تجاه مدى دقة وصف الجُمل التالية للأشخاص الموجودين في المجتمع الذي تعيش فيه (مثل أصدقائك ومعارفك، زملاءك في العمل، والجيران، الخ.)؟ يُرجى الإشارة إلى مدى موافقتك أو معارضتك على الجُمل التالية وفقاً لهؤلاء الأشخاص. </p> <p> ملاحظة : يشير مصطلح المجموعات في بعض الأحيان إلى مجموعات الأشخاص الذين يعرفون بعضهم البعض أو الذين يتشاركون الأهداف ذاتها، مثل مجموعات الصداقة، مجموعات الهواية، مجموعات الرياضة، والشركات.,首先，你覺得以下的陳述有多準確地描述了你圈子內的人（例如你的朋友和有點交情的人，你的同事，鄰居等）？請選出在甚麼程度上你同意或不同意以下有關你圈子內的人的陳述。 </p> <p> 注意：在一些題目中出現的“群組”一詞，指的是一群彼此認識或擁有共同目標的人，例如一班朋友，興趣組，運動隊和公司。,"Ten eerste, in hoeverre beschrijven de volgende stellingen mensen in jouw directe leefomgeving (zoals vrienden en kennissen, collega’s op het werk en mensen in uw buurt etc.)? Geef aan in hoeverre je het eens of oneens bent met de volgende stellingen, met betrekking tot de mensen om je heen. </p> <p> NB: De term “groepen” in sommige stellingen refereert aan verzamelingen van mensen die elkaar kennen of dezelfde doelen nastreven, zoals vriendengroepen, hobby-groepen, sport teams en bedrijven.","Esiteks, mil määral te tunnete, et järgnevad väited iseloomustavad täpselt inimesi teie vahetus sotsiaalses keskkonnas (nagu näiteks teie sõbrad ja tuttavad, kolleegid tööl, inimesed teie naabruskonnas jne)? Seoses teid ümbritsevate inimestega, palun märkige, mil määral te nõustute või ei nõustu järgnevate väidetega. </p> <p> MÄRKUS: Mõiste „grupid” teatud küsimustes viitab inimestele, kes tunnevad üksteist või jagavad samu eesmärke, nagu näiteks sõprade grupid, hobigrupid, spordivõistkonnad ja ettevõtted.","Pour commencer, dites-nous dans quelle mesure chacune des propositions suivantes décrit votre entourage social (tels que vos amis et connaissances, collègues de travail, et voisins). En ce qui concerne votre entourage, veuillez indiquer dans quelle mesure vous êtes en accord ou en désaccord avec les propositions suivantes. </p> <p> NOTE: L'emploi du mot groupe dans certaines questions fait référence à un nombre de personnes qui se connaissent ou qui partagent des intérêts en commun, tels que des groupes d'amis, des groupes d'activités de loisirs, des groupes de sports, et des groupes au sein d'une compagnie.","Zunächst geht es darum, ob die folgenden Aussagen auf Personen zutreffen, die sich in deinem unmittelbaren sozialen Umfeld befinden (wie etwa deine Freunde und Bekannte, deine Arbeitskollegen und deine Nachbarn etc.). Gib bitte in Bezug auf diese dich umgebenden Personen an, inwieweit die folgenden Aussagen zutreffen oder nicht zutreffen. </p> <p> ANMERKUNG: Der bei manchen Aussagen benutzte Begriff der „Gruppen“ bezieht sich auf Ansammlungen von Personen, die einander kennen oder gemeinsame Ziele haben, wie beispielsweise Freundeskreise, Hobbygruppen, Sportmannschaften und Firmen.","ראשית, עד כמה לדעתך המשפטים הבאים מתארים באופן מדויק אנשים מהסביבה הקרובה בה את/ה חי/ה (למשל חבריך ומכריך, עמיתים לעבודה, אנשים משכונתך וכו')? בהתייחס לאנשים האלו שסביבך, נבקשך לציין מהי מידת הסכמתך או אי-הסכמתך עם המשפטים הבאים. </p> <p> לתשומת ליבך: המושג קבוצות שמופיע בחלק מהשאלות מתייחס לאוסף של אנשים המכירים אלה את אלה או חולקים את אותן מטרות, דוגמת קבוצות חברים, קבוצות של אנשים בעלי תחביב משותף, קבוצות ספורט וחברות עסקיות.","सबसे पहले, आपको क्या लगता है कि निम्न बयानों में कितना सही तरह से तत्काल समाज के लोगों का वर्णन किया गया है (जैसे आपके मित्रों और परिचितों, अपने कार्यस्थल में सहयोगियों, आपके पड़ोस के लोग)? कृपया बताये , आप के आसपास उन लोगों के बारे में, किस हद तक निम्नलिखित बयानों से आप सहमत या असहमत है। </p> <p> नोट: कुछ मतों में शब्द समूह ऐसे लोगों की संग्रह को दर्शाता है जो एक दूसरे को जानते है या जिन का एक ही लक्ष्य है , जैसे दोस्ती समूहों, शौक समूहों, खेल टीमों, और कंपनियों।","Először is, mennyire érzi úgy, hogy a következő állítások pontosan leírják az embereket abban a társadalomban, ahol Ön él (mint például barátai vagy ismerősei, munkahelyi kollégái, szomszédai, stb.)? Ezekre a személyekre vonatkozóan kérjük, jelölje meg mennyire ért vagy nem ért egyet a következő állításokkal! </p> <p> MEGJEGYZÉS: A “csoportok” kifejezés bizonyos tételekben olyan személyekre utal, akik ismerik egymást vagy közös céljaik vannak, mint például baráti társaságok, hobbicsoportok, sportcsapatok vagy cégek.","In primo luogo ti chiediamo di indicare quanto ritieni che le seguenti affermazioni descrivano in modo preciso le persone del tuo ambiente di vita (ad esempio i tuoi amici e conoscenti, i colleghi di lavoro, gli abitanti del tuo quartiere, ecc.)? Pensando alle persone che ti circondano, indica in che misura sei d'accordo o in disaccordo con le seguenti affermazioni. </p> <p> NOTA: Il termine gruppi presente in alcuni item si riferisce ad un insieme di persone che si conoscono o che condividono gli stessi obiettivi, come ad esempio gruppi di amici, gruppi di persone che praticano lo stesso hobby, squadre sportive e aziende.",まずは、あなたの周囲にいる人々（学校の友人や知人、職場の同僚、近隣の住民など）についてお尋ねします。次のそれぞれの文が、それらの人々にどれくらい当てはまるかを、想像してお答え下さい。 </p> <p> 注:文中に「集団」とある場合は、友人グループ、趣味やスポーツのサークルや部活動、企業など、互いに個人的な関係を持つ、もしくは目標を共有した複数の人の集まりを指します。,"첫째, 아래 각 진술문이 당신 주변 사람들 (예: 친구, 지인, 직장 동료, 이웃 등)를 얼마나 잘 나타내주고 있는지 응답해 주세요. 각 문항에 당신이 동의하는 정도를 표시하시면 됩니다. </p> <p> 참고: 몇몇 항목에 기재된 “집단”이란 단어는 서로 알고 지내는 지인들의 모임 또는 친목모임, 취미활동 모임, 운동 모임, 혹은 회사 직원 모임과 같이 하나의 목적을 공유하는 집단을 지칭합니다.","Pertama, apa pendapat anda seberapa tepat pernyataan berikut menggambarkan orang dalam masyarakat anda (contohnya kawan-kawan dan kenalan, rakan sekerja, jiran)? Mengenai orang dalam masyarakat anda, sila laporkan sejauh mana anda setuju atau tidak setuju dengan pernyataan-pernyataan berikut. </p> <p> NOTA: Istilah “kumpulan” dalam beberapa item merujuk kepada golongan orang yang mengenali sesama mereka, atau orang yang berkongsi matlamat, seperti kumpulan rakan, kumpulan sukan, dan syarikat komersial.","Po pierwsze, na ile czujesz, że następujące stwierdzenia trafnie opisują ludzi z twojego najbliższego środowiska, w którym żyjesz (takich jak Twoi przyjaciele czy znajomi, koledzy z pracy oraz ludzie z sąsiedztwa itd.)? W odniesieniu do tych otaczających Cię ludzi, proszę zaznacz do jakiego stopnia zgadzasz lub nie zgadzasz się z następującymi stwierdzeniami. </p> <p> ZAUWAŻ: Wyrażenie „grupy” w niektórych punktach odnoszą się do zbioru ludzi, którzy się znają lub którzy posiadają te same cele, tak jak na przykład grupy przyjaciół, kółka zainteresowań, zespoły sportowe oraz firmy.","Primeiro, o quanto você sente que as seguintes afirmações descrevem corretamente as pessoas da sociedade em que você vive (como seus amigos ou conhecidos, colegas de trabalho, vizinhos, etc)? Em relação a essas pessoas ao seu redor, por favor indique o quanto você concorda ou discorda com as afirmações abaixo. </p> <p> NOTA: Em alguns dos itens abaixo, o termo “grupos” se refere a uma série de pessoas que se conhecem ou que compartilham os mesmos interesses, como grupos de amigos, pessoas que têm o mesmo hobby, times esportivos e empresas.","Antes de mais, quão acertadamente pensa que as seguintes frases descrevem as pessoas dos seus círculos mais próximos (como sejam os seus amigos e conhecidos, colegas de trabalho, pessoas das suas vizinhanças, etc.)? Em relação às pessoas à sua volta, indique por favor até que ponto concorda ou discorda com as seguintes afirmações. </p> <p> NOTA: O termo “grupos” em alguns itens refere-se a agregados de pessoas que se conhecem umas às outras ou que partilham os mesmos objectivos, como sejam grupos de amigos, colegas depassatempos, equipas desportivas e empresas.","Primero, ¿qué tanto considera Ud.que los siguientes enunciados describen de manera precisa a las personas que forman parte de la sociedad inmediata en la que vive (personas como sus amigos y conocidos, colegas en su lugar de trabajo, personas de su barrio, etc.)? Con respecto a esas personas que le rodean, por favor indique hasta qué punto está de acuerdo o en desacuerdo con los siguientes enunciados: </p> <p> NOTA: El término grupos que utilizamos en algunos puntos del cuestionario se refiere a conjuntos de personas que se conocen entre sí o que comparten las mismas metas, como por ejemplo grupos de amigos, grupos que comparten aficiones o realizan actividades juntos, equipos deportivos y empresas.","En primer lugar, ¿hasta qué punto crees que los siguientes enunciados describen de manera precisa a las personas más cercanas a ti, de la sociedad en la que vives (como tus amigos y conocidos, compañeros de trabajo, personas de tu colonia, etc.)? Con respecto a esas personas que te rodean, por favor indica hasta qué punto estás de acuerdo o en desacuerdo con las siguientes frases. </p> <p> NOTA: El término grupos en algunos casos se refiere al conjunto de personas que se conocen entre sí o que comparten las mismas metas. Por ejemplo, grupos de amigos, grupos de las actividades que haces en tu tiempo libre, equipos deportivos y empresas.","Antes de nada, ¿en qué medida crees que las siguientes afirmaciones describen de manera precisa a las personas que forman parte de la sociedad inmediata en la que vives (personas como tus amigos y conocidos, compañeros de trabajo, personas de tu barrio o vecindario, etc.)? Con respecto a esas personas que te rodean, por favor indica hasta qué punto estás de acuerdo o en desacuerdo con las siguientes afirmaciones. </p> <p> NOTA: El término grupos que utilizamos en algunos puntos del cuestionario se refiere a conjuntos de personas que se conocen entre sí o que comparten las mismas metas, como por ejemplo grupos de amigos, grupos que comparten aficiones o realizan actividades juntos, equipos deportivos, y empresas.","Först, hur väl tycker du att följande påståenden beskriver människor i din närmaste omgivning (såsom dina vänner och bekanta, arbetskollegor och folk i ditt grannskap osv)? När det gäller dessa människor runt omkring dig, ange i vilken utsträckning du instämmer eller inte instämmer med följande påståenden. </p> <p> OBS! Termen grupper under vissa punkter avser samlingar av människor som känner varandra, eller som delar samma mål, såsom vänskapsgrupper, hobbygrupper, idrottslag och anställda i ett företag.","Sizce aşağıdaki ifadeler yakın çevrenizdeki insanları (arkadaşlarınız, tanıdıklarınız, iş yerinde birlikte çalıştığınız kişiler, komşularınız vb.) ne kadar doğru tanımlıyor? Lütfen, çevrenizdeki bu insanlara ilişkin aşağıda sözü geçen ifadelere ne kadar katılıp katılmadığınızı belirtiniz. </p> <p> NOT: Bazı maddelerde görülen “gruplar” ifadesi, birbirini tanıyan veya aynı amaçları paylaşan arkadaş grupları, hobi grupları, spor takımları veya firmalar gibi insan topluluklarını belirtir.","Спочатку, давайте визначимо наскільки точно ці твердження описують людей з Вашого найближчого оточення (наприклад, друзів та знайомих, колег з роботи, сусідів, та ін.). Будь ласка, скажіть наскільки Ви погоджуєтесь чи не погоджуєтесь з цими твердженнями, що стосуються людей навколо Вас. </p> <p> Примітка: Термін група, наведений у деяких пунктах, використовується для позначення кола осіб, які знайомі один з одним або мають спільні цілі, наприклад, компанія друзів, гурток, спортивна команда, комерційна фірма."
+rel_mobility,rmob1,They (the people around you) have many chances to get to know other people.,لديهم (الأشخاص من حولك) العديد من الفرص للتعرف على أشخاص آخرين.,他們（你周圍的人）有很多機會認識其他人。,Zij (de mensen om je heen) hebben veel gelegenheid om anderen te leren kennen.,Nendel (inimestel teie ümber) on palju võimalusi teisi inimesi tundma õppida.,Les personnes de mon entourage ont souvent l'occasion de faire la connaissance d'autres personnes.,"Ihnen (den Personen in deiner Umgebung) bieten sich viele Gelegenheiten, andere Leute kennenzulernen.",יש להם (לאנשים המקיפים אותך) הזדמנויות רבות להכיר אנשים אחרים.,उनके ( आपके आसपास के लोगों के) पास अन्य लोगों को जानने के लिए कई मौके होते है।,"Az Önt körülvevő embereknek sok lehetőségük van arra, hogy más emberekkel megismerkedjenek.",(Le persone che ti circondano) hanno molte possibilità di conoscere altre persone.,彼ら（あなたの周囲にいる人々）には、人々と新しく知り合いになる機会がたくさんある。,전반적으로 당신 주변 사람들은 다양한 사람들을 만날 기회가 많다.,Mereka (orang dalam masyarakat anda) mempunyai banyak peluang untuk mengenali orang lain.,"Oni (otaczające cię osoby) mają wiele okazji, żeby poznać nowych ludzi.",Eles (as pessoas ao seu redor) têm muitas chances de conhecer outras pessoas.,Eles (as pessoas à sua volta) têm muitas oportunidades para conhecer outras pessoas.,Ellos/as (las personas que le rodean) tienen muchas oportunidades de conocer otras personas.,Ellos (las personas que te rodean) tienen muchas oportunidades de conocer a otras personas.,Ellos/as (las personas que te rodean) tienen muchas oportunidades de conocer otras personas.,De (människorna runt omkring dig) har många möjligheter att lära känna andra människor.,Onlar (çevrenizdeki kişiler) başka insanları tanımak için birçok fırsata sahiptirler.,У них (людей навколо Вас) є багато можливостей для знайомства з іншими людьми.
+rel_mobility,rmob2,It is common for these people to have a conversation with someone they have never met before.,من الشائع لدى هؤلاء الأشخاص إجراء محادثات مع غرباء لم يلتقوا بهم من قبل.,對他們來說，和一個素未謀面的人交談是一件平常的事。,Het is voor deze mensen gebruikelijk om een gesprek te voeren met iemand die ze nooit eerder hebben ontmoet.,"Nende inimeste jaoks on tavaline, et nad vestlevad kellegagi, keda nad ei ole enne kohanud.",Il arrive souvent aux personnes de mon entourage d'avoir une conversation avec quelqu'un qu'elles n'ont jamais rencontré auparavant.,"Für diese Personen ist es üblich, ein Gespräch mit jemandem zu führen, den sie noch nie zuvor getroffen haben.",לעתים קרובות יוצא לאנשים הללו לפתח שיחה עם מישהו שהם מעולם לא פגשו קודם לכן.,इन लोगों के लिए यह आम बात हैं ऐसे लोगों से बात करना जिनको पहले कभी नहीं मिले है।,"Jellemző ezekre az emberekre, hogy beszélgetésbe elegyednek olyan személlyel, akivel még soha nem találkoztak.",Queste persone intrattengono spesso conversazioni con chi non conoscono.,彼らは、初対面の人と会話を交わすことがよくある。,전반적으로 당신 주변 사람들은 처음 만나는 사람들과 스스럼 눈다.,Adalah biasa untuk seseorang berbual dengan seseorang yang mereka tidak pernah temui sebelum ini .,"Nie stanowi dla nich problemu rozmowa z osobą, którą dopiero poznali.",É comum para essas pessoas terem uma conversa com alguém que nunca viram antes.,É frequente estas pessoas terem conversas com alguém que nunca tenham conhecido antes.,"Para estas personas, es común conversar con alguien a quien no han conocido antes.",Es común que estas personas platiquen con gente nueva.,"Para estas personas, es común conversar con alguien que no han conocido con anterioridad.",Det är vanligt att dessa människor för ett samtal med någon de aldrig har träffat förut.,Daha önce hiç tanışmadıkları biri ile sohbet etmek bu kişiler için sıkça görülen bir olgudur.,Ці люди зазвичай вступають у розмови з незнайомцями.
+rel_mobility,rmob3,"They are able to choose, according to their own preferences, the people whom they interact with in their daily life.",لديهم القدرة على اختيار الأشخاص الذين يرغبون في التفاعل معهم في حياتهم اليومية، وفقاً لمعاييرهم وتفضيلاتهم الخاصة.,他們可以根據自己的喜好，選擇在日常生活中和誰交往。,"Zij kunnen, al naar gelang hun eigen voorkeur, kiezen met wie zij in hun dagelijks leven omgaan.","Neil on võimalik vastavalt oma eelistustele valida inimesi, kellega nad oma igapäevaelus suhtlevad.","Les personnes de mon entourage peuvent choisir, d'après leurs préférences personnelles, avec qui elles communiquent dans leur vie de tous les jours.","Sie können nach ihren eigenen Präferenzen Leute auswählen, mit denen sie in ihrem Alltag interagieren möchten.","הם יכולים לבחור את האנשים איתם הם יבואו במגע בחיי היומיום, בהתאם להעדפותיהם האישיות.",वे अपने प्राथमिकताओं के हिसाब से चयन करने में सक्षम हैं किनके साथ अपने दैनिक जीवन में बातचीत करेंगे।,"Képesek arra, hogy a saját igényeik szerint megválogassák azokat az embereket, akikkel a mindennapok során érintkeznek.","Sono in grado di scegliere, in base alle proprie preferenze, le persone con cui interagire nella loro vita quotidiana.",彼らは、ふだんどんな人たちと付き合うかを、自分の好みで選ぶことができる。,전반적으로 당신 주변 사람들은 일상생활에서 자기가 선호하는 사람들과 교류할 수 있다.,"Mereka boleh melantik, mengikut pilihan mereka sendiri, orang yang mereka berinteraksi dengan dalam kehidupan seharian.","Są w stanie wybrać, według swoich własnych preferencji, ludzi, z którymi przebywają i współpracują w codziennym życiu.","Elas são capazes de escolher, de acordo com suas próprias preferências, as pessoas com quem interagem no dia-a-dia.","São capazes de escolher, de acordo com as suas preferências, as pessoas com quem interagem no seu dia-a-dia.","Ellos/as Pueden elegir libremente, según sus propias preferencias, a las personas con las que se relacionan en su vida diaria.","Las personas que me rodean pueden elegir libremente a las personas con las que interactúan en su vida diaria, de acuerdo con sus propias preferencias e intereses","Ellos/as pueden elegir libremente, según sus propias preferencias, a las personas con las que se relacionan en su vida diaria.",De kan utifrån sina egna preferenser välja vilka människor som de interagerar med i sina dagliga liv.,Günlük yaşamlarında iletişim kurdukları kişileri kendi tercihlerine göre seçebilirler.,"Вони можуть, відповідно до власних уподобань, обирати людей, з якими спілкуються щодня."
+rel_mobility,rmob4,There are few opportunities for these people to form new friendships.,لدى هؤلاء الأشخاص القليل من الفرص لتكوين صداقات جديدة.,他們很少機會結交新朋友。,Er is voor deze mensen weinig gelegenheid om nieuwe vriendschappen aan te gaan.,Nende inimeste jaoks on vähe võimalusi luua uusi sõprussuhteid.,Les personnes de mon entourage n'ont pas souvent l'occasion de se faire de nouveaux amis.,"Diesen Personen bieten sich nur wenige Gelegenheiten, neue Freundschaften zu schließen.",לאנשים הללו יש מעט הזדמנויות ליצור חברויות חדשות.,इन लोगों के पास नए दोस्त बनाने का कम अवसर होता है।,Ezeknek az embereknek kevés lehetőségük van új barátságok kialakítására.,Queste persone hanno poche opportunità di formare nuove amicizie.,彼らには、新しい友人を見つける機会があまりない。,전반적으로 당신 사람들은 새로운 사람을 만날 기회가 적다.,Peluang untuk mereka menjalinkan hubungan baru terhad.,Nie mają zbyt wielu okazji na nawiązanie nowych przyjaźni.,Há poucas oportunidades para essas pessoas fazerem novas amizades.,Existem poucas oportunidades para que estas pessoas formem novas amizades.,Estas personas tienen pocas opciones de hacer nuevas amistades.,No tienen muchas oportunidades de hacer nuevos amigos.,Estas personas tienen pocas opciones de hacer nuevas amistades.,Dessa människor har få möjligheter att skaffa nya vänner.,Bu kişilerin yeni arkadaşlıklar kurmaları için az fırsatları vardır.,У цих людей мало можливостей зав'язати нову дружбу.
+rel_mobility,rmob5,It is uncommon for these people to have a conversation with people they have never met before.,من غير المعتاد بالنسبة لهؤلاء الأشخاص القيام بإجراء محادثات مع غرباء لم يلتقوهم من قبل.,對他們來說，和一個素未謀面的人交談是一件不平常的事。,Het is voor deze mensen ongebruikelijk om een gesprek te voeren met mensen die ze nooit eerder hebben ontmoet.,"Nende inimeste jaoks ei ole tavaline, et nad vestleksid kellegagi, keda nad ei ole enne kohanud.",Les personnes de mon entourage ont rarement l'occasion d'avoir une conversation avec des gens qu'elles n'ont jamais rencontré auparavant.,"Für diese Personen ist es unüblich, ein Gespräch mit jemandem zu führen, den sie noch nie zuvor getroffen haben.",לעתים רחוקות מאוד יוצא לאנשים הללו לפתח שיחה עם אנשים שהם מעולם לא פגשו קודם לכן.,इन लोगों के लिए यह असामान्य है की उन लोगो से बात करें जिनकों पहले कभी नहीं मिलें है।,"Nem jellemző ezekre az emberekre, hogy olyanokkal elegyednek beszélgetésbe, akikkel még sosem találkoztak.",Queste persone non intrattengono spesso conversazioni con chi non conoscono.,彼らにとって見知らぬ人と会話することはそうあることではない。,전반적으로 당신 주변 사람들은 처음 만나는 사람들과 대화를 나누는 일이 흔치 않다.,Mereka juarang berbual dengan orang yang mereka tidak pernah bertemu.,"Nie są zazwyczaj w stanie porozmawiać z kimś, kogo dopiero poznali.",Não é comum que essas pessoas tenham uma conversa com alguém que elas nunca viram antes.,É raro estas pessoas terem conversas com pessoas que nunca conheceram antes.,No es común que estas personas conversen con gente que no conocen.,Es poco común que estas personas platiquen con gente que no conocen.,No es común que estas personas conversen con gente que no conocen,Det är ovanligt att dessa människor för ett samtal med människor de aldrig har träffat förut.,Daha önce hiç tanışmadıkları biri ile sohbet etmeleri bu kişiler için nadiren görülen bir olgudur.,Ці люди зазвичай не вступають у розмови з незнайомцями.
+rel_mobility,rmob6,"If they did not like their current groups, they could leave for better ones.",إذا لم يعجبهم الوضع في مجموعاتهم الحالية، بإمكانهم مغادرتها والانضمام لمجموعات أفضل.,如果他們不喜歡現在身處的群組，他們可以離開，加入更好的群組。,"Als hun huidige groepen hen niet zouden bevallen, zouden ze kunnen vertrekken naar betere groepen.","Kui neile ei meeldiks nende praegused grupid, siis on neil võimalik neist lahkuda ja liituda parematega.","Si les personnes de mon entourage n'aimaient pas leurs groupes actuels, elles auraient la possibilité de les quitter pour en trouver de meilleurs.","Wenn sie ihre aktuellen Gruppen nicht mögen würden, könnten sie diese verlassen und sich bessere Gruppen suchen.","אם הקבוצות אליהן הם משתייכים אינן לרוחם, הם יכולים לעזוב אותן לטובת קבוצות טובות יותר.","अगर उन्हें बर्तमान समूह पसंद नहीं है, तो वे बेहतर समूह के लिए बर्तमान समूह छोड़ सकते है।","Ha nem szeretik a jelenlegi csoportjaikat, lehetőségük van jobb csoportokhoz csatlakozni.","Se non gli piacciono i gruppi che frequentano attualmente, possono sceglierne di migliori.",もし現在所属している集団が気に入らなければ、彼らは新しい集団に移っていくだろう。,전반적으로 당신 주변 사람들은 그들이 현재 속한 집단이 싫어지면 언제든지 더 나은 집단을 선택해서 떠날 수 있다.,"Jika mereka tidak suka kumpulan mereka, mereka boleh meninggalkannya untuk kumpulan yang lebih baik.","Gdyby nie lubili swoich aktualnych grup, byliby je w stanie zostawić dla lepszych grup.","Se elas não gostassem dos grupos que estão hoje, elas poderiam trocar por outros melhores.","Se não gostassem dos seus grupos actuais, poderiam trocá-los por grupos melhores.","Si no les gustara su grupo actual (de amigos, de colegas, etc…), tendrían la opción de dejarlo y cambiarlo por otro mejor.","Si no les gusta su grupo actual (amigos, compañeros de trabajo, etc), pueden dejarlo y cambiarse a otro mejor.","Si no les gusta su grupo actual (de amigos, compañeros de trabajo, etc.), tienen la opción de dejarlo y cambiarlo por otro mejor.","Om de inte gillar sina nuvarande grupper, kan de lämna dem för att hitta bättre grupper.","Eğer mevcut gruplarından hoşlanmıyorlarsa, daha iyileri için bu gruplarından ayrılabilirler.","Якщо б їм не подобалась їх група, вони могли б залишити її і знайти нову."
+rel_mobility,rmob7,It is often the case that they cannot freely choose who they associate with.,غالباً ما لا يتمكنون من اختيار مع من يرتبطون.,他們時常不能自由選擇和誰交往。,Het is vaak het geval dat ze niet vrij zijn in hun keuze met wie ze omgaan.,"Tihti juhtub, et neil ei ole võimalik vabalt valida inimesi, kellega nad suhtlevad.",Il arrive souvent que les personnes de mon entourage n'aient pas la possibilité de choisir librement les personnes avec lesquelles elles s'associent.,"Es kommt häufig vor, dass sie nicht frei wählen können, mit wem sie sozialen Umgang haben.",בדרך כלל הם אינם יכולים לבחור באופן חופשי עם מי לבוא במגע.,अक्सर यह होता है कि वे स्वतंत्र रूप से चुन नहीं सकते हैं किसके साथ मिलना है।,"Gyakran nem tudják szabadon megválasztani azokat a személyeket, akikkel kapcsolatba kerülnek.",Spesso non possono scegliere liberamente le persone con cui associarsi.,彼らにとって、付き合う相手を自由に選べないことはよくある。,전반적으로 당신 주변 사람들은 누구와 교류할지 자유롭게 선택할 기회가 없다.,"Biasaannya, mereka tidak bebas untuk memilih dengan siapa mereka bergaul.","Często się zdarza, że nie są w stanie swobodnie wybrać osób, z którymi chcą przebywać.",Elas geralmente não podem escolher livremente com quem se associar.,É frequente não poderem escolher livremente com quem se associam.,Por lo general no pueden elegir libremente con quién se relacionan.,"Por lo general, las personas que me rodean no tienen mucha libertad para elegir con quién quieren relacionarse.","Por lo general, no pueden elegir libremente con quién se relacionan.",Det är ofta så att de inte fritt kan välja vilka de umgås med.,Kiminle ilişkiye gireceklerini özgürce seçememeleri sıklıkla karşılaşılan bir durumdur.,"Часто вони не можуть вільно обирати людей, з якими спілкуються."
+rel_mobility,rmob8,It is easy for them to meet new people.,من السهل عليهم مقابلة أشخاص جدد والتعرف عليهم.,他們很容易可以遇到新相識。,Het is voor hen gemakkelijk om nieuwe mensen te ontmoeten.,Nende jaoks on kerge kohtuda uute inimestega.,Il est facile pour eux de rencontrer de nouvelles personnes.,"Es fällt ihnen leicht, neue Leute kennenzulernen.",זה פשוט עבורם לפגוש אנשים חדשים.,नये लोगों से मिलना उनके लिए आसान हैं।,Könnyű nekik új emberekkel találkozni.,Conoscono facilmente nuove persone.,彼らが新しい人たちと出会うのは簡単なことだ。,전반적으로 당신 주변 사람들은 쉽게 새로운 사람들을 만날 수 있다.,Mereka dengan mudah bertemu orang baru.,Jest im łatwo poznać nowych ludzi.,É fácil para elas conhecerem novas pessoas.,É fácil para eles conhecer novas pessoas.,"Para ellos/as, es fácil conocer nuevas personas.",Pueden conocer fácilmente gente nueva.,"Para ellos/as, es fácil conocer gente nueva.",Det är lätt för dem att träffa nya människor.,Yeni insanlar ile tanışmaları kolaydır.,Їм легко заводити нові знайомства.
+rel_mobility,rmob9,"Even if these people were not completely satisfied with the group they belonged to, they would usually stay with it anyway.",حتى إن لم يشعر هؤلاء الأشخاص بالرضا التام مع المجموعات التي ينتمون إليها، عادةً ما يفضلون البقاء معهم بأي حال من الأحوال.,即使這些人對他們所屬的群組並不完全滿意，他們通常仍會留下。,"Zelfs als deze mensen niet geheel tevreden zouden zijn met de groep waartoe ze behoren, zouden ze er meestal toch deel van blijven uitmaken.","Isegi siis, kui need inimesed ei oleks täielikult rahul grupiga, kuhu nad kuuluvad, jääksid nad tavaliselt sellest hoolimata tolle grupi juurde.","Même si les personnes de mon entourage n'étaient pas complètement satisfaites du groupe auquel elles appartiennent, elles resteraient généralement dans ce groupe malgré tout.","Selbst wenn diese Personen nicht vollkommen zufrieden mit der ihnen zugehörigen Gruppe sind, würden sie normalerweise trotzdem in ihr verbleiben.","גם אם האנשים הללו לא לגמרי מרוצים מהקבוצה אליה הם משתייכים, בדרך כלל הם יישארו בה בכל מקרה.","भले ही वे अपने समूह के साथ पूरी तरह से संतुष्ट नहीं हैं , फिर भी आम तौर पर वे उसके साथ ही रह जाएंगे।","Még ha nem is teljesen elégedettek azzal a csoporttal, amelybe tartoznak, általában akkor is megmaradnak benne.","Anche quando queste persone non sono completamente soddisfatte del gruppo a cui appartengono, di solito ci rimangono lo stesso.",たとえ所属する集団に満足していなかったとしても、彼らはたいていそこに居続けることになる。,전반적으로 당신 주변 사람들은 자신이 속해 있는 집단이 마음에 들지 않더라도 그 집단을 쉽게 떠나지 않는다.,"Walaupun mereka tidak sepenuhnya berpuas hati dengan kumpulan yang mereka tergolong, mereka biasanya akan kekal di dalamnya","Ci ludzie, nawet jeśli nie byliby kompletnie usatysfakcjonowani z grupy, do której należą, to i tak prawdopodbnie by w niej pozostali.","Mesmo se essas pessoas não estivessem completamente satisfeitas com os grupos aos quais pertencem, elas normalmente continuariam neles de qualquer maneira.","Mesmo que estas pessoas não estivessem totalmente satisfeitas com o grupo a que pertencem, geralmente iriam manter-se nele de qualquer forma.","Aunque estas personas no se sientan completamente satisfechas con el grupo al que pertenecen, normalmente se quedan en él de todas formas.","Aunque estas personas no se sientan completamente a gusto con el grupo al que pertenecen, por lo general, se quedan con el que ya conocen.","Aunque estas personas no se sientan completamente satisfechas con el grupo al que pertenecen normalmente, se quedan en él de todas formas.","Även om dessa människor inte vore helt nöjda med den grupp de tillhörde, skulle de vanligtvis stanna kvar i den ändå.",Bu kişiler ait oldukları gruptan tamamen memnun olmasalar bile çoğunlukla o grupta kalmaya devam ederler.,"Навіть якщо б цим людям не подобалась група, до якої вони належать, вони би все одно зазвичай залишалися її членами."
+rel_mobility,rmob10,They are able to choose the groups and organizations they belong to.,لديهم القدرة على اختيار المجموعات والمنظمات التي ينتمون إليها.,他們能夠選擇他們所屬的群組和組織。,Zij kunnen kiezen tot welke groepen en organisaties zij behoren.,"Neil on võimalik valida gruppe ja organisatsioone, kuhu nad kuuluvad.",Les personnes de mon entourage sont capables de choisir les groupes et organisations auxquels elles appartiennent.,"Sie können sich die Gruppen und Organisationen aussuchen, zu denen sie gehören.",הם יכולים לבחור את הקבוצות והארגונים אליהם הם משתייכים.,वे संबंधित समूहों और संगठनों का चयन करने में सक्षम हैं।,"Megválaszthatják a csoportokat és szervezeteket, amelyekhez tartoznak.",Sono in grado di scegliere i gruppi e le organizzazioni a cui appartere.,彼らは、どの集団や組織に所属するかを自分の好みで選ぶことができる。,전반적으로 당신 주변 사람들은 자신이 속할 집단이나 조직을 직접 선택할 수 있다.,Mereka boleh memilih untuk menyertai kumpulan dan organisasi yang disukai.,"Są w stanie wybrać grupy i organizacje, do których należą.",Elas podem escolher os grupos e organizações de que fazem parte.,São capazes de escolher os grupos e organizações a que pertencem.,Ellos/as pueden elegir libremente los grupos y organizaciones a los que pertenecen.,Pueden elegir libremente a qué grupos y organizaciones pertenecer.,Ellos/as pueden elegir libremente los grupos y organizaciones a los que pertenecen.,De kan välja vilka grupper och organisationer de skall tillhöra.,Ait oldukları grupları ve organizasyonları seçebilirler.,"Вони мають змогу обирати групи і організації, до яких вони належать."
+rel_mobility,rmob11,"Even if these people were not satisfied with their current relationships, they would often have no choice but to stay with them.",حتى إن لم يشعر هؤلاء الأشخاص بالرضا التام في علاقاتهم الحالية، غالباً ما لا يكون لديهم خيار آخر سوى البقاء معهم.,即使這些人對他們現時的人際關係不滿意，他們時常會沒有選擇地留下。,"Zelfs als deze mensen niet tevreden zouden zijn met hun huidige relaties, zouden ze vaak geen andere keus hebben dan bij hen te blijven.","Isegi siis kui need inimesed ei oleks rahul oma praeguste suhetega, ei oleks neil tihti muud võimalust, kui nende juurde jääda.","Même si les personnes de mon entourage n'étaient pas satisfaites de leurs relations actuelles, elles n'auraient souvent pas d'autre choix que de rester avec elles.","Selbst wenn diese Personen mit ihren gegenwärtigen Beziehungen nicht zufrieden wären, hätten sie oft keine andere Wahl, als in ihnen zu verbleiben.","גם אם האנשים הללו לא מרוצים ממערכות היחסים הנוכחיות שלהם, לרוב אין להם ברירה אלא להישאר בהן.","भले ही यह अपने वर्तमान रिश्तों से संतुष्ट नहीं हैं, फिर भी उनके पास इन रिश्तों में रहने के आलावा और कोई बिकल्प नहीं है।","Még ha nem is teljesen elégedettek a jelenlegi kapcsolataikkal, gyakran nincs más lehetőségük, mint megmaradni bennük.","Anche se queste persone non sono soddisfatte delle loro relazioni attuali, spesso sono costrette a rimanervi.",たとえ現在の対人関係に満足していなくても、彼らはそこに留まり続けるしかないことがよくある。,전반적으로 당신 주변 사람들은 현재의 관계가 만족스럽지 못하더라도 관계를 계속 유지하는 것 외에 다른 선택권이 없다.,"Walaupun mereka tidak berpuas hati dengan hubungan semasa, mereka sering tidak mempunyai pilihan lain kecuali untuk terus bersama.","Nawet jeśli ci ludzie nie byliby usatysfakcjonowani w obecnych relacjach, to i tak często nie mieliby innego wyboru, jak w nich pozostać.","Mesmo se essas pessoas não estivessem satisfeitas com seus relacionamentos atuais, elas geralmente não teriam escolha a não ser continuar neles.","Mesmo que estas pessoas não estivessem satisfeitas com as suas relações actuais, muitas vezes não lhes resta outra opção que não seja mantê-las.","Incluso si estás personas noestén satisfechas con sus relaciones actuales, por lo general no tienen otra opción que permanecer en ellas.","Aunque estas personas no se sintieran satisfechas con sus relaciones actuales, por lo general, no tienen otra opción que quedarse con ellas.","Aunque estas personas no estén satisfechas con sus relaciones actuales, por lo general no tienen otra opción que permanecer en ellas.","Även om dessa människor inte vore nöjda med sina nuvarande relationer, skulle de oftast inte ha något annat val än att stanna kvar i dem.","Bu kişiler mevcut ilişkilerinden memnun olmasalar bile, genellikle bu ilişkilerini sürdürmekten başka seçenekleri yoktur.","Навіть якщо б цим людям не подобались їхні стосунки з іншою людиною, у них здебільшого не було б іншого вибору, аніж далі їх підтримувати."
+rel_mobility,rmob12,"Even though they might rather leave, these people often have no choice but to stay in groups they don’t like.",على الرغم من أنهم قد يميلون إلى المغادرة، إلا أن هؤلاء الأشخاص غالباً ما لا يكون لديهم خيار آخر سوى البقاء ضمن المجموعات التي لا يحبونها.,即使他們寧願離開，他們通常會沒有選擇地留在他們不喜歡的群組裡。,"Hoewel ze misschien liever zouden vertrekken, hebben deze mensen vaak geen andere keus dan deel te blijven uitmaken van groepen die ze niet aangenaam vinden.","Hoolimata sellest, et nad parema meelega lahkuksid, ei ole nendel inimestel tihti muud võimalust, kui jääda gruppidesse, mis neile ei meeldi.","Même si ces personnes préféreraient peut-être partir, elles n'ont souvent pas d'autre choix que de rester dans les groupes qu'elles n'apprécient pas.","Obwohl sie manche Gruppen lieber verlassen würden haben diese Menschen oft keine andere Wahl außer Teil der Gruppe, die sie nicht mögen, zu bleiben.","למרות שייתכן שהם היו מעדיפים לעזוב, לאנשים הללו בדרך כלל אין ברירה אלא להישאר בקבוצות אותן הם לא אוהבים.","भले ही यह अपने वर्तमान समूहों को छोड़ सकते है, फिर भी उनके पास उन नापसंद समूहों में रहने के आलावा और कोई विकल्प नहीं होता।","Még ha inkább ki is lépnének, ezeknek az embereknek általában nincs más választásuk, mint bent maradni a nem kedvelt csoportban.","Anche se preferirebbero lasciarlo, queste persone spesso non hanno altra scelta che restare in un gruppo che a loro non piace.",たとえ現在所属する集団から離れたいと思っても、彼らはそこに留まらざるを得ないことがよくある。,전반적으로 당신 주변 사람들은 자기가 싫어하는 집단에 계속 남아있는 것 외에는 다른 선택권이 없다.,"Walaupun mereka lebih rela meninggalkan suatu kumpulan atau organisasi, mereka sering tidak mempunyai pilihan lain kecuali untuk terus bersama.","Ci ludzie, nawet jeśliby chcieli opuścić grupy, których nie lubią to i tak często nie mieliby wyboru jak w nich pozostać.","Mesmo se elas preferissem sair, essas pessoas geralmente não têm escolha a não ser continuar nos grupos que não gostam.","Ainda que preferissem sair, muitas vezes não resta a estas pessoas outra opção que não seja a de ficar nos grupos de que não gostam.","A pesar de que prefieran irse, a menudo ellos/as no tienen otra opción que permanecer en grupos que no les gustan.","Aunque prefieran irse, por lo general, no tienen más opción que quedarse en grupos que no les gustan.","Aunque prefieran irse, a menudo ellos/as no tienen otra opción que permanecer en grupos que no les gustan.","Även om de kanske hellre skulle lämna en grupp, har dessa människor ofta inget annat val än att stanna, även i grupper som de inte tycker om.","Bu kişiler gruplarından ayrılmak isteseler bile, genellikle hoşlanmadıkları gruplarda kalmaktan başka seçenekleri yoktur.","Незважаючи на те, що їм хотілося б залишити групу, у цих людей не має іншого вибору, аніж залишатися у групі, яка їм не подобається."
+rel_mobility,strongly_disagree,Strongly disagree,أعترض تماماً,非常 不同意,Zeer mee oneens,Ei nõustu üldse,Pas du tout d'accord,Stimme überhaupt nicht zu,כלל לא מסכים/ה,पूर्ण रूप से असहमत,Nagyon nem értek egyet,Sono molto in disaccordo,全く当てはまらない,전혀 동의하지 않음,Sangat tidak setuju,Zdecydowanie się nie zgadzam,Discordo fortemente,Discordo fortemente,Totalmente en desacuerdo,Totalmente en desacuerdo,Totalmente en desacuerdo,Instämmer inte alls,Hiç katılmıyorum,Зовсім не погоджуюсь
+rel_mobility,disagree,Disagree,أعترض,不同意,Mee oneens,Ei nõustu,Pas d'accord,Stimme nicht zu,לא מסכים/ה,असहमत,Nem értek egyet,Non sono d'accordo,当てはまらない,동의 하지 않음,Tidak setuju,Nie zgadzam się,Discordo,Discordo,En desacuerdo,En desacuerdo,En desacuerdo,Instämmer inte,Katılmıyorum,Не погоджуюсь
+rel_mobility,slightly_disagree,Slightly disagree,أعترض جزئياً,稍為 不同意,Enigszins mee oneens,Pigem ei nõustu,Pas trop d'accord,Stimme eher nicht zu,לא מסכים/ה במידה מועטה,थोड़ा असहमत,Inkább nem értek egyet,Sono parzialmente in disaccordo,あまり当てはまらない,별로 ㅣ동의하지 않음,Sedikit tidak setuju,Nie zgadzam się nieznacznie,Discordo um pouco,Discordo ligeiramente,Ligeramente en desacuerdo,Ligeramente en desacuerdo,Ligeramente en desacuerdo,Instämmer i huvudsak inte,Pek katılmıyorum,Частково не погоджуюсь
+rel_mobility,slightly_agree,Slightly agree,أوافق جزئياً,稍為 同意,Enigszins mee eens,Pigem nõustun,Un peu d'accord,Stimme eher zu,מסכים/ה במידה מועטה,थोड़ा सहमत,Inkább egyetértek,Sono parzialmente d'accordo,少し当てはまる,약간 동의함,Sedikit setuju,Zgadzam się nieznacznie,Concordo um pouco,Concordo ligeiramente,Ligeramente de acuerdo,Ligeramente de acuerdo,Ligeramente de acuerdo,Instämmer delvis,Biraz katılıyorum,Частково погоджуюсь
+rel_mobility,agree,Agree,أوافق,同意,Mee eens,Nõustun,D'accord,Stimme zu,מסכים/ה,सहमत,Egyetértek,Sono d'accordo,当てはまる,동의함,Setuju,Zgadzam się,Concordo,Concordo,De acuerdo,De acuerdo,De acuerdo,Instämmer,Katılıyorum,Погоджуюсь
+rel_mobility,strongly_agree,Strongly agree,أوافق تماماً,非常 同意,Zeer mee eens,Nõustun täielikult,Tout-à-fait d'accord,Stimme voll und ganz zu,מאוד מסכים/ה,पूर्ण रूप से सहमत,Nagyon egyetértek,Sono molto d'accordo,非常に当てはまる,매우 동의함,Sangat setuju,Zdecydowanie się zgadzam,Concordo fortemente,Concordo fortemente,Totalmente de acuerdo,Totalmente de acuerdo,Totalmente de acuerdo,Instämmer fullt ut,Kesinlikle katılıyorum,Повністю погоджуюсь

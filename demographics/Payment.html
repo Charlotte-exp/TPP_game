@@ -1,6 +1,6 @@
 {{ block title }}
 
-    <p style="text-align: center; font-size: 26px; "> Thank you! </p>
+    <p style="text-align: center; font-size: 26px; "> {{ thank_you_short|safe }} </p>
 
 <div style="display: flex; justify-content: center">
     <label>
@@ -21,24 +21,22 @@
 <div class="card-body">
 
     <p>
-        You have completed the study!
+        {{ study_complete|safe }}
     </p>
 
     <div class="panel panel-default" style="margin-bottom:10px">
         <div class="panel-body">
-            <strong>Thank you for participating!</strong> <br> <br>
-            Your final bonus points are calculated after all participants have completed the study. You will receive your bonus points through Prolific.
-            Please note that this may take a couple of weeks.
+            <b>{{ thank_you|safe }}</b> <br> <br>
+            {{ end_bonus|safe }}
             <p> </p>
             <hr size="6" width="50%" align="center" color="black">
         </div>
         <p></p>
             <p>
-                Click on the <b>next button</b> to be redirected to Prolific.
-                The participation payment will be paid immediately.
+                {{ redirect_prolific|safe }}
             </p>
             <div style="display: flex; justify-content: flex-end">
-            {% next_button %}
+                <button class="btn btn-primary">{{button_next | safe}}</button>
             </div>
     </div>
 </div>

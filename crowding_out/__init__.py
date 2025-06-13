@@ -5,6 +5,8 @@ import itertools
 import csv
 import os
 
+from translations import get_translation
+
 doc = """
 Your app description
 """
@@ -48,6 +50,9 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         # Only necessary if not using participant field from baseline_trials
         participant.current_country = "gb"
         participant.current_countryname = "the United Kingdom"
+
+        # translation
+        participant.language = 'en'
         
         participant.crowding_out_button_pos = random.choice([True, False])
 
@@ -157,6 +162,9 @@ class CrowdingInOutPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
+        participant = player.participant
+        lang = participant.language
+
         current_countryname = player.participant.current_countryname
         print('player.participant.current_countryname', player.participant.current_countryname)
 
@@ -169,23 +177,18 @@ class CrowdingInOutPage(Page):
 
         crowding_out_button_pos = player.participant.crowding_out_button_pos
 
+        choice_give = 4
+        choice_keep = 0
+
         print("crowding_out_button_pos", crowding_out_button_pos)
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
         print("treatment_incentive", treatment_incentive)
 
-        text2 = 'If you donate, we will convert the points into money and transfer it to the charity.'
-        text4 = f'<b>Important:</b> If your response is close to the average rating in {current_countryname}, you receive 8 points.'
-        text5 = 'Make your decision:'
-
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
-            text1 = 'Now, you decide if you want to <b style="color: green;">give</b> <b>4 of your bonus points to charity</b>. <br> <b>Important</b>: You receive additional <b>2 points</b> for yourself if you give <b>4 points</b> to charity.'
-            text3 = f'<b>How is someone perceived in {current_countryname} </b> <br> if they <b>give 4 points</b> to charity and <b>received 2 points</b> for themselves?'
         else:
             image = 'global/treatments/crowding.png'
-            text1 = 'Now, you decide if you want to <b style="color: green;">give</b> <b>4 of your bonus points to charity</b>.'
-            text3 = f'<b>How is someone perceived in {current_countryname} </b> if they <b>give 4 points</b> to charity?'
 
         return dict(
             crowding_decision=player.crowding_decision,
@@ -198,11 +201,36 @@ class CrowdingInOutPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            text1 = text1,
-            text2 = text2,
-            text3 = text3,
-            text4 = text4,
-            text5 = text5,
+            crowding_intro=get_translation('crowding_intro', lang),
+            crowding_incentive=get_translation('crowding_incentive', lang),
+            crowding_intro2=get_translation('crowding_intro2', lang),
+            crowding_norm_incentive =get_translation('crowding_norm_incentive', lang, current_countryname=current_countryname),
+            crowding_norm=get_translation('crowding_norm', lang, current_countryname=current_countryname),
+            crowding_norm_bonus=get_translation('crowding_norm_bonus', lang, current_countryname=current_countryname),
+            crowding_decision_give=get_translation('crowding_decision_give', lang, choice_give=choice_give),
+            crowding_decision_keep=get_translation('crowding_decision_keep', lang, choice_keep=choice_keep),
+            error_all_sliders =get_translation('error_all_sliders', lang),
+            crowding_altruistic=get_translation('crowding_altruistic', lang),
+            crowding_likable=get_translation('crowding_likable', lang),
+            very_selfish=get_translation('very_selfish', lang),
+            selfish=get_translation('selfish', lang),
+            slightly_selfish=get_translation('slightly_selfish', lang),
+            slightly_altruistic=get_translation('slightly_altruistic', lang),
+            altruistic=get_translation('altruistic', lang),
+            very_altruistic=get_translation('very_altruistic', lang),
+            very_unlikable=get_translation('very_unlikable', lang),
+            unlikable=get_translation('unlikable', lang),
+            slightly_unlikable=get_translation('slightly_unlikable', lang),
+            slightly_likable=get_translation('slightly_likable', lang),
+            likable=get_translation('likable', lang),
+            very_likable=get_translation('very_likable', lang),
+            error3=get_translation('error3', lang),
+            person_a=get_translation('person_a', lang),
+            button_charity=get_translation('button_charity', lang),
+            you=get_translation('you', lang),
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
             # charities = charities,
             local_red_cross = local_red_cross,
             image_red_cross_local = image_red_cross_local,
@@ -225,6 +253,9 @@ class DescriptiveNormPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
+        participant = player.participant
+        lang = participant.language
+
         current_countryname = player.participant.current_countryname
 
         total_endowment = 4
@@ -232,9 +263,6 @@ class DescriptiveNormPage(Page):
         incentive = 2
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
-
-        text1 = f'<br> <b>Out of 100 people in {current_countryname}</b>, <br> how many do you think <b>gave 4 points to charity</b> in the previous decision? '
-        text2 = f'<b>Important</b>:</b> If your response is close to the correct number, you will receive 8 points.'
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -248,8 +276,15 @@ class DescriptiveNormPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            text1 = text1,
-            text2 = text2,
+            descr_question=get_translation('descr_question', lang, current_countryname=current_countryname),
+            descr_incentive=get_translation('descr_incentive', lang),
+            error1=get_translation('error1', lang),
+            person_a=get_translation('person_a', lang),
+            button_charity=get_translation('button_charity', lang),
+            you=get_translation('you', lang),
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
             current_country=current_countryname,
             total_pages=player.session.config['total_pages'],
         )
@@ -275,6 +310,9 @@ class ConditionalCoopPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
 
+        participant = player.participant
+        lang = participant.language
+
         non_donor = player.crowding_decision == 0
 
         current_countryname = player.participant.current_countryname
@@ -288,25 +326,28 @@ class ConditionalCoopPage(Page):
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
 
+        ## Make buttons for different of proportions
+
+        # 1. Create proportions and empty lists to hold buttons
+        proportions_list = [80, 60, 40, 20]
+        cond_coop_decision_kept_buttons = []
+        cond_coop_decision_gave_buttons = []
+
+        # 2. Loop through the proportions to build the buttons
+        for proportion in proportions_list:
+            cond_coop_decision_kept_buttons.append({
+                'value': proportion,
+                'text': get_translation('cond_coop_decision_kept', lang, proportion=proportion)
+            })
+            cond_coop_decision_gave_buttons.append({
+                'value': proportion,
+                'text': get_translation('cond_coop_decision_gave', lang, proportion=proportion)
+            })
+
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
         else:
             image = 'global/treatments/crowding.png'
-
-        text2 = f'<b style="color: red;">Depending on what others in {current_countryname} do,<br></b> <b> would you change your decision?</b>'
-        text3 = 'Out of 100 people, if'
-
-        if non_donor:
-            text1 = 'You decided not to give 4 points to charity.'
-            text4 = f'or more <u>did give</u>, I also want to give my points to charity.'
-            text5 = 'Regardless of the choices of others, I do not want to give my points to charity. '
-            text6 = f'<b>Important:</b> If the condition in your answer is met, your bonus points will be transferred to a charity.'
-        else:
-            text1 = 'You decided to give 4 points to charity.'
-            text4 = f'or more <u>did not give</u>, I also do not want to give my points to charity.'
-            text5 = 'Regardless of the choices of others, I want to give my points to charity. '
-            text6 = f'<b>Important:</b> If the condition in your answer is met, your bonus points will not be transferred to the charity.'
-
 
 
         return dict(
@@ -318,12 +359,22 @@ class ConditionalCoopPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            text1 = text1,
-            text2 = text2,
-            text3 = text3,
-            text4 = text4,
-            text5 = text5,
-            text6 = text6,
+            cond_coop_kept=get_translation('cond_coop_kept', lang),
+            cond_coop_gave=get_translation('cond_coop_gave', lang),
+            cond_coop_question=get_translation('cond_coop_question', lang, current_countryname=current_countryname),
+            cond_coop_incentive_gave=get_translation('cond_coop_incentive_gave', lang),
+            cond_coop_incentive_kept=get_translation('cond_coop_incentive_kept', lang),
+            gave_unconditionally=get_translation('gave_unconditionally', lang),
+            kept_unconditionally=get_translation('kept_unconditionally', lang),
+            cond_coop_decision_kept_buttons=cond_coop_decision_kept_buttons,
+            cond_coop_decision_gave_buttons=cond_coop_decision_gave_buttons,
+            error1=get_translation('error1', lang),
+            person_a=get_translation('person_a', lang),
+            button_charity=get_translation('button_charity', lang),
+            you=get_translation('you', lang),
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
             local_red_cross=local_red_cross,
             image_red_cross_local=image_red_cross_local,
             current_country=current_countryname,
