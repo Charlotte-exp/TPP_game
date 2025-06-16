@@ -32,7 +32,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 36
     NUM_DECISIONS_APPROX = 43
-    STUDY_TIME = 40
+    STUDY_TIME = 30
     prolific = True
 
     CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
