@@ -788,10 +788,10 @@ class TPPage(Page):
                 return ['TP_norm_decision1']
         else:
             if "comp" in player.treatment:
-                return ['TP_decision1', 'TP_decision2', 'TP_decision3',
+                return ['TP_decision1', 'TP_decision2',
                         'punish_or_compensate1', 'punish_or_compensate2', 'punish_or_compensate3']
             else:
-                return ['TP_decision1', 'TP_decision2', 'TP_decision3']
+                return ['TP_decision1', 'TP_decision2']
 
 
     @staticmethod
@@ -905,13 +905,6 @@ class TPPage(Page):
                     dictator_keeps=dictator_keeps_2,
                     receiver=C.total_endowment - dictator_keeps_2,
                     **({"pun_or_comp": player.punish_or_compensate2} if "comp" in player.treatment else {}),
-                ),
-                dict(
-                    index=3,
-                    TP_decision=player.TP_decision3,
-                    dictator_keeps=dictator_keeps_3,
-                    receiver=C.total_endowment - dictator_keeps_3,
-                    **({"pun_or_comp": player.punish_or_compensate3} if "comp" in player.treatment else {}),
                 ),
             ],
             TP_norm_decisions=[

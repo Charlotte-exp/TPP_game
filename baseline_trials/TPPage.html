@@ -504,10 +504,9 @@
                 // Get the values of the three form fields
                 let tp1 = $(`#selected-number-${1}`).val();
                 let tp2 = $(`#selected-number-${2}`).val();
-                let tp3 = $(`#selected-number-${3}`).val();
 
                 // Check if either field is empty
-                if (!tp1 || !tp2 || !tp3) {
+                if (!tp1 || !tp2) {
                     alert(error3);
                 } else {
                     // Submit the form if both fields have values
@@ -580,20 +579,16 @@
         <!-- Add hidden input to store the selected value -->
         <input type="hidden" name="TP_decision1" id="selected-number-1">
         <input type="hidden" name="TP_decision2" id="selected-number-2">
-        <input type="hidden" name="TP_decision3" id="selected-number-3">
 
 <!--        {{ formfield_errors 'TP_decision1' }}-->
 <!--        {{ formfield_errors 'TP_decision2' }}-->
-<!--        {{ formfield_errors 'TP_decision3' }}-->
 
         {% if "comp" in player.treatment %}
 
         <input type="hidden" name="punish_or_compensate1" id="selected-action-1">
         <input type="hidden" name="punish_or_compensate2" id="selected-action-2">
-        <input type="hidden" name="punish_or_compensate3" id="selected-action-3">
 <!--            {{ formfield_errors 'punish_or_compensate1' }}-->
 <!--            {{ formfield_errors 'punish_or_compensate2' }}-->
-<!--            {{ formfield_errors 'punish_or_compensate3' }}-->
 
         {% endif %}
 
