@@ -17,7 +17,7 @@ Your app description
 def get_country_dict(lang):
     import csv
     with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
+        reader = csv.DictReader(csvfile, delimiter=';')
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
         return {
@@ -35,7 +35,7 @@ class C(BaseConstants):
     STUDY_TIME = 40
     prolific = True
 
-    CURRENT_COUNTRY = 'en' # CHANGE TO COUNTRY FOR THIS LINK
+    CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
     CURRENT_LANGUAGE = 'en'
 
     COUNTRIES = get_country_dict(CURRENT_LANGUAGE)
