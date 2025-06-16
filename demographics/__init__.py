@@ -16,11 +16,14 @@ class C(BaseConstants):
     NUM_ROUNDS = 1
 
 
-def get_country_list():
-    filepath = os.path.join(os.path.dirname(__file__), '../_static/global/countrynames_world.csv')
+def get_country_list(lang):
+    filepath = os.path.join(os.path.dirname(__file__), '../_static/global/countrynames_all_lang.csv')
     with open(filepath, encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        countries_world = [row["countryname"] for row in reader]
+        reader = csv.DictReader(file, delimiter=';')
+        if lang not in reader.fieldnames:
+            raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+        #countries_world = [row["countryname"] for row in reader]
+        countries_world = [row[lang] for row in reader if row[lang]]
         countries_world.sort()  # Sort alphabetically
         return countries_world
 
@@ -150,8 +153,8 @@ class Demographics(Page):
         lang = participant.language
 
         current_countryname = player.participant.current_countryname
-        #participant = player.participant
-        all_countries = get_country_list()
+
+        all_countries = get_country_list(lang)
         countries = [current_countryname] + [c for c in all_countries if c != current_countryname]
 
         return dict(
