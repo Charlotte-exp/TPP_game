@@ -525,17 +525,20 @@ class instructionPage(Page):
         random_trial_numbers = random.choices(range(7), k=5) # Randomize numbers that are displayed in trial rounds
         random_trial_numbers_diff = [12-value for value in random_trial_numbers]
 
+        participant = player.participant
+        lang = participant.language
+
         if "IN" in player.treatment or "OUT" in player.treatment:
             random_INOUT_IN_as_dic = random.choice([True, False])
             if random_INOUT_IN_as_dic:
                 dic_identity = C.CURRENT_COUNTRY
                 recip_identity = "out"
                 dic_identity_country = C.CURRENT_COUNTRYNAME
-                recip_identity_country = "one of " + str(C.NUM_COUNTRIES) + " countries which also participate in this study"
+                recip_identity_country = get_translation('unknown_country_long', lang, num_countries=C.NUM_COUNTRIES)
             else:
                 dic_identity = "out"
                 recip_identity = C.CURRENT_COUNTRY
-                dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries which also participate in this study"
+                dic_identity_country = get_translation('unknown_country_long', lang, num_countries=C.NUM_COUNTRIES)
                 recip_identity_country = C.CURRENT_COUNTRYNAME
         elif "country" in player.treatment or "universal norm" in player.treatment:
             random_partner_country_IN_as_dic = random.choice([True, False])
@@ -561,9 +564,6 @@ class instructionPage(Page):
         block2 = "OUT" in player.treatment or "IN" in player.treatment
         block3 = "country" in player.treatment or "universal norm" in player.treatment
         #print('instructionPage Generating image path and round number - 1', image, player.round_number - 1, player.treatment)
-
-        participant = player.participant
-        lang = participant.language
 
         return dict(
             treatment=player.treatment,
@@ -862,17 +862,17 @@ class TPPage(Page):
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = "out"
             dic_identity_country = C.CURRENT_COUNTRYNAME
-            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
+            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
         if "OUT IN" in player.treatment:
             dic_identity = "out"
             recip_identity = C.CURRENT_COUNTRY
-            dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
+            dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
             recip_identity_country = C.CURRENT_COUNTRYNAME
         if "OUT OUT" in player.treatment:
             dic_identity = "out"
             recip_identity = "out"
-            dic_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
-            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
+            dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
+            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
@@ -1045,7 +1045,7 @@ class DictatorPage(Page):
         if player.treatment[-3:] == "OUT":
             recip_identity = "out"
             dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
-            recip_identity_country = "one of "  + str(C.NUM_COUNTRIES) + " countries"
+            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
             dic_identity_country = C.CURRENT_COUNTRYNAME
         if player.treatment[-3:] == " IN":
             recip_identity = C.CURRENT_COUNTRY
