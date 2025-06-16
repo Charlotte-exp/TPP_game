@@ -53,10 +53,12 @@
     let lastClickedValue = 0;
 
     /// Function for showing customized error messages
+    var error3 = "{{ error3 }}";
+
     const errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-        errorDiv.textContent = 'Please make a decision to continue.'
+        errorDiv.textContent = error3
     }
 
 
@@ -483,6 +485,8 @@
             // // Submit the form
             // $('form').submit();
 
+            var error3 = "{{ error3 }}";
+
             if (current_treatment.includes("norm") ) {
 
                 // Get the values of the two form fields
@@ -491,7 +495,7 @@
 
                 // Check if either field is empty
                 if (!norm1 || !norm2) {
-                    alert("Please complete all decisions to continue.");
+                    alert(error3);
                 } else {
                     // Submit the form if both fields have values
                     $('form').submit();
@@ -504,7 +508,7 @@
 
                 // Check if either field is empty
                 if (!tp1 || !tp2 || !tp3) {
-                    alert("Please complete all decisions to continue.");
+                    alert(error3);
                 } else {
                     // Submit the form if both fields have values
                     $('form').submit();
