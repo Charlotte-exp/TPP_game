@@ -16,8 +16,8 @@ Your app description
 
 def get_country_dict(lang):
     import csv
-    with open('_static/global/country_codes_all_lang.csv', newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=';')
+    with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
         return {
