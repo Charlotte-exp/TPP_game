@@ -100,7 +100,7 @@ def creating_session(subsession):
         # progress bar
         participant.progress = 1
         # translation
-        participant.language = 'en'
+        participant.language = 'de'
 
 
     ## Make immutable variables for partner-country block
@@ -505,6 +505,7 @@ class Introduction(Page):
             intro_points_title=get_translation('intro_points_title', lang),
             intro_points=get_translation('intro_points', lang),
             intro_carefully=get_translation('intro_carefully', lang),
+            intro_title=get_translation('intro_title', lang),
             button_start=get_translation('button_start', lang),
         )
 
@@ -564,6 +565,7 @@ class instructionPage(Page):
 
         participant = player.participant
         lang = participant.language
+
         return dict(
             treatment=player.treatment,
             cost_per_point=round(1 / C.TP_cost, 2),
@@ -571,20 +573,26 @@ class instructionPage(Page):
             random_trial_numbers=random_trial_numbers,
             random_trial_numbers_diff=random_trial_numbers_diff,
             dic_identity=dic_identity,
-            recip_identity=recip_identity,
-            dic_identity_country=dic_identity_country,
-            recip_identity_country=recip_identity_country,
-            first_block_2PP_true=first_block_2PP_true,
-            block2=block2,
-            block3=block3,
-            current_country=C.CURRENT_COUNTRYNAME,
-            treatment_type=treatment_type,
-            intro_block1_title=get_translation('intro_block1_title', lang),
+            recip_identity= recip_identity,
+            dic_identity_country= dic_identity_country,
+            recip_identity_country= recip_identity_country,
+            first_block_2PP_true = first_block_2PP_true,
+            block2 = block2,
+            block3 = block3,
+            current_country = C.CURRENT_COUNTRYNAME,
+            treatment_type = treatment_type,
+            instructions_title=get_translation('instructions_title', lang),
             instru_part1=get_translation('instru_part1', lang),
             instru_part2=get_translation('instru_part2', lang),
             instru_part3=get_translation('instru_part3', lang),
             instru_part4=get_translation('instru_part4', lang),
             instru_part5=get_translation('instru_part5', lang),
+            error1=get_translation('error1', lang),
+            you=get_translation('you', lang),
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
+           
             instru_0DG_pairing=get_translation('instru_0DG_pairing', lang),
             instru_0DG_decision=get_translation('instru_0DG_decision', lang),
             instru_0DG_points=get_translation('instru_0DG_points', lang),
@@ -677,6 +685,7 @@ class ComprehensionQuestionPage(Page):
             image=image,
             correct_answers=correct_answers,
             total_pages=player.session.config['total_pages'],
+            comprehension_title=get_translation('comprehension_title', lang),
             comprehension_error_green=get_translation('comprehension_error_green', lang),
             comprehension_error_red=get_translation('comprehension_error_red', lang),
             comprehension_error_greenTF=get_translation('comprehension_error_greenTF', lang),
@@ -688,6 +697,8 @@ class ComprehensionQuestionPage(Page):
                                                       cost_per_point=round(1/C.TP_cost, 2)),
             comprehension_2PP_answer3=get_translation('comprehension_2PP_answer3', lang),
             button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
         )
 
     @staticmethod
@@ -732,6 +743,7 @@ class AttentionCheckPage(Page):
 
         participant = player.participant
         lang = participant.language
+
         return dict(
             treatment=player.treatment,
             page_name=AttentionCheckPage,
@@ -741,6 +753,21 @@ class AttentionCheckPage(Page):
             attention1=player.attention1,
             attention2=player.attention2,
             button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
+            error1=get_translation('error1', lang),
+            person_a=get_translation('person_a', lang),
+            person_b=get_translation('person_b', lang),
+            person_c=get_translation('person_c', lang),
+            attention_error_green=get_translation('attention_error_green', lang),
+            attention_error_red=get_translation('attention_error_red', lang),
+            attention_check1=get_translation('attention_check1', lang),
+            attention_0points=get_translation('attention_0points', lang),
+            attention_2points=get_translation('attention_2points', lang),
+            attention_4points=get_translation('attention_4points', lang),
+            attention_6points=get_translation('attention_6points', lang),
+            attention_check2=get_translation('attention_check2', lang),
+            attention_title=get_translation('attention_title', lang),
             total_pages=player.session.config['total_pages'],
         )
 
@@ -953,6 +980,8 @@ class TPPage(Page):
             appropriate=get_translation('appropriate', lang),
             very_appropriate=get_translation('appropriate', lang),
             button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
             total_pages=player.session.config['total_pages'],
         )
         # Conditionally add the extra variable
@@ -1084,10 +1113,13 @@ class DictatorPage(Page):
             dict_decision_mind=get_translation('dict_decision_mind', lang,
                                                treatment_text_action=text_action),
             dict_decision_hover=get_translation('dict_decision_hover', lang),
+            you=get_translation('you', lang),
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
             button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang)
             total_pages=player.session.config['total_pages'],
             )
 
@@ -1143,12 +1175,12 @@ class UniversalNormPage(Page):
         participant.decision_page_number = player.round_number +1
 
 
-page_sequence = [Consent,
-                 Introduction,
-                 AttentionCheckPage,
-                 instructionPage,
-                 ComprehensionQuestionPage,
-                 DictatorPage,
+page_sequence = [#Consent,
+                 #Introduction,
+                 #AttentionCheckPage,
+                 #instructionPage,
+                 #ComprehensionQuestionPage,
+                 #DictatorPage,
                  TPPage,
                  UniversalNormPage
                  ]

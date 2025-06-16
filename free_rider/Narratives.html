@@ -1,6 +1,6 @@
 {{ block title }}
 
-<p style="text-align: center; font-size: 26px; "> Additional questions </p>
+<p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -62,8 +62,9 @@
         let answer4 = $(`#selected-answer-${4}`).val();
 
         // Check if either field is empty
+        var error3 = "{{ error3 }}";
         if (!answer1 || !answer2 || !answer3 || !answer4 ) {
-            alert("Please complete all decisions to continue.");
+            alert(error3);
         } else {
             // Submit the form if both fields have values
             $('form').submit();

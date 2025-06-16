@@ -52,15 +52,15 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant.current_countryname = "the United Kingdom"
 
         # translation
-        participant.language = 'en'
+        participant.language = 'de'
         
         participant.crowding_out_button_pos = random.choice([True, False])
 
-        ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        participant.progress = 1
-        participant.decision_page_number = 0 # For testing only crowding
-
-        print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        # participant.progress = 1
+        # participant.decision_page_number = 0 # For testing only crowding
+        #
+        # print('set crowding_out_button_pos', participant.crowding_out_button_pos)
 
 
 def get_local_red_cross_info(country_name):

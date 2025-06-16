@@ -1,10 +1,10 @@
 {{ block title }}
 
 <p style="font-size: 22px; text-decoration: underline;">
-    Block 1
+    {{ button_block|safe }} 1
 </p>
 
-<p style="text-align: center; font-size: 26px;  "> Attention check </p>
+<p style="text-align: center; font-size: 26px;  "> {{ attention_title|safe }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -42,10 +42,12 @@
     var attention_check_rounds = {{ C.attention_check_rounds }}
 
     /// Function for showing customized error messages
+    var error1 = "{{ error1 }}";
+
     let errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-            errorDiv.textContent = "Please select the correct answer."
+            errorDiv.textContent = error1
         }
 
     failedAttempts = 0;
@@ -154,11 +156,11 @@
     {% endif %}
 
     <div class="comprehension-error-green" id="correct-message" >
-        Correct answer! Please press 'Next'.
+        {{ attention_error_green|safe }}
     </div>
 
     <div class="comprehension-error-red" id="incorrect-message" >
-        Wrong answer! Please select the correct answer.
+        {{ attention_error_red|safe }}
     </div>
 
     <div class="figure-container">
@@ -166,13 +168,13 @@
         <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/3PP punish.png">
 
         <div class="person-a">
-            <b>PERSON A</b>
+            <b>{{ person_a|safe }}</b>
         </div>
         <div class="person-b">
-            <b>PERSON B</b>
+            <b>{{ person_b|safe }}</b>
         </div>
         <div class="person-c">
-            <b>PERSON C</b>
+            <b>{{ person_c|safe }}</b>
         </div>
 
         <img class="minus-button-3PP" src="/static/global/minus_button2.png" alt="-">
@@ -184,14 +186,14 @@
 
         <div class='responsive-div'>
 
-            <p> To show us that you are paying attention, please select <b>4 points</b>. </p>
+            <p> {{ attention_check1|safe }} </p>
 
             <div class='numbers'>
                 <div class="comprehension-row" data-input="selected-attention1">
-                    <div class="comprehension-option" data-value="0" >2 points </div>
-                    <div class="comprehension-option" data-value="1" >0 points </div>
-                    <div class="comprehension-option" data-value="2" >6 points </div>
-                    <div class="comprehension-option" data-value="3" >4 points </div>
+                    <div class="comprehension-option" data-value="0" >{{ attention_0points|safe }} </div>
+                    <div class="comprehension-option" data-value="1" >{{ attention_2points|safe }} </div>
+                    <div class="comprehension-option" data-value="2" >{{ attention_4points|safe }} </div>
+                    <div class="comprehension-option" data-value="3" >{{ attention_6points|safe }} </div>
                 </div>
             </div>
 
@@ -203,14 +205,14 @@
 
         <div class='responsive-div'>
 
-            <p> To show us that you are paying attention, please select <b>2 points</b>. </p>
+            <p> {{ attention_check2|safe }} </p>
 
             <div class='numbers'>
                 <div class="comprehension-row" data-input="selected-attention2">
-                    <div class="comprehension-option" data-value="0" >4 points </div>
-                    <div class="comprehension-option" data-value="1" >2 points </div>
-                    <div class="comprehension-option" data-value="2" >0 points </div>
-                    <div class="comprehension-option" data-value="3" >6 points </div>
+                     <div class="comprehension-option" data-value="0" >{{ attention_0points|safe }} </div>
+                    <div class="comprehension-option" data-value="1" >{{ attention_2points|safe }} </div>
+                    <div class="comprehension-option" data-value="2" >{{ attention_4points|safe }} </div>
+                    <div class="comprehension-option" data-value="3" >{{ attention_6points|safe }} </div>
                 </div>
             </div>
 
@@ -229,7 +231,7 @@
                        font-size: 1rem;
                        border-radius: 0.25rem;
                        padding: 4px 12px;" type="button" id="submit-button">
-            {{ button_next }}
+            {{ button_next|safe }}
         </button>
     </div>
 

@@ -747,9 +747,13 @@
     <p style="text-align: center; ">
         {{crowding_intro|safe}}
 
+        <br>
+
+        {{ crowding_intro2|safe }}
+
         {% if treatment_incentive %}
 
-            <br>
+            <br><br>
 
             {{crowding_incentive|safe}}
 
@@ -757,9 +761,6 @@
 
     </p>
 
-    <p style="">
-        {{ crowding_intro2|safe }}
-    </p>
 
 
 <input type="hidden" name="charity_select" id="hidden-charity-select" />
@@ -809,11 +810,11 @@
         <div class="option-row" data-input="selected-option-1">
 
             <div class="option" data-value="0">
-                <div class="centered-text">{{ crowding_decision_keep|safe }}</div>
+                <div class="centered-text"> <b> {{ crowding_decision_keep|safe }} </b> </div>
             </div>
 
             <div class="option donate-option" data-value="4">
-                {{ crowding_decision_give|safe }}
+                <b> {{ crowding_decision_give|safe }} </b>
                 <div class="charity-logos">
                     <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
                     <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
@@ -836,7 +837,7 @@
         <div class="option-row" data-input="selected-option-1">
 
             <div class="option donate-option" data-value="4">
-                {{ crowding_decision_give|safe }}
+                <b> {{ crowding_decision_give|safe }} </b>
                 <div class="charity-logos">
                     <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
                     <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
@@ -853,7 +854,7 @@
             </div>
 
             <div class="option" data-value="0">
-                <div class="centered-text">{{ crowding_decision_keep|safe }}</div>
+                <div class="centered-text"> <b>{{ crowding_decision_keep|safe }} </b> </div>
             </div>
 
         </div>

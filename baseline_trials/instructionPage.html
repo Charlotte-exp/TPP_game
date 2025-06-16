@@ -6,21 +6,21 @@
 </div>
 
 <p style="text-align: center; font-size: 26px; margin-bottom: 4px; ">
-    Instructions:
+    {{ instructions_title|safe }}
     {% if "0DG" in player.treatment and player.round_number < 9 %}
-    {{ instru_part1 }}
+        {{ instru_part1|safe }}
     {% endif %}
     {% if "2PP" in player.treatment and player.round_number < 9%}
-        {{ instru_part2 }}
+        {{ instru_part2|safe }}
     {% endif %}
     {% if "3PP" in player.treatment and player.round_number < 9%}
-        {{ instru_part3 }}
+        {{ instru_part3|safe }}
     {% endif %}
     {% if "3PR" in player.treatment and player.round_number < 9%}
-        {{ instru_part4 }}
+        {{ instru_part4|safe }}
     {% endif %}
     {% if "3PC" in player.treatment and player.round_number < 9%}
-        {{ instru_part5 }}
+        {{ instru_part5|safe }}
     {% endif %}
     {% if "3PC" in player.treatment %}
         {% if "IN" in player.treatment or "OUT" in player.treatment %}
