@@ -2,7 +2,7 @@
 {{ block title }}
 
 <div class="block-header">
-    {{ button_block|safe }} 1
+    {{ intro_block1_title }}
 </div>
 
 <p style="text-align: center; font-size: 26px; margin-bottom: 4px; ">
@@ -29,11 +29,11 @@
     {% endif %}
     {% if "3PP" in player.treatment  %}
         {% if "IN" in player.treatment or "OUT" in player.treatment %}
-            Part 4
+            {{ instru_part4 }}
         {% endif %}
     {% endif %}
     {% if "3PP country" in player.treatment %}
-        Part 5
+        {{ instru_part5 }}
     {% endif %}
 </p>
 
@@ -548,23 +548,20 @@
     {{ if treatment_type == '0DG' }}
 
         <p>
-            In <u>each</u> decision situation,
-            you will be paired with a <b>different study participant</b>.
-            You will also be assigned a role for every decision
-            (for example, Person A or Person B).
+            {{ instru_0DG_pairing }}
         </p>
 
-        <p>The decision situation will look like this:</p>
+        <p>{{ instru_0DG_decision }}</p>
 
         <div class="figure-container short-figure-container">
 
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/0DG give.png">
 
             <div class="person-a">
-                <b>PERSON A</b>
+                <b>{{ person_a }}</b>
             </div>
             <div class="person-b">
-                <b>PERSON B</b>
+                <b>{{ person_b }}</b>
             </div>
 
             <span class='coinstackD' ></span>
@@ -573,14 +570,11 @@
         </div>
 
         <p>
-            <strong>Person A</strong> receives 12 points.<br>
-            <strong>Person B</strong> receives 0 points.
+            {{ instru_0DG_points }}
         </p>
 
         <p>
-            <strong>Person A</strong> decides how many of the 12 points to <b>give</b>
-            to <b>Person B</b> and how many to keep for themselves.
-            Person B does not make a decision.
+            {{ instru_0DG_rules }}
         </p>
 
     {{ endif }}
@@ -588,19 +582,23 @@
 
     {{ if player.round_number == 3 }}
 
-        <p>In the next parts, each interaction has <strong>two stages</strong>. </p>
+        <p>
+            {{ instru_2PP_stages }}
+        </p>
 
-        <p>In <b>Stage 1</b>, Person A always receives 12 points and decides how many of the 12 points to give to Person B.</p>
+        <p>
+            {{ instru_2PP_points }}
+        </p>
 
         <div class="figure-container short-figure-container">
 
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/0DG give.png">
 
             <div class="person-a">
-                <b>PERSON A</b>
+                <b>{{ person_a }}</b>
             </div>
             <div class="person-b">
-                <b>PERSON B</b>
+                <b>{{ person_b }}</b>
             </div>
 
             <span class='coinstackD' ></span>
@@ -609,18 +607,16 @@
         </div>
 
         <hr>
-
         <p>
-            <b>After</b> Person A makes their decision, <strong>Stage 2</strong> begins.
+            {{ instru_2PP_stage2 }}
         </p>
 
         <p>
-            In <b>Stage 2</b>, <b>Person B</b> is able to <strong>remove points</strong>
-            from <strong>Person A</strong>.
+            {{ instru_2PP_remove }}
         </p>
 
         <p>
-            You will be assigned different roles at different times: Person A or Person B
+            {{ instru_2PP_role }}
         </p>
 
         <br>
@@ -629,10 +625,10 @@
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/2PP_2 punish.png">
 
             <div class="person-a">
-                <b>PERSON A</b>
+                <b>{{ person_a }}</b>
             </div>
             <div class="person-b">
-                <b>PERSON B</b>
+                <b>{{ person_b }}</b>
             </div>
 
             <img class="minus-button-2PP" src="/static/global/minus_button2.png" alt="-" style="top: -18px;">
@@ -650,37 +646,32 @@
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/3PP punish.png">
 
             <div class="person-a" style="top:29%">
-                <b>PERSON A</b>
+                <b>{{ person_a }}</b>
             </div>
             <div class="person-b" style="top:29%">
-                <b>PERSON B</b>
+                <b>{{ person_b }}</b>
             </div>
             <div class="person-c">
-                <b>PERSON C</b>
+                <b>{{ person_c }}</b>
             </div>
 
             <img class="minus-button-3PP" src="/static/global/minus_button2.png" alt="-">
 
         </div>
 
-        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
+        <p style="color: red; text-align: center; ">
+            {{ instru_3PP_change }}
+        </p>
 
         <br>
-        <p>There will also be a third person: <b>Person C.</b> </p>
+        <p>{{ instru_3PP_personc }}</p>
 
         <p>
-            Person B is <u>not</u> able to remove points anymore. Instead, <b style="color: red; ">Person C</b> is able to <b>remove points</b> from Person A.
+            {{ instru_3PP_remove }}
         </p>
 
-        <p> Person C receives 4 points in Stage 2 and can use these points to remove points from Person A.
-            Points removed by Person C are eliminated.
-            For each <b>1 point</b> that Person C removes from Person A, Person C loses <b>0.33 points</b>.
-        </p>
-
-        <p> You will be assigned different roles at different times:
-            Person A, Person B, or Person C.
-<!--            When you are Person B, you will not be asked to make any decision,-->
-<!--            because Person B is not able to make a decision.-->
+        <p>
+            {{ instru_3PP_rules }}
         </p>
 
     {{ endif }}
@@ -689,23 +680,20 @@
     {{ if block2 == True and treatment_type == '3PP' }}
 
         <p style="color: red; text-align: center; ">
-            <b>Now there is one change.</b>
+            {{ instru_3PP_change }}
         </p>
 
         <p>
-            You will know if Person A and Person B <b style="color: red; ">also live in {{current_country}}</b>
-            or in <b style="color: red; ">one of {{C.NUM_COUNTRIES}} countries</b>
-            around the globe which also participate in this study:</p>
-
-        <p>
-            <i>Algeria, Australia, Brazil, Chile, China, Ecuador, Egypt, Estonia, Finland, France, Germany, Greece,
-            Hungary, India, Indonesia, Israel, Italy, Japan, Kazakhstan, Kenya, Korea, Malaysia, Mexico, Morocco,
-            Nigeria, Norway, Pakistan, Peru, Philippines, Poland, Romania, Russia, Saudi Arabia, Singapore,
-            South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, United Arab Emirates, United States,
-            Uruguay, Venezuela, Vietnam </i>
+            {{ instru_INOUT }}
         </p>
 
-        <p>Here is an example:</p>
+        <p>
+            {{ instru_countries_list }}
+        </p>
+
+        <p>
+            {{ instru_countries_here }}
+        </p>
 
         <br><br>
         <div class="figure-container">
@@ -719,13 +707,13 @@
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/3PP punish.png">
 
             <div class="person-a">
-                <b>PERSON A</b>
+                <b>{{ person_a }}</b>
             </div>
             <div class="person-b">
-                <b>PERSON B</b>
+                <b>{{ person_b }}</b>
             </div>
             <div class="person-c">
-                <b>PERSON C</b>
+                <b>{{ person_c }}</b>
             </div>
 
             <img class="minus-button-3PP" src="/static/global/minus_button2.png" alt="-">
@@ -733,16 +721,15 @@
         </div>
 
         <p>
-            In this example, Person A lives in <b>{{dic_identity_country}}</b>
-            and Person B lives in <b>{{recip_identity_country}}</b>.
+            {{ instru_countries_example }}
         </p>
 
         <p>
-            You will not see where Person C lives.
+            {{ instru_countries_personc }}
         </p>
 
         <p>
-            <b>Person C</b> is <u>still able</u> to <b>remove points</b> from Person A.
+            {{ instru_countries_remove }}
         </p>
 
 
@@ -751,11 +738,17 @@
 
     {{ if block3 == True }}
 
-        <p style="color: red; text-align: center; "> <b>Now there is one change.</b> </p>
+        <p style="color: red; text-align: center; ">
+            {{ instru_3PP_change }}
+        </p>
 
-        <p>You will know <b style="color: red; ">in which specific country</b> Person A and Person B live.</p>
+        <p>
+            {{ instru_countries }}
+        </p>
 
-        <p>Here is an example:</p>
+        <p>
+            {{ instru_countries_here }}
+        </p>
 
         <br><br>
         <div class="figure-container">
@@ -769,13 +762,13 @@
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/3PP punish.png">
 
             <div class="person-a">
-                <b>PERSON A</b>
+                <b>{{ person_a }}</b>
             </div>
             <div class="person-b">
-                <b>PERSON B</b>
+                <b>{{ person_b }}</b>
             </div>
             <div class="person-c">
-                <b>PERSON C</b>
+                <b>{{ person_c }}</b>
             </div>
 
             <img class="minus-button-3PP" src="/static/global/minus_button2.png" alt="-">
@@ -783,13 +776,16 @@
         </div>
 
         <p>
-            Person A lives in <b style="color: red; ">{{dic_identity_country}}</b> and
-            Person B lives in <b style="color: red; ">{{recip_identity_country}}</b>.
+            {{ instru_countries_example }}
         </p>
 
-        <p> You will not see where Person C lives. </p>
+        <p>
+            {{ instru_countries_personc }}
+        </p>
 
-        <p> <b>Person C</b> is <u>still able</u> to <b>remove points</b> from Person A. </p>
+        <p>
+            {{ instru_countries_remove }}
+        </p>
 
 
     {{ endif }}
@@ -798,7 +794,7 @@
 
     <div class="button-container">
         <button type="button" id="submit-button" class="submit-button">
-            Understood!
+            {{ button_understood }}
         </button>
     </div>
 
