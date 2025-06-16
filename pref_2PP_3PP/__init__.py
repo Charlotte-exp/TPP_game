@@ -23,9 +23,9 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant = player.participant
         participant.pref_2PP_3PP_button_pos = random.choice([True, False])
 
-        ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        participant.progress = 1
-        participant.language = 'de'
+        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        # participant.progress = 1
+        # participant.language = 'en'
 
 class Group(BaseGroup):
     pass

@@ -16,12 +16,12 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-''' ONLY WHEN TESTING ON ITS OWN'''
-def creating_session(subsession):
-    for player in subsession.get_players():
-        participant = player.participant
-        participant.progress = 1
-        participant.language = 'de'
+# ''' ONLY WHEN TESTING ON ITS OWN'''
+# def creating_session(subsession):
+#     for player in subsession.get_players():
+#         participant = player.participant
+#         participant.progress = 1
+#         participant.language = 'en'
 
 
 class Group(BaseGroup):

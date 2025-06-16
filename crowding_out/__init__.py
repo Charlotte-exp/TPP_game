@@ -41,7 +41,7 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         p.treatment_incentive = incentive
         #p.treatment_cond_coop = cond_coop
 
-        print('set incentive treatment to', p.treatment_incentive)
+        # print('set incentive treatment to', p.treatment_incentive)
         #print('set cond coop treatment to', p.treatment_cond_coop)
 
     for player in subsession.get_players():
@@ -50,9 +50,6 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         # Only necessary if not using participant field from baseline_trials
         participant.current_country = "gb"
         participant.current_countryname = "the United Kingdom"
-
-        # translation
-        participant.language = 'de'
         
         participant.crowding_out_button_pos = random.choice([True, False])
 
@@ -166,10 +163,10 @@ class CrowdingInOutPage(Page):
         lang = participant.language
 
         current_countryname = player.participant.current_countryname
-        print('player.participant.current_countryname', player.participant.current_countryname)
+        # print('player.participant.current_countryname', player.participant.current_countryname)
 
         local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
-        print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
+        # print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0
@@ -180,10 +177,10 @@ class CrowdingInOutPage(Page):
         choice_give = 4
         choice_keep = 0
 
-        print("crowding_out_button_pos", crowding_out_button_pos)
+        # print("crowding_out_button_pos", crowding_out_button_pos)
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
-        print("treatment_incentive", treatment_incentive)
+        # print("treatment_incentive", treatment_incentive)
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -318,7 +315,7 @@ class ConditionalCoopPage(Page):
         current_countryname = player.participant.current_countryname
 
         local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
-        print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
+        # print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0

@@ -31,10 +31,10 @@ def creating_session(subsession):
 
         p.aim_number()
 
-        ''' ONLY WHEN TESTING ON ITS OWN'''
-        p.participant.decision_page_number = 0  # For testing only
-        p.participant.progress = 1
-        p.participant.language = 'de'
+        # ''' ONLY WHEN TESTING ON ITS OWN'''
+        # p.participant.decision_page_number = 0  # For testing only
+        # p.participant.progress = 1
+        # p.participant.language = 'en'
 
 
 class Group(BaseGroup):
@@ -67,24 +67,11 @@ class Player(BasePlayer):
         slider_list = list(range(1,100))
         rule_aim = random.choice(slider_list)
         player.rule_aim = rule_aim
-        print(player.rule_aim)
+        # print(player.rule_aim)
         return player.rule_aim
 
 
 ######## PAGES ########
-class Filler(Page):
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(
-            total_pages=player.session.config['total_pages'],
-        )
-
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        participant.progress += 1
-
-
 
 class RuleFollowing(Page):
     form_model = "player"
