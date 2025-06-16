@@ -28,11 +28,11 @@ def creating_session(subsession):
     for p in subsession.get_players():
         p.dice_roll()
 
-        ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        participant = p.participant
-        participant.progress = 1
-        participant.decision_page_number = 0
-        participant.language = 'de'
+        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
+        # participant = p.participant
+        # participant.progress = 1
+        # participant.decision_page_number = 0
+        # participant.language = 'en'
 
 
 class Group(BaseGroup):
@@ -77,19 +77,6 @@ class Player(BasePlayer):
 
 
 ############  PAGES  #############
-
-class Filler(Page):
-
-    @staticmethod
-    def vars_for_template(player: Player):
-
-        return dict(
-            dice_roll=player.dice_roll(),
-            total_pages=player.session.config['total_pages'],
-        )
-
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
 
 class DiceRatings(Page):
     form_model = "player"

@@ -529,13 +529,17 @@
         });
 
         const tpNormTemplate = {{ tpp_dict_action|json }};
-        TP_norm_decisions.forEach(TP_norm_decision => {
+        TP_norm_decisions.forEach(norm_decision => {
             const norm_sentence = tpNormTemplate
-                .replace("{receiver}", TP_norm_decision.receiver)
-                .replace("{dictator_keeps}",  TP_norm_decision.dictator_keeps);
+                .replace("{receiver}", norm_decision.receiver)
+                .replace("{dictator_keeps}",  norm_decision.dictator_keeps);
 
-            const el = document.getElementById("norm_sentence-" + TP_norm_decision.index);
+            const el = document.getElementById("norm-sentence-" + norm_decision.index);
             if (el) el.innerHTML = norm_sentence;
+
+            console.log(tpNormTemplate);
+            console.log(norm_decision.dictator_keeps);
+            console.log(norm_decision.receiver);
         });
 
         const tpCostTemplate = {{ tpp_decision_cost|json }};
@@ -692,7 +696,7 @@
 
             </div>
 
-            <div id="norm_sentence-{{ TP_norm_decision.index }}" style="text-align: center; font-size: 14px; margin-bottom: 20px">
+            <div id="norm-sentence-{{ TP_norm_decision.index }}" style="text-align: center; font-size: 14px; margin-bottom: 20px">
                 <p>
                     {% if "IN" in player.treatment or "OUT" in player.treatment%}
                         {{ tpp_IN_OUT }}

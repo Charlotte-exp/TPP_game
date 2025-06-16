@@ -50,9 +50,6 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         # Only necessary if not using participant field from baseline_trials
         participant.current_country = "gb"
         participant.current_countryname = "the United Kingdom"
-
-        # translation
-        participant.language = 'de'
         
         participant.crowding_out_button_pos = random.choice([True, False])
 

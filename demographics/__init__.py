@@ -12,7 +12,7 @@ Your app description
 
 class C(BaseConstants):
     NAME_IN_URL = 'demographics'
-    PLAYERS_PER_GROUP = 2
+    PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
 
@@ -29,17 +29,17 @@ def get_country_list():
 class Subsession(BaseSubsession):
     pass
 
-''' ONLY WHEN TESTING ON ITS OWN'''
-def creating_session(subsession):
-    for player in subsession.get_players():
-        participant = player.participant
-        participant.progress = 1
-        # Only necessary if not using participant field from baseline_trials
-        participant.current_country = "gb"
-        participant.current_countryname = "the United Kingdom"
-
-        # translation
-        participant.language = 'de'
+# ''' ONLY WHEN TESTING ON ITS OWN'''
+# def creating_session(subsession):
+#     for player in subsession.get_players():
+#         participant = player.participant
+#         participant.progress = 1
+#         # Only necessary if not using participant field from baseline_trials
+#         participant.current_country = "gb"
+#         participant.current_countryname = "the United Kingdom"
+#
+#         # translation
+#         participant.language = 'en'
 
 
 class Group(BaseGroup):
@@ -145,7 +145,6 @@ class Demographics(Page):
     form_model = 'player'
     form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural_urban']
 
-
     def vars_for_template(player: Player):
         participant = player.participant
         lang = participant.language
@@ -156,8 +155,8 @@ class Demographics(Page):
         countries = [current_countryname] + [c for c in all_countries if c != current_countryname]
 
         return dict(
-            #descr_incentive=get_translation('descr_incentive', lang),
             total_pages=player.session.config['total_pages'],
+            #descr_incentive=get_translation('descr_incentive', lang),
             age_question=get_translation('age_question', lang),
             gender_question = get_translation('gender_question', lang),
             born_question=get_translation('born_question', lang),
@@ -187,14 +186,13 @@ class Demographics(Page):
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
             error3=get_translation('error3', lang),
-            countries=countries
+            countries=countries,
         )
-
-
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
 
 class Ladder(Page):
     form_model = 'player'
@@ -207,6 +205,7 @@ class Ladder(Page):
         lang = participant.language
 
         return dict(
+            total_pages=player.session.config['total_pages'],
             ladder_values=list(range(10, 0, -1)),  # From 10 to 1
             ladder_question=get_translation('ladder_question', lang),
             ladder_intro=get_translation('ladder_intro', lang),
@@ -215,7 +214,6 @@ class Ladder(Page):
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
             error1=get_translation('error1', lang),
-            total_pages=player.session.config['total_pages'],
         )
 
     def error_message(self, values):
@@ -225,6 +223,7 @@ class Ladder(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
 
 class RelationalMobility(Page):
     form_model = 'player'
@@ -238,6 +237,7 @@ class RelationalMobility(Page):
         #lang = "Korean" #override for testing
 
         return dict(
+            total_pages=player.session.config['total_pages'],
             rel_intro=get_translation('rel_intro', lang),
             rmob1=get_translation('rmob1', lang),
             rmob2=get_translation('rmob2', lang),
@@ -255,14 +255,12 @@ class RelationalMobility(Page):
             button_next=get_translation('button_next', lang), #"다음"
             additional_questions=get_translation('additional_questions', lang), #"추가 질문"
             error3=get_translation('error3', lang),
-            total_pages=player.session.config['total_pages'],
         )
-
-
 
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
 
 class Circle(Page):
     form_model = 'player'
@@ -274,6 +272,7 @@ class Circle(Page):
         lang = participant.language
 
         return dict(
+            total_pages=player.session.config['total_pages'],
             circle_intro=get_translation('circle_intro', lang),
             circle_question=get_translation('circle_question', lang),
             you=get_translation('you', lang),
@@ -281,7 +280,6 @@ class Circle(Page):
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
             error1=get_translation('error1', lang),
-            total_pages=player.session.config['total_pages'],
         )
 
     def error_message(self, values):
@@ -310,10 +308,10 @@ class CommentBox(Page):
             button_next=get_translation('button_next', lang)
         )
 
-
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
 
 class Payment(Page):
 
@@ -340,6 +338,7 @@ class Payment(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
 
 class ProlificLink(Page):
     """

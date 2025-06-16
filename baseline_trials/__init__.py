@@ -20,7 +20,6 @@ class C(BaseConstants):
     NUM_ROUNDS = 36
     NUM_DECISIONS_APPROX = 43
     STUDY_TIME = 50
-    total_pages = 400 # for progress bar
     prolific = True
 
     CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
@@ -100,7 +99,7 @@ def creating_session(subsession):
         # progress bar
         participant.progress = 1
         # translation
-        participant.language = 'de'
+        participant.language = 'en'
 
 
     ## Make immutable variables for partner-country block
@@ -330,38 +329,32 @@ class Player(BasePlayer):
         #initial=3,
         choices=[[0, f'punish'], [1, f'compensate'],],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     punish_or_compensate2 = models.IntegerField(
         #initial=3,
         choices=[[0, f'punish'], [1, f'compensate'], ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     punish_or_compensate3 = models.IntegerField(
         #initial=3,
         choices=[[0, f'punish'], [1, f'compensate'], ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
     TP_decision1 = models.IntegerField(
         initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision2 = models.IntegerField(
         initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_decision3 = models.IntegerField(
         initial=999,
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
     TP_norm_decision1 = models.IntegerField(
@@ -370,7 +363,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     TP_neg_norm_decision1 = models.IntegerField(
         initial=999,
@@ -378,7 +370,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'], [4, f'value 4'], [5, f'value 5'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     # universal_norm_people = models.IntegerField(
     #     initial=999,
@@ -397,7 +388,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension3PR = models.IntegerField(
         initial=999,
@@ -405,7 +395,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension3PC1 = models.IntegerField(
         initial=999,
@@ -413,7 +402,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     comprehension3PC2 = models.IntegerField(
         initial=999,
@@ -421,7 +409,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     attention1 = models.IntegerField(
         initial=0,
@@ -429,7 +416,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
     attention2 = models.IntegerField(
         initial=0,
@@ -437,7 +423,6 @@ class Player(BasePlayer):
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
         ],
         widget=widgets.RadioSelect,
-        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
 
 
@@ -478,6 +463,7 @@ class Consent(Page):
         participant = player.participant
         participant.progress += 1
 
+
 class Introduction(Page):
 
     @staticmethod
@@ -508,7 +494,8 @@ class Introduction(Page):
             button_start=get_translation('button_start', lang),
         )
 
-class instructionPage(Page):
+
+class Instructions(Page):
     # print('player.participant.instruction_round', player.participant.instruction_round)
     @staticmethod
     def is_displayed(player: Player):
@@ -566,6 +553,7 @@ class instructionPage(Page):
         lang = participant.language
 
         return dict(
+            total_pages=player.session.config['total_pages'],
             treatment=player.treatment,
             cost_per_point=round(1 / C.TP_cost, 2),
             image=image,
@@ -622,7 +610,6 @@ class instructionPage(Page):
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
             button_understood=get_translation('button_understood', lang),
-            total_pages=player.session.config['total_pages'],
         )
 
     @staticmethod
@@ -1126,7 +1113,6 @@ class DictatorPage(Page):
         participant.progress += 8
 
 
-
 class UniversalNormPage(Page):
 
     @staticmethod
@@ -1175,7 +1161,7 @@ class UniversalNormPage(Page):
 page_sequence = [Consent,
                  Introduction,
                  AttentionCheckPage,
-                 instructionPage,
+                 Instructions,
                  ComprehensionQuestionPage,
                  DictatorPage,
                  TPPage,
