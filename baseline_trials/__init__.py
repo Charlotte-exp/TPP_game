@@ -14,6 +14,19 @@ doc = """
 Your app description
 """
 
+def get_country_dict(lang):
+    import csv
+    with open('_static/global/country_codes_all_lang.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        if lang not in reader.fieldnames:
+            raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+        return {
+            row["iso2"]: row[lang]
+            for row in reader
+            if row.get("iso2") and row.get(lang)
+        }
+
+
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
@@ -22,12 +35,10 @@ class C(BaseConstants):
     STUDY_TIME = 50
     prolific = True
 
-    CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
+    CURRENT_COUNTRY = 'de' # CHANGE TO COUNTRY FOR THIS LINK
+    CURRENT_LANGUAGE = 'de'
 
-    with open('_static/global/country_codes.csv', newline='', encoding='utf-8') as csvfile:
-        reader = csv.reader(csvfile)  # Create reader object
-        next(reader)  # Skip the header
-        COUNTRIES = {row[0]: row[1] for row in reader}  # Store column 1 as keys, column 2 as values
+    COUNTRIES = get_country_dict(CURRENT_LANGUAGE)
 
     COUNTRY_LIST = list(COUNTRIES.keys())
 
@@ -82,10 +93,8 @@ class C(BaseConstants):
     number_trials_partner_out_out_homog = 5
     number_trials_partner_out_out_heterog = 5
 
-
 class Subsession(BaseSubsession):
     pass
-
 
 def creating_session(subsession):
     # print('Creating session; round number: {}'.format(subsession.round_number))
@@ -99,7 +108,7 @@ def creating_session(subsession):
         # progress bar
         participant.progress = 1
         # translation
-        participant.language = 'en'
+        participant.language = C.CURRENT_LANGUAGE
 
 
     ## Make immutable variables for partner-country block
@@ -683,6 +692,7 @@ class ComprehensionQuestionPage(Page):
                                                       cost_per_point=round(1/C.TP_cost, 2)),
             comprehension_2PP_answer3=get_translation('comprehension_2PP_answer3', lang),
             button_next=get_translation('button_next', lang),
+            error_incorrect=get_translation('error_incorrect', lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('button_block', lang),
         )
@@ -967,6 +977,7 @@ class TPPage(Page):
             very_appropriate=get_translation('appropriate', lang),
             button_next=get_translation('button_next', lang),
             button_block=get_translation('button_block', lang),
+            error3=get_translation('error3', lang),
             total_pages=player.session.config['total_pages'],
         )
         # Conditionally add the extra variable
@@ -1104,6 +1115,7 @@ class DictatorPage(Page):
             person_c=get_translation('person_c', lang),
             button_next=get_translation('button_next', lang),
             button_block=get_translation('button_block', lang),
+            error1=get_translation('error1', lang),
             total_pages=player.session.config['total_pages'],
             )
 

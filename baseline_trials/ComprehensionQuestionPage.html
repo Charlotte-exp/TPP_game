@@ -42,8 +42,10 @@
     /// Function for showing customized error messages
     let errorDiv = document.querySelector('.otree-form-errors');
 
+    var error_incorrect = "{{ error_incorrect }}";
+
     if (errorDiv) {
-            errorDiv.textContent = "Please select the correct answer."
+            errorDiv.textContent = error_incorrect
         }
 
     failedAttempts = 0;

@@ -49,10 +49,12 @@
     receiver_endowment = {{ C.receiver_endowment }}
 
     /// Function for showing customized error messages
+    var error1 = "{{ error1 }}";
+
     const errorDiv = document.querySelector('.otree-form-errors');
 
     if (errorDiv) {
-        errorDiv.textContent = 'Please make a decision to continue.'
+        errorDiv.textContent = error1
     }
 
 

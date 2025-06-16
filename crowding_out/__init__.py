@@ -46,16 +46,14 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
 
     for player in subsession.get_players():
         participant = player.participant
-
-        # Only necessary if not using participant field from baseline_trials
-        participant.current_country = "gb"
-        participant.current_countryname = "the United Kingdom"
         
         participant.crowding_out_button_pos = random.choice([True, False])
 
         # ''' ONLY WHEN TESTING APP ON ITS OWN'''
         # participant.progress = 1
         # participant.decision_page_number = 0 # For testing only crowding
+        # participant.current_country = "gb"
+        # participant.current_countryname = "the United Kingdom"
         #
         # print('set crowding_out_button_pos', participant.crowding_out_button_pos)
 
