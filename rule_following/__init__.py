@@ -67,7 +67,7 @@ class Player(BasePlayer):
         slider_list = list(range(1,100))
         rule_aim = random.choice(slider_list)
         player.rule_aim = rule_aim
-        print(player.rule_aim)
+        # print(player.rule_aim)
         return player.rule_aim
 
 

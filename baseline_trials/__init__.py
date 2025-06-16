@@ -88,7 +88,7 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession):
-    print('Creating session; round number: {}'.format(subsession.round_number))
+    # print('Creating session; round number: {}'.format(subsession.round_number))
 
     ## Set variables in participant field
     for player in subsession.get_players():
@@ -249,7 +249,7 @@ def creating_session(subsession):
 
             ## 4) Put all treatment orders together
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
-            print('set treatment_order to', participant.treatment_order)
+            # print('set treatment_order to', participant.treatment_order)
 
             # Check where role switches take place for announcements
             participant.role_switch = [
@@ -270,8 +270,8 @@ def creating_session(subsession):
             round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
             participant.comprehension = [round_2PP_or_3PP]
             #participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
-            print('set instruction_round to', participant.instruction_round)
-            print('set comprehension to', participant.comprehension)
+            # print('set instruction_round to', participant.instruction_round)
+            # print('set comprehension to', participant.comprehension)
 
             # # Set treatment for later tasks (incentive/crowding_out; conditional_coop)
             # participant.treatment_incentive = random.choice(

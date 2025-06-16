@@ -536,10 +536,6 @@
 
             const el = document.getElementById("norm-sentence-" + norm_decision.index);
             if (el) el.innerHTML = norm_sentence;
-
-            console.log(tpNormTemplate);
-            console.log(norm_decision.dictator_keeps);
-            console.log(norm_decision.receiver);
         });
 
         const tpCostTemplate = {{ tpp_decision_cost|json }};
@@ -617,6 +613,15 @@
                 <br><br>
             </p>
         {% endif %}
+
+        <div style="text-align: center;">
+            {% if "IN" in player.treatment or "OUT" in player.treatment%}
+                {{ tpp_IN_OUT }}
+            {% endif %}
+            {% if "country" in player.treatment %}
+                {{ tpp_countries }}
+            {% endif %}
+        </div>
 
         {% if dic_identity != "baseline"%}
             <br>
@@ -697,16 +702,7 @@
             </div>
 
             <div id="norm-sentence-{{ TP_norm_decision.index }}" style="text-align: center; font-size: 14px; margin-bottom: 20px">
-                <p>
-                    {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                        {{ tpp_IN_OUT }}
-                    {% endif %}
-                    {% if "country" in player.treatment %}
-                        {{ tpp_countries }}
-                    {% endif %}
-                    <br>
-                    {{ tpp_dict_action }}
-                </p>
+                {{ tpp_dict_action }}
             </div>
 
             <p style="text-align: center;">
@@ -752,31 +748,7 @@
 
     {% else %}
 
-<!--        {% if role_switch_true == True %}-->
-
-<!--            {% if "2PP" in player.treatment %}-->
-
-<!--            <p style="text-align: center; ">-->
-<!--                <b style="color: red;">Role switch! You are now Person B!</b>-->
-
-<!--                <br>-->
-<!--                <br>-->
-<!--                <br>-->
-
-<!--            </p>-->
-
-<!--            {% else %}-->
-
-<!--            <p style="text-align: center;">-->
-<!--                <b style="color: red;">Role switch! You are now Person C!</b>-->
-<!--            </p>-->
-
-<!--            {% endif %}-->
-
-<!--        {% endif %}-->
-
         {% if "2PP" in player.treatment %}
-
         <div style="text-align: center; margin-bottom: 60px;">
             <b style="color: red; ">{{ tpp_decision_you }}</b>
             <br>
@@ -785,12 +757,21 @@
         {% endif %}
 
         {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
-        <div style="text-align: center; margin-bottom: 10px;">
+        <div style="text-align: center; margin-bottom: 20px;">
             <b style="color: red; ">{{ tpp_decision_you }}</b>
             <br>
             {{ tpp_decision_strategy }}
         </div>
         {% endif %}
+
+        <div style="text-align: center;">
+            {% if "IN" in player.treatment or "OUT" in player.treatment%}
+                {{ tpp_IN_OUT }}
+            {% endif %}
+            {% if "country" in player.treatment %}
+                {{ tpp_countries }}
+            {% endif %}
+        </div>
 
         {% if dic_identity != "baseline"%}
             <br><br>
@@ -881,16 +862,7 @@
             </div>
 
             <div id="sentence-{{ TP_decision.index }}" style="text-align: center; font-size: 14px; margin-bottom: 20px">
-                <p>
-                    {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                        {{ tpp_IN_OUT }}
-                    {% endif %}
-                    {% if "country" in player.treatment %}
-                        {{ tpp_countries }}
-                    {% endif %}
-                    <br>
-                    {{ tpp_dict_action }}
-                </p>
+                {{ tpp_dict_action }}
             </div>
 
             <div class='numbers'>

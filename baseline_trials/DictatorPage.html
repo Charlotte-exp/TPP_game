@@ -437,20 +437,17 @@
                     <b>{{ you }}</b>
                 </div>
 
-
             </div>
 
-            {% if "IN" in player.treatment or "OUT" in player.treatment %}
-                <p style="text-align: center;">
+            <div style="text-align: center; font-size: 14px; margin-bottom: 20px">
+                {% if "IN" in player.treatment or "OUT" in player.treatment %}
                     {{ dict_decision_IN_OUT }}
-                </p>
-            {% endif %}
+                {% endif %}
 
-            {% if "country" in player.treatment %}
-                <p style="text-align: center;">
+                {% if "country" in player.treatment %}
                     {{ dict_decision_countries}}
-                </p>
-            {% endif %}
+                {% endif %}
+            </div>
 
             <p style="text-align: center;">
                 <strong>{{ dict_decision_question }}</strong>

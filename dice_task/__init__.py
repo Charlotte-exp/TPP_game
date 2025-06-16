@@ -71,7 +71,7 @@ class Player(BasePlayer):
             if og_dice <= rep_dice:
                 player.original_dice = og_dice
                 player.reported_dice = rep_dice
-                print(player.original_dice, player.reported_dice)
+                # print(player.original_dice, player.reported_dice)
                 return player.original_dice, player.reported_dice
 
 
