@@ -532,7 +532,7 @@
         TP_norm_decisions.forEach(TP_norm_decision => {
             const norm_sentence = tpNormTemplate
                 .replace("{receiver}", TP_norm_decision.receiver)
-                .replace("{dictator_keeps}", TP_norm_decision.dictator_keeps);
+                .replace("{dictator_keeps}",  TP_norm_decision.dictator_keeps);
 
             const el = document.getElementById("norm_sentence-" + TP_norm_decision.index);
             if (el) el.innerHTML = norm_sentence;

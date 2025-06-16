@@ -505,7 +505,6 @@ class Introduction(Page):
             intro_points_title=get_translation('intro_points_title', lang),
             intro_points=get_translation('intro_points', lang),
             intro_carefully=get_translation('intro_carefully', lang),
-            intro_title=get_translation('intro_title', lang),
             button_start=get_translation('button_start', lang),
         )
 
@@ -599,7 +598,7 @@ class instructionPage(Page):
             instru_0DG_rules=get_translation('instru_0DG_rules', lang),
             instru_2PP_stages=get_translation('instru_2PP_stages', lang),
             instru_2PP_points=get_translation('instru_2PP_points', lang),
-            instru_2PP_stage2=get_translation('instru_2PP_stages2', lang),
+            instru_2PP_stage2=get_translation('instru_2PP_stage2', lang),
             instru_2PP_remove=get_translation('instru_2PP_remove', lang,
                                               cost_per_point=round(1/C.TP_cost, 2)),
             instru_2PP_role=get_translation('instru_2PP_role', lang),
@@ -980,7 +979,6 @@ class TPPage(Page):
             appropriate=get_translation('appropriate', lang),
             very_appropriate=get_translation('appropriate', lang),
             button_next=get_translation('button_next', lang),
-            button_decision=get_translation('button_decision', lang),
             button_block=get_translation('button_block', lang),
             total_pages=player.session.config['total_pages'],
         )
@@ -1118,8 +1116,7 @@ class DictatorPage(Page):
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
             button_next=get_translation('button_next', lang),
-            button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang)
+            button_block=get_translation('button_block', lang),
             total_pages=player.session.config['total_pages'],
             )
 
@@ -1175,12 +1172,12 @@ class UniversalNormPage(Page):
         participant.decision_page_number = player.round_number +1
 
 
-page_sequence = [#Consent,
-                 #Introduction,
-                 #AttentionCheckPage,
-                 #instructionPage,
-                 #ComprehensionQuestionPage,
-                 #DictatorPage,
+page_sequence = [Consent,
+                 Introduction,
+                 AttentionCheckPage,
+                 instructionPage,
+                 ComprehensionQuestionPage,
+                 DictatorPage,
                  TPPage,
                  UniversalNormPage
                  ]

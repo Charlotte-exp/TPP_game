@@ -1,9 +1,7 @@
 
 {{ block title }}
 
-<div class="block-header">
-    {{ intro_block1_title }}
-</div>
+
 
 <p style="text-align: center; font-size: 26px; margin-bottom: 4px; ">
     {{ instructions_title|safe }}
@@ -659,7 +657,7 @@
 
         </div>
 
-        <p style="color: red; text-align: center; ">
+        <p style="color: red; text-align: center; font-weight: bold;">
             {{ instru_3PP_change }}
         </p>
 
@@ -679,7 +677,7 @@
 
     {{ if block2 == True and treatment_type == '3PP' }}
 
-        <p style="color: red; text-align: center; ">
+        <p style="color: red; text-align: center; font-weight: bold;">
             {{ instru_3PP_change }}
         </p>
 
@@ -738,7 +736,7 @@
 
     {{ if block3 == True }}
 
-        <p style="color: red; text-align: center; ">
+        <p style="color: red; text-align: center; font-weight: bold;">
             {{ instru_3PP_change }}
         </p>
 
