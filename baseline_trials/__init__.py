@@ -734,7 +734,7 @@ class AttentionCheckPage(Page):
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
         image = image.replace("3PR reward", "3PP punish")
-        correct_answers = [3, 1]
+        correct_answers = [2, 1]
         attention_round1 = C.attention_check_rounds[0]
 
         participant = player.participant
