@@ -62,12 +62,12 @@
         let answer2 = $(`#selected-answer-${2}`).val();
         let answer3 = $(`#selected-answer-${3}`).val();
         let answer4 = $(`#selected-answer-${4}`).val();
-        let answer5 = $(`#selected-answer-${5}`).val();
-        let answer6 = $(`#selected-answer-${6}`).val();
-        let answer7 = $(`#selected-answer-${7}`).val();
+        // let answer5 = $(`#selected-answer-${5}`).val();
+        // let answer6 = $(`#selected-answer-${6}`).val();
+        // let answer7 = $(`#selected-answer-${7}`).val();
 
         // Check if either field is empty
-        if (!answer1 || !answer2 || !answer3 || !answer4 || !answer5 || !answer6 || !answer7) {
+        if (!answer1 || !answer2 || !answer3 || !answer4) {
             alert(error3);
         } else {
             // Submit the form if both fields have values
@@ -87,11 +87,8 @@
 
     <input type="hidden" name="meeting_1" id="selected-answer-1" value="">
     <input type="hidden" name="meeting_2" id="selected-answer-2" value="">
-    <input type="hidden" name="meeting_3" id="selected-answer-3" value="">
-    <input type="hidden" name="choosing_1" id="selected-answer-4" value="">
-    <input type="hidden" name="choosing_2" id="selected-answer-5" value="">
-    <input type="hidden" name="choosing_3" id="selected-answer-6" value="">
-    <input type="hidden" name="choosing_4" id="selected-answer-7" value="">
+    <input type="hidden" name="choosing_1" id="selected-answer-3" value="">
+    <input type="hidden" name="choosing_2" id="selected-answer-4" value="">
 
     <p>
         {{ rel_intro|safe }}
@@ -115,7 +112,7 @@
         </div>
 
         <div class="question">
-            {{ rmob2|safe }}
+            {{ rmob4|safe }}
         </div>
 
         <div class='numbers'>
@@ -130,7 +127,7 @@
         </div>
 
         <div class="question">
-            {{ rmob4|safe }}
+            {{ rmob10|safe }}
         </div>
 
         <div class='numbers'>
@@ -145,7 +142,7 @@
         </div>
 
         <div class="question">
-            {{ rmob3|safe }}
+            {{ rmob12|safe }}
         </div>
 
         <div class='numbers'>
@@ -156,51 +153,6 @@
                 <div class="answer" data-value="3" data-index="4">{{ slightly_agree|safe }}</div>
                 <div class="answer" data-value="4" data-index="4">{{ agree|safe }}</div>
                 <div class="answer" data-value="5" data-index="4">{{ strongly_agree|safe }}</div>
-            </div>
-        </div>
-
-        <div class="question">
-            {{ rmob10|safe }}
-        </div>
-
-        <div class='numbers'>
-            <div class="answer-row" data-index="5" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="5">{{ strongly_disagree|safe }}</div>
-                <div class="answer" data-value="1" data-index="5">{{ disagree|safe }}</div>
-                <div class="answer" data-value="2" data-index="5">{{ slightly_disagree|safe }}</div>
-                <div class="answer" data-value="3" data-index="5">{{ slightly_agree|safe }}</div>
-                <div class="answer" data-value="4" data-index="5">{{ agree|safe }}</div>
-                <div class="answer" data-value="5" data-index="5">{{ strongly_agree|safe }}</div>
-            </div>
-        </div>
-
-        <div class="question">
-            {{ rmob11|safe }}
-        </div>
-
-        <div class='numbers'>
-            <div class="answer-row" data-index="6" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="6">{{ strongly_disagree|safe }}</div>
-                <div class="answer" data-value="1" data-index="6">{{ disagree|safe }}</div>
-                <div class="answer" data-value="2" data-index="6">{{ slightly_disagree|safe }}</div>
-                <div class="answer" data-value="3" data-index="6">{{ slightly_agree|safe }}</div>
-                <div class="answer" data-value="4" data-index="6">{{ agree|safe }}</div>
-                <div class="answer" data-value="5" data-index="6">{{ strongly_agree|safe }}</div>
-            </div>
-        </div>
-
-        <div class="question">
-            {{ rmob12|safe }}
-        </div>
-
-        <div class='numbers'>
-            <div class="answer-row" data-index="5" data-input="selected-answer">
-                <div class="answer" data-value="0" data-index="7">{{ strongly_disagree|safe }}</div>
-                <div class="answer" data-value="1" data-index="7">{{ disagree|safe }}</div>
-                <div class="answer" data-value="2" data-index="7">{{ slightly_disagree|safe }}</div>
-                <div class="answer" data-value="3" data-index="7">{{ slightly_agree|safe }}</div>
-                <div class="answer" data-value="4" data-index="7">{{ agree|safe }}</div>
-                <div class="answer" data-value="5" data-index="7">{{ strongly_agree|safe }}</div>
             </div>
         </div>
 
