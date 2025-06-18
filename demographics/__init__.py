@@ -90,14 +90,14 @@ class Player(BasePlayer):
         verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
-    meeting_3 = models.StringField(
-        choices=[
-            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
-            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
-        ],
-        verbose_name='',
-        widget=widgets.RadioSelectHorizontal
-    )
+    # meeting_3 = models.StringField(
+    #     choices=[
+    #         [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+    #         [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+    #     ],
+    #     verbose_name='',
+    #     widget=widgets.RadioSelectHorizontal
+    # )
     choosing_1 = models.StringField(
         choices=[
             [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
@@ -114,22 +114,22 @@ class Player(BasePlayer):
         verbose_name='',
         widget=widgets.RadioSelectHorizontal
     )
-    choosing_3 = models.StringField(
-        choices=[
-            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
-            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
-        ],
-        verbose_name='',
-        widget=widgets.RadioSelectHorizontal
-    )
-    choosing_4 = models.StringField(
-        choices=[
-            [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
-            [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
-        ],
-        verbose_name='',
-        widget=widgets.RadioSelectHorizontal
-    )
+    # choosing_3 = models.StringField(
+    #     choices=[
+    #         [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+    #         [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+    #     ],
+    #     verbose_name='',
+    #     widget=widgets.RadioSelectHorizontal
+    # )
+    # choosing_4 = models.StringField(
+    #     choices=[
+    #         [0, 'Strongly disagree'], [1, 'Disagree'], [2, 'Slightly disagree'],
+    #         [3, 'Slightly agree'], [4, 'Agree'], [5, 'Strongly agree'],
+    #     ],
+    #     verbose_name='',
+    #     widget=widgets.RadioSelectHorizontal
+    # )
 
     ## Self - other circle
     self_other = models.IntegerField()
@@ -230,7 +230,7 @@ class Ladder(Page):
 
 class RelationalMobility(Page):
     form_model = 'player'
-    form_fields = ['meeting_1', 'meeting_2', 'meeting_3', 'choosing_1', 'choosing_2', 'choosing_3', 'choosing_4']
+    form_fields = ['meeting_1', 'meeting_2', 'choosing_1', 'choosing_2']
 
     def vars_for_template(player: Player):
 
@@ -243,11 +243,8 @@ class RelationalMobility(Page):
             total_pages=player.session.config['total_pages'],
             rel_intro=get_translation('rel_intro', lang),
             rmob1=get_translation('rmob1', lang),
-            rmob2=get_translation('rmob2', lang),
-            rmob3=get_translation('rmob3', lang),
             rmob4=get_translation('rmob4', lang),
             rmob10=get_translation('rmob10', lang),
-            rmob11=get_translation('rmob11', lang),
             rmob12=get_translation('rmob12', lang),
             strongly_disagree=get_translation('strongly_disagree', lang),
             disagree=get_translation('disagree', lang),
