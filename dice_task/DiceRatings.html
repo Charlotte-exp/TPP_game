@@ -472,8 +472,12 @@
             </span>
 
             <div class="slider-labels">
-                <span>{{ dice_not_like }}</span>
-                <span>{{ dice_very_like }}</span>
+                <span>{{ very_unlikable|safe }}</span>
+                <span>{{ unlikable|safe }}</span>
+                <span>{{ slightly_unlikable|safe }}</span>
+                <span>{{ slightly_likable|safe }}</span>
+                <span>{{ likable|safe }}</span>
+                <span>{{ very_likable|safe }}</span>
             </div>
         </div>
 
@@ -490,7 +494,7 @@
     </p>
 
     <div class='responsive-div'>
-        <p>
+        <p style="text-align: center;">
             <strong>{{ dice_question }}</strong>
         </p>
 
