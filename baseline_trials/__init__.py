@@ -76,11 +76,6 @@ class C(BaseConstants):
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
                         '3PP punish OUT OUT']
-    #trials_3PP_INOUT_TP_norm = ['3PP punish norm IN IN', '3PP punish norm OUT OUT']
-    # trials_3PR_INOUT = ['3PR give IN', '3PR give OUT',
-    #                     '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
-    #                     '3PR reward OUT OUT',
-    #                     '3PR reward norm IN IN', '3PR reward norm OUT OUT']
     trials_3PC_INOUT_DIC = ['3PC give IN', '3PC give OUT']
     trials_3PC_INOUT_TP = ['3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
                         '3PC comp OUT OUT']
@@ -260,14 +255,6 @@ def creating_session(subsession):
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
             # print('set treatment_order to', participant.treatment_order)
 
-            # Check where role switches take place for announcements
-            participant.role_switch = [
-                participant.treatment_order[i]
-                for i in range(1, len(participant.treatment_order))
-                if ("give" in participant.treatment_order[i] and "give" not in participant.treatment_order[i - 1]) or
-                   ("give" not in participant.treatment_order[i] and "give" in participant.treatment_order[i - 1])
-            ]
-
 
             ## 5) Put instruction round and comprehension questions
             # Instructions before trials from new treatment type
@@ -278,17 +265,6 @@ def creating_session(subsession):
             # Comprehension questions before first punishment trial (either 2PP or 3PP), reward and comp/punish trial
             round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
             participant.comprehension = [round_2PP_or_3PP]
-            #participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
-            # print('set instruction_round to', participant.instruction_round)
-            # print('set comprehension to', participant.comprehension)
-
-            # # Set treatment for later tasks (incentive/crowding_out; conditional_coop)
-            # participant.treatment_incentive = random.choice(
-            #     [True, False])  # Crowding out task; true indicates incentive is offered
-            # participant.treatment_cond_coop = random.choice(
-            #     [True, False])  # Crowding out task; true indicates incentive is offered
-            #
-            # print('set incentive treatment to', participant.treatment_incentive)
 
     #breakpoint()
 
@@ -299,7 +275,6 @@ def creating_session(subsession):
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.comprehension_true = player.treatment in player.participant.comprehension
         player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
-        player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
 
 
 class Group(BaseGroup):
@@ -312,10 +287,7 @@ class Player(BasePlayer):
     instruction_round_true = models.BooleanField()
     comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
-    role_switch_true = models.BooleanField()
     comp_failed2PP = models.IntegerField()#initial=0)
-    comp_failed3PR = models.IntegerField()#initial=0)
-    comp_failed3PC = models.IntegerField()#initial=0)
     att_failed1 = models.IntegerField(initial=0)
     att_failed2 = models.IntegerField(initial=0)
 
@@ -332,22 +304,6 @@ class Player(BasePlayer):
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-
-    punish_or_compensate1 = models.IntegerField(
-        #initial=3,
-        choices=[[0, f'punish'], [1, f'compensate'],],
-        widget=widgets.RadioSelect,
-    )
-    punish_or_compensate2 = models.IntegerField(
-        #initial=3,
-        choices=[[0, f'punish'], [1, f'compensate'], ],
-        widget=widgets.RadioSelect,
-    )
-    punish_or_compensate3 = models.IntegerField(
-        #initial=3,
-        choices=[[0, f'punish'], [1, f'compensate'], ],
-        widget=widgets.RadioSelect,
     )
 
     TP_decision1 = models.IntegerField(
@@ -380,39 +336,10 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    # universal_norm_people = models.IntegerField(
-    #     initial=999,
-    #     choices=[
-    #         [0, f'none'], [1, f'few'], [2, f'some'], [3, f'many'], [4, f'most'], [5, f'all'],
-    #     ],
-    #     widget=widgets.RadioSelect,
-    #     # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    # )
     slider1 = models.IntegerField(
         min=0, max=50000
     )
     comprehension2PP = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comprehension3PR = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comprehension3PC1 = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comprehension3PC2 = models.IntegerField(
         initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
@@ -638,10 +565,10 @@ class ComprehensionQuestionPage(Page):
     def get_form_fields(player: Player):
         if "2PP" in player.treatment:
             return ['comprehension2PP', 'comp_failed2PP']
-        elif "3PR" in player.treatment:
-            return ['comprehension3PR', 'comp_failed3PR']
-        else:
-            return ['comprehension3PC1', 'comprehension3PC2', 'comp_failed3PC']
+        # elif "3PR" in player.treatment:
+        #     return ['comprehension3PR', 'comp_failed3PR']
+        # else:
+        #     return ['comprehension3PC1', 'comprehension3PC2', 'comp_failed3PC']
 
     @staticmethod
     def error_message(player: Player, values):
@@ -651,10 +578,10 @@ class ComprehensionQuestionPage(Page):
 
         if "2PP" in player.treatment:
             solutions = dict(comprehension2PP=2)
-        elif "3PR" in player.treatment:
-            solutions = dict(comprehension3PR=3)
-        else:
-            solutions = dict(comprehension3PC1 = 0, comprehension3PC2=1)
+        # elif "3PR" in player.treatment:
+        #     solutions = dict(comprehension3PR=3)
+        # else:
+        #     solutions = dict(comprehension3PC1 = 0, comprehension3PC2=1)
 
         errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
         if errors:
@@ -674,9 +601,6 @@ class ComprehensionQuestionPage(Page):
             treatment=player.treatment,
             page_name=ComprehensionQuestionPage,
             comprehension2PP=player.comprehension2PP,
-            comprehension3PR=player.comprehension3PR,
-            comprehension3PC1=player.comprehension3PC1,
-            comprehension3PC2=player.comprehension3PC2,
             image=image,
             correct_answers=correct_answers,
             total_pages=player.session.config['total_pages'],
@@ -937,7 +861,6 @@ class TPPage(Page):
             treatment_text_receiver=text_receiver,
             image=image,
             current_country=C.CURRENT_COUNTRYNAME,
-            role_switch_true=player.role_switch_true,
             button_decision=get_translation('button_decision', lang),
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
@@ -1082,7 +1005,6 @@ class DictatorPage(Page):
             recip_identity=recip_identity,
             dic_decision1=player.dic_decision1,
             image=image,
-            role_switch_true = player.role_switch_true,
             button_decision=get_translation('button_decision', lang),
             dict_norm_instru=get_translation('dict_norm_instru', lang),
             dict_norm_incentive=get_translation('dict_norm_incentive', lang,
