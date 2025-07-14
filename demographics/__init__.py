@@ -137,9 +137,13 @@ class Player(BasePlayer):
     ## Comment field
     question_box = models.LongStringField()
 
-    comment_box = models.LongStringField(
-        blank = True  # Optional: allow it to be empty
+    reliability = models.IntegerField(
+        min=0, max=100
     )
+
+    # comment_box = models.LongStringField(
+    #     blank = True  # Optional: allow it to be empty
+    # )
 
 
 ########### PAGES ############
@@ -167,8 +171,6 @@ class Demographics(Page):
             born_father_question=get_translation('born_father_question', lang),
             education_question=get_translation('education_question', lang),
             rural_urban_question=get_translation('rural_urban_question', lang),
-            question_box=get_translation('question_box', lang),
-            comment_box=get_translation('comment_box', lang),
             female=get_translation('female', lang),
             male=get_translation('male', lang),
             other=get_translation('other', lang),
@@ -292,7 +294,7 @@ class Circle(Page):
 
 class CommentBox(Page):
     form_model = 'player'
-    form_fields = ['question_box', 'comment_box']
+    form_fields = ['question_box', 'reliability']
 
     def vars_for_template(player: Player):
 
@@ -302,9 +304,12 @@ class CommentBox(Page):
         return dict(
             total_pages=player.session.config['total_pages'],
             feedback=get_translation('feedback', lang),
-            comment_intro=get_translation('comment_intro', lang),
+            #comment_intro=get_translation('comment_intro', lang),
             question_box=get_translation('question_box', lang),
-            comment_box=get_translation('comment_box', lang),
+            #comment_box=get_translation('comment_box', lang),
+            reliability_question=get_translation('reliability_question', lang),
+            very_reliable=get_translation('very_reliable', lang),
+            not_at_all_reliable=get_translation('not_at_all_reliable', lang),
             button_next=get_translation('button_next', lang)
         )
 

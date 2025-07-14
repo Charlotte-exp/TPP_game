@@ -432,9 +432,6 @@
             </div>
 
             <div style="text-align: center; font-size: 14px; margin-bottom: 20px">
-                {% if "IN" in player.treatment or "OUT" in player.treatment %}
-                    {{ dict_decision_IN_OUT }}
-                {% endif %}
 
                 {% if "country" in player.treatment %}
                     {{ dict_decision_countries}}
