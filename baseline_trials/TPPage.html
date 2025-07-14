@@ -202,8 +202,6 @@
         receiverCountry = "{{ recip_identity }}"
         dictatorCountry = "{{ dic_identity }}"
 
-        // role_switch_true = "{{ role_switch_true }}"
-
         if (receiverCountry == "out") {
             receiverCountryName = "one of 40 countries"
         }
@@ -619,9 +617,6 @@
         {% endif %}
 
         <div style="text-align: center;">
-            {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                {{ tpp_IN_OUT }}
-            {% endif %}
             {% if "country" in player.treatment %}
                 {{ tpp_countries }}
             {% endif %}
@@ -769,9 +764,6 @@
         {% endif %}
 
         <div style="text-align: center;">
-            {% if "IN" in player.treatment or "OUT" in player.treatment%}
-                {{ tpp_IN_OUT }}
-            {% endif %}
             {% if "country" in player.treatment %}
                 {{ tpp_countries }}
             {% endif %}

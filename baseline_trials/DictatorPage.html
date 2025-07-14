@@ -68,8 +68,6 @@
         receiverCountry = "{{ recip_identity }}"
         dictatorCountry = "{{ dic_identity }}"
 
-        // role_switch_true = "{{ role_switch_true }}"
-
 
         /////////// script
 
@@ -364,14 +362,6 @@
 
     {% else %}
 
-<!--            {% if role_switch_true == True %}-->
-
-<!--                <p style="text-align: center; ">-->
-<!--                    <b style="color: red;">Role switch! You are now Person A!</b>-->
-<!--                </p>-->
-<!--                <br>-->
-
-<!--            {% endif %}-->
 
         <p style="text-align: center; ">
             <b style='color: red; '>{{ dict_decision_endowment }}</b>
@@ -442,9 +432,6 @@
             </div>
 
             <div style="text-align: center; font-size: 14px; margin-bottom: 20px">
-                {% if "IN" in player.treatment or "OUT" in player.treatment %}
-                    {{ dict_decision_IN_OUT }}
-                {% endif %}
 
                 {% if "country" in player.treatment %}
                     {{ dict_decision_countries}}

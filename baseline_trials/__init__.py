@@ -76,11 +76,6 @@ class C(BaseConstants):
     trials_3PP_INOUT_DIC = ['3PP give IN', '3PP give OUT']
     trials_3PP_INOUT_TP = ['3PP punish IN IN', '3PP punish IN OUT', '3PP punish OUT IN',
                         '3PP punish OUT OUT']
-    #trials_3PP_INOUT_TP_norm = ['3PP punish norm IN IN', '3PP punish norm OUT OUT']
-    # trials_3PR_INOUT = ['3PR give IN', '3PR give OUT',
-    #                     '3PR reward IN IN', '3PR reward IN OUT', '3PR reward OUT IN',
-    #                     '3PR reward OUT OUT',
-    #                     '3PR reward norm IN IN', '3PR reward norm OUT OUT']
     trials_3PC_INOUT_DIC = ['3PC give IN', '3PC give OUT']
     trials_3PC_INOUT_TP = ['3PC comp IN IN', '3PC comp IN OUT', '3PC comp OUT IN',
                         '3PC comp OUT OUT']
@@ -260,14 +255,6 @@ def creating_session(subsession):
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_INOUT + participant.treatment_order_partner
             # print('set treatment_order to', participant.treatment_order)
 
-            # Check where role switches take place for announcements
-            participant.role_switch = [
-                participant.treatment_order[i]
-                for i in range(1, len(participant.treatment_order))
-                if ("give" in participant.treatment_order[i] and "give" not in participant.treatment_order[i - 1]) or
-                   ("give" not in participant.treatment_order[i] and "give" in participant.treatment_order[i - 1])
-            ]
-
 
             ## 5) Put instruction round and comprehension questions
             # Instructions before trials from new treatment type
@@ -278,17 +265,6 @@ def creating_session(subsession):
             # Comprehension questions before first punishment trial (either 2PP or 3PP), reward and comp/punish trial
             round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
             participant.comprehension = [round_2PP_or_3PP]
-            #participant.comprehension = [round_2PP_or_3PP, trials_3PR_current[0], trials_3PC_current[0]]
-            # print('set instruction_round to', participant.instruction_round)
-            # print('set comprehension to', participant.comprehension)
-
-            # # Set treatment for later tasks (incentive/crowding_out; conditional_coop)
-            # participant.treatment_incentive = random.choice(
-            #     [True, False])  # Crowding out task; true indicates incentive is offered
-            # participant.treatment_cond_coop = random.choice(
-            #     [True, False])  # Crowding out task; true indicates incentive is offered
-            #
-            # print('set incentive treatment to', participant.treatment_incentive)
 
     #breakpoint()
 
@@ -299,7 +275,6 @@ def creating_session(subsession):
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.comprehension_true = player.treatment in player.participant.comprehension
         player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
-        player.role_switch_true = player.treatment in player.participant.role_switch  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
 
 
 class Group(BaseGroup):
@@ -312,10 +287,7 @@ class Player(BasePlayer):
     instruction_round_true = models.BooleanField()
     comprehension_true = models.BooleanField()
     first_block_2PP_true = models.BooleanField()
-    role_switch_true = models.BooleanField()
     comp_failed2PP = models.IntegerField()#initial=0)
-    comp_failed3PR = models.IntegerField()#initial=0)
-    comp_failed3PC = models.IntegerField()#initial=0)
     att_failed1 = models.IntegerField(initial=0)
     att_failed2 = models.IntegerField(initial=0)
 
@@ -332,22 +304,6 @@ class Player(BasePlayer):
         choices=[(i, f'value {i}') for i in range(C.total_endowment + 1)],
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    )
-
-    punish_or_compensate1 = models.IntegerField(
-        #initial=3,
-        choices=[[0, f'punish'], [1, f'compensate'],],
-        widget=widgets.RadioSelect,
-    )
-    punish_or_compensate2 = models.IntegerField(
-        #initial=3,
-        choices=[[0, f'punish'], [1, f'compensate'], ],
-        widget=widgets.RadioSelect,
-    )
-    punish_or_compensate3 = models.IntegerField(
-        #initial=3,
-        choices=[[0, f'punish'], [1, f'compensate'], ],
-        widget=widgets.RadioSelect,
     )
 
     TP_decision1 = models.IntegerField(
@@ -380,39 +336,10 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    # universal_norm_people = models.IntegerField(
-    #     initial=999,
-    #     choices=[
-    #         [0, f'none'], [1, f'few'], [2, f'some'], [3, f'many'], [4, f'most'], [5, f'all'],
-    #     ],
-    #     widget=widgets.RadioSelect,
-    #     # error_messages={'required': 'You must select an option before continuing.'}, # does not display
-    # )
     slider1 = models.IntegerField(
         min=0, max=50000
     )
     comprehension2PP = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comprehension3PR = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comprehension3PC1 = models.IntegerField(
-        initial=999,
-        choices=[
-            [0, f'value 0'], [1, f'value 1'],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comprehension3PC2 = models.IntegerField(
         initial=999,
         choices=[
             [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
@@ -496,7 +423,7 @@ class Introduction(Page):
                                              conversion=player.session.config['real_world_currency_per_point']),
             intro_block1_title=get_translation('intro_block1_title', lang),
             intro_block1=get_translation('intro_block1', lang),
-            intro_block2_title=get_translation('intro_block2_title', lang),
+            intro_block2_title=get_translation('block_title', lang, block_num=2),
             intro_block2=get_translation('intro_block2', lang),
             intro_points_title=get_translation('intro_points_title', lang),
             intro_points=get_translation('intro_points', lang),
@@ -579,11 +506,11 @@ class Instructions(Page):
             current_country = C.CURRENT_COUNTRYNAME,
             treatment_type = treatment_type,
             instructions_title=get_translation('instructions_title', lang),
-            instru_part1=get_translation('instru_part1', lang),
-            instru_part2=get_translation('instru_part2', lang),
-            instru_part3=get_translation('instru_part3', lang),
-            instru_part4=get_translation('instru_part4', lang),
-            instru_part5=get_translation('instru_part5', lang),
+            instru_part1=get_translation('instru_part', lang, part_num=1),
+            instru_part2=get_translation('instru_part', lang, part_num=2),
+            instru_part3=get_translation('instru_part', lang, part_num=3),
+            instru_part4=get_translation('instru_part', lang, part_num=4),
+            instru_part5=get_translation('instru_part', lang, part_num=5),
             error1=get_translation('error1', lang),
             you=get_translation('you', lang),
             button_next=get_translation('button_next', lang),
@@ -639,10 +566,10 @@ class ComprehensionQuestionPage(Page):
     def get_form_fields(player: Player):
         if "2PP" in player.treatment:
             return ['comprehension2PP', 'comp_failed2PP']
-        elif "3PR" in player.treatment:
-            return ['comprehension3PR', 'comp_failed3PR']
-        else:
-            return ['comprehension3PC1', 'comprehension3PC2', 'comp_failed3PC']
+        # elif "3PR" in player.treatment:
+        #     return ['comprehension3PR', 'comp_failed3PR']
+        # else:
+        #     return ['comprehension3PC1', 'comprehension3PC2', 'comp_failed3PC']
 
     @staticmethod
     def error_message(player: Player, values):
@@ -652,10 +579,6 @@ class ComprehensionQuestionPage(Page):
 
         if "2PP" in player.treatment:
             solutions = dict(comprehension2PP=2)
-        elif "3PR" in player.treatment:
-            solutions = dict(comprehension3PR=3)
-        else:
-            solutions = dict(comprehension3PC1 = 0, comprehension3PC2=1)
 
         errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
         if errors:
@@ -675,23 +598,25 @@ class ComprehensionQuestionPage(Page):
             treatment=player.treatment,
             page_name=ComprehensionQuestionPage,
             comprehension2PP=player.comprehension2PP,
-            comprehension3PR=player.comprehension3PR,
-            comprehension3PC1=player.comprehension3PC1,
-            comprehension3PC2=player.comprehension3PC2,
             image=image,
             correct_answers=correct_answers,
             total_pages=player.session.config['total_pages'],
             comprehension_title=get_translation('comprehension_title', lang),
-            comprehension_error_green=get_translation('comprehension_error_green', lang),
-            comprehension_error_red=get_translation('comprehension_error_red', lang),
-            comprehension_error_greenTF=get_translation('comprehension_error_greenTF', lang),
+            comprehension_error_green=get_translation('attention_error_green', lang),
+            comprehension_error_red=get_translation('attention_error_red', lang),
             comprehension_2PP=get_translation('comprehension_2PP', lang),
             comprehension_2PP_answer0=get_translation('comprehension_2PP_answer0', lang,
-                                                      cost_per_point=round(1/C.TP_cost, 2)),
-            comprehension_2PP_answer1=get_translation('comprehension_2PP_answer1', lang),
-            comprehension_2PP_answer2=get_translation('comprehension_2PP_answer2', lang,
-                                                      cost_per_point=round(1/C.TP_cost, 2)),
-            comprehension_2PP_answer3=get_translation('comprehension_2PP_answer3', lang),
+                                                      points1=3,
+                                                      points2=round(1/C.TP_cost, 2)),
+            comprehension_2PP_answer1=get_translation('comprehension_2PP_answer0', lang,
+                                                      points1=3,
+                                                      points2=1),
+            comprehension_2PP_answer2=get_translation('comprehension_2PP_answer0', lang,
+                                                      points1=1,
+                                                      points2=round(1 / C.TP_cost, 2)),
+            comprehension_2PP_answer3=get_translation('comprehension_2PP_answer0', lang,
+                                                      points1=1,
+                                                      points2=1),
             button_next=get_translation('button_next', lang),
             error_incorrect=get_translation('error_incorrect', lang),
             button_decision=get_translation('button_decision', lang),
@@ -717,17 +642,6 @@ class AttentionCheckPage(Page):
             return ['attention1', 'att_failed1']
         else:
             return ['attention2', 'att_failed2']
-
-    # @staticmethod
-    # def error_message(player: Player, values):
-    #     if player.round_number == C.attention_check_rounds[0]:
-    #         solutions = dict(attention1=3)
-    #     else:
-    #         solutions = dict(attention2=1)
-    #
-    #     errors = {f: 'Error' for f in solutions if values[f] != solutions[f]}
-    #     if errors:
-    #         return errors
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -758,12 +672,18 @@ class AttentionCheckPage(Page):
             person_c=get_translation('person_c', lang),
             attention_error_green=get_translation('attention_error_green', lang),
             attention_error_red=get_translation('attention_error_red', lang),
-            attention_check1=get_translation('attention_check1', lang),
-            attention_0points=get_translation('attention_0points', lang),
-            attention_2points=get_translation('attention_2points', lang),
-            attention_4points=get_translation('attention_4points', lang),
-            attention_6points=get_translation('attention_6points', lang),
-            attention_check2=get_translation('attention_check2', lang),
+            attention_check1=get_translation('attention_check1', lang,
+                                                 attention_num=4),
+            attention_0points=get_translation('points_button', lang,
+                                                 num_points=0),
+            attention_2points=get_translation('points_button', lang,
+                                                 num_points=2),
+            attention_4points=get_translation('points_button', lang,
+                                                 num_points=4),
+            attention_6points=get_translation('points_button', lang,
+                                                 num_points=6),
+            attention_check2=get_translation('attention_check1', lang,
+                                                 attention_num=2),
             attention_title=get_translation('attention_title', lang),
             total_pages=player.session.config['total_pages'],
         )
@@ -788,11 +708,7 @@ class TPPage(Page):
             else:
                 return ['TP_norm_decision1']
         else:
-            if "comp" in player.treatment:
-                return ['TP_decision1', 'TP_decision2', 'TP_decision3',
-                        'punish_or_compensate1', 'punish_or_compensate2', 'punish_or_compensate3']
-            else:
-                return ['TP_decision1', 'TP_decision2', 'TP_decision3']
+            return ['TP_decision1', 'TP_decision2', 'TP_decision3']
 
 
     @staticmethod
@@ -801,10 +717,8 @@ class TPPage(Page):
         lang = participant.language
 
         if "2PP punish" in player.treatment:
-            text_action = get_translation('tpp_text_action_remove', lang)
-            text_action_person = get_translation('tpp_2PP_text_action_person_b', lang)
-            text_action_person2 = "you"
-            text_receiver = get_translation('tpp_text_action_receiver', lang)
+            person = get_translation('person_b_lower', lang)
+            #person2 = get_translation('you_lower', lang)
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
             ## at the moment they are all the same so it is redundant (could be done straight in the dict).
@@ -813,42 +727,12 @@ class TPPage(Page):
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
-            text_action = get_translation('tpp_text_action_remove', lang)
-            text_action_person = get_translation('tpp_3PP_text_action_person_c', lang)
-            text_action_person2 = "Person C"
-            text_receiver = get_translation('tpp_text_action_receiver', lang)
+            person = get_translation('person_c_lower', lang)
+            #person2 = get_translation('person_b_lower', lang)
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
-        if "reward" in player.treatment:
-            text_action = "give"
-            text_action_person = "Person C"
-            text_action_person2 = "Person C"
-            text_receiver = "to Person A"
-            image = 'global/treatments/3PP punish.png'
-            dictator_keeps_1 = C.dictator_keeps_everything
-            dictator_keeps_2 = C.dictator_keeps_3quarters
-            dictator_keeps_3 = C.dictator_keeps_half
-        if "comp" in player.treatment:
-            text_action = "remove"
-            text_action_person = "Person C"
-            text_action_person2 = "Person C"
-            text_receiver = "from Person A"
-            text_action_comp = "give"
-            text_action_person_comp = "for Person C"
-            text_receiver_comp = "to Person B"
-            image = 'global/treatments/3PC comp.png'
-            dictator_keeps_1 = C.dictator_keeps_everything
-            dictator_keeps_2 = C.dictator_keeps_3quarters
-            dictator_keeps_3 = C.dictator_keeps_half
-        if "3PR reward norm" in player.treatment:
-            text_action = "give"
-            text_action_person = "Person C"
-            text_action_person2 = "Person C"
-            text_receiver = "to Person A"
-            image = 'global/treatments/3PP punish.png'
-            dictator_keeps_1 = C.dictator_keeps_half
 
         # For INOUT trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
@@ -932,41 +816,33 @@ class TPPage(Page):
             recip_identity=recip_identity,
             dic_identity_country=dic_identity_country,
             recip_identity_country=recip_identity_country,
-            treatment_text_action=text_action,
-            treatment_text_action_person=text_action_person,
-            treatment_text_action_person2=text_action_person2,
-            treatment_text_receiver=text_receiver,
             image=image,
             current_country=C.CURRENT_COUNTRYNAME,
-            role_switch_true=player.role_switch_true,
             button_decision=get_translation('button_decision', lang),
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
             you=get_translation('you', lang),
-            tpp_2PP_norm_instru=get_translation('tpp_2PP_norm_instru', lang),
-            tpp_2PP_norm_incentive=get_translation('tpp_2PP_norm_incentive', lang,
+            person=person,
+            #person2=person2,
+            tpp_2PP_norm_instru=get_translation('tpp_norm_instru', lang,
+                                                   person=person),
+            tpp_2PP_norm_incentive=get_translation('dict_norm_incentive', lang,
                                                    ratings_extra_points=C.ratings_extra_points,
                                                    current_country=C.CURRENT_COUNTRYNAME),
-            tpp_3PP_norm_instru=get_translation('tpp_3PP_norm_instru', lang),
+            tpp_3PP_norm_instru=get_translation('tpp_norm_instru', lang,
+                                                   person=get_translation('person_c_lower', lang)),
             tpp_dict_action=get_translation('tpp_dict_action', lang),
             tpp_norm_question=get_translation('tpp_norm_question', lang,
-                                              treatment_text_action=text_action,
-                                              treatment_text_action_person=text_action_person,
-                                              treatment_text_receiver=text_receiver),
+                                              person=person),
             tpp_norm_neg_question=get_translation('tpp_norm_neg_question', lang,
-                                                  treatment_text_action=text_action,
-                                                  treatment_text_action_person=text_action_person,
-                                                  treatment_text_receiver=text_receiver),
+                                                  person=person),
             tpp_decision_strategy=get_translation('tpp_decision_strategy', lang),
             tpp_decision_you=get_translation('tpp_decision_you', lang,
-                                             treatment_text_action_person=text_action_person),
+                                             person=person),
             tpp_decision_question=get_translation('tpp_decision_question', lang,
-                                                  treatment_text_action_person=text_action_person),
+                                                  person=person),
             tpp_decision_cost=get_translation('tpp_decision_cost', lang),
-            tpp_IN_OUT=get_translation('tpp_IN_OUT', lang,
-                                                 dic_identity_country=dic_identity_country,
-                                                 recip_identity_country=recip_identity_country),
             tpp_countries=get_translation('tpp_countries', lang,
                                                  dic_identity_country=dic_identity_country,
                                                  recip_identity_country=recip_identity_country),
@@ -981,11 +857,6 @@ class TPPage(Page):
             error3=get_translation('error3', lang),
             total_pages=player.session.config['total_pages'],
         )
-        # Conditionally add the extra variable
-        if "comp" in player.treatment:
-            result["treatment_text_action_comp"] = text_action_comp
-            result["treatment_text_action_person_comp"] = text_action_person_comp
-            result["treatment_text_receiver_comp"] = text_receiver_comp
 
         return result
 
@@ -1019,26 +890,16 @@ class DictatorPage(Page):
         image = image.replace(" norm", "")
         image = image.replace("2PP", "2PP_2")
 
-        # 3PR trials get same image as 3PP
-        if "3PR" in player.treatment:
-            image = 'global/treatments/3PP give.png'
-            dictator_keeps_1 = C.dictator_keeps_3quarters
-            dictator_keeps_2 = C.dictator_keeps_half
-        else:
-            dictator_keeps_1 = C.dictator_keeps_everything
-            dictator_keeps_2 = C.dictator_keeps_3quarters
+        dictator_keeps_1 = C.dictator_keeps_everything
+        dictator_keeps_2 = C.dictator_keeps_3quarters
 
         # For baseline trials, add condition text for "Keep in mind" text
         if "2PP" in player.treatment:
-            text_action = get_translation('dict_text_action_2PP', lang)
+            person = get_translation('person_b_lower', lang)
         elif "3PP" in player.treatment:
-            text_action = get_translation('dict_text_action_3PP', lang)
-        elif "3PR" in player.treatment:
-            text_action = "Person C can give points to you"
-        elif "3PC" in player.treatment:
-            text_action = "Person C can remove points from you or give points to Person B"
+            person = get_translation('person_c_lower', lang)
         else:
-            text_action = "TEST"
+            person = "TEST"
 
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
@@ -1083,7 +944,6 @@ class DictatorPage(Page):
             recip_identity=recip_identity,
             dic_decision1=player.dic_decision1,
             image=image,
-            role_switch_true = player.role_switch_true,
             button_decision=get_translation('button_decision', lang),
             dict_norm_instru=get_translation('dict_norm_instru', lang),
             dict_norm_incentive=get_translation('dict_norm_incentive', lang,
@@ -1100,15 +960,13 @@ class DictatorPage(Page):
             very_appropriate=get_translation('very_appropriate', lang),
             dict_decision_endowment=get_translation('dict_decision_endowment', lang,
                                               total_endowment=C.total_endowment),
-            dict_decision_IN_OUT=get_translation('dict_decision_IN_OUT', lang,
-                                                 dic_identity_country=dic_identity_country,
-                                                 recip_identity_country=recip_identity_country),
             dict_decision_countries=get_translation('dict_decision_countries', lang,
                                                  dic_identity_country=dic_identity_country,
                                                  recip_identity_country=recip_identity_country),
             dict_decision_question=get_translation('dict_decision_question', lang),
+            person = person,
             dict_decision_mind=get_translation('dict_decision_mind', lang,
-                                               treatment_text_action=text_action),
+                                               person=person),
             dict_decision_hover=get_translation('dict_decision_hover', lang),
             you=get_translation('you', lang),
             person_a=get_translation('person_a', lang),
@@ -1149,9 +1007,10 @@ class UniversalNormPage(Page):
         return dict(
             treatment=player.treatment,
 
-            univ_norm_instru=get_translation('univ_norm_instru', lang, dictator_keeps_1 = dictator_keeps_1, receiver_gets = receiver_gets),
-            univ_norm_question=get_translation('univ_norm_question', lang, receiver_gets = receiver_gets),
-            univ_norm_incentive =get_translation('univ_norm_incentive', lang),
+            univ_norm_instru= get_translation('univ_norm_instru', lang, dictator_keeps_1 = dictator_keeps_1, receiver_gets = receiver_gets, num_people_asked=50000),
+            univ_norm_question= get_translation('univ_norm_question', lang, receiver_gets = receiver_gets),
+            univ_norm_incentive = get_translation('univ_norm_incentive', lang,
+                                                 ratings_extra_points=C.ratings_extra_points),
             error_1slider=get_translation('error_1slider', lang),
             person_a =get_translation('person_a', lang),
             person_b =get_translation('person_b', lang),
