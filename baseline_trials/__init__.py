@@ -35,8 +35,8 @@ class C(BaseConstants):
     STUDY_TIME = 30
     prolific = True
 
-    CURRENT_COUNTRY = 'de' # CHANGE TO COUNTRY FOR THIS LINK
-    CURRENT_LANGUAGE = 'de'
+    CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
+    CURRENT_LANGUAGE = 'en'
 
     COUNTRIES = get_country_dict(CURRENT_LANGUAGE)
 
@@ -974,7 +974,7 @@ class TPPage(Page):
             slightly_inappropriate=get_translation('slightly_inappropriate', lang),
             slightly_appropriate=get_translation('slightly_appropriate', lang),
             appropriate=get_translation('appropriate', lang),
-            very_appropriate=get_translation('appropriate', lang),
+            very_appropriate=get_translation('very_appropriate', lang),
             button_next=get_translation('button_next', lang),
             button_block=get_translation('button_block', lang),
             error3=get_translation('error3', lang),
@@ -1096,7 +1096,7 @@ class DictatorPage(Page):
             slightly_inappropriate=get_translation('slightly_inappropriate', lang),
             slightly_appropriate=get_translation('slightly_appropriate', lang),
             appropriate=get_translation('appropriate', lang),
-            very_appropriate=get_translation('appropriate', lang),
+            very_appropriate=get_translation('very_appropriate', lang),
             dict_decision_endowment=get_translation('dict_decision_endowment', lang,
                                               total_endowment=C.total_endowment),
             dict_decision_IN_OUT=get_translation('dict_decision_IN_OUT', lang,
