@@ -17,6 +17,8 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
+    ratings_extra_points_block2 = 4  # extra bonus for (norm) ratings close to country average: lower in block 2, where there are lower payoffs
+
 
 class Subsession(BaseSubsession):
     pass
@@ -202,7 +204,7 @@ class CrowdingInOutPage(Page):
             crowding_intro2=get_translation('crowding_intro2', lang),
             crowding_norm_incentive =get_translation('crowding_norm_incentive', lang, current_countryname=current_countryname),
             crowding_norm=get_translation('crowding_norm', lang, current_countryname=current_countryname),
-            crowding_norm_bonus=get_translation('crowding_norm_bonus', lang, current_countryname=current_countryname),
+            crowding_norm_bonus=get_translation('crowding_norm_bonus', lang, current_countryname=current_countryname, ratings_extra_points_block2=C.ratings_extra_points_block2),
             crowding_decision_give=get_translation('crowding_decision', lang, choice=choice_give),
             crowding_decision_keep=get_translation('crowding_decision', lang, choice=choice_keep),
             error_all_sliders =get_translation('error_all_sliders', lang),
@@ -273,7 +275,8 @@ class DescriptiveNormPage(Page):
             receiver_endowment = receiver_endowment,
             image=image,
             descr_question=get_translation('descr_question', lang, current_countryname=current_countryname),
-            descr_incentive=get_translation('descr_incentive', lang),
+            descr_incentive=get_translation('block2_norm_incentive', lang,
+                                                 ratings_extra_points=C.ratings_extra_points_block2),
             error1=get_translation('error1', lang),
             person_a=get_translation('person_a', lang),
             button_charity=get_translation('button_charity', lang),
