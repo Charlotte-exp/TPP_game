@@ -1009,12 +1009,12 @@ class UniversalNormPage(Page):
         participant.decision_page_number = player.round_number +1
 
 
-page_sequence = [#Consent,
-                 #Introduction,
-                 #AttentionCheckPage,
+page_sequence = [Consent,
+                 Introduction,
+                 AttentionCheckPage,
                  Instructions,
-                 #ComprehensionQuestionPage,
-                 #DictatorPage,
-                 #TPPage,
-                 #UniversalNormPage
+                 ComprehensionQuestionPage,
+                 DictatorPage,
+                 TPPage,
+                 UniversalNormPage
                  ]
