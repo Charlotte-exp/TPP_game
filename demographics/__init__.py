@@ -14,6 +14,9 @@ class C(BaseConstants):
     NAME_IN_URL = 'demographics'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    # ''' ONLY WHEN TESTING ON ITS OWN'''
+    # # Prolific or Toluna
+    # prolific = False
 
 
 def get_country_list(lang):
@@ -134,12 +137,8 @@ class Player(BasePlayer):
     ## Self - other circle
     self_other = models.IntegerField()
 
-    ## Comment field
-    question_box = models.LongStringField()
-
-    reliability = models.IntegerField(
-        min=0, max=100
-    )
+    # ## Comment field
+    # question_box = models.LongStringField()
 
     # comment_box = models.LongStringField(
     #     blank = True  # Optional: allow it to be empty
@@ -294,7 +293,7 @@ class Circle(Page):
 
 class CommentBox(Page):
     form_model = 'player'
-    form_fields = ['question_box', 'reliability']
+    form_fields = ['question_box']
 
     def vars_for_template(player: Player):
 
@@ -307,9 +306,6 @@ class CommentBox(Page):
             #comment_intro=get_translation('comment_intro', lang),
             question_box=get_translation('question_box', lang),
             #comment_box=get_translation('comment_box', lang),
-            reliability_question=get_translation('reliability_question', lang),
-            very_reliable=get_translation('very_reliable', lang),
-            not_at_all_reliable=get_translation('not_at_all_reliable', lang),
             button_next=get_translation('button_next', lang)
         )
 
@@ -337,6 +333,9 @@ class Payment(Page):
             thank_you_short=get_translation('thank_you_short', lang),
             end_bonus=get_translation('end_bonus', lang),
             redirect_prolific=get_translation('redirect_prolific', lang),
+            debrief=get_translation('debrief', lang),
+            close_window=get_translation('close_window', lang),
+            bonus_payment=get_translation('bonus_payment', lang),
             button_next=get_translation('button_next', lang)
         )
 
@@ -372,6 +371,5 @@ page_sequence = [RelationalMobility,
                  Circle,
                  Ladder,
                  Demographics,
-                 CommentBox,
                  Payment,
                  ProlificLink]

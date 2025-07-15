@@ -27,17 +27,40 @@
     <div class="panel panel-default" style="margin-bottom:10px">
         <div class="panel-body">
             <b>{{ thank_you|safe }}</b> <br> <br>
-            {{ end_bonus|safe }}
-            <p> </p>
-            <hr size="6" width="50%" align="center" color="black">
+
+            {{ if C.prolific == True }}
+                {{ end_bonus|safe }}
+            {{ endif }}
+
+            {{ if C.prolific == False }}
+                {{ bonus_payment|safe }}
+            {{ endif }}
+
+<!--            <p> </p>-->
+<!--            <hr size="6" width="50%" align="center" color="black">-->
+
         </div>
         <p></p>
+
+        {{ if C.prolific == False }}
+            <p>
+                {{ debrief|safe }}
+            </p>
+
+            <p>
+                {{ close_window|safe }}
+            </p>
+         {{ endif }}
+
+         {{ if C.prolific == True }}
             <p>
                 {{ redirect_prolific|safe }}
             </p>
+
             <div style="display: flex; justify-content: flex-end">
                 <button class="btn btn-primary">{{button_next | safe}}</button>
             </div>
+         {{ endif }}
     </div>
 </div>
 
