@@ -372,6 +372,13 @@
             {% endif %}
         </p>
 
+        <div style="text-align: center; margin-bottom: 20px">
+
+            {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment %}
+                {{ dict_decision_countries}}
+            {% endif %}
+        </div>
+
         <div class='responsive-div'>
 
             {% if dic_identity != "baseline"%}
@@ -431,12 +438,6 @@
 
             </div>
 
-            <div style="text-align: center; font-size: 14px; margin-bottom: 20px">
-
-                {% if "country" in player.treatment %}
-                    {{ dict_decision_countries}}
-                {% endif %}
-            </div>
 
             <p style="text-align: center;">
                 <strong>{{ dict_decision_question }}</strong>
