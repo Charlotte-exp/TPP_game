@@ -1,0 +1,51 @@
+countryname,iso3,country,languages
+Algeria,DZA,dz,"ar, en"
+Argentina,ARG,ar,"es, en"
+Australia,AUS,au,en
+Bolivia,BOL,bo,"es, en"
+Brazil,BRA,br,"pt, en"
+Bulgaria,BGR,bg,"bg, en"
+Canada,CAN,ca,"en, fr"
+Chile,CHL,cl,"es, en"
+China,CHN,cn,"zh, en"
+Colombia,COL,co,"es, en"
+Costa Rica,CRI,cr,"es, en"
+Croatia,HRV,hr,"hr, en"
+Dominican Republic,DOM,do,"es, en"
+Ecuador,ECU,ec,"es, en"
+Egypt,EGY,eg,"ar, en"
+El Salvador,SLV,sv,"es, en"
+Finland,FIN,fi,"fi, sv, en"
+France,FRA,fr,"fr, en"
+Germany,DEU,de,"de, en"
+Greece,GRC,gr,"el, en"
+Guatemala,GTM,gt,"es, en"
+Hungary,HUN,hu,"hu, en"
+India,IND,in,en
+Indonesia,IDN,id,"id, en"
+Italy,ITA,it,"it, en"
+Japan,JPN,jp,"ja, en"
+Kenya,KEN,ke,en
+Korea,KOR,kr,"ko, en"
+Malaysia,MYS,my,"ms, en"
+Mexico,MEX,mx,"es, en"
+Morocco,MAR,ma,"ar, en"
+New Zealand,NZL,nz,en
+Nigeria,NGA,ng,en
+Peru,PER,pe,"es, en"
+Philippines,PHL,ph,en
+Romania,ROU,ro,"ro, en"
+Russia,RUS,ru,"ru, en"
+Saudi Arabia,SAU,sa,"ar, en"
+Singapore,SGP,sg,"en, ms, zh"
+South Africa,ZAF,za,en
+Spain,ESP,es,"es, en"
+Sweden,SWE,se,"sv, en"
+Switzerland,CHE,ch,"en,fr, de, it"
+Taiwan,TWN,tw,"zh, en"
+Thailand,THA,th,"th, en"
+Turkey,TUR,tr,"tr, en"
+UAE,ARE,ae,"ar, en"
+Ukraine,UKR,ua,"uk, en"
+United States,USA,us,en
+Vietnam,VNM,vn,"vi, en"

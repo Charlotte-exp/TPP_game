@@ -35,16 +35,11 @@ class C(BaseConstants):
     STUDY_TIME = 30
     prolific = False
 
-    CURRENT_COUNTRY = 'gb' # CHANGE TO COUNTRY FOR THIS LINK
-    CURRENT_LANGUAGE = 'en'
-
-    COUNTRIES = get_country_dict(CURRENT_LANGUAGE)
-
+    CURRENT_COUNTRY = 'ch' # IMPORTANT: NEED TO SET IT TWICE, because needed both here and in language selection page, and cannot be saved as participant variable because used in creating_session in baseline_trials
+    COUNTRIES = get_country_dict('en')
     COUNTRY_LIST = list(COUNTRIES.keys())
-
     NUM_COUNTRIES = len(COUNTRY_LIST)
 
-    CURRENT_COUNTRYNAME = COUNTRIES.get(CURRENT_COUNTRY)
 
     # Variables for decision scenarios
     total_endowment = 12
@@ -89,13 +84,21 @@ def creating_session(subsession):
     ## Set variables in participant field
     for player in subsession.get_players():
         participant = player.participant
+
+        # PROBLEM: creating_session runs before any participants go through any pages, so no access to language selected
+        # SOLUTION: Set countryname in native language later
+
+        #print(" hasattr(participant, 'language')",  hasattr(participant, 'language'))
+
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
         # country name
         participant.current_country = C.CURRENT_COUNTRY
-        participant.current_countryname = C.CURRENT_COUNTRYNAME
+
         # progress bar
         participant.progress = 1
-        # translation
-        participant.language = C.CURRENT_LANGUAGE
 
 
     ## Make immutable variables for partner-country block
@@ -357,6 +360,11 @@ class Consent(Page):
     def vars_for_template(player: Player):
         participant = player.participant
         lang = participant.language
+
+        # Extract countryname in selected language
+        countries_translated = get_country_dict(lang)
+        participant.current_countryname = countries_translated.get(C.CURRENT_COUNTRY)
+
         return dict(
             consent_title=get_translation('consent_title', lang),
             consent_thank_you=get_translation('consent_thank_you', lang),
@@ -402,7 +410,7 @@ class Introduction(Page):
             intro_prolific=get_translation('intro_prolific', lang),
             intro_conversion=get_translation('intro_conversion', lang,
                                              conversion=player.session.config['real_world_currency_per_point']),
-            intro_block1_title=get_translation('intro_block1_title', lang),
+            intro_block1_title=get_translation('block_title', lang, block_num=1),
             intro_block1=get_translation('intro_block1', lang),
             intro_block2_title=get_translation('block_title', lang, block_num=2),
             intro_block2=get_translation('intro_block2', lang),
@@ -438,13 +446,13 @@ class Instructions(Page):
         #     if random_INOUT_IN_as_dic:
         #         dic_identity = C.CURRENT_COUNTRY
         #         recip_identity = "out"
-        #         dic_identity_country = C.CURRENT_COUNTRYNAME
+        #         dic_identity_country = participant.current_countryname
         #         recip_identity_country = get_translation('unknown_country_long', lang, num_countries=C.NUM_COUNTRIES)
         #     else:
         #         dic_identity = "out"
         #         recip_identity = C.CURRENT_COUNTRY
         #         dic_identity_country = get_translation('unknown_country_long', lang, num_countries=C.NUM_COUNTRIES)
-        #         recip_identity_country = C.CURRENT_COUNTRYNAME
+        #         recip_identity_country = participant.current_countryname
         #elif "country" in player.treatment or "universal norm" in player.treatment:
         if "IN" in player.treatment or "OUT" in player.treatment or "country" in player.treatment or "universal norm" in player.treatment:
             random_partner_country_IN_as_dic = random.choice([True, False])
@@ -452,13 +460,13 @@ class Instructions(Page):
             if random_partner_country_IN_as_dic:
                 dic_identity = C.CURRENT_COUNTRY
                 recip_identity = random_partner
-                dic_identity_country = C.CURRENT_COUNTRYNAME
+                dic_identity_country = participant.current_countryname
                 recip_identity_country = C.COUNTRIES.get(random_partner)
             else:
                 dic_identity = random_partner
                 recip_identity = C.CURRENT_COUNTRY
                 dic_identity_country = C.COUNTRIES.get(random_partner)
-                recip_identity_country = C.CURRENT_COUNTRYNAME
+                recip_identity_country = participant.current_countryname
         else:
             dic_identity = "baseline"
             recip_identity = "baseline"
@@ -486,7 +494,7 @@ class Instructions(Page):
             first_block_2PP_true = first_block_2PP_true,
             #block2 = block2,
             block3 = block3,
-            current_country = C.CURRENT_COUNTRYNAME,
+            current_country = participant.current_countryname,
             treatment_type = treatment_type,
             instructions_title=get_translation('instructions_title', lang),
             instru_part1=get_translation('instru_part', lang, part_num=1),
@@ -499,7 +507,7 @@ class Instructions(Page):
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('button_block', lang),
-           
+
             instru_0DG_pairing=get_translation('instru_0DG_pairing', lang),
             instru_0DG_decision=get_translation('instru_0DG_decision', lang),
             instru_0DG_points=get_translation('instru_0DG_points', lang),
@@ -516,7 +524,7 @@ class Instructions(Page):
             instru_3PP_rules=get_translation('instru_3PP_rules', lang,
                                               cost_per_point=round(1/C.TP_cost, 2)),
             instru_INOUT=get_translation('instru_INOUT', lang,
-                                         current_country=C.CURRENT_COUNTRYNAME,
+                                         current_country=participant.current_countryname,
                                          number_countries=C.NUM_COUNTRIES,),
             instru_countries_list=get_translation('instru_countries_list', lang),
             instru_countries=get_translation('instru_countries', lang),
@@ -716,18 +724,18 @@ class TPPage(Page):
         if "IN IN" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = C.CURRENT_COUNTRY
-            dic_identity_country = C.CURRENT_COUNTRYNAME
-            recip_identity_country = C.CURRENT_COUNTRYNAME
+            dic_identity_country = participant.current_countryname
+            recip_identity_country = participant.current_countryname
         if "IN OUT" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = "out"
-            dic_identity_country = C.CURRENT_COUNTRYNAME
+            dic_identity_country = participant.current_countryname
             recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
         if "OUT IN" in player.treatment:
             dic_identity = "out"
             recip_identity = C.CURRENT_COUNTRY
             dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
-            recip_identity_country = C.CURRENT_COUNTRYNAME
+            recip_identity_country = participant.current_countryname
         if "OUT OUT" in player.treatment:
             dic_identity = "out"
             recip_identity = "out"
@@ -738,7 +746,7 @@ class TPPage(Page):
             recip_identity = "baseline"
             recip_identity_country = "baseline"
             dic_identity_country = "baseline"
-            
+
         # For (known) partner country trials, extract countries of dictator and recipient
         if "3PP country" in player.treatment:
             dic_identity = player.treatment[:2]
@@ -795,7 +803,7 @@ class TPPage(Page):
             dic_identity_country=dic_identity_country,
             recip_identity_country=recip_identity_country,
             image=image,
-            current_country=C.CURRENT_COUNTRYNAME,
+            current_country=participant.current_countryname,
             button_decision=get_translation('button_decision', lang),
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
@@ -807,7 +815,7 @@ class TPPage(Page):
                                                    person=person),
             tpp_2PP_norm_incentive=get_translation('dict_norm_incentive', lang,
                                                    ratings_extra_points=C.ratings_extra_points,
-                                                   current_country=C.CURRENT_COUNTRYNAME),
+                                                   current_country=participant.current_countryname),
             tpp_3PP_norm_instru=get_translation('norm_instru', lang,
                                                    person=get_translation('person_c_lower', lang)),
             tpp_dict_action=get_translation('tpp_dict_action', lang),
@@ -847,7 +855,7 @@ class DictatorPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return ("give" in player.treatment)
+        return "give" in player.treatment
 
     form_model = 'player'
 
@@ -884,12 +892,12 @@ class DictatorPage(Page):
             recip_identity = "out"
             dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
             recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
-            dic_identity_country = C.CURRENT_COUNTRYNAME
+            dic_identity_country = participant.current_countryname
         if player.treatment[-3:] == " IN":
             recip_identity = C.CURRENT_COUNTRY
             dic_identity = C.CURRENT_COUNTRY
-            recip_identity_country = C.CURRENT_COUNTRYNAME
-            dic_identity_country = C.CURRENT_COUNTRYNAME
+            recip_identity_country = participant.current_countryname
+            dic_identity_country = participant.current_countryname
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
@@ -900,7 +908,7 @@ class DictatorPage(Page):
         if "3PP give country" in player.treatment:
             dic_identity = C.CURRENT_COUNTRY
             recip_identity = player.treatment.replace(" 3PP give country", "")
-            dic_identity_country = C.CURRENT_COUNTRYNAME
+            dic_identity_country = participant.current_countryname
             recip_identity_country = C.COUNTRIES.get(recip_identity)
             image = 'global/treatments/3PP give.png'
 
@@ -927,7 +935,7 @@ class DictatorPage(Page):
                                              person = get_translation('person_a_lower', lang)),
             dict_norm_incentive=get_translation('dict_norm_incentive', lang,
                                                 ratings_extra_points=C.ratings_extra_points,
-                                                current_country=C.CURRENT_COUNTRYNAME),
+                                                current_country=participant.current_countryname),
             dict_norm_summary=get_translation('dict_norm_summary', lang,
                                               total_endowment=C.total_endowment),
             dict_norm_question=get_translation('dict_norm_question', lang),
