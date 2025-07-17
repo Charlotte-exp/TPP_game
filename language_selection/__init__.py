@@ -56,6 +56,12 @@ class Subsession(BaseSubsession):
     pass
 
 
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+        participant.current_country = C.CURRENT_COUNTRY
+
+
 class Group(BaseGroup):
     pass
 

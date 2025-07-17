@@ -14,17 +14,35 @@ doc = """
 Your app description
 """
 
-def get_country_dict(lang):
-    import csv
+# def get_country_dict(lang):
+#     import csv
+#     with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
+#         reader = csv.DictReader(csvfile, delimiter=';')
+#         if lang not in reader.fieldnames:
+#             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+#         return {
+#             row["iso2"]: row[lang]
+#             for row in reader
+#             if row.get("iso2") and row.get(lang)
+#         }
+
+def get_country_dict(lang, iso2=None):
     with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
-        return {
+
+        country_dict = {
             row["iso2"]: row[lang]
             for row in reader
             if row.get("iso2") and row.get(lang)
         }
+
+    if iso2:
+        return country_dict.get(iso2)
+    return country_dict
+
+
 
 
 class C(BaseConstants):
@@ -35,7 +53,6 @@ class C(BaseConstants):
     STUDY_TIME = 30
     prolific = False
 
-    CURRENT_COUNTRY = 'ch' # IMPORTANT: NEED TO SET IT TWICE, because needed both here and in language selection page, and cannot be saved as participant variable because used in creating_session in baseline_trials
     COUNTRIES = get_country_dict('en')
     COUNTRY_LIST = list(COUNTRIES.keys())
     NUM_COUNTRIES = len(COUNTRY_LIST)
@@ -88,43 +105,40 @@ def creating_session(subsession):
         # PROBLEM: creating_session runs before any participants go through any pages, so no access to language selected
         # SOLUTION: Set countryname in native language later
 
-        #print(" hasattr(participant, 'language')",  hasattr(participant, 'language'))
-
         # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
         if 'language' not in participant.vars:
             participant.language = 'en'
 
-        # country name
-        participant.current_country = C.CURRENT_COUNTRY
+        # Save current country code once for easier access in trial prep
+        current_country = participant.current_country
 
         # progress bar
         participant.progress = 1
 
-
     ## Make immutable variables for partner-country block
 
     # Make country list without current country
-    country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != C.CURRENT_COUNTRY]
+    country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != current_country]
 
     # Make all possible combinations
     combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
 
     # Get IN-IN trial
-    trials_partner_in_in = [entry + ('IN IN',) for entry in combinations if entry[0] == entry[1] == C.CURRENT_COUNTRY]
-    #trials_partner_in_in = [entry for entry in combinations if entry[0] == entry[1] == C.CURRENT_COUNTRY]
+    trials_partner_in_in = [entry + ('IN IN',) for entry in combinations if entry[0] == entry[1] == current_country]
+    #trials_partner_in_in = [entry for entry in combinations if entry[0] == entry[1] == current_country]
 
 
     # Remove IN-IN trials, which every participant sees only once
-    combinations = [entry for entry in combinations if not entry[0] == entry[1] == C.CURRENT_COUNTRY]
+    combinations = [entry for entry in combinations if not entry[0] == entry[1] == current_country]
 
     # Filter different trial types
-    trials_partner_in_out = [entry for entry in combinations if entry[0] == C.CURRENT_COUNTRY]
-    trials_partner_out_in = [entry for entry in combinations if entry[1] == C.CURRENT_COUNTRY]
+    trials_partner_in_out = [entry for entry in combinations if entry[0] == current_country]
+    trials_partner_out_in = [entry for entry in combinations if entry[1] == current_country]
     trials_partner_out_out_homog = [entry for entry in combinations if
-                                    (entry[0] != C.CURRENT_COUNTRY and entry[1] != C.CURRENT_COUNTRY and entry[0] ==
+                                    (entry[0] != current_country and entry[1] != current_country and entry[0] ==
                                      entry[1])]
     trials_partner_out_out_heterog = [entry for entry in combinations if
-                                      (entry[0] != C.CURRENT_COUNTRY and entry[1] != C.CURRENT_COUNTRY and entry[0] !=
+                                      (entry[0] != current_country and entry[1] != current_country and entry[0] !=
                                        entry[1])]
 
 
@@ -254,7 +268,6 @@ def creating_session(subsession):
 
     for player in subsession.get_players():
         #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
-        #player.treatment = player.participant.treatment_order_INOUT[player.round_number - 1] # For testing only INOUT
         player.treatment = player.participant.treatment_order[player.round_number - 1]
         player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
         player.comprehension_true = player.treatment in player.participant.comprehension
@@ -361,10 +374,6 @@ class Consent(Page):
         participant = player.participant
         lang = participant.language
 
-        # Extract countryname in selected language
-        countries_translated = get_country_dict(lang)
-        participant.current_countryname = countries_translated.get(C.CURRENT_COUNTRY)
-
         return dict(
             consent_title=get_translation('consent_title', lang),
             consent_thank_you=get_translation('consent_thank_you', lang),
@@ -441,31 +450,21 @@ class Instructions(Page):
         participant = player.participant
         lang = participant.language
 
-        # if "IN" in player.treatment or "OUT" in player.treatment:
-        #     random_INOUT_IN_as_dic = random.choice([True, False])
-        #     if random_INOUT_IN_as_dic:
-        #         dic_identity = C.CURRENT_COUNTRY
-        #         recip_identity = "out"
-        #         dic_identity_country = participant.current_countryname
-        #         recip_identity_country = get_translation('unknown_country_long', lang, num_countries=C.NUM_COUNTRIES)
-        #     else:
-        #         dic_identity = "out"
-        #         recip_identity = C.CURRENT_COUNTRY
-        #         dic_identity_country = get_translation('unknown_country_long', lang, num_countries=C.NUM_COUNTRIES)
-        #         recip_identity_country = participant.current_countryname
-        #elif "country" in player.treatment or "universal norm" in player.treatment:
+        # Load countrynames in selected language
+        participant.current_countryname = get_country_dict(lang, participant.current_country)
+
         if "IN" in player.treatment or "OUT" in player.treatment or "country" in player.treatment or "universal norm" in player.treatment:
             random_partner_country_IN_as_dic = random.choice([True, False])
             random_partner = random.choice(C.COUNTRY_LIST)
             if random_partner_country_IN_as_dic:
-                dic_identity = C.CURRENT_COUNTRY
+                dic_identity = participant.current_country
                 recip_identity = random_partner
                 dic_identity_country = participant.current_countryname
-                recip_identity_country = C.COUNTRIES.get(random_partner)
+                recip_identity_country = get_country_dict(lang,random_partner)
             else:
                 dic_identity = random_partner
-                recip_identity = C.CURRENT_COUNTRY
-                dic_identity_country = C.COUNTRIES.get(random_partner)
+                recip_identity = participant.current_country
+                dic_identity_country = get_country_dict(lang,random_partner)
                 recip_identity_country = participant.current_countryname
         else:
             dic_identity = "baseline"
@@ -722,18 +721,18 @@ class TPPage(Page):
 
         # For unknown country trials, check identity of dictator and recipient
         if "IN IN" in player.treatment:
-            dic_identity = C.CURRENT_COUNTRY
-            recip_identity = C.CURRENT_COUNTRY
+            dic_identity = participant.current_country
+            recip_identity = participant.current_country
             dic_identity_country = participant.current_countryname
             recip_identity_country = participant.current_countryname
         if "IN OUT" in player.treatment:
-            dic_identity = C.CURRENT_COUNTRY
+            dic_identity = participant.current_country
             recip_identity = "out"
             dic_identity_country = participant.current_countryname
             recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
         if "OUT IN" in player.treatment:
             dic_identity = "out"
-            recip_identity = C.CURRENT_COUNTRY
+            recip_identity = participant.current_country
             dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
             recip_identity_country = participant.current_countryname
         if "OUT OUT" in player.treatment:
@@ -751,8 +750,8 @@ class TPPage(Page):
         if "3PP country" in player.treatment:
             dic_identity = player.treatment[:2]
             recip_identity = player.treatment[3:5]
-            dic_identity_country = C.COUNTRIES.get(dic_identity)
-            recip_identity_country = C.COUNTRIES.get(recip_identity)
+            dic_identity_country = get_country_dict(lang,dic_identity)
+            recip_identity_country = get_country_dict(lang,recip_identity)
             dictator_keeps_1 = C.dictator_keeps_everything
             dictator_keeps_2 = C.dictator_keeps_3quarters
             dictator_keeps_3 = C.dictator_keeps_half
@@ -890,12 +889,12 @@ class DictatorPage(Page):
         # For INOUT trials, check identity of recipient
         if player.treatment[-3:] == "OUT":
             recip_identity = "out"
-            dic_identity = C.CURRENT_COUNTRY  # In give trials, participant is the dicatator --> identity of dictator is current country
+            dic_identity = participant.current_country  # In give trials, participant is the dictator --> identity of dictator is current country
             recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
             dic_identity_country = participant.current_countryname
         if player.treatment[-3:] == " IN":
-            recip_identity = C.CURRENT_COUNTRY
-            dic_identity = C.CURRENT_COUNTRY
+            recip_identity = participant.current_country
+            dic_identity = participant.current_country
             recip_identity_country = participant.current_countryname
             dic_identity_country = participant.current_countryname
         if "OUT" not in player.treatment and "IN" not in player.treatment:
@@ -906,10 +905,10 @@ class DictatorPage(Page):
 
         # For partner country trials, extract countries of recipient (dictator is participant from current country
         if "3PP give country" in player.treatment:
-            dic_identity = C.CURRENT_COUNTRY
+            dic_identity = participant.current_country
             recip_identity = player.treatment.replace(" 3PP give country", "")
             dic_identity_country = participant.current_countryname
-            recip_identity_country = C.COUNTRIES.get(recip_identity)
+            recip_identity_country = get_country_dict(lang,recip_identity)
             image = 'global/treatments/3PP give.png'
 
         # print('Generating image path and round number - 1', image, player.round_number - 1)
