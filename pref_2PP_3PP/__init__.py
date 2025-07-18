@@ -23,9 +23,13 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         participant = player.participant
         participant.pref_2PP_3PP_button_pos = random.choice([True, False])
 
-        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        # participant.progress = 1
-        # participant.language = 'en'
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
+        if 'progress' not in participant.vars:
+            participant.progress = 1
+            participant.decision_page_number = 0
 
 class Group(BaseGroup):
     pass
