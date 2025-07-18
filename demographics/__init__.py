@@ -9,14 +9,27 @@ doc = """
 Your app description
 """
 
+def get_country_dict(lang, iso2=None):
+    with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        if lang not in reader.fieldnames:
+            raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+
+        country_dict = {
+            row["iso2"]: row[lang]
+            for row in reader
+            if row.get("iso2") and row.get(lang)
+        }
+
+    if iso2:
+        return country_dict.get(iso2)
+    return country_dict
+
 
 class C(BaseConstants):
     NAME_IN_URL = 'demographics'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    # ''' ONLY WHEN TESTING ON ITS OWN'''
-    # # Prolific or Toluna
-    # prolific = False
 
 
 def get_country_list(lang):
@@ -25,7 +38,6 @@ def get_country_list(lang):
         reader = csv.DictReader(file, delimiter=';')
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
-        #countries_world = [row["countryname"] for row in reader]
         countries_world = [row[lang] for row in reader if row[lang]]
         countries_world.sort()  # Sort alphabetically
         return countries_world
@@ -35,17 +47,20 @@ def get_country_list(lang):
 class Subsession(BaseSubsession):
     pass
 
-# ''' ONLY WHEN TESTING ON ITS OWN'''
-# def creating_session(subsession):
-#     for player in subsession.get_players():
-#         participant = player.participant
-#         participant.progress = 1
-#         # Only necessary if not using participant field from baseline_trials
-#         participant.current_country = "gb"
-#         participant.current_countryname = "the United Kingdom"
-#
-#         # translation
-#         participant.language = 'en'
+
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
+        if 'progress' not in participant.vars:
+            participant.progress = 1
+            participant.decision_page_number = 0
+            participant.current_countryname = get_country_dict(participant.language, participant.current_country)
+
 
 
 class Group(BaseGroup):
@@ -325,7 +340,10 @@ class Payment(Page):
         participant = player.participant
         lang = participant.language
 
+        prolific = player.session.config['config']['prolific']
+
         return dict(
+            prolific = prolific,
             total_pages=player.session.config['total_pages'],
             participation_fee= player.session.config['participation_fee'],
             study_complete=get_translation('study_complete', lang),

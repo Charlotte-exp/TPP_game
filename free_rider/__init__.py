@@ -16,12 +16,16 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-# ''' ONLY WHEN TESTING ON ITS OWN'''
-# def creating_session(subsession):
-#     for player in subsession.get_players():
-#         participant = player.participant
-#         participant.progress = 1
-#         participant.language = 'en'
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
+        if 'progress' not in participant.vars:
+            participant.progress = 1
+            participant.decision_page_number = 0
 
 
 class Group(BaseGroup):

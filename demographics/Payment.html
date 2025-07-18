@@ -28,11 +28,11 @@
         <div class="panel-body">
             <b>{{ thank_you|safe }}</b> <br> <br>
 
-            {{ if C.prolific == True }}
+            {{ if prolific == True }}
                 {{ end_bonus|safe }}
             {{ endif }}
 
-            {{ if C.prolific == False }}
+            {{ if prolific == False }}
                 {{ bonus_payment|safe }}
             {{ endif }}
 
@@ -42,7 +42,7 @@
         </div>
         <p></p>
 
-        {{ if C.prolific == False }}
+        {{ if prolific == False }}
             <p>
                 {{ debrief|safe }}
             </p>
@@ -52,7 +52,7 @@
             </p>
          {{ endif }}
 
-         {{ if C.prolific == True }}
+         {{ if prolific == True }}
             <p>
                 {{ redirect_prolific|safe }}
             </p>

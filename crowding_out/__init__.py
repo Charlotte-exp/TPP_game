@@ -11,6 +11,22 @@ doc = """
 Your app description
 """
 
+def get_country_dict(lang, iso2=None):
+    with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        if lang not in reader.fieldnames:
+            raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+
+        country_dict = {
+            row["iso2"]: row[lang]
+            for row in reader
+            if row.get("iso2") and row.get(lang)
+        }
+
+    if iso2:
+        return country_dict.get(iso2)
+    return country_dict
+
 
 class C(BaseConstants):
     NAME_IN_URL = 'crowding_out'
@@ -51,14 +67,14 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
         
         participant.crowding_out_button_pos = random.choice([True, False])
 
-        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        # participant.progress = 1
-        # participant.decision_page_number = 0 # For testing only crowding
-        # participant.current_country = "gb"
-        # participant.language = "en"
-        # participant.current_countryname = "the United Kingdom"
-        #
-        # print('set crowding_out_button_pos', participant.crowding_out_button_pos)
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
+        if 'progress' not in participant.vars:
+            participant.progress = 1
+            participant.decision_page_number = 0
+            participant.current_countryname = get_country_dict(participant.language, participant.current_country)
 
 
 def get_local_red_cross_info(country_name):
