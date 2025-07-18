@@ -1,0 +1,12 @@
+for f in *.png; do
+  width=$(identify -format "%w" "$f")
+  height=$(identify -format "%h" "$f")
+  
+  target_width=$(echo "$height * 1280 / 1230" | bc)
+
+  if [ "$width" -gt "$target_width" ]; then
+    convert "$f" -resize 1280x "$f"
+  else
+    convert "$f" -background none -gravity center -extent ${target_width}x$height "$f"
+  fi
+done
