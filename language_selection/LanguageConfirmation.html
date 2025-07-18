@@ -49,16 +49,16 @@
 
             <div style="text-align: center;">
                 <form method="post" style="display: inline-block;">
-                    <button class="btn btn-primary" name="confirm_language" value="yes">
-                        {{ button_confirm | safe }}
-                        {{ if lang != "en" }}
-                            <br> <span style="color: lightgrey;">{{ button_confirm_en | safe }}</span>
-                        {{ endif }}
-                    </button>
                     <button class="btn btn-primary" name="confirm_language" value="no" style="margin-left: 1rem;">
                         {{ button_go_back | safe }}
                         {{ if lang != "en" }}
                             <br> <span style="color: lightgrey;">{{ button_go_back_en | safe }}</span>
+                        {{ endif }}
+                    </button>
+                    <button class="btn btn-primary" name="confirm_language" value="yes">
+                        {{ button_confirm | safe }}
+                        {{ if lang != "en" }}
+                            <br> <span style="color: lightgrey;">{{ button_confirm_en | safe }}</span>
                         {{ endif }}
                     </button>
                 </form>

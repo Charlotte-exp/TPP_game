@@ -44,12 +44,12 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 10
 
-    CURRENT_COUNTRY = 'ch'  # CHANGE TO COUNTRY FOR THIS LINK
-    POSSIBLE_LANG = get_possible_languages(CURRENT_COUNTRY)
-    POSSIBLE_LANG_NAMES = get_language_names(POSSIBLE_LANG)
-
-    DEFAULT_LANGUAGE = POSSIBLE_LANG[0]
-    NUM_LANGS = len(POSSIBLE_LANG)
+    # CURRENT_COUNTRY = 'ch'  # CHANGE TO COUNTRY FOR THIS LINK
+    # POSSIBLE_LANG = get_possible_languages(CURRENT_COUNTRY)
+    # POSSIBLE_LANG_NAMES = get_language_names(POSSIBLE_LANG)
+    #
+    # DEFAULT_LANGUAGE = POSSIBLE_LANG[0]
+    # NUM_LANGS = len(POSSIBLE_LANG)
 
 
 class Subsession(BaseSubsession):
@@ -57,9 +57,20 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession):
+
+    current_country = subsession.session.config['config']['CURRENT_COUNTRY']
+
+    # Check if language selection should be shown for current_country (only if languages other than English are available)
+    num_langs = len(get_possible_languages(current_country))
+    show_language_selection = num_langs > 1
+
+    #print("current_country", current_country)
+
     for player in subsession.get_players():
         participant = player.participant
-        participant.current_country = C.CURRENT_COUNTRY
+        participant.current_country = current_country
+        participant.language_selection_shown = show_language_selection
+
 
 
 class Group(BaseGroup):
@@ -79,7 +90,7 @@ class LanguageSelection(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return not player.participant.vars.get('lang_confirmed', False) and C.NUM_LANGS > 1
+        return not player.participant.vars.get('lang_confirmed', False) and player.participant.language_selection_shown
 
     form_model = 'player'
 
@@ -87,10 +98,17 @@ class LanguageSelection(Page):
         return ['lang']
 
     def vars_for_template(player: Player):
-        default_language = C.DEFAULT_LANGUAGE
+        participant = player.participant
+        current_country = participant.current_country
+
+        possible_lang = get_possible_languages(current_country)
+        possible_lang_names = get_language_names(possible_lang)
+
+        default_language = possible_lang[0]
+
         return dict(
-            current_country = C.CURRENT_COUNTRY,
-            language_options=zip(C.POSSIBLE_LANG, C.POSSIBLE_LANG_NAMES),
+            current_country = current_country,
+            language_options=zip(possible_lang, possible_lang_names),
             welcome=get_translation('consent_title', default_language),
             language_selection_en = "Please select your language",
             language_select_en="Select language",
@@ -109,7 +127,7 @@ class LanguageConfirmation(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return not player.participant.vars.get('lang_confirmed', False) and C.NUM_LANGS > 1
+        return not player.participant.vars.get('lang_confirmed', False) and player.participant.language_selection_shown
 
     form_model = 'player'
 
@@ -119,9 +137,13 @@ class LanguageConfirmation(Page):
     def vars_for_template(player: Player):
         participant = player.participant
         lang = participant.language
-        default_language = C.DEFAULT_LANGUAGE
+        current_country = participant.current_country
+
         selected_lang_name = get_language_names([lang])[0]
         selected_lang_name_en = get_language_names([lang], True)[0]
+
+        default_language = get_possible_languages(current_country)[0]
+
         return dict(
             lang=lang,
             language_confirmation_question=get_translation('language_confirmation_question', lang,
