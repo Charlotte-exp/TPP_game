@@ -85,7 +85,7 @@ class DiceRatings(Page):
     @staticmethod
     def vars_for_template(player: Player):
         participant = player.participant
-        lang = 'en'
+        lang = participant.language
 
         return dict(
             original_dice=player.original_dice,
@@ -98,22 +98,10 @@ class DiceRatings(Page):
             dice_report=get_translation("dice_report", lang),
             dice_reported=get_translation("dice_reported", lang),
             dice_trustworthy=get_translation("dice_trustworthy", lang),
-            dice_not_trust=get_translation("dice_not_trust", lang),
-            dice_very_trust=get_translation("dice_very_trust", lang),
             very_untrustworthy=get_translation("very_untrustworthy", lang),
-            untrustworthy=get_translation("untrustworthy", lang),
-            slightly_untrustworthy=get_translation("slightly_untrustworthy", lang),
-            slightly_trustworthy=get_translation("slightly_trustworthy", lang),
-            trustworthy=get_translation("trustworthy", lang),
             very_trustworthy=get_translation("very_trustworthy", lang),
             dice_likable=get_translation("dice_likable", lang),
-            dice_very_unlike=get_translation("dice_very_unlike", lang),
-            dice_very_like=get_translation("dice_very_like", lang),
             very_unlikable=get_translation('very_unlikable', lang),
-            unlikable=get_translation('unlikable', lang),
-            slightly_unlikable=get_translation('slightly_unlikable', lang),
-            slightly_likable=get_translation('slightly_likable', lang),
-            likable=get_translation('likable', lang),
             very_likable=get_translation('very_likable', lang),
             dice_error=get_translation("error3", lang),
             dice_trust_game=get_translation("dice_trust_game", lang,

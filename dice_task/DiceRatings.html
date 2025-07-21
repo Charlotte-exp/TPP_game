@@ -4,6 +4,14 @@
     {{ button_block|safe }} 2
 </div>
 
+<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{ participant.decision_page_number }} </p>
+
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
 
 
 {{ endblock }}
@@ -442,10 +450,6 @@
 
             <div class="slider-labels">
                 <span>{{ very_untrustworthy }}</span>
-                <span>{{ untrustworthy }}</span>
-                <span>{{ slightly_untrustworthy }}</span>
-                <span>{{ slightly_trustworthy }}</span>
-                <span>{{ trustworthy }}</span>
                 <span>{{ very_trustworthy }}</span>
             </div>
         </div>
@@ -469,10 +473,6 @@
 
             <div class="slider-labels">
                 <span>{{ very_unlikable|safe }}</span>
-                <span>{{ unlikable|safe }}</span>
-                <span>{{ slightly_unlikable|safe }}</span>
-                <span>{{ slightly_likable|safe }}</span>
-                <span>{{ likable|safe }}</span>
                 <span>{{ very_likable|safe }}</span>
             </div>
         </div>
