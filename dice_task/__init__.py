@@ -17,6 +17,17 @@ class C(BaseConstants):
 
     points_to_send = 3
 
+
+    ### Pre‑compute the pairs that belong to every distance d = 0 … 5 ###
+    DISTANCE_OF_PAIRS = {d: [] for d in range(6)}  # {0: […], …, 5: […]}
+
+    for og_dice, rep_dice in product(range(1, 7), repeat=2):  # all ordered pairs
+        if og_dice <= rep_dice:  # keep og_dice ≤ rep_dice only
+            DISTANCE_OF_PAIRS[rep_dice - og_dice].append((og_dice, rep_dice))  # bucket by distance
+
+    DISTANCES = list(DISTANCE_OF_PAIRS)  # [0, 1, 2, 3, 4, 5]
+
+
 class Subsession(BaseSubsession):
     pass
 
@@ -26,7 +37,7 @@ def creating_session(subsession):
     Must be called from a separate page or in the creating_session
     """
     for p in subsession.get_players():
-        p.dice_roll()
+        p.dice_roll_balanced()
 
         # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
         participant = p.participant
@@ -76,6 +87,20 @@ class Player(BasePlayer):
                 player.reported_dice = rep_dice
                 # print(player.original_dice, player.reported_dice)
                 return player.original_dice, player.reported_dice
+
+
+    def dice_roll_balanced(player):
+        """
+        Return a pair (original_dice, reported_dice) such that
+        distance = reported_dice - original_dice is *uniform* on {0,1,2,3,4,5}.
+        Within each distance the specific pair is chosen uniformly.
+        """
+        d = random.choice(C.DISTANCES)  # step 1
+        player.original_dice, player.reported_dice = random.choice(
+            C.DISTANCE_OF_PAIRS[d]  # step 2
+        )
+        print(d)
+        return player.original_dice, player.reported_dice
 
 
 
