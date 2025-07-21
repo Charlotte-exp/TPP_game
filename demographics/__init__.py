@@ -9,6 +9,22 @@ doc = """
 Your app description
 """
 
+def get_country_dict(lang, iso2=None):
+    with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        if lang not in reader.fieldnames:
+            raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+
+        country_dict = {
+            row["iso2"]: row[lang]
+            for row in reader
+            if row.get("iso2") and row.get(lang)
+        }
+
+    if iso2:
+        return country_dict.get(iso2)
+    return country_dict
+
 
 class C(BaseConstants):
     NAME_IN_URL = 'demographics'
@@ -22,7 +38,6 @@ def get_country_list(lang):
         reader = csv.DictReader(file, delimiter=';')
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
-        #countries_world = [row["countryname"] for row in reader]
         countries_world = [row[lang] for row in reader if row[lang]]
         countries_world.sort()  # Sort alphabetically
         return countries_world
@@ -32,17 +47,20 @@ def get_country_list(lang):
 class Subsession(BaseSubsession):
     pass
 
-# ''' ONLY WHEN TESTING ON ITS OWN'''
-# def creating_session(subsession):
-#     for player in subsession.get_players():
-#         participant = player.participant
-#         participant.progress = 1
-#         # Only necessary if not using participant field from baseline_trials
-#         participant.current_country = "gb"
-#         participant.current_countryname = "the United Kingdom"
-#
-#         # translation
-#         participant.language = 'en'
+
+def creating_session(subsession):
+    for player in subsession.get_players():
+        participant = player.participant
+
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
+        if 'progress' not in participant.vars:
+            participant.progress = 1
+            participant.decision_page_number = 0
+            participant.current_countryname = get_country_dict(participant.language, participant.current_country)
+
 
 
 class Group(BaseGroup):
@@ -134,12 +152,8 @@ class Player(BasePlayer):
     ## Self - other circle
     self_other = models.IntegerField()
 
-    ## Comment field
-    question_box = models.LongStringField()
-
-    reliability = models.IntegerField(
-        min=0, max=100
-    )
+    # ## Comment field
+    # question_box = models.LongStringField()
 
     # comment_box = models.LongStringField(
     #     blank = True  # Optional: allow it to be empty
@@ -294,7 +308,7 @@ class Circle(Page):
 
 class CommentBox(Page):
     form_model = 'player'
-    form_fields = ['question_box', 'reliability']
+    form_fields = ['question_box']
 
     def vars_for_template(player: Player):
 
@@ -307,9 +321,6 @@ class CommentBox(Page):
             #comment_intro=get_translation('comment_intro', lang),
             question_box=get_translation('question_box', lang),
             #comment_box=get_translation('comment_box', lang),
-            reliability_question=get_translation('reliability_question', lang),
-            very_reliable=get_translation('very_reliable', lang),
-            not_at_all_reliable=get_translation('not_at_all_reliable', lang),
             button_next=get_translation('button_next', lang)
         )
 
@@ -329,7 +340,10 @@ class Payment(Page):
         participant = player.participant
         lang = participant.language
 
+        prolific = player.session.config['config']['prolific']
+
         return dict(
+            prolific = prolific,
             total_pages=player.session.config['total_pages'],
             participation_fee= player.session.config['participation_fee'],
             study_complete=get_translation('study_complete', lang),
@@ -337,6 +351,9 @@ class Payment(Page):
             thank_you_short=get_translation('thank_you_short', lang),
             end_bonus=get_translation('end_bonus', lang),
             redirect_prolific=get_translation('redirect_prolific', lang),
+            debrief=get_translation('debrief', lang),
+            close_window=get_translation('close_window', lang),
+            bonus_payment=get_translation('bonus_payment', lang),
             button_next=get_translation('button_next', lang)
         )
 
@@ -372,6 +389,5 @@ page_sequence = [RelationalMobility,
                  Circle,
                  Ladder,
                  Demographics,
-                 CommentBox,
                  Payment,
                  ProlificLink]

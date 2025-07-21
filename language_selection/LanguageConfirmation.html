@@ -1,0 +1,72 @@
+{{ block title }}
+
+
+    <p style="text-align: center; font-size: 26px; "> {{ language_confirmation|safe }} </p>
+
+
+{{ endblock }}
+
+{{ block content }}
+
+<script>
+
+    // var error3 = "{{ error3 }}";
+    //
+    // /// Function for showing customized error messages
+    // const errorDiv = document.querySelector('.otree-form-errors');
+    //
+    // if (errorDiv) {
+    //     errorDiv.textContent = error3
+    // }
+
+    </script>
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'shared_styles.css' %}"/>
+
+
+        <style>
+            label[for="id_born"] {
+            display: none;
+        }
+        </style>
+
+            <br>
+
+            <p>
+                {{ language_confirmation_question|safe }}
+            </p>
+
+            {{ if lang != "en" }}
+
+                <p style="color: grey;">
+                    {{ language_confirmation_question_en|safe }}
+                </p>
+
+            {{ endif }}
+
+            <br>
+
+            <div style="text-align: center;">
+                <form method="post" style="display: inline-block;">
+                    <button class="btn btn-primary" name="confirm_language" value="no" style="margin-left: 1rem;">
+                        {{ button_go_back | safe }}
+                        {{ if lang != "en" }}
+                            <br> <span style="color: lightgrey;">{{ button_go_back_en | safe }}</span>
+                        {{ endif }}
+                    </button>
+                    <button class="btn btn-primary" name="confirm_language" value="yes">
+                        {{ button_confirm | safe }}
+                        {{ if lang != "en" }}
+                            <br> <span style="color: lightgrey;">{{ button_confirm_en | safe }}</span>
+                        {{ endif }}
+                    </button>
+                </form>
+            </div>
+
+
+
+</div>
+
+
+{{ endblock }}

@@ -28,11 +28,14 @@ def creating_session(subsession):
     for p in subsession.get_players():
         p.dice_roll()
 
-        # ''' ONLY WHEN TESTING APP ON ITS OWN'''
-        # participant = p.participant
-        # participant.progress = 1
-        # participant.decision_page_number = 0
-        # participant.language = 'en'
+        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+        participant = p.participant
+        if 'language' not in participant.vars:
+            participant.language = 'en'
+
+        if 'progress' not in participant.vars:
+            participant.progress = 1
+            participant.decision_page_number = 0
 
 
 class Group(BaseGroup):

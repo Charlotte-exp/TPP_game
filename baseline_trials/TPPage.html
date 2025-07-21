@@ -617,7 +617,7 @@
         {% endif %}
 
         <div style="text-align: center;">
-            {% if "country" in player.treatment %}
+            {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment %}
                 {{ tpp_countries }}
             {% endif %}
         </div>
@@ -764,7 +764,7 @@
         {% endif %}
 
         <div style="text-align: center;">
-            {% if "country" in player.treatment %}
+            {% if "country" in player.treatment or "IN" in player.treatment or "OUT" in player.treatment %}
                 {{ tpp_countries }}
             {% endif %}
         </div>
