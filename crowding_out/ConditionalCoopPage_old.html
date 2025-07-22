@@ -53,7 +53,51 @@
     }
 
 
-
+// ////////////// function for displaying the task, numbers, and labels and managing the click event
+//
+//     document.addEventListener("DOMContentLoaded", function () {
+//     const charitySelect = document.getElementById("charity-select");
+//     const customInput = document.getElementById("custom-charity");
+//     const hiddenInput = document.getElementById("hidden-charity-select");
+//     const charityImage = document.getElementById("charity-image");
+//
+//     const knownCharities = {
+//         "Red Cross / Red Crescent": "padded_red_cross.png",
+//         "Red Cross (local)": image_red_cross_local,
+//         "The Salvation Army": "padded_The_Salvation_Army.png",
+//         "Unicef": "padded_unicef.png",
+//         "World Food Programme": "padded_wfp.png",
+//         "World Health Organization": "padded_who.png",
+//         "World Wildlife Fund": "padded_WWF.png"
+//     };
+//
+//     function updateImage(charityName) {
+//         const fileName = knownCharities[charityName];
+//         if (fileName) {
+//             charityImage.src = `/static/global/charities/${fileName}`;
+//         } else {
+//             charityImage.src = `/static/global/charities/unknown_charity.png`;
+//         }
+//     }
+//
+//     charitySelect.addEventListener("change", function () {
+//         const value = this.value;
+//         if (value === "other") {
+//             customInput.style.display = "inline-block";
+//             hiddenInput.value = "";
+//             charityImage.src = `/static/global/charities/unknown_charity.png`;
+//         } else {
+//             customInput.style.display = "none";
+//             hiddenInput.value = value || "";
+//             updateImage(value);
+//         }
+//     });
+//
+//     customInput.addEventListener("input", function () {
+//         hiddenInput.value = this.value;
+//         updateImage(this.value);
+//     });
+// });
 
 
     $(document).ready(function () {
@@ -64,6 +108,10 @@
             for (let i = 0; i < total_endowment; i++) {
                 $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
             }
+            // // incentive stack
+            // for (let i = 0; i < incentive; i++) {
+            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
+            // }
             // dictator stack static (for static display of role labels in norm Q)
             for (let i = 0; i < receiver_endowment; i++) {
                 $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
@@ -85,58 +133,51 @@
             $('.coin-count-labelR-static').text(`${total_endowment}`);
             $('.coin-count-labelTP3PR-static').text(`${incentive}`);
 
+        // add hover event listener to numbers [number = crowding_decision]
+            $('.proportion').hover(function () {
+                const value = $(this).data('value'); // Get the number value
+                // updateCoinStack(value); // Update the coin stack
+            });
 
-        const hiddenInput = $('#selected-proportion-1');
-        const checkbox = $('#not_applicable1');
-        const errorDiv = $('#error-message');
-
-        // Button selection logic
+        //Actions on click: crowding_decision
         $('.proportion').on('click', function () {
-            // $(this).closest('.proportion-column').find('.proportion').removeClass('selected');
-            $('.proportion, .proportion-fullwidth').removeClass('selected');
+            // Remove 'selected' class from all buttons
+            $(this).closest('.proportion-row').find('.proportion').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
             $(this).addClass('selected');
 
+            // Get the value of the clicked button
             const value = $(this).data('value');
-            hiddenInput.val(value);
 
-            checkbox.prop('checked', false); // Uncheck checkbox if a button is clicked
-            errorDiv.hide();
+            // // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
+            // $(".proportion").each(function () {
+            //     if (parseInt($(this).attr("data-value")) <= value) {
+            //         $(this).addClass("selected");
+            //     }
+            // });
 
-            console.log("hiddenInput.val()", hiddenInput.val())
+            // Update the hidden input field
+            $(`#selected-proportion-1`).val(value);
+
+            // // Update the corresponding punishment value in the array
+            // crowding_decision1_stored = value;
+
+            // // Update the display text the clicked proportion
+            // $('#selected-proportion-display').text('' + value);
+
+            // Debugging
+            console.log(`Updated norm decision`, value);
         });
 
-        // Button selection logic
-        $('.proportion-fullwidth').on('click', function () {
-            // $(this).closest('.proportion-column').find('.proportion').removeClass('selected');
-            $('.proportion, .proportion-fullwidth').removeClass('selected');
-            $(this).addClass('selected');
-
-            const value = $(this).data('value');
-            hiddenInput.val(value);
-
-            checkbox.prop('checked', false); // Uncheck checkbox if a button is clicked
-            errorDiv.hide();
-
-            console.log("hiddenInput.val()", hiddenInput.val())
+        // Submit button click handler
+        $('#submit-button').on('click', function () {
+            // Submit the form
+            $('form').submit();
         });
 
-        // Form validation
-        $('#submit-button').on('click', function (e) {
-            console.log("hiddenInput.val()", hiddenInput.val())
-            const selectedValue = hiddenInput.val();
-
-            if (!selectedValue) {
-                e.preventDefault();
-                document.getElementById("error-message").style.display = "block";
-                errorDiv.show();
-            } else {
-                $('form').submit();  // Optional; may be redundant if button is already a type="submit"
-            }
-        });
 
     });
-
-
 
 </script>
 
@@ -156,13 +197,13 @@
         text-align: center; /* Center-aligns the text */
         display: flex;
         justify-content: center;
-        cursor: pointer;
         align-items: center;
-        font-size: 15px; /* Font size scales with viewport width */
+        font-size: 14px; /* Font size scales with viewport width */
         background-color: #e0e0e0;
-        padding: 10px 12px;
+        padding: 1.5px;
         border: 1.5px solid #000000;
         border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
         display: inline;
@@ -187,55 +228,6 @@
         cursor: not-allowed;
         pointer-events: none; /* Disable interactions */
     }
-
-    .conditional-row-wrapper {
-    display: flex;
-    align-items: stretch;
-    margin-top: 20px;
-    gap: 20px;
-}
-
-/* Left column with buttons */
-.proportion-column {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Right column: sentence that completes all options */
-.proportion-completion {
-    flex: 1;
-    font-size: 16px; /* Font size scales with viewport width */
-    margin-top: -30px; /* Push text up a bit */
-    line-height: 2.8;
-    /*color: #444;*/
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    padding-top: 5px;
-}
-
-.proportion-fullwidth {
-    margin-top: 20px;
-    padding: 10px 12px;
-    border: 1.5px solid #000000;
-    cursor: pointer;
-    border-radius: 6px; /* Slightly rounded corners */
-    text-align: center;
-    background-color: #e0e0e0;
-    font-size: 15px;
-}
-
-.proportion-fullwidth:hover {
-    background-color: #ffcc00;
-}
-
-.proportion-fullwidth.selected {
-    background-color: #ffa500;
-}
-
 
     .coinD {
         width: 20px; /* Coins take the full width of the stack container */
@@ -403,137 +395,6 @@
         left:calc(50% - 85px);
     }
 
-
-
-
-
-    .slider {
-        width: 100%;
-        margin: 20px 0;
-    }
-
-    .slider-container {
-        width: 100%;
-        max-width: 600px;
-        margin: auto;
-    }
-
-    .slider-labels {
-        display: flex;
-        justify-content: space-between;
-        text-align: center;
-        margin-top: -10px; /* optional: pulls labels closer to slider */
-    }
-
-    .slider-labels span {
-        flex: 1;
-        text-align: center;
-        font-size: 16px;
-    }
-
-    @media (max-width: 400px) { /* adjustments for tiny screens */
-        .slider-labels span {
-            font-size: 12px;
-        }
-    }
-
-/* Webkit-based browsers (Chrome, Safari) */
-    input[type=range]::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 8.4px;
-        cursor: pointer;
-        background: white;
-        border-radius: 1px;
-        border: 1px solid lightgrey;
-    }
-
-    /* Firefox */
-    input[type=range]::-moz-range-track {
-        width: 100%;
-        height: 8.4px;
-        cursor: pointer;
-        background: white;
-        border-radius: 1px;
-        border: 1px solid lightgrey;
-    }
-
-    /* Internet Explorer and Edge */
-    input[type=range]::-ms-track {
-        width: 100%;
-        height: 8.4px;
-        cursor: pointer;
-        background: white;
-        border-radius: 1px;
-        border: 1px solid lightgrey;
-        /* Remove default styling for MS track */
-        border-color: transparent;
-        color: transparent;
-        background-color: transparent;
-    }
-
-    /* Style the range input element itself to reset default styling across browsers */
-    input[type=range] {
-        -webkit-appearance: none; /* For Webkit browsers */
-        appearance: none; /* For Firefox and other browsers */
-        width: 100%;
-        height: 8px; /* Adjust the input height */
-        background: transparent; /* Make sure the input background is transparent */
-        border: none; /* Remove default border */
-        margin-top: 5px;
-    }
-
-    /* Hide the thumb initially for Safari/Chrome */
-    .hidden-thumb::-webkit-slider-thumb {
-        opacity: 0;  /* Instead of visibility: hidden */
-        pointer-events: none;  /* Prevent user from interacting */
-    }
-
-    /* Hide the thumb initially for Firefox */
-    .hidden-thumb::-moz-range-thumb {
-        opacity: 0;  /* Instead of visibility: hidden */
-        pointer-events: none;  /* Prevent user from interacting */
-    }
-
-    /* Hide the thumb initially for IE/Edge */
-    .hidden-thumb::-ms-thumb {
-        opacity: 0;  /* Instead of visibility: hidden */
-        pointer-events: none;  /* Prevent user from interacting */
-    }
-
-    /* Style the slider thumb for Safari/Chrome */
-    input[type=range]::-webkit-slider-thumb {
-        border: 0px solid #000000;
-        height: 21px;
-        width: 10px;
-        background: #0d6efd;
-        cursor: pointer;
-        -webkit-appearance: none;
-        margin-top: -7px;
-    }
-
-    /* Style the slider thumb for Firefox */
-    input[type=range]::-moz-range-thumb {
-        border: 0px solid #000000;
-        height: 21px;
-        width: 10px;
-        background: #0d6efd;
-        cursor: pointer;
-        -moz-appearance: none;  /* Firefox-specific appearance reset */
-        margin-top: -7px;
-    }
-
-    /* Style the slider thumb for IE/Edge */
-    input[type=range]::-ms-thumb {
-        border: 0px solid #000000;
-        height: 21px;
-        width: 10px;
-        background: #0d6efd;
-        cursor: pointer;
-        -ms-appearance: none;  /* Edge/IE-specific appearance reset */
-        margin-top: -7px;
-    }
-
-
 </style>
 </head>
 
@@ -579,60 +440,93 @@
          </div>
         <br>
 
-        <p style="text-align: center; ">
-            {{ cond_coop_info|safe }}
-        </p>
+        {% if non_donor %}
+
+            <p style="text-align: center; ">
+                {{ cond_coop_kept|safe }}
+            </p>
+
+        {% else %}
+
+            <p style="text-align: center; ">
+                {{ cond_coop_gave|safe }}
+            </p>
+
+        {% endif %}
 
         <p style="text-align: center; ">
             <b> {{ cond_coop_question|safe }} </b>
         </p>
+        <br>
 
         <input type="hidden" name="cond_coop" id="selected-proportion-1">
 
-<!--        <div class='numbers'>-->
-<!--            <div class="proportion-row" data-input="selected-proportion-1">-->
-<!--                <div class="proportion" data-value="70"> if an <b>overwhelming majority</b> <u> did give </u> (<b>70–100</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="60"> if a <b>large majority</b> <u> did give </u> (<b>60–69</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="50"> if a <b>majority</b> <u> did give </u> (<b>50–59</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="40"> if <b>nearly half</b> <u> did give </u> (<b>40–49</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="30"> if a <b>substantial number</b> <u> did give </u> (<b>30–39</b> out of 100) </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--{{ formfield_errors 'cond_coop' }}-->
 
-        <div class="conditional-row-wrapper">
-            <!-- Left: clickable options -->
-            <div class="proportion-column" data-input="selected-proportion-1">
-                <div class="proportion" data-value="70"> {{ cond_coop_70|safe }} </div>
-                <div class="proportion" data-value="60"> {{ cond_coop_60|safe }}</div>
-                <div class="proportion" data-value="50"> {{ cond_coop_50|safe }}</div>
-                <div class="proportion" data-value="40"> {{ cond_coop_40|safe }}</div>
-                <div class="proportion" data-value="30"> {{ cond_coop_30|safe }}</div>
+        {% if non_donor %}
+
+        <div class='numbers'>
+            <div class="proportion-row" data-input="selected-proportion-1">
+                {% for btn in cond_coop_decision_kept_buttons %}
+                    <div class="proportion" data-value="{{ btn.value }}">
+                        {{ btn.text|safe }}
+                    </div>
+                {% endfor %}
+                <div class="proportion" data-value="0"> {{ kept_unconditionally|safe }} </div>
             </div>
-
-            <!-- Right: continuation of the sentence -->
-            <div class="proportion-completion">
-                <b>{{ cond_coop_completion|safe }} </b>
-            </div>
-        </div>
-
-        <!-- New full-width unconditional option below -->
-        <div class="proportion-fullwidth" data-value="0">
-            {{ unconditional|safe }}
-        </div>
-
-
-        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
-            {{ error1|safe }}
         </div>
 
 
         <br>
 
         <p style="text-align: center; ">
-            {{ cond_coop_incentive|safe }}
+            {{ cond_coop_incentive_kept|safe }}
         </p>
 
+        {% else %}
 
+            <div class='numbers'>
+                <div class="proportion-row" data-input="selected-proportion-1">
+                    {% for btn in cond_coop_decision_gave_buttons %}
+                        <div class="proportion" data-value="{{ btn.value }}">
+                            {{ btn.text|safe }}
+                        </div>
+                    {% endfor %}
+                    <div class="proportion" data-value="0"> {{ gave_unconditionally|safe }} </div>
+                </div>
+            </div>
+
+        <br>
+
+        <p style="text-align: center; ">
+            {{ cond_coop_incentive_gave|safe }}
+        </p>
+
+        {% endif %}
+
+        <br>
+
+<!--        {% if non_donor %}-->
+
+<!--        <label for="charity-select" style=""> We will donate to a randomly selected charity unless you choose a preferred one:</label>-->
+<!--        <select id="charity-select" style="">-->
+<!--            <option value="" selected >Randomly selected charity</option>-->
+<!--            <option value="Red Cross / Red Crescent">Red Cross / Red Crescent (International)</option>-->
+<!--            <option value="Red Cross (local)">{{local_red_cross}}</option>-->
+<!--            <option value="The Salvation Army">The Salvation Army</option>-->
+<!--            <option value="Unicef">Unicef</option>-->
+<!--            <option value="World Food Programme">World Food Programme</option>-->
+<!--            <option value="World Health Organization">World Health Organization</option>-->
+<!--            <option value="World Wildlife Fund">World Wildlife Fund</option>-->
+<!--            <option value="other">Other (write your own)</option>-->
+<!--        </select>-->
+
+<!--        <input type="text" id="custom-charity" placeholder="Enter your charity" style="font-size: 14px; display:none;" />-->
+<!--        <input type="hidden" name="charity_select" id="hidden-charity-select" />-->
+
+<!--        {% endif %}-->
+
+    </div>
     <br>
 
     <div style="display: flex; justify-content: flex-end">
@@ -644,8 +538,6 @@
                        padding: 4px 12px;" type="button" id="submit-button">
             {{ button_next|safe }}
         </button>
-    </div>
-
     </div>
 
 

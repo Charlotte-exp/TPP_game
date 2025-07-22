@@ -53,6 +53,142 @@
     }
 
 
+/////////  Slider /////////
+
+   document.addEventListener("DOMContentLoaded", function () {
+    const sliders = [
+        {
+            sliderId: "slider1",
+            checkId: "check_slider1",
+            checkboxId: "not_applicable1"
+        },
+    ];
+
+    sliders.forEach(({ sliderId, checkId, checkboxId }) => {
+        const slider = document.getElementById(sliderId);
+        const checkSlider = document.getElementById(checkId);
+        const checkbox = document.getElementById(checkboxId);
+
+        if (!slider || !checkSlider || !checkbox) {
+            console.warn(`Elements missing for slider group: ${sliderId}, ${checkId}, ${checkboxId}`);
+            return;
+        }
+
+        slider.value = "50";         // Valid value required
+        checkSlider.value = "0";     // Not moved
+        slider.classList.remove("hidden-thumb");
+
+        // Set initial value of display
+        const templateText = "{{ cond_coop_decision|safe }}";
+        console.log("templateText", templateText)
+        const proportion = slider.value;  // or whatever value you want to insert
+        const finalText = templateText.replace("{proportion}", proportion);
+        document.getElementById("unconditional-text").innerHTML = finalText;
+
+        // Show value when slider is moved
+        slider.addEventListener("input", function () {
+            if (!checkbox.checked) {
+                checkSlider.value = "1";
+                this.classList.remove("hidden-thumb");
+                //slider.classList.remove("hidden-thumb");
+                //customErrorDiv.style.display = "none";
+                hideError();
+
+                //Update display
+                const templateText = "{{ cond_coop_decision|safe }}";  // use `escapejs` to avoid JS syntax issues
+                const proportion = slider.value;  // or whatever value you want to insert
+                const finalText = templateText.replace("{proportion}", proportion);
+                document.getElementById("unconditional-text").innerHTML = finalText;
+            }
+
+            // Uncheck the checkbox if slider is used
+            checkbox.checked = false;
+        });
+
+        // Handle "Not applicable"
+        checkbox.addEventListener("change", function () {
+            if (this.checked) {
+                slider.disabled = false; // Keep enabled so value is submitted!
+                slider.value = "101";    // Sentinel value
+                checkSlider.value = "1"; // Considered 'done'
+                slider.classList.add("hidden-thumb");
+                hideError();
+                document.getElementById("unconditional-text").innerHTML = ""; // Update display
+            } else {
+                slider.disabled = false;
+                slider.value = "50";
+                checkSlider.value = "0";
+                slider.classList.remove("hidden-thumb");
+                const templateText = "{{ cond_coop_decision|safe }}";  // use `escapejs` to avoid JS syntax issues
+                const proportion = slider.value;  // or whatever value you want to insert
+                const finalText = templateText.replace("{proportion}", proportion);
+                document.getElementById("unconditional-text").innerHTML = finalText;
+            }
+        });
+
+
+    });
+
+
+
+
+
+    // Combined form validation
+    $('#submit-button').on('click', function (e) {
+        const allValid = sliders.every(({ checkId, checkboxId }) => {
+            const sliderMoved = document.getElementById(checkId)?.value === "1";
+            const checkboxChecked = document.getElementById(checkboxId)?.checked === true;
+            return sliderMoved || checkboxChecked;
+        });
+
+        if (!allValid) {
+            e.preventDefault();
+            showError();
+        } else {
+            $('form').submit();  // Optional; may be redundant if button is already a type="submit"
+        }
+    });
+
+
+        function showError() {
+            document.getElementById("error-message").style.display = "block";
+        }
+
+        function hideError() {
+            document.getElementById("error-message").style.display = "none";
+        }
+
+
+       // // Validate all sliders before form submission
+       //  // Ensure you target the correct form if there are multiple
+       //  const form = document.querySelector('form'); // More specific if needed e.g., form with id='form'
+       //  if (form) {
+       //       form.addEventListener("submit", function (event) {
+       //           const checkInput = document.getElementById(checkId);
+       //           console.log("checkinput:", checkInput);
+       //          // Check if ALL sliders defined in the 'sliders' array have been moved
+       //          const allMoved = sliders.every(({ checkId }) => {
+       //               const checkInput = document.getElementById(checkId);
+       //               // Make sure the checkInput exists before reading its value
+       //               return checkInput && checkInput.value === "1";
+       //           });
+       //
+       //          if (!allMoved) {
+       //              event.preventDefault(); // Stop form submission
+       //              customErrorDiv.style.display = "block"; // Show custom error
+       //          } else {
+       //              customErrorDiv.style.display = "none"; // Hide error if validation passes
+       //          }
+       //      });
+       //  } else {
+       //      console.error("Form element not found for attaching submit listener.");
+       //  }
+
+
+
+
+
+});
 
 
 
@@ -64,6 +200,10 @@
             for (let i = 0; i < total_endowment; i++) {
                 $(`.coinstackD`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
             }
+            // // incentive stack
+            // for (let i = 0; i < incentive; i++) {
+            //     $(`.coinstackTP3PR`).append('<div class="coinown3PR" style="left:calc(50% - 100px)"></div>');
+            // }
             // dictator stack static (for static display of role labels in norm Q)
             for (let i = 0; i < receiver_endowment; i++) {
                 $(`.coinstackD-static`).append('<div class="coinD" style="left:calc(50% - 75px)"></div>');
@@ -85,53 +225,41 @@
             $('.coin-count-labelR-static').text(`${total_endowment}`);
             $('.coin-count-labelTP3PR-static').text(`${incentive}`);
 
+        // add hover event listener to numbers [number = crowding_decision]
+            $('.proportion').hover(function () {
+                const value = $(this).data('value'); // Get the number value
+                // updateCoinStack(value); // Update the coin stack
+            });
 
-        const hiddenInput = $('#selected-proportion-1');
-        const checkbox = $('#not_applicable1');
-        const errorDiv = $('#error-message');
-
-        // Button selection logic
+        //Actions on click: crowding_decision
         $('.proportion').on('click', function () {
-            // $(this).closest('.proportion-column').find('.proportion').removeClass('selected');
-            $('.proportion, .proportion-fullwidth').removeClass('selected');
+            // Remove 'selected' class from all buttons
+            $(this).closest('.proportion-row').find('.proportion').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
             $(this).addClass('selected');
 
+            // Get the value of the clicked button
             const value = $(this).data('value');
-            hiddenInput.val(value);
 
-            checkbox.prop('checked', false); // Uncheck checkbox if a button is clicked
-            errorDiv.hide();
+            // // Add 'selected' class to all buttons with value <= selectedValue (new for universal norm)
+            // $(".proportion").each(function () {
+            //     if (parseInt($(this).attr("data-value")) <= value) {
+            //         $(this).addClass("selected");
+            //     }
+            // });
 
-            console.log("hiddenInput.val()", hiddenInput.val())
-        });
+            // Update the hidden input field
+            $(`#selected-proportion-1`).val(value);
 
-        // Button selection logic
-        $('.proportion-fullwidth').on('click', function () {
-            // $(this).closest('.proportion-column').find('.proportion').removeClass('selected');
-            $('.proportion, .proportion-fullwidth').removeClass('selected');
-            $(this).addClass('selected');
+            // // Update the corresponding punishment value in the array
+            // crowding_decision1_stored = value;
 
-            const value = $(this).data('value');
-            hiddenInput.val(value);
+            // // Update the display text the clicked proportion
+            // $('#selected-proportion-display').text('' + value);
 
-            checkbox.prop('checked', false); // Uncheck checkbox if a button is clicked
-            errorDiv.hide();
-
-            console.log("hiddenInput.val()", hiddenInput.val())
-        });
-
-        // Form validation
-        $('#submit-button').on('click', function (e) {
-            console.log("hiddenInput.val()", hiddenInput.val())
-            const selectedValue = hiddenInput.val();
-
-            if (!selectedValue) {
-                e.preventDefault();
-                document.getElementById("error-message").style.display = "block";
-                errorDiv.show();
-            } else {
-                $('form').submit();  // Optional; may be redundant if button is already a type="submit"
-            }
+            // Debugging
+            console.log(`Updated norm decision`, value);
         });
 
     });
@@ -156,13 +284,13 @@
         text-align: center; /* Center-aligns the text */
         display: flex;
         justify-content: center;
-        cursor: pointer;
         align-items: center;
-        font-size: 15px; /* Font size scales with viewport width */
+        font-size: 14px; /* Font size scales with viewport width */
         background-color: #e0e0e0;
-        padding: 10px 12px;
+        padding: 1.5px;
         border: 1.5px solid #000000;
         border-radius: 6px; /* Slightly rounded corners */
+        cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
         display: inline;
@@ -187,55 +315,6 @@
         cursor: not-allowed;
         pointer-events: none; /* Disable interactions */
     }
-
-    .conditional-row-wrapper {
-    display: flex;
-    align-items: stretch;
-    margin-top: 20px;
-    gap: 20px;
-}
-
-/* Left column with buttons */
-.proportion-column {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Right column: sentence that completes all options */
-.proportion-completion {
-    flex: 1;
-    font-size: 16px; /* Font size scales with viewport width */
-    margin-top: -30px; /* Push text up a bit */
-    line-height: 2.8;
-    /*color: #444;*/
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    padding-top: 5px;
-}
-
-.proportion-fullwidth {
-    margin-top: 20px;
-    padding: 10px 12px;
-    border: 1.5px solid #000000;
-    cursor: pointer;
-    border-radius: 6px; /* Slightly rounded corners */
-    text-align: center;
-    background-color: #e0e0e0;
-    font-size: 15px;
-}
-
-.proportion-fullwidth:hover {
-    background-color: #ffcc00;
-}
-
-.proportion-fullwidth.selected {
-    background-color: #ffa500;
-}
-
 
     .coinD {
         width: 20px; /* Coins take the full width of the stack container */
@@ -587,44 +666,33 @@
             <b> {{ cond_coop_question|safe }} </b>
         </p>
 
-        <input type="hidden" name="cond_coop" id="selected-proportion-1">
+        <br>
 
-<!--        <div class='numbers'>-->
-<!--            <div class="proportion-row" data-input="selected-proportion-1">-->
-<!--                <div class="proportion" data-value="70"> if an <b>overwhelming majority</b> <u> did give </u> (<b>70–100</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="60"> if a <b>large majority</b> <u> did give </u> (<b>60–69</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="50"> if a <b>majority</b> <u> did give </u> (<b>50–59</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="40"> if <b>nearly half</b> <u> did give </u> (<b>40–49</b> out of 100) </div>-->
-<!--                <div class="proportion" data-value="30"> if a <b>substantial number</b> <u> did give </u> (<b>30–39</b> out of 100) </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="slider-container">
+            <input type="hidden" name="slider1_moved" id="check_slider1" value="0">
+            <input type="range" name="cond_coop_slider" id="slider1" min="10" max="90" step="10" value="50" class="slider hidden-thumb">
 
-        <div class="conditional-row-wrapper">
-            <!-- Left: clickable options -->
-            <div class="proportion-column" data-input="selected-proportion-1">
-                <div class="proportion" data-value="70"> {{ cond_coop_70|safe }} </div>
-                <div class="proportion" data-value="60"> {{ cond_coop_60|safe }}</div>
-                <div class="proportion" data-value="50"> {{ cond_coop_50|safe }}</div>
-                <div class="proportion" data-value="40"> {{ cond_coop_40|safe }}</div>
-                <div class="proportion" data-value="30"> {{ cond_coop_30|safe }}</div>
+
+
+            <p style="text-align: center;">
+                <span id="unconditional-text"></span>
+            </p>
+
+
+            <div style="text-align: center; margin-top: 10px;">
+                <label>
+                    <input type="checkbox" id="not_applicable1" name="not_applicable1">
+                    {{ unconditional|safe }}
+                </label>
             </div>
 
-            <!-- Right: continuation of the sentence -->
-            <div class="proportion-completion">
-                <b>{{ cond_coop_completion|safe }} </b>
+
+             <!-- Error message -->
+            <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
+                Please move the slider or check "Not applicable".
             </div>
+
         </div>
-
-        <!-- New full-width unconditional option below -->
-        <div class="proportion-fullwidth" data-value="0">
-            {{ unconditional|safe }}
-        </div>
-
-
-        <div id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;">
-            {{ error1|safe }}
-        </div>
-
 
         <br>
 

@@ -160,6 +160,10 @@ class Player(BasePlayer):
     #     widget=widgets.RadioSelect,
     #     # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     # )
+    cond_coop_slider = models.IntegerField(
+        min=0,
+        max=101,
+    )
 
 
 # PAGES
@@ -309,6 +313,7 @@ class DescriptiveNormPage(Page):
         participant.progress += 1
         participant.decision_page_number += 1
 
+
 class ConditionalCoopPage(Page):
 
     # @staticmethod
@@ -318,6 +323,8 @@ class ConditionalCoopPage(Page):
     form_model = 'player'
 
     def get_form_fields(player: Player):
+        # return ['cond_coop', 'cond_coop_slider']
+        #return ['cond_coop_slider']
         return ['cond_coop']
 
     # form_fields = ["cond_coop"]
@@ -364,6 +371,30 @@ class ConditionalCoopPage(Page):
         else:
             image = 'global/treatments/crowding.png'
 
+        if non_donor:
+            unconditional = get_translation('kept_unconditionally', lang)
+            cond_coop_decision = get_translation('cond_coop_decision_kept', lang)
+            cond_coop_info = get_translation('cond_coop_kept', lang)
+            cond_coop_incentive = get_translation('cond_coop_incentive_kept', lang)
+            cond_coop_70 = get_translation('cond_coop_70_kept', lang)
+            cond_coop_60 = get_translation('cond_coop_60_kept', lang)
+            cond_coop_50 = get_translation('cond_coop_50_kept', lang)
+            cond_coop_40 = get_translation('cond_coop_40_kept', lang)
+            cond_coop_30 = get_translation('cond_coop_30_kept', lang)
+            cond_coop_completion = get_translation('cond_coop_completion_kept', lang)
+
+        else:
+            unconditional = get_translation('gave_unconditionally', lang)
+            cond_coop_decision = get_translation('cond_coop_decision_gave', lang)
+            cond_coop_info = get_translation('cond_coop_gave', lang)
+            cond_coop_incentive = get_translation('cond_coop_incentive_gave', lang)
+            cond_coop_70 = get_translation('cond_coop_70_gave', lang)
+            cond_coop_60 = get_translation('cond_coop_60_gave', lang)
+            cond_coop_50 = get_translation('cond_coop_50_gave', lang)
+            cond_coop_40 = get_translation('cond_coop_40_gave', lang)
+            cond_coop_30 = get_translation('cond_coop_30_gave', lang)
+            cond_coop_completion = get_translation('cond_coop_completion_gave', lang)
+
 
         return dict(
             non_donor = non_donor,
@@ -374,15 +405,25 @@ class ConditionalCoopPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            cond_coop_kept=get_translation('cond_coop_kept', lang),
-            cond_coop_gave=get_translation('cond_coop_gave', lang),
+            cond_coop_70=cond_coop_70,
+            cond_coop_60=cond_coop_60,
+            cond_coop_50=cond_coop_50,
+            cond_coop_40=cond_coop_40,
+            cond_coop_30=cond_coop_30,
+            cond_coop_completion=cond_coop_completion,
+            # cond_coop_kept=get_translation('cond_coop_kept', lang),
+            # cond_coop_gave=get_translation('cond_coop_gave', lang),
+            cond_coop_info = cond_coop_info,
             cond_coop_question=get_translation('cond_coop_question', lang, current_countryname=current_countryname),
-            cond_coop_incentive_gave=get_translation('cond_coop_incentive_gave', lang),
-            cond_coop_incentive_kept=get_translation('cond_coop_incentive_kept', lang),
-            gave_unconditionally=get_translation('gave_unconditionally', lang),
-            kept_unconditionally=get_translation('kept_unconditionally', lang),
-            cond_coop_decision_kept_buttons=cond_coop_decision_kept_buttons,
-            cond_coop_decision_gave_buttons=cond_coop_decision_gave_buttons,
+            # cond_coop_incentive_gave=get_translation('cond_coop_incentive_gave', lang),
+            # cond_coop_incentive_kept=get_translation('cond_coop_incentive_kept', lang),
+            cond_coop_incentive = cond_coop_incentive,
+            # gave_unconditionally=get_translation('gave_unconditionally', lang),
+            # kept_unconditionally=get_translation('kept_unconditionally', lang),
+            cond_coop_decision = cond_coop_decision,
+            unconditional = unconditional,
+            # cond_coop_decision_kept_buttons=cond_coop_decision_kept_buttons,
+            # cond_coop_decision_gave_buttons=cond_coop_decision_gave_buttons,
             error1=get_translation('error1', lang),
             person_a=get_translation('person_a', lang),
             button_charity=get_translation('button_charity', lang),
