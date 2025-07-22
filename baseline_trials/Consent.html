@@ -41,7 +41,11 @@
 
       <h6><u>{{ consent_payment_title }}</u></h6>
 
-      {{ consent_payment|safe }}
+      {{ if C.prolific == True }}
+      {{ consent_payment_prolific|safe }}
+      {{ else }}
+      {{ consent_payment_toluna|safe }}
+      {{ endif }}
 
       <h6><u>{{ consent_rights_title }}</u></h6>
 

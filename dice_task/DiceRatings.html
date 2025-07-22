@@ -145,12 +145,13 @@
         .slider-labels {
             display: flex;
             justify-content: space-between;
-            margin-top: -5px; /* optional: pulls labels closer to slider */
+            margin-top: 0px; /* optional: pulls labels closer to slider */
             padding: 0;
+            text-align: center;
         }
 
         .slider-labels span {
-            font-size: 16px;
+            font-size: 14px;
             white-space: nowrap;
         }
 
@@ -449,8 +450,8 @@
             </span>
 
             <div class="slider-labels">
-                <span>{{ dice_not_trust }}</span>
-                <span>{{ dice_very_trust }}</span>
+                <span>{{ very_untrustworthy }}</span>
+                <span>{{ very_trustworthy }}</span>
             </div>
         </div>
 
@@ -473,10 +474,6 @@
 
             <div class="slider-labels">
                 <span>{{ very_unlikable|safe }}</span>
-                <span>{{ unlikable|safe }}</span>
-                <span>{{ slightly_unlikable|safe }}</span>
-                <span>{{ slightly_likable|safe }}</span>
-                <span>{{ likable|safe }}</span>
                 <span>{{ very_likable|safe }}</span>
             </div>
         </div>
