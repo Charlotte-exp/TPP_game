@@ -110,8 +110,8 @@ class LanguageSelection(Page):
             current_country = current_country,
             language_options=zip(possible_lang, possible_lang_names),
             welcome=get_translation('consent_title', default_language),
-            language_selection_en = "Please select your language",
-            language_select_en="Select language",
+            language_selection = get_translation('language_selection', default_language),
+            language_select=get_translation('language_selection_placeholder', default_language),
             button_next=get_translation('button_next', default_language),
             error3=get_translation('error3', default_language),
         )

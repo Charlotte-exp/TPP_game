@@ -98,7 +98,7 @@ for code, name in zip(COUNTRIES, COUNTRYNAMES):
             ],
             num_demo_participants=6,
             use_browser_bots=False,
-            config=dict(CURRENT_COUNTRY=code),
+            config=dict(CURRENT_COUNTRY=code,prolific = False),
         )
     )
 

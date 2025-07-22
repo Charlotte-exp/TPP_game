@@ -362,6 +362,9 @@ class Consent(Page):
         participant = player.participant
         lang = participant.language
 
+        # Load countrynames in selected language
+        participant.current_countryname = get_country_dict(lang, participant.current_country)
+
         return dict(
             consent_title=get_translation('consent_title', lang),
             consent_thank_you=get_translation('consent_thank_you', lang),
@@ -404,7 +407,8 @@ class Introduction(Page):
             total_pages=player.session.config['total_pages'],
             intro_title=get_translation('intro_title', lang),
             intro_pairing=get_translation('intro_pairing', lang),
-            intro_toluna=get_translation('intro_toluna', lang),
+            intro_toluna=get_translation('intro_toluna', lang,
+                                                   current_country=participant.current_countryname),
             intro_pairing_prolific=get_translation('intro_pairing', lang),
             intro_prolific=get_translation('intro_prolific', lang),
             intro_conversion=get_translation('intro_conversion', lang,
@@ -439,9 +443,6 @@ class Instructions(Page):
 
         participant = player.participant
         lang = participant.language
-
-        # Load countrynames in selected language
-        participant.current_countryname = get_country_dict(lang, participant.current_country)
 
         if "IN" in player.treatment or "OUT" in player.treatment or "country" in player.treatment or "universal norm" in player.treatment:
             random_partner_country_IN_as_dic = random.choice([True, False])

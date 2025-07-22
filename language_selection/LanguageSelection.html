@@ -32,10 +32,10 @@
         <div class="card-body">
 
             <div style="margin-bottom: 1rem;">
-                <label>{{language_selection_en}}</label><br/>
+                <label>{{language_selection}}</label><br/>
 
                 <select name="lang" class="form-control">
-                    <option value="" disabled selected>{{language_select_en}}</option>
+                    <option value="" disabled selected>{{language_select}}</option>
                     {% for code, name in language_options %}
                         <option value="{{ code }}">{{ name }}</option>
                     {% endfor %}
