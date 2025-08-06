@@ -71,7 +71,7 @@ class Player(BasePlayer):
 
     ## Demographics
     age = models.IntegerField(
-        min=0, max=100
+        min=10, max=100
     )
     gender = models.StringField()
 
