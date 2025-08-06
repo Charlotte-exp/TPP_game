@@ -226,7 +226,7 @@ class CrowdingInOutPage(Page):
             crowding_norm=get_translation('crowding_norm', lang, current_countryname=current_countryname),
             crowding_norm_bonus=get_translation('crowding_norm_bonus', lang, current_countryname=current_countryname, ratings_extra_points_block2=C.ratings_extra_points_block2),
             crowding_decision_give=get_translation('crowding_decision', lang, choice=choice_give),
-            crowding_decision_keep=get_translation('crowding_decision', lang, choice=choice_keep),
+            crowding_decision_keep=get_translation('crowding_decision_keep', lang, choice=choice_give),
             error_all_sliders =get_translation('error_all_sliders', lang),
             crowding_altruistic=get_translation('crowding_altruistic', lang),
             crowding_likable=get_translation('crowding_likable', lang),

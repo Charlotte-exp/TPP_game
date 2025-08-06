@@ -413,6 +413,7 @@ class Introduction(Page):
             intro_prolific=get_translation('intro_prolific', lang),
             intro_conversion=get_translation('intro_conversion', lang,
                                              conversion=player.session.config['real_world_currency_per_point']),
+            intro_blocks=get_translation('intro_blocks', lang),
             intro_block1_title=get_translation('block_title', lang, block_num=1),
             intro_block1=get_translation('intro_block1', lang),
             intro_block2_title=get_translation('block_title', lang, block_num=2),
