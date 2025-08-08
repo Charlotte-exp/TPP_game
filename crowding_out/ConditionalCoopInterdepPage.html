@@ -44,6 +44,7 @@
     receiver_endowment = {{ receiver_endowment }}
     incentive = {{ incentive }}
 
+
     /// Function for showing customized error messages
     const errorDiv = document.querySelector('.otree-form-errors');
 
@@ -586,11 +587,19 @@
             {{ cond_coop_group|safe }}
         </p>
 
+<!--        <p style="text-align: center; ">-->
+<!--            {{ cond_coop_interdependent_explanation1|safe }}-->
+<!--        </p>-->
+
+        <p style="text-align: center; ">
+            {{ cond_coop_interdependent_explanation2|safe }}
+        </p>
+
         <p style="text-align: center; ">
             {{ cond_coop_question|safe }}
         </p>
 
-        <input type="hidden" name="cond_coop" id="selected-proportion-1">
+        <input type="hidden" name="cond_coop_interdep" id="selected-proportion-1">
 
         <div class="conditional-row-wrapper">
             <!-- Left: clickable options -->

@@ -13,7 +13,7 @@ Your app description
 
 def get_country_dict(lang, iso2=None):
     with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=';')
+        reader = csv.DictReader(csvfile, delimiter=',')
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
 
@@ -154,6 +154,12 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         # error_messages={'required': 'You must select an option before continuing.'}, # does not display
     )
+    cond_coop_interdep = models.IntegerField(
+        initial=999,
+        choices=[(i, f'value {i}') for i in range(1000)],
+        widget=widgets.RadioSelect,
+        # error_messages={'required': 'You must select an option before continuing.'}, # does not display
+    )
     # cond_coop_control = models.IntegerField(
     #     initial=999,
     #     choices=[(i, f'value {i}') for i in range(1000)],
@@ -222,11 +228,11 @@ class CrowdingInOutPage(Page):
             crowding_intro=get_translation('crowding_intro', lang),
             crowding_incentive=get_translation('crowding_incentive', lang),
             crowding_intro2=get_translation('crowding_intro2', lang),
-            crowding_norm_incentive =get_translation('crowding_norm_incentive', lang, current_countryname=current_countryname),
-            crowding_norm=get_translation('crowding_norm', lang, current_countryname=current_countryname),
-            crowding_norm_bonus=get_translation('crowding_norm_bonus', lang, current_countryname=current_countryname, ratings_extra_points_block2=C.ratings_extra_points_block2),
+            crowding_norm_incentive =get_translation('crowding_norm_incentive', lang, in_current_countryname=current_countryname),
+            crowding_norm=get_translation('crowding_norm', lang, in_current_countryname=current_countryname),
+            crowding_norm_bonus=get_translation('crowding_norm_bonus', lang, in_current_countryname=current_countryname, ratings_extra_points_block2=C.ratings_extra_points_block2),
             crowding_decision_give=get_translation('crowding_decision', lang, choice=choice_give),
-            crowding_decision_keep=get_translation('crowding_decision', lang, choice=choice_keep),
+            crowding_decision_keep=get_translation('crowding_decision_keep', lang, choice=choice_give),
             error_all_sliders =get_translation('error_all_sliders', lang),
             crowding_altruistic=get_translation('crowding_altruistic', lang),
             crowding_likable=get_translation('crowding_likable', lang),
@@ -294,7 +300,7 @@ class DescriptiveNormPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            descr_question=get_translation('descr_question', lang, current_countryname=current_countryname),
+            descr_question=get_translation('descr_question', lang, in_current_countryname=current_countryname),
             descr_incentive=get_translation('block2_norm_incentive', lang,
                                                  ratings_extra_points=C.ratings_extra_points_block2),
             error1=get_translation('error1', lang),
@@ -316,18 +322,10 @@ class DescriptiveNormPage(Page):
 
 class ConditionalCoopPage(Page):
 
-    # @staticmethod
-    # def is_displayed(player: Player):
-    #     return player.crowding_decision == 0
-
     form_model = 'player'
 
     def get_form_fields(player: Player):
-        # return ['cond_coop', 'cond_coop_slider']
-        #return ['cond_coop_slider']
         return ['cond_coop']
-
-    # form_fields = ["cond_coop"]
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -339,32 +337,11 @@ class ConditionalCoopPage(Page):
 
         current_countryname = player.participant.current_countryname
 
-        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
-        # print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
-
         total_endowment = 4
         receiver_endowment = 0
         incentive = 2
 
         treatment_incentive = player.participant.treatment_incentive #incentive: true or false
-
-        ## Make buttons for different of proportions
-
-        # 1. Create proportions and empty lists to hold buttons
-        proportions_list = [80, 60, 40, 20]
-        cond_coop_decision_kept_buttons = []
-        cond_coop_decision_gave_buttons = []
-
-        # 2. Loop through the proportions to build the buttons
-        for proportion in proportions_list:
-            cond_coop_decision_kept_buttons.append({
-                'value': proportion,
-                'text': get_translation('cond_coop_decision_kept', lang, proportion=proportion)
-            })
-            cond_coop_decision_gave_buttons.append({
-                'value': proportion,
-                'text': get_translation('cond_coop_decision_gave', lang, proportion=proportion)
-            })
 
         if treatment_incentive:
             image = 'global/treatments/crowding_incentive.png'
@@ -373,30 +350,21 @@ class ConditionalCoopPage(Page):
 
         if non_donor:
             unconditional = get_translation('kept_unconditionally', lang)
-            cond_coop_decision = get_translation('cond_coop_decision_kept', lang)
-            cond_coop_info = get_translation('cond_coop_kept', lang)
+            cond_coop_info = get_translation('cond_coop_indiv_kept', lang)
             cond_coop_incentive = get_translation('cond_coop_incentive_kept', lang)
-            cond_coop_70 = get_translation('cond_coop_70_kept', lang)
-            cond_coop_60 = get_translation('cond_coop_60_kept', lang)
-            cond_coop_50 = get_translation('cond_coop_50_kept', lang)
-            cond_coop_40 = get_translation('cond_coop_40_kept', lang)
-            cond_coop_30 = get_translation('cond_coop_30_kept', lang)
             cond_coop_completion = get_translation('cond_coop_completion_kept', lang)
+            cond_coop_action = get_translation('cond_coop_donated', lang)
 
         else:
             unconditional = get_translation('gave_unconditionally', lang)
-            cond_coop_decision = get_translation('cond_coop_decision_gave', lang)
-            cond_coop_info = get_translation('cond_coop_gave', lang)
+            cond_coop_info = get_translation('cond_coop_indiv_gave', lang)
             cond_coop_incentive = get_translation('cond_coop_incentive_gave', lang)
-            cond_coop_70 = get_translation('cond_coop_70_gave', lang)
-            cond_coop_60 = get_translation('cond_coop_60_gave', lang)
-            cond_coop_50 = get_translation('cond_coop_50_gave', lang)
-            cond_coop_40 = get_translation('cond_coop_40_gave', lang)
-            cond_coop_30 = get_translation('cond_coop_30_gave', lang)
             cond_coop_completion = get_translation('cond_coop_completion_gave', lang)
+            cond_coop_action = get_translation('cond_coop_kept', lang)
 
 
         return dict(
+            current_country=current_countryname,
             non_donor = non_donor,
             cond_coop=player.cond_coop,
             charity_select = player.field_maybe_none('charity_select'),
@@ -405,25 +373,18 @@ class ConditionalCoopPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            cond_coop_70=cond_coop_70,
-            cond_coop_60=cond_coop_60,
-            cond_coop_50=cond_coop_50,
-            cond_coop_40=cond_coop_40,
-            cond_coop_30=cond_coop_30,
+            cond_coop_70=get_translation('cond_coop_70', lang),
+            cond_coop_60=get_translation('cond_coop_60', lang),
+            cond_coop_50=get_translation('cond_coop_50', lang),
+            cond_coop_40=get_translation('cond_coop_40', lang),
+            cond_coop_30=get_translation('cond_coop_30', lang),
+            cond_coop_group=get_translation('cond_coop_group_independent', lang, in_current_countryname=current_countryname),
             cond_coop_completion=cond_coop_completion,
-            # cond_coop_kept=get_translation('cond_coop_kept', lang),
-            # cond_coop_gave=get_translation('cond_coop_gave', lang),
             cond_coop_info = cond_coop_info,
-            cond_coop_question=get_translation('cond_coop_question', lang, current_countryname=current_countryname),
-            # cond_coop_incentive_gave=get_translation('cond_coop_incentive_gave', lang),
-            # cond_coop_incentive_kept=get_translation('cond_coop_incentive_kept', lang),
+            cond_coop_question=get_translation('cond_coop_question_independent', lang),
+            cond_coop_action=cond_coop_action,
             cond_coop_incentive = cond_coop_incentive,
-            # gave_unconditionally=get_translation('gave_unconditionally', lang),
-            # kept_unconditionally=get_translation('kept_unconditionally', lang),
-            cond_coop_decision = cond_coop_decision,
             unconditional = unconditional,
-            # cond_coop_decision_kept_buttons=cond_coop_decision_kept_buttons,
-            # cond_coop_decision_gave_buttons=cond_coop_decision_gave_buttons,
             error1=get_translation('error1', lang),
             person_a=get_translation('person_a', lang),
             button_charity=get_translation('button_charity', lang),
@@ -431,9 +392,6 @@ class ConditionalCoopPage(Page):
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('button_block', lang),
-            local_red_cross=local_red_cross,
-            image_red_cross_local=image_red_cross_local,
-            current_country=current_countryname,
             total_pages=player.session.config['total_pages'],
         )
 
@@ -443,7 +401,92 @@ class ConditionalCoopPage(Page):
         participant.decision_page_number += 1
 
 
+class ConditionalCoopInterdepPage(Page):
+
+    form_model = 'player'
+
+    def get_form_fields(player: Player):
+        return ['cond_coop_interdep']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+
+        participant = player.participant
+        lang = participant.language
+
+        non_donor = player.crowding_decision == 0
+
+        current_countryname = player.participant.current_countryname
+
+        total_endowment = 4
+        receiver_endowment = 0
+        incentive = 2
+
+        treatment_incentive = player.participant.treatment_incentive #incentive: true or false
+
+        if treatment_incentive:
+            image = 'global/treatments/crowding_incentive.png'
+        else:
+            image = 'global/treatments/crowding.png'
+
+        if non_donor:
+            unconditional = get_translation('kept_unconditionally', lang)
+            cond_coop_info = get_translation('cond_coop_indiv_kept', lang)
+            cond_coop_incentive = get_translation('cond_coop_incentive_kept', lang)
+            cond_coop_completion = get_translation('cond_coop_completion_kept', lang)
+            cond_coop_action = get_translation('cond_coop_chooses_to_donate', lang)
+
+        else:
+            unconditional = get_translation('gave_unconditionally', lang)
+            cond_coop_info = get_translation('cond_coop_indiv_gave', lang)
+            cond_coop_incentive = get_translation('cond_coop_incentive_gave', lang)
+            cond_coop_completion = get_translation('cond_coop_completion_gave', lang)
+            cond_coop_action = get_translation('cond_coop_chooses_to_keep', lang)
+
+
+        return dict(
+            current_country=current_countryname,
+            non_donor = non_donor,
+            cond_coop_interdep=player.cond_coop_interdep,
+            charity_select = player.field_maybe_none('charity_select'),
+            treatment_incentive=treatment_incentive,
+            total_endowment = total_endowment,
+            incentive = incentive,
+            receiver_endowment = receiver_endowment,
+            image=image,
+            cond_coop_70=get_translation('cond_coop_70', lang),
+            cond_coop_60=get_translation('cond_coop_60', lang),
+            cond_coop_50=get_translation('cond_coop_50', lang),
+            cond_coop_40=get_translation('cond_coop_40', lang),
+            cond_coop_30=get_translation('cond_coop_30', lang),
+            cond_coop_group=get_translation('cond_coop_group_interdependent', lang, in_current_countryname=current_countryname),
+            cond_coop_interdependent_explanation1=get_translation('cond_coop_interdependent_explanation1', lang),
+            cond_coop_interdependent_explanation2=get_translation('cond_coop_interdependent_explanation2', lang),
+            cond_coop_completion=cond_coop_completion,
+            cond_coop_info = cond_coop_info,
+            cond_coop_question=get_translation('cond_coop_question_interdependent', lang),
+            cond_coop_action=cond_coop_action,
+            cond_coop_incentive = cond_coop_incentive,
+            unconditional = unconditional,
+            error1=get_translation('error1', lang),
+            person_a=get_translation('person_a', lang),
+            button_charity=get_translation('button_charity', lang),
+            you=get_translation('you', lang),
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision', lang),
+            button_block=get_translation('button_block', lang),
+            total_pages=player.session.config['total_pages'],
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 1
+        participant.decision_page_number += 1
+
+
+
 page_sequence = [CrowdingInOutPage,
                  DescriptiveNormPage,
                  ConditionalCoopPage,
+                 ConditionalCoopInterdepPage,
                  ]

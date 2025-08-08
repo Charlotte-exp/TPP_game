@@ -547,10 +547,6 @@
 
     {{ if treatment_type == '0DG' }}
 
-        <p>
-            {{ instru_0DG_pairing }}
-        </p>
-
         <p>{{ instru_0DG_decision }}</p>
 
         <div class="figure-container short-figure-container">
@@ -575,6 +571,10 @@
 
         <p>
             {{ instru_0DG_rules }}
+        </p>
+
+        <p>
+            {{ instru_0DG_pairing }}
         </p>
 
     {{ endif }}
@@ -691,7 +691,7 @@
         </p>
 
         <p>
-            {{ instru_countries_list }}
+            <i>{{ instru_countries_list }}</i>
         </p>
 
         <img style="width:75%; display: block; margin: 0 auto;" src="/static/global/all_participating_countries_map.png">

@@ -37,19 +37,35 @@
 
       <h6><u>{{ consent_intro_title }}</u></h6>
 
-      {{ consent_intro }}
+      <ul>
+
+          <li>{{ consent_intro1 }}</li>
+          <li>{{ consent_intro2 }}</li>
+          <li>{{ consent_intro3 }}</li>
+
+      </ul>
 
       <h6><u>{{ consent_payment_title }}</u></h6>
 
       {{ if C.prolific == True }}
       {{ consent_payment_prolific|safe }}
       {{ else }}
-      {{ consent_payment_toluna|safe }}
+
+      <ul>
+
+        <li>{{ consent_payment_toluna|safe }}</li>
+
+      </ul>
+
       {{ endif }}
 
       <h6><u>{{ consent_rights_title }}</u></h6>
 
-      {{ consent_rights }}
+      <ul>
+           <li>{{ consent_rights1 }}</li>
+           <li>{{ consent_rights2 }}</li>
+           <li>{{ consent_rights3 }}</li>
+      </ul>
 
       <p>
           <b>{{ consent_click }}</b>
