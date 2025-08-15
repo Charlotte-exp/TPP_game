@@ -134,6 +134,7 @@ class DiceRatings(Page):
             dice_error=get_translation("error3", lang),
             dice_trust_game=get_translation("dice_trust_game", lang,
                                             points_to_send=C.points_to_send),
+            dice_example=get_translation("dice_example", lang),
             dice_question=get_translation("dice_question", lang),
             dice_0points=get_translation('points_button', lang,
                                                  num_points=0),
