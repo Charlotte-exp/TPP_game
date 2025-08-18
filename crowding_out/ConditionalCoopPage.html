@@ -583,10 +583,6 @@
         </p>
 
         <p style="text-align: center; ">
-            {{ cond_coop_group|safe }}
-        </p>
-
-        <p style="text-align: center; ">
             {{ cond_coop_question|safe }}
         </p>
 
@@ -595,11 +591,11 @@
         <div class="conditional-row-wrapper">
             <!-- Left: clickable options -->
             <div class="proportion-column" data-input="selected-proportion-1">
-                <div class="proportion" data-value="70"> {{ cond_coop_70|safe }} {{ cond_coop_action|safe }} </div>
-                <div class="proportion" data-value="60"> {{ cond_coop_60|safe }} {{ cond_coop_action|safe }}</div>
-                <div class="proportion" data-value="50"> {{ cond_coop_50|safe }} {{ cond_coop_action|safe }}</div>
-                <div class="proportion" data-value="40"> {{ cond_coop_40|safe }} {{ cond_coop_action|safe }}</div>
-                <div class="proportion" data-value="30"> {{ cond_coop_30|safe }} {{ cond_coop_action|safe }}</div>
+                <div class="proportion" data-value="30"> {{ cond_coop_30|safe }} <b><u>{{ cond_coop_action|safe }}</u></b> </div>
+                <div class="proportion" data-value="40"> {{ cond_coop_40|safe }} <b><u>{{ cond_coop_action|safe }}</u></b> </div>
+                <div class="proportion" data-value="50"> {{ cond_coop_50|safe }} <b><u>{{ cond_coop_action|safe }}</u></b> </div>
+                <div class="proportion" data-value="60"> {{ cond_coop_60|safe }} <b><u>{{ cond_coop_action|safe }}</u></b> </div>
+                <div class="proportion" data-value="70"> {{ cond_coop_70|safe }} <b><u>{{ cond_coop_action|safe }}</u></b> </div>
             </div>
 
             <!-- Right: continuation of the sentence -->
