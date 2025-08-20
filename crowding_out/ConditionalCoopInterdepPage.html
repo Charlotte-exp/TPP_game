@@ -622,62 +622,9 @@
         </p>
 
         <p style="text-align: center; ">
-            {{ cond_coop_interdependent_explanation|safe }}
+            {{ cond_coop_interdependent_explanation1|safe }} {{ cond_coop_interdependent_explanation2|safe }} {{ cond_coop_interdependent_explanation3|safe }}
         </p>
 
-        <div style="display: flex; align-items: stretch; justify-content: center;">
-
-            <!-- LEFT: Always 'Example' -->
-            <div style="flex: 0 0 12%;  align-items: center; justify-content: center;">
-                <span class="example-text"> {{cond_coop_example_title|safe }}</span>
-            </div>
-
-            <!-- MIDDLE: Slide image -->
-            <div style="flex: 0 0 30%; text-align: center;">
-                <img id="slideImage" src="{% static slide1 %}" style="max-width:100%; height:auto;">
-            </div>
-
-            <!-- RIGHT: Variable text -->
-            <div id="slideTextWrapper" style="flex: 0 0 58%; position: relative;">
-                <div id="slideText" class="slide-text" style="position: absolute; top: 10%;">
-                    <p>{{ cond_coop_slide1|safe }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <div style="margin-top:0px; text-align:center;">
-            <button type="button" id="prevBtn" onclick="changeSlide(-1)" disabled
-                style="color: #fff;
-                       background-color: #6c757d;
-                       border: 1px solid #6c757d;
-                       font-size: 0.8rem;
-                       border-radius: 0.25rem;
-                       padding: 4px 12px;
-                       margin-right: 8px;">
-                {{ button_back|safe }}
-            </button>
-
-            <span id="slideCounter" style="font-size: 1rem; margin: 0 8px;">1 / 8</span>
-
-            <button type="button" id="nextBtn" onclick="changeSlide(1)"
-                style="color: #fff;
-                       background-color: #6c757d;
-                       border: 1px solid #6c757d;
-                       font-size: 0.8rem;
-                       border-radius: 0.25rem;
-                       padding: 4px 12px;
-                       margin-left: 8px;">
-                {{ button_next|safe }}
-            </button>
-        </div>
-
-
-<!--        <p style="text-align: center; ">-->
-<!--            <i>{{ cond_coop_info|safe }}</i>-->
-<!--        </p>-->
-
-        <br>
 
         <p style="text-align: center; ">
             {{ cond_coop_question|safe }}
@@ -742,57 +689,6 @@
 
 </body>
 </html>
-
-
-<script>
-const images = [
-    "{% static slide1 %}",
-    "{% static slide2 %}",
-    "{% static slide3 %}",
-    "{% static slide4 %}",
-    "{% static slide5 %}",
-    "{% static slide6 %}",
-    "{% static slide7 %}",
-    "{% static slide8 %}",
-];
-
-const slideData = [
-    { text: "{{ cond_coop_slide1|safe }}", top: "10%" },
-    { text: "{{ cond_coop_slide2|safe }}", top: "34%" },
-    { text: "{{ cond_coop_slide3|safe }}", top: "34%" },
-    { text: "{{ cond_coop_slide4|safe }}", top: "30%" },
-    { text: "{{ cond_coop_slide5|safe }}", top: "53%" },
-    { text: "{{ cond_coop_slide6|safe }}", top: "53%" },
-    { text: "{{ cond_coop_slide7|safe }}", top: "47%" },
-    { text: "{{ cond_coop_slide8|safe }}", top: "20%" }
-];
-
-let currentSlide = 0;
-
-function changeSlide(direction) {
-    currentSlide += direction;
-
-    // Update image
-    document.getElementById('slideImage').src = images[currentSlide];
-
-    // ✅ Update counter
-    document.getElementById('slideCounter').innerText =
-        (currentSlide + 1) + ' / ' + images.length;
-
-    // Update text & vertical position
-    const textElem = document.getElementById('slideText');
-    textElem.innerHTML = "<p>" + slideData[currentSlide].text + "</p>";
-    textElem.style.top = slideData[currentSlide].top;
-
-    // Update buttons
-    document.getElementById('prevBtn').disabled = currentSlide === 0;
-    document.getElementById('nextBtn').disabled = currentSlide === images.length - 1;
-}
-
-</script>
-
-
-
 
 
 

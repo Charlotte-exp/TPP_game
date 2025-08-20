@@ -433,53 +433,62 @@ class ConditionalCoopInterdepPage(Page):
             cond_coop_info = get_translation('cond_coop_indiv_kept', lang)
             cond_coop_incentive = get_translation('cond_coop_incentive_kept', lang)
             cond_coop_completion = get_translation('cond_coop_completion_kept', lang)
-            # cond_coop_action = get_translation('cond_coop_chooses_to_donate', lang)
-            cond_coop_action = get_translation('cond_coop_donate', lang)
-            action = get_translation('cond_coop_start_donating', lang)
-            anti_action = get_translation('cond_coop_keep', lang)
-            cond_coop_slide1 = get_translation('cond_coop_slide1', lang, action=cond_coop_action)
-            cond_coop_slide2 = get_translation('cond_coop_slide2', lang, action=action)
-            cond_coop_slide3 = get_translation('cond_coop_slide3', lang, action1=action, action2=cond_coop_action, num_condition = 40)
-            cond_coop_slide4 = get_translation('cond_coop_slide4', lang, action=cond_coop_action)
-            cond_coop_slide5 = get_translation('cond_coop_slide5', lang, action=action)
-            cond_coop_slide6 = get_translation('cond_coop_slide6', lang, action1=action, action2=cond_coop_action, num_condition = 80)
-            cond_coop_slide7 = get_translation('cond_coop_slide7', lang, action=anti_action)
-            cond_coop_slide8 = get_translation('cond_coop_slide8', lang, action=cond_coop_action)
-            slide1 = 'global/slides/slide1.jpg'
-            slide2 = 'global/slides/slide2.jpg'
-            slide3 = 'global/slides/slide3.jpg'
-            slide4 = 'global/slides/slide4.jpg'
-            slide5 = 'global/slides/slide5.jpg'
-            slide6 = 'global/slides/slide6.jpg'
-            slide7 = 'global/slides/slide7.jpg'
-            slide8 = 'global/slides/slide8.jpg'
+            cond_coop_action = get_translation('cond_coop_donate_if', lang)
+            # cond_coop_interdependent_explanation2= get_translation('cond_coop_interdependent_explanation2', lang)
+            # action_consequence = get_translation('cond_coop_donate', lang)
+            # action = get_translation('cond_coop_start_donating', lang)
+            # action_if = get_translation('cond_coop_donate_if', lang)
+            # anti_action = get_translation('cond_coop_keep', lang)
+            # cond_coop_slide1 = get_translation('cond_coop_slide1', lang, action=action_consequence)
+            # cond_coop_slide2 = get_translation('cond_coop_slide2', lang, action=action)
+            # cond_coop_slide3 = get_translation('cond_coop_slide3', lang, action1=action, action2=action_if, num_condition = 40)
+            # cond_coop_slide4 = get_translation('cond_coop_slide4', lang, action=action_consequence)
+            # cond_coop_slide5 = get_translation('cond_coop_slide5', lang, action=action)
+            # cond_coop_slide6 = get_translation('cond_coop_slide6', lang, action1=action, action2=action_if, num_condition = 80)
+            # cond_coop_slide7 = get_translation('cond_coop_slide7', lang, action=anti_action)
+            # cond_coop_slide8 = get_translation('cond_coop_slide1', lang, action=anti_action)
+            # cond_coop_slide8 = cond_coop_slide8.replace("color: red;", "color: grey;")
+            # cond_coop_slide9 = get_translation('cond_coop_slide9', lang, action=action_consequence)
+            # slide1 = 'global/slides/slide1.jpg'
+            # slide2 = 'global/slides/slide2.jpg'
+            # slide3 = 'global/slides/slide3.jpg'
+            # slide4 = 'global/slides/slide4.jpg'
+            # slide5 = 'global/slides/slide5.jpg'
+            # slide6 = 'global/slides/slide6.jpg'
+            # slide7 = 'global/slides/slide7.jpg'
+            # slide8 = 'global/slides/slide8.jpg'
+            # slide9 = 'global/slides/slide9.jpg'
 
         else:
             unconditional = get_translation('gave_unconditionally', lang)
             cond_coop_info = get_translation('cond_coop_indiv_gave', lang)
             cond_coop_incentive = get_translation('cond_coop_incentive_gave', lang)
             cond_coop_completion = get_translation('cond_coop_completion_gave', lang)
-            # cond_coop_action = get_translation('cond_coop_chooses_to_keep', lang)
             cond_coop_action = get_translation('cond_coop_keep_if', lang)
-            action = get_translation('cond_coop_stop_donating', lang)
-            action2 = get_translation('cond_coop_keep', lang)
-            anti_action = get_translation('cond_coop_donate', lang)
-            cond_coop_slide1 = get_translation('cond_coop_slide1', lang, action=action2)
-            cond_coop_slide2 = get_translation('cond_coop_slide2', lang, action=action)
-            cond_coop_slide3 = get_translation('cond_coop_slide3', lang, action1=action, action2=cond_coop_action, num_condition = 30)
-            cond_coop_slide4 = get_translation('cond_coop_slide4', lang, action=action)
-            cond_coop_slide5 = get_translation('cond_coop_slide5', lang, action=action)
-            cond_coop_slide6 = get_translation('cond_coop_slide6', lang, action1=action, action2=cond_coop_action, num_condition = 60)
-            cond_coop_slide7 = get_translation('cond_coop_slide7', lang, action=anti_action)
-            cond_coop_slide8 = get_translation('cond_coop_slide8', lang, action=action2)
-            slide1 = 'global/slides/slide1b.jpg'
-            slide2 = 'global/slides/slide2b.jpg'
-            slide3 = 'global/slides/slide3b.jpg'
-            slide4 = 'global/slides/slide4b.jpg'
-            slide5 = 'global/slides/slide5b.jpg'
-            slide6 = 'global/slides/slide6b.jpg'
-            slide7 = 'global/slides/slide7b.jpg'
-            slide8 = 'global/slides/slide8b.jpg'
+            # action_consequence = get_translation('cond_coop_keep', lang)
+            # action = get_translation('cond_coop_stop_donating', lang)
+            # action_if = get_translation('cond_coop_keep_if', lang)
+            # anti_action = get_translation('cond_coop_donate', lang)
+            # cond_coop_interdependent_explanation2 = get_translation('cond_coop_interdependent_explanation2b', lang)
+            # cond_coop_slide2 = get_translation('cond_coop_slide2', lang, action=action)
+            # cond_coop_slide3 = get_translation('cond_coop_slide3', lang, action1=action, action2=action_consequence, num_condition = 30)
+            # cond_coop_slide4 = get_translation('cond_coop_slide4', lang, action=action_consequence)
+            # cond_coop_slide5 = get_translation('cond_coop_slide5', lang, action=action)
+            # cond_coop_slide6 = get_translation('cond_coop_slide6', lang, action1=action, action2=action_consequence, num_condition = 60)
+            # cond_coop_slide7 = get_translation('cond_coop_slide7', lang, action=anti_action)
+            # cond_coop_slide9 = get_translation('cond_coop_slide9', lang, action=action_consequence)
+            # cond_coop_slide8 = get_translation('cond_coop_slide1', lang, action=anti_action)
+            # cond_coop_slide1 = get_translation('cond_coop_slide1', lang, action=action_consequence)
+            # cond_coop_slide1 = cond_coop_slide1.replace("color: red;", "color: grey;")
+            # slide1 = 'global/slides/slide1b.jpg'
+            # slide2 = 'global/slides/slide2b.jpg'
+            # slide3 = 'global/slides/slide3b.jpg'
+            # slide4 = 'global/slides/slide4b.jpg'
+            # slide5 = 'global/slides/slide5b.jpg'
+            # slide6 = 'global/slides/slide6b.jpg'
+            # slide7 = 'global/slides/slide7b.jpg'
+            # slide8 = 'global/slides/slide8b.jpg'
+            # slide9 = 'global/slides/slide9b.jpg'
 
         return dict(
             current_country=current_countryname,
@@ -491,14 +500,9 @@ class ConditionalCoopInterdepPage(Page):
             incentive = incentive,
             receiver_endowment = receiver_endowment,
             image=image,
-            slide1=slide1,
-            slide2=slide2,
-            slide3=slide3,
-            slide4=slide4,
-            slide5=slide5,
-            slide6=slide6,
-            slide7=slide7,
-            slide8=slide8,
+            cond_coop_interdependent_explanation1=get_translation('cond_coop_interdependent_explanation1', lang),
+            cond_coop_interdependent_explanation2=get_translation('cond_coop_interdependent_explanation2', lang),
+            cond_coop_interdependent_explanation3=get_translation('cond_coop_interdependent_explanation3', lang),
             cond_coop_70=get_translation('cond_coop_70', lang),
             cond_coop_60=get_translation('cond_coop_60', lang),
             cond_coop_50=get_translation('cond_coop_50', lang),
@@ -513,15 +517,25 @@ class ConditionalCoopInterdepPage(Page):
             cond_coop_incentive = cond_coop_incentive,
             unconditional = unconditional,
             cond_coop_example_title=get_translation('cond_coop_example_title', lang),
-            cond_coop_slide1=cond_coop_slide1,
-            cond_coop_slide2=cond_coop_slide2,
-            cond_coop_slide3=cond_coop_slide3,
-            cond_coop_slide4=cond_coop_slide4,
-            cond_coop_slide5=cond_coop_slide5,
-            cond_coop_slide6=cond_coop_slide6,
-            cond_coop_slide7=cond_coop_slide7,
-            cond_coop_slide8=cond_coop_slide8,
-            button_back=get_translation('button_back', lang),
+            # slide1=slide1,
+            # slide2=slide2,
+            # slide3=slide3,
+            # slide4=slide4,
+            # slide5=slide5,
+            # slide6=slide6,
+            # slide7=slide7,
+            # slide8=slide8,
+            # slide9=slide9,
+            # cond_coop_slide1=cond_coop_slide1,
+            # cond_coop_slide2=cond_coop_slide2,
+            # cond_coop_slide3=cond_coop_slide3,
+            # cond_coop_slide4=cond_coop_slide4,
+            # cond_coop_slide5=cond_coop_slide5,
+            # cond_coop_slide6=cond_coop_slide6,
+            # cond_coop_slide7=cond_coop_slide7,
+            # cond_coop_slide8=cond_coop_slide8,
+            # cond_coop_slide9=cond_coop_slide9,
+            # button_back=get_translation('button_back', lang),
             error1=get_translation('error1', lang),
             person_a=get_translation('person_a', lang),
             button_charity=get_translation('button_charity', lang),

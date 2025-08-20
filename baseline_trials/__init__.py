@@ -384,6 +384,7 @@ class Consent(Page):
             consent_rights1=get_translation('consent_rights1', lang),
             consent_rights2=get_translation('consent_rights2', lang),
             consent_rights3=get_translation('consent_rights3', lang),
+            consent_toluna_ID=get_translation('consent_toluna_ID', lang),
             consent_click=get_translation('consent_click', lang),
             consent_questions=get_translation('consent_questions', lang),
             consent_contact=get_translation('consent_contact', lang),
