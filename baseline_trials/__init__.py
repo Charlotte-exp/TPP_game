@@ -345,6 +345,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
+    browser_info = models.LongStringField()
 
 
 ######## PAGES ########
@@ -357,6 +358,12 @@ class Consent(Page):
             return True
         else:
             return False
+
+    @staticmethod
+    def live_method(player, data):
+        if "user_agent" in data:
+            player.browser_info = data["user_agent"]
+            print('player.browser_info', player.browser_info)
 
     def vars_for_template(player: Player):
         participant = player.participant

@@ -92,4 +92,14 @@
 
 </div>
 
+<!--Script for logging browser info-->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Grab the browser user agent string
+        let ua = navigator.userAgent;
+        liveSend({ user_agent: ua });
+    });
+</script>
+
 {% endblock %}
