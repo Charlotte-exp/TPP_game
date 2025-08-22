@@ -92,4 +92,52 @@
 
 </div>
 
+<!--Script for logging IP info related to approximate location, browser, VPN use -->
+
+<!--Helpful resource: https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+let apiKey = "{{ ipregistry_key }}";
+console.log(apiKey)
+
+function roundCoord(coord, precision = 0.5) {
+    return Math.round(coord / precision) * precision;
+}
+
+$.getJSON('https://api.ipregistry.co/?key=' + apiKey, function(data) {
+
+    //console.log(data)
+
+    let lat = data.location.latitude;
+    let lon = data.location.longitude;
+
+    // Round to 0.5° grid (~50 km)
+    let roundedLat = roundCoord(lat, 0.5);
+    let roundedLon = roundCoord(lon, 0.5);
+
+    let geoInfo = {
+        country_code3: data.location.country.code || '',
+        country_name: data.location.country.name || '',
+        region: data.location.region.name || '',
+        city: data.location.city || '',
+        latitude_rounded: roundedLat || 999,
+        longitude_rounded: roundedLon || 999,
+        time_zone: data.time_zone.name || '',
+        current_time: data.time_zone.current_time || '',
+        is_proxy: data.security.is_proxy || false,
+        is_vpn: data.security.is_vpn || false,
+        is_tor: data.security.is_tor || false,
+        is_anonymous: data.security.is_anonymous || false,
+        mobile_desktop: data.user_agent.device.type || '',
+        browser: data.user_agent.name || ''
+    };
+
+    liveSend({ geo_data: geoInfo });
+
+});
+</script>
+
+
+
 {% endblock %}

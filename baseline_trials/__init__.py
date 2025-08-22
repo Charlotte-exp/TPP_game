@@ -8,6 +8,7 @@ import os
 from otree.models import player
 from itertools import chain
 from translations import get_translation
+from dotenv import load_dotenv
 
 
 doc = """
@@ -345,6 +346,20 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
+    ip_country_code = models.LongStringField()
+    ip_country_name = models.LongStringField()
+    ip_region = models.LongStringField()
+    ip_city = models.LongStringField()
+    ip_latitude_rounded = models.FloatField()
+    ip_longitude_rounded = models.FloatField()
+    ip_time_zone = models.LongStringField()
+    ip_current_time = models.LongStringField()
+    ip_is_proxy = models.BooleanField()
+    ip_is_vpn = models.BooleanField()
+    ip_is_tor = models.BooleanField()
+    ip_is_anonymous = models.BooleanField()
+    ip_mobile_desktop = models.LongStringField()
+    ip_browser = models.LongStringField()
 
 
 ######## PAGES ########
@@ -358,12 +373,51 @@ class Consent(Page):
         else:
             return False
 
+    @staticmethod
+    def live_method(player, data):
+        if data.get('geo_data'):
+            geo = data['geo_data']
+            player.ip_country_code = geo.get('country_code3')
+            player.ip_country_name = geo.get('country_name')
+            player.ip_region = geo.get('region')
+            player.ip_city = geo.get('city')
+            player.ip_latitude_rounded = geo.get('latitude_rounded')
+            player.ip_longitude_rounded = geo.get('longitude_rounded')
+            player.ip_time_zone = geo.get('time_zone')
+            player.ip_current_time = geo.get('current_time')
+            player.ip_is_proxy = geo.get('is_proxy')
+            player.ip_is_vpn = geo.get('is_vpn')
+            player.ip_is_tor = geo.get('is_tor')
+            player.ip_is_anonymous = geo.get('is_anonymous')
+            player.ip_mobile_desktop = geo.get('mobile_desktop')
+            player.ip_browser = geo.get('browser')
+
+            # print('player.ip_country_code', player.ip_country_code)
+            # print('player.ip_country_name', player.ip_country_name)
+            # print('player.ip_region', player.ip_region)
+            # print('player.ip_city', player.ip_city)
+            # print('player.ip_latitude_rounded', player.ip_latitude_rounded)
+            # print('player.ip_longitude_rounded', player.ip_longitude_rounded)
+            # print('player.ip_time_zone', player.ip_time_zone)
+            # print('player.ip_current_time', player.ip_current_time)
+            # print('player.ip_is_proxy', player.ip_is_proxy)
+            # print('player.ip_is_vpn', player.ip_is_vpn)
+            # print('player.ip_is_tor', player.ip_is_tor)
+            # print('player.ip_is_anonymous', player.ip_is_anonymous)
+            # print('player.ip_mobile_desktop', player.ip_mobile_desktop)
+            # print('player.ip_browser', player.ip_browser)
+
+        return {}
+
     def vars_for_template(player: Player):
         participant = player.participant
         lang = participant.language
 
         # Load countrynames in selected language
         participant.current_countryname = get_country_dict(lang, participant.current_country)
+
+        # Load dotenv to get API key for logging IP-related info
+        load_dotenv()
 
         return dict(
             consent_title=get_translation('consent_title', lang),
@@ -389,6 +443,7 @@ class Consent(Page):
             consent_questions=get_translation('consent_questions', lang),
             consent_contact=get_translation('consent_contact', lang),
             button_consent=get_translation('button_consent', lang),
+            ipregistry_key= os.getenv("IPREGISTRY_KEY")
         )
 
     @staticmethod
