@@ -159,12 +159,14 @@ class Player(BasePlayer):
     #     blank = True  # Optional: allow it to be empty
     # )
 
+    toluna_id = models.IntegerField()
+
 
 ########### PAGES ############
 
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural_urban']
+    form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural_urban', 'toluna_id']
 
     def vars_for_template(player: Player):
         participant = player.participant
@@ -201,6 +203,7 @@ class Demographics(Page):
             edu6=get_translation('edu6', lang),
             edu7=get_translation('edu7', lang),
             edu8=get_translation('edu8', lang),
+            toluna_id_question = get_translation('toluna_id', lang),
             select_country=get_translation('select_country', lang),
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
