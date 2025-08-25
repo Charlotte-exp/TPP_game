@@ -17,11 +17,11 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-def creating_session(subsession): # Just for testing treatment allocation, will eventually me moved to create-session in baseline trials
+def creating_session(subsession): # Just for testing on its own
 
     for player in subsession.get_players():
+
         participant = player.participant
-        participant.pref_2PP_3PP_button_pos = random.choice([True, False])
 
         # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
         if 'language' not in participant.vars:
@@ -29,7 +29,12 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
 
         if 'progress' not in participant.vars:
             participant.progress = 1
+
+        if 'decision_page_number' not in participant.vars:
             participant.decision_page_number = 0
+
+        if 'pref_2PP_3PP_button_pos' not in participant.vars:
+            participant.pref_2PP_3PP_button_pos = random.choice([True, False])
 
 class Group(BaseGroup):
     pass

@@ -41,32 +41,12 @@ class Subsession(BaseSubsession):
 
 
 
-def creating_session(subsession): # Just for testing treatment allocation, will eventually me moved to create-session in baseline trials
-    # print('Creating session; round number: {}'.format(subsession.round_number))
-
-    participants = subsession.session.get_participants()
-
-    combinations = list(itertools.product([True, False], [True, False]))  # (incentive, cond_coop)
-
-    num_participants = len(participants)
-    full_list = combinations * (num_participants // 4)
-    remainder = combinations[:(num_participants % 4)]
-    treatment_list = full_list + remainder
-
-    random.shuffle(treatment_list)
-
-    for p, (incentive, cond_coop) in zip(participants, treatment_list):
-        p.treatment_incentive = incentive
-        #p.treatment_cond_coop = cond_coop
-
-        # print('set incentive treatment to', p.treatment_incentive)
-        #print('set cond coop treatment to', p.treatment_cond_coop)
+def creating_session(subsession): # Just for testing on its own
 
     for player in subsession.get_players():
         participant = player.participant
         
-        participant.crowding_out_button_pos = random.choice([True, False])
-
+        # Set variables in case of testing app on its own
         # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
         if 'language' not in participant.vars:
             participant.language = 'en'
@@ -75,6 +55,11 @@ def creating_session(subsession): # Just for testing treatment allocation, will 
             participant.progress = 1
             participant.decision_page_number = 0
             participant.current_countryname = get_country_dict(participant.language, participant.current_country)
+
+        if 'treatment_incentive' not in participant.vars:
+            participant.treatment_incentive = random.choice([True, False])
+            participant.crowding_out_button_pos = random.choice([True, False])
+            print("random treatment incentive for testing", participant.treatment_incentive)
 
 
 def get_local_red_cross_info(country_name):
@@ -188,6 +173,9 @@ class CrowdingInOutPage(Page):
 
         participant = player.participant
         lang = participant.language
+
+        treatment_incentive = participant.treatment_incentive
+        print("treatment_incentive", treatment_incentive)
 
         current_countryname = player.participant.current_countryname
         # print('player.participant.current_countryname', player.participant.current_countryname)
