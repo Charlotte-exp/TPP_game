@@ -4,9 +4,9 @@ import random
 import logging
 import csv
 import os
+import itertools
 
 from otree.models import player
-from itertools import chain
 from translations import get_translation
 from dotenv import load_dotenv
 
@@ -37,7 +37,8 @@ def get_country_dict(lang, iso2=None):
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 36
+    NUM_ROUNDS = 2
+    # NUM_ROUNDS = 36
     NUM_DECISIONS_APPROX = 43
     STUDY_TIME = 30
     prolific = False
@@ -85,86 +86,123 @@ class Subsession(BaseSubsession):
     pass
 
 def creating_session(subsession):
+
     # print('Creating session; round number: {}'.format(subsession.round_number))
 
-    ## Set variables in participant field
-    for player in subsession.get_players():
-        participant = player.participant
-
-        # PROBLEM: creating_session runs before any participants go through any pages, so no access to language selected
-        # SOLUTION: Set countryname in native language later
-
-        # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
-        if 'language' not in participant.vars:
-            participant.language = 'en'
-
-        # Save current country code once for easier access in trial prep
-        current_country = participant.current_country
-
-        # progress bar
-        participant.progress = 1
-
-    ## Make immutable variables for partner-country block
-
-    # Make country list without current country
-    country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != current_country]
-
-    # Make all possible combinations
-    combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
-
-    # Get IN-IN trial
-    trials_partner_in_in = [entry + ('IN IN',) for entry in combinations if entry[0] == entry[1] == current_country]
-    #trials_partner_in_in = [entry for entry in combinations if entry[0] == entry[1] == current_country]
-
-
-    # Remove IN-IN trials, which every participant sees only once
-    combinations = [entry for entry in combinations if not entry[0] == entry[1] == current_country]
-
-    # Filter different trial types
-    trials_partner_in_out = [entry for entry in combinations if entry[0] == current_country]
-    trials_partner_out_in = [entry for entry in combinations if entry[1] == current_country]
-    trials_partner_out_out_homog = [entry for entry in combinations if
-                                    (entry[0] != current_country and entry[1] != current_country and entry[0] ==
-                                     entry[1])]
-    trials_partner_out_out_heterog = [entry for entry in combinations if
-                                      (entry[0] != current_country and entry[1] != current_country and entry[0] !=
-                                       entry[1])]
-
-
-    # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
-    country_list_no_current_editable = country_list_no_current.copy()
-    country_list_no_current_editable = [item + " 3PP give country" for item in country_list_no_current_editable]
-    trials_partner_in_out_editable = trials_partner_in_out.copy()
-    trials_partner_out_in_editable = trials_partner_out_in.copy()
-    trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
-    trials_partner_out_out_heterog_editable = trials_partner_out_out_heterog.copy()
-
-    # Make sampling function to sample without replacement
-    def sample_trials_partner(pool, num_trials, pool_name):
-        # If empty, refill from the original pool
-        #print("pool used ", pool)
-        # There are problems with eval(poolname), therefore assign original pool manually
-        if pool_name == 'country_list_no_current': pool_original = country_list_no_current
-        if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
-        if pool_name == 'trials_partner_in_out': pool_original = trials_partner_in_out
-        if pool_name == 'trials_partner_out_out_homog': pool_original = trials_partner_out_out_homog
-        if pool_name == 'trials_partner_out_out_heterog': pool_original = trials_partner_out_out_heterog
-        # If pool is depleted, refresh
-        if len(pool) < num_trials:
-            # print("country_list_no_current ", country_list_no_current)
-            pool = pool_original.copy()
-            #pool = eval(pool_name).copy()
-            #print("pool refreshed, pool ", pool)
-        # Otherwise, keep sampling without replacement
-        trials = random.sample(pool, num_trials)
-        #print("trials chosen ", trials)
-        for trial in trials:
-            pool.remove(trial)
-        return trials, pool
-
-    ### Loop through participants to create randomization
-
+    # Make trial structure only in first round (steps I - IV) (only step V: assigning treatment etc is done per round)
     if subsession.round_number == 1:
+
+        ## I) Set core variables: language, country, progress
+        for player in subsession.get_players():
+            participant = player.participant
+
+            # PROBLEM: creating_session runs before any participants go through any pages, so no access to language selected
+            # SOLUTION: Set countryname in native language later
+
+            # Set language to English if English is the only offered language in that country (in this case participants do not see language selection pages)
+            if 'language' not in participant.vars:
+                participant.language = 'en'
+
+            # Save current country code once for easier access in trial prep
+            current_country = participant.current_country
+
+            # progress bar
+            participant.progress = 1
+
+
+        ## II) Use block randomization to allocate BETWEEN-SUBJECT CONDITIONS: rule following (harm self / harm other) and incentive (yes / no)
+
+        participants = subsession.session.get_participants()
+        num_participants = len(participants)
+
+        combinations = list(itertools.product([True, False], [True, False]))  # (treatment_rule_hurt_self, treatment_incentive)
+        num_unique_combos = len(combinations)
+
+        for i in range(0, num_participants, num_unique_combos):
+            rando_block = participants[i:i + num_unique_combos]  # next group of participants
+            combos = combinations[:]  # copy of all combos
+            random.shuffle(combos)  # shuffle within the mini-block
+
+            # assign each participant one combo
+            for p, combo in zip(rando_block, combos):
+                p.vars['treatment_rule_hurt_self'] = combo[0]
+                p.vars['treatment_incentive'] = combo[1]
+
+                # independent randomization for button positions
+                p.vars['crowding_out_button_pos'] = random.choice([True, False])
+                p.vars['pref_2PP_3PP_button_pos'] = random.choice([True, False])
+
+                print(
+                    f'Assigned to participant {p.code}: '
+                    f'treatment_rule_hurt_self={p.vars["treatment_rule_hurt_self"]}, '
+                    f'treatment_incentive={p.vars["treatment_incentive"]}, '
+                    f'button_pos={p.vars["crowding_out_button_pos"]}, '
+                    f'button_pos={p.vars["pref_2PP_3PP_button_pos"]} '
+                )
+
+
+        ## III) Create possible combinations of trials for DG, 2PP, 3PP and partner-country trials
+
+        # Make immutable variables for partner-country block
+
+        # Make country list without current country
+        country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != current_country]
+
+        # Make all possible combinations
+        combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
+
+        # Get IN-IN trial
+        trials_partner_in_in = [entry + ('IN IN',) for entry in combinations if entry[0] == entry[1] == current_country]
+        #trials_partner_in_in = [entry for entry in combinations if entry[0] == entry[1] == current_country]
+
+
+        # Remove IN-IN trials, which every participant sees only once
+        combinations = [entry for entry in combinations if not entry[0] == entry[1] == current_country]
+
+        # Filter different trial types
+        trials_partner_in_out = [entry for entry in combinations if entry[0] == current_country]
+        trials_partner_out_in = [entry for entry in combinations if entry[1] == current_country]
+        trials_partner_out_out_homog = [entry for entry in combinations if
+                                        (entry[0] != current_country and entry[1] != current_country and entry[0] ==
+                                         entry[1])]
+        trials_partner_out_out_heterog = [entry for entry in combinations if
+                                          (entry[0] != current_country and entry[1] != current_country and entry[0] !=
+                                           entry[1])]
+
+
+        # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
+        country_list_no_current_editable = country_list_no_current.copy()
+        country_list_no_current_editable = [item + " 3PP give country" for item in country_list_no_current_editable]
+        trials_partner_in_out_editable = trials_partner_in_out.copy()
+        trials_partner_out_in_editable = trials_partner_out_in.copy()
+        trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
+        trials_partner_out_out_heterog_editable = trials_partner_out_out_heterog.copy()
+
+        # Make sampling function to sample without replacement
+        def sample_trials_partner(pool, num_trials, pool_name):
+            # If empty, refill from the original pool
+            #print("pool used ", pool)
+            # There are problems with eval(poolname), therefore assign original pool manually
+            if pool_name == 'country_list_no_current': pool_original = country_list_no_current
+            if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
+            if pool_name == 'trials_partner_in_out': pool_original = trials_partner_in_out
+            if pool_name == 'trials_partner_out_out_homog': pool_original = trials_partner_out_out_homog
+            if pool_name == 'trials_partner_out_out_heterog': pool_original = trials_partner_out_out_heterog
+            # If pool is depleted, refresh
+            if len(pool) < num_trials:
+                # print("country_list_no_current ", country_list_no_current)
+                pool = pool_original.copy()
+                #pool = eval(pool_name).copy()
+                #print("pool refreshed, pool ", pool)
+            # Otherwise, keep sampling without replacement
+            trials = random.sample(pool, num_trials)
+            #print("trials chosen ", trials)
+            for trial in trials:
+                pool.remove(trial)
+            return trials, pool
+
+        ## IV) Create trial structure for DG, 2PP, 3PP and partner-country trials by looping through participants
+
         for player in subsession.get_players():
             participant = player.participant
 
@@ -242,7 +280,8 @@ def creating_session(subsession):
 
             ### 4) Put all treatment orders together
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_partner
-            #print('set treatment_order to', participant.treatment_order)
+            participant.vars['treatment_order_baseline_trials'] = participant.treatment_order
+            print(f'Participant {participant.code}: set treatment_order to {participant.treatment_order_baseline_trials}')
 
 
             ### 5) Put instruction round and comprehension questions
@@ -252,15 +291,21 @@ def creating_session(subsession):
             # Comprehension questions before first 2PP punishment trial
             round_2PP_or_3PP = next(v for v in participant.treatment_order if "2PP" in v or "3PP" in v)  # Find the first element containing "2PP" or "3PP"
             participant.comprehension = [round_2PP_or_3PP]
+            participant.vars['instruction_rounds_shown'] = participant.instruction_round
+            participant.vars['comprehension_shown'] = participant.comprehension
+            print(f'Participant {participant.code}: set instruction_rounds_shown to {participant.instruction_rounds_shown}')
+            print(f'Participant {participant.code}: set comprehension_shown to {participant.comprehension_shown}')
 
-    #breakpoint()
+        #breakpoint()
+
+    ## V) For EVERY ROUND, allocate treatment etc.
 
     for player in subsession.get_players():
-        #player.treatment = player.participant.treatment_order_baseline[player.round_number - 1] # For testing only baseline
-        player.treatment = player.participant.treatment_order[player.round_number - 1]
-        player.instruction_round_true = player.treatment in player.participant.instruction_round # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
-        player.comprehension_true = player.treatment in player.participant.comprehension
-        player.first_block_2PP_true = "2PP" in player.participant.treatment_order[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+        player.treatment = player.participant.treatment_order_baseline_trials[player.round_number - 1]
+        print(player.treatment)
+        player.instruction_round_true = player.treatment in player.participant.instruction_rounds_shown # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
+        player.comprehension_true = player.treatment in player.participant.comprehension_shown
+        player.first_block_2PP_true = "2PP" in player.participant.treatment_order_baseline_trials[2]  # Boolean that indicates if instruction page should be shown: Always before the first trial of a new treatment type
 
 
 class Group(BaseGroup):

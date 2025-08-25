@@ -24,10 +24,10 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
 
-    treatments = itertools.cycle(['hurt_me', 'hurt_other'])
+    # treatments = itertools.cycle(['hurt_me', 'hurt_other'])
     for p in subsession.get_players():
-        p.rule_following_condition = next(treatments)
-        p.participant.rule_following_condition = p.rule_following_condition
+        # p.rule_following_condition = next(treatments)
+        # p.participant.rule_following_condition = p.rule_following_condition
 
         p.aim_number()
 
@@ -40,6 +40,10 @@ def creating_session(subsession):
             participant.progress = 1
             participant.decision_page_number = 0
 
+        if 'treatment_rule_hurt_self' not in participant.vars:
+            participant.treatment_rule_hurt_self = random.choice([True, False])
+            print("random treatment rule following for testing", participant.treatment_rule_hurt_self)
+
 
 class Group(BaseGroup):
     pass
@@ -47,7 +51,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
-    rule_following_condition = models.StringField()
+    # rule_following_condition = models.StringField()
     rule_aim = models.IntegerField()
 
     slider1 = models.IntegerField(
@@ -86,8 +90,13 @@ class RuleFollowing(Page):
         participant = player.participant
         lang = participant.language
 
+        if participant.treatment_rule_hurt_self:
+            condition = 'hurt_me'
+        else:
+            condition = 'hurt_other'
+
         return dict(
-            condition= player.rule_following_condition,
+            condition= condition,
             points_per_slider=C.points_per_slider,
             total_pages=player.session.config['total_pages'],
             rule_instru=get_translation("rule_instru", lang),
