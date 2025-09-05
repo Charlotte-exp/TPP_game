@@ -37,8 +37,8 @@ def get_country_dict(lang, iso2=None):
 class C(BaseConstants):
     NAME_IN_URL = 'baseline_trials'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 2
-    # NUM_ROUNDS = 36
+    # NUM_ROUNDS = 2
+    NUM_ROUNDS = 36
     NUM_DECISIONS_APPROX = 43
     STUDY_TIME = 30
     prolific = False
@@ -92,7 +92,7 @@ def creating_session(subsession):
     # Make trial structure only in first round (steps I - IV) (only step V: assigning treatment etc is done per round)
     if subsession.round_number == 1:
 
-        ## I) Set core variables: language, country, progress
+        ### I) Set core variables: language, country, progress
         for player in subsession.get_players():
             participant = player.participant
 
@@ -110,7 +110,7 @@ def creating_session(subsession):
             participant.progress = 1
 
 
-        ## II) Use block randomization to allocate BETWEEN-SUBJECT CONDITIONS: rule following (harm self / harm other) and incentive (yes / no)
+        ### II) Use block randomization to allocate BETWEEN-SUBJECT CONDITIONS: rule following (harm self / harm other) and incentive (yes / no)
 
         participants = subsession.session.get_participants()
         num_participants = len(participants)
@@ -141,9 +141,24 @@ def creating_session(subsession):
                 )
 
 
-        ## III) Create possible combinations of trials for DG, 2PP, 3PP and partner-country trials
+        ### III) Create possible combinations of trials for DG, 2PP, 3PP and partner-country trials
 
-        # Make immutable variables for partner-country block
+        ## Preparation of counterbalancing of treatment order for INOUT
+
+        # Order of in-in, in-out, out-in, out-out (hom/het) is COUNTERBALANCED, everything else (order dic/pun; norm/beh) is just randomized.
+
+        # Make order permutations of the 5 INOUT treatments
+        ALL_ORDERS = list(itertools.permutations(
+            ['in_in', 'in_out', 'out_in', 'out_out_homog', 'out_out_heterog']
+        ))
+
+        random.shuffle(ALL_ORDERS)  # Shuffle once globally
+
+        # Initialize counter in session.vars (only once per session)
+        if 'order_counter' not in subsession.session.vars:
+            subsession.session.vars['order_counter'] = 0
+
+        ## Make immutable variables for partner-country block
 
         # Make country list without current country
         country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != current_country]
@@ -255,11 +270,33 @@ def creating_session(subsession):
             random.shuffle(trials_partner_out_out_heterog)
 
 
-            ## c) Merge and randomize order of trials within punisher role # UPDATE: Shuffle order of treatments, but not across treatments
-            trials_partner_TP_current = [trials_partner_in_in, trials_partner_in_out, trials_partner_out_in, trials_partner_out_out_homog, trials_partner_out_out_heterog]
+            ## c) Merge and randomize order of trials within punisher role # UPDATE: Shuffle order of treatments, but not across treatments # NEW UPDATE: Counterbalance order of treatment
 
-            # Shuffle the merged list
-            random.shuffle(trials_partner_TP_current)
+            # trials_partner_TP_current = [trials_partner_in_in, trials_partner_in_out, trials_partner_out_in, trials_partner_out_out_homog, trials_partner_out_out_heterog]
+            #
+            # # Shuffle the merged list
+            # random.shuffle(trials_partner_TP_current)
+
+            # Get current index and permutation
+            idx = subsession.session.vars['order_counter']
+            order = ALL_ORDERS[idx]
+
+            participant.vars['treatment_order_inout'] = order
+
+            print("idx", idx)
+            print(f"Participant {participant.code} got treatment order {participant.vars['treatment_order_inout']}")
+
+            # Update counter (loop back when reaching the end)
+            subsession.session.vars['order_counter'] = (idx + 1) % len(ALL_ORDERS)
+
+            order_mapping = {
+                'in_in': trials_partner_in_in,
+                'in_out': trials_partner_in_out,
+                'out_in': trials_partner_out_in,
+                'out_out_homog': trials_partner_out_out_homog,
+                'out_out_heterog': trials_partner_out_out_heterog
+            }
+            trials_partner_TP_current = [order_mapping[key] for key in order]
 
             # Flatten list
             trials_partner_TP_current = [item for sublist in trials_partner_TP_current for item in sublist]  # Flatten the nested lists
@@ -621,7 +658,7 @@ class Instructions(Page):
                                               cost_per_point=round(1/C.TP_cost, 2)),
             instru_INOUT=get_translation('instru_INOUT', lang,
                                          in_current_country=participant.current_countryname,
-                                         number_countries=C.NUM_COUNTRIES,),
+                                         number_countries=C.NUM_COUNTRIES - 1),
             instru_countries_list=get_translation('instru_countries_list', lang),
             instru_countries=get_translation('instru_countries', lang),
             instru_countries_here=get_translation('instru_countries_here', lang),
@@ -826,17 +863,17 @@ class TPPage(Page):
             dic_identity = participant.current_country
             recip_identity = "out"
             dic_identity_country = participant.current_countryname
-            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
+            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES - 1)
         if "OUT IN" in player.treatment:
             dic_identity = "out"
             recip_identity = participant.current_country
-            dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
+            dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES - 1)
             recip_identity_country = participant.current_countryname
         if "OUT OUT" in player.treatment:
             dic_identity = "out"
             recip_identity = "out"
-            dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
-            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
+            dic_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES - 1)
+            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES - 1)
         if "OUT" not in player.treatment and "IN" not in player.treatment:
             dic_identity = "baseline"
             recip_identity = "baseline"
@@ -987,7 +1024,7 @@ class DictatorPage(Page):
         if player.treatment[-3:] == "OUT":
             recip_identity = "out"
             dic_identity = participant.current_country  # In give trials, participant is the dictator --> identity of dictator is current country
-            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES)
+            recip_identity_country = get_translation('unknown_country', lang, num_countries=C.NUM_COUNTRIES - 1)
             dic_identity_country = participant.current_countryname
         if player.treatment[-3:] == " IN":
             recip_identity = participant.current_country
