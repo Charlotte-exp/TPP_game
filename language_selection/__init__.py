@@ -64,12 +64,18 @@ def creating_session(subsession):
     num_langs = len(get_possible_languages(current_country))
     show_language_selection = num_langs > 1
 
-    #print("current_country", current_country)
+    print("current_country", current_country)
+    print("num_langs", num_langs)
 
     for player in subsession.get_players():
         participant = player.participant
-        participant.current_country = current_country
         participant.language_selection_shown = show_language_selection
+        if current_country == 'all':
+            participant.all_language_test = True
+            participant.current_country = "us"
+        else:
+            participant.all_language_test = False
+            participant.current_country = current_country
 
 
 
@@ -100,11 +106,17 @@ class LanguageSelection(Page):
     def vars_for_template(player: Player):
         participant = player.participant
         current_country = participant.current_country
+        all_language_test = participant.all_language_test
 
-        possible_lang = get_possible_languages(current_country)
+        # For all-language testing page, set default country to US AFTER language selection menu set
+        if all_language_test == True:
+            possible_lang = get_possible_languages("all")
+        else:
+            possible_lang = get_possible_languages(current_country)
+
         possible_lang_names = get_language_names(possible_lang)
-
         default_language = possible_lang[0]
+
 
         return dict(
             current_country = current_country,

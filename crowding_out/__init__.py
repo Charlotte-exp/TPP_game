@@ -61,6 +61,10 @@ def creating_session(subsession): # Just for testing on its own
             participant.crowding_out_button_pos = random.choice([True, False])
             print("random treatment incentive for testing", participant.treatment_incentive)
 
+        if 'current_countryname' not in participant.vars:
+            participant.current_countryname = get_country_dict(participant.language, participant.current_country)
+            print("current_countryname", participant.current_countryname)
+
 
 def get_local_red_cross_info(country_name):
     filepath = os.path.join(os.path.dirname(__file__), '../_static/global/country_codes_red_cross.csv')
