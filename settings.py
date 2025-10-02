@@ -1,8 +1,8 @@
 from os import environ
 from os import popen
 
-COUNTRIES = ['dz', 'ar', 'au', 'bo', 'br', 'bg', 'ca', 'cl', 'cn', 'co', 'cr', 'hr', 'do', 'ec', 'eg', 'sv', 'fi', 'fr', 'de', 'gr', 'gt', 'hu', 'in', 'id', 'it', 'jp', 'ke', 'kr', 'my', 'mx', 'ma', 'nz', 'ng', 'pe', 'ph', 'ro', 'ru', 'sa', 'sg', 'za', 'es', 'se', 'ch', 'tw', 'th', 'tr', 'ae', 'ua', 'us', 'vn']
-COUNTRYNAMES = ['Algeria', 'Argentina', 'Australia', 'Bolivia', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica', 'Croatia', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Finland', 'France', 'Germany', 'Greece', 'Guatemala', 'Hungary', 'India', 'Indonesia', 'Italy', 'Japan', 'Kenya', 'Korea', 'Malaysia', 'Mexico', 'Morocco', 'New Zealand', 'Nigeria', 'Peru', 'Philippines', 'Romania', 'Russia', 'Saudi Arabia', 'Singapore', 'South Africa', 'Spain', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United States', 'Vietnam']
+COUNTRIES = ['all', 'dz', 'ar', 'au', 'bo', 'br', 'bg', 'ca', 'cl', 'cn', 'co', 'cr', 'hr', 'do', 'ec', 'eg', 'sv', 'fi', 'fr', 'de', 'gr', 'gt', 'hu', 'in', 'id', 'it', 'jp', 'ke', 'kr', 'my', 'mx', 'ma', 'nz', 'ng', 'pe', 'ph', 'pl', 'ro', 'ru', 'sa', 'sg', 'za', 'es', 'se', 'ch', 'tw', 'th', 'tr', 'ae', 'ua', 'us', 'vn']
+COUNTRYNAMES = ['ALL_LANGUAGES', 'Algeria', 'Argentina', 'Australia', 'Bolivia', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica', 'Croatia', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Finland', 'France', 'Germany', 'Greece', 'Guatemala', 'Hungary', 'India', 'Indonesia', 'Italy', 'Japan', 'Kenya', 'Korea', 'Malaysia', 'Mexico', 'Morocco', 'New Zealand', 'Nigeria', 'Peru', 'Philippines', 'Poland', 'Romania', 'Russia', 'Saudi Arabia', 'Singapore', 'South Africa', 'Spain', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United States', 'Vietnam']
 
 # SESSION_CONFIGS = []
 
@@ -79,6 +79,33 @@ SESSION_CONFIGS = [
         oTree_version_used=popen('otree --version').read().strip(),
         config=dict(CURRENT_COUNTRY="us",prolific = False),
     ),
+    dict(
+        name='all_lang_block1',
+        display_name="ALL LANGUAGES BLOCK 1",
+        app_sequence=['language_selection', 'baseline_trials'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip(),
+        config=dict(CURRENT_COUNTRY="all"),
+    ),
+    dict(
+        name='all_lang_block2',
+        display_name="ALL LANGUAGES BLOCK 2",
+        app_sequence=['language_selection', 'pref_2PP_3PP', 'rule_following', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip(),
+        config=dict(CURRENT_COUNTRY="all"),
+    ),
+    dict(
+        name='all_lang_demographics',
+        display_name="ALL LANGUAGES DEMOGRAPHICS",
+        app_sequence=['language_selection', 'demographics'],
+        num_demo_participants=6,
+        use_browser_bots=False,
+        oTree_version_used=popen('otree --version').read().strip(),
+        config=dict(CURRENT_COUNTRY="all",prolific = False),
+    ),
 ]
 
 for code, name in zip(COUNTRIES, COUNTRYNAMES):
@@ -117,7 +144,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['language', 'lang_confirmed', 'language_selection_shown', 'current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
                       'treatment_order_inout', 'treatment_order_baseline_trials', 'instruction_rounds_shown', 'comprehension_shown',
-                      'treatment_incentive', 'treatment_rule_hurt_self', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos']
+                      'treatment_incentive', 'treatment_rule_hurt_self', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos', 'all_language_test']
 SESSION_FIELDS = []
 
 # ISO-639 code

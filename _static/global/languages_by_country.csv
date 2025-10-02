@@ -34,7 +34,7 @@ New Zealand,NZL,nz,en
 Nigeria,NGA,ng,en
 Peru,PER,pe,"es, en"
 Philippines,PHL,ph,"en, tl"
-Poland, POL, pl, "pl, en"
+Poland,POL,pl,"pl, en"
 Romania,ROU,ro,"ro, en"
 Russia,RUS,ru,"ru, en"
 Saudi Arabia,SAU,sa,"ar, en"
@@ -50,3 +50,4 @@ UAE,ARE,ae,"ar, en"
 Ukraine,UKR,ua,"uk, en"
 United States,USA,us,en
 Vietnam,VNM,vn,"vi, en"
+ALL_LANGUAGE,USA,all,"en, ar, fr, de, es, el, it, hu, ja, id, ko, ms, pl, pt, ro, ru, sv, th, tl, tr, uk, vi, zh"
