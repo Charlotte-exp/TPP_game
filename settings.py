@@ -86,7 +86,7 @@ SESSION_CONFIGS = [
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
-        config=dict(CURRENT_COUNTRY="all"),
+        config=dict(CURRENT_COUNTRY="all",prolific = False),
     ),
     dict(
         name='all_lang_block2',
@@ -95,7 +95,7 @@ SESSION_CONFIGS = [
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
-        config=dict(CURRENT_COUNTRY="all"),
+        config=dict(CURRENT_COUNTRY="all",prolific = False),
     ),
     dict(
         name='all_lang_demographics',
