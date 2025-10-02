@@ -35,7 +35,7 @@ class C(BaseConstants):
 def get_country_list(lang):
     filepath = os.path.join(os.path.dirname(__file__), '../_static/global/countrynames_all_lang.csv')
     with open(filepath, encoding='utf-8') as file:
-        reader = csv.DictReader(file, delimiter=';')
+        reader = csv.DictReader(file, delimiter=',')
         if lang not in reader.fieldnames:
             raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
         countries_world = [row[lang] for row in reader if row[lang]]
