@@ -146,7 +146,7 @@ class DiceRatings(Page):
                                                  num_points=3),
             button_next=get_translation("button_next", lang),
             button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=2),
             total_pages=player.session.config['total_pages'],
         )
 
