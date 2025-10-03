@@ -639,8 +639,7 @@ class Instructions(Page):
             you=get_translation('you', lang),
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang),
-
+            button_block=get_translation('block_title', lang, block_num=1),
             instru_0DG_pairing=get_translation('instru_0DG_pairing', lang),
             instru_0DG_decision=get_translation('instru_0DG_decision', lang),
             instru_0DG_points=get_translation('instru_0DG_points', lang),
@@ -740,7 +739,7 @@ class ComprehensionQuestionPage(Page):
             button_next=get_translation('button_next', lang),
             error_incorrect=get_translation('error_incorrect', lang),
             button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=1),
         )
 
     @staticmethod
@@ -785,7 +784,7 @@ class AttentionCheckPage(Page):
             attention2=player.attention2,
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=1),
             error1=get_translation('error1', lang),
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
@@ -972,7 +971,7 @@ class TPPage(Page):
             appropriate=get_translation('appropriate', lang),
             very_appropriate=get_translation('very_appropriate', lang),
             button_next=get_translation('button_next', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=1),
             error3=get_translation('error3', lang),
             total_pages=player.session.config['total_pages'],
         )
@@ -1093,7 +1092,7 @@ class DictatorPage(Page):
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
             button_next=get_translation('button_next', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=1),
             error1=get_translation('error1', lang),
             total_pages=player.session.config['total_pages'],
             )
@@ -1136,7 +1135,7 @@ class UniversalNormPage(Page):
             person_b =get_translation('person_b', lang),
             button_next = get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=1),
             num_countries=list(range(0, C.NUM_COUNTRIES+1)),
             endowments=range(0, int(C.total_endowment) + 1),
             image=image,

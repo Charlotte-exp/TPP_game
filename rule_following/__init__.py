@@ -109,11 +109,12 @@ class RuleFollowing(Page):
             rule_rule=get_translation("rule_rule", lang,
                                       aim=player.rule_aim),
             rule_another_lose=get_translation("rule_another_lose", lang),
+            rule_not_attention_check=get_translation("rule_not_attention_check", lang),
             rule_me_lose=get_translation("rule_me_lose", lang),
             aim= player.rule_aim,
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
-            button_block=get_translation('button_block', lang),
+            button_block=get_translation('block_title', lang, block_num=2),
             error_all_sliders=get_translation('error_all_sliders', lang),
         )
 

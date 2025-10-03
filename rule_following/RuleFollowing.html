@@ -1,7 +1,7 @@
 {{ block title }}
 
 <div class="block-header">
-    {{ button_block|safe }} 2
+    {{ button_block|safe }}
 </div>
 
 <p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{ participant.decision_page_number }} </p>
@@ -257,8 +257,13 @@
         {{ endif }}
 
         <p style="text-align: center; ">
+            {{ rule_not_attention_check }}
+        </p>
+
+        <p style="text-align: center; ">
             <b> {{ rule_rule }} </b>
         </p>
+
         <br>
 
         <div class='responsive-div'>
