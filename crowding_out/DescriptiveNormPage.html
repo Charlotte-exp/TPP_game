@@ -1,5 +1,11 @@
 {{ block title }}
 
+<!--Somehow RTL here messes up images, so not activated here. Problem only with error messages.-->
+
+<!--{% if lang == "ar" %}-->
+<!--<html lang="ar" dir="rtl">-->
+<!--{% endif %}-->
+
 <div class="block-header">
     {{ button_block|safe }}
 </div>
@@ -364,6 +370,8 @@
 
         <br>
 
+        {{ if lang == "ar" }} <div style="text-align: right;" class="rtl"> {{ endif }}
+
         <p style="text-align: center; ">
             {{ descr_question|safe }}
         </p>
@@ -383,6 +391,8 @@
             <div class="number" data-value="100" >100</div>
         </div>
     </div>
+
+        {{ if lang == "ar" }} </div> {{ endif }}
     </div>
 
     <br>
@@ -393,16 +403,30 @@
 
     <br>
 
-    <div style="display: flex; justify-content: flex-end">
-        <button style="color: #fff;
-                       background-color: #007bff;
-                       border: 1px solid #007bff;
-                       font-size: 1rem;
-                       border-radius: 0.25rem;
-                       padding: 4px 12px;" type="button" id="submit-button">
-            {{ button_next|safe }}
-        </button>
+<!--    <div style="display: flex; justify-content: flex-end">-->
+<!--        <button style="color: #fff;-->
+<!--                       background-color: #007bff;-->
+<!--                       border: 1px solid #007bff;-->
+<!--                       font-size: 1rem;-->
+<!--                       border-radius: 0.25rem;-->
+<!--                       padding: 4px 12px;" type="button" id="submit-button">-->
+<!--            {{ button_next|safe }}-->
+<!--        </button>-->
+<!--    </div>-->
+
+    {{ if lang == "ar" }}
+
+    <div style="display: flex; justify-content: flex-end; direction: rtl;">
+        <button class="btn btn-primary">{{ button_next|safe }}</button>
     </div>
+
+    {{else}}
+
+    <div style="display: flex; justify-content: flex-end">
+        <button class="btn btn-primary">{{ button_next|safe }}</button>
+    </div>
+
+    {{ endif }}
 
 
 </form>

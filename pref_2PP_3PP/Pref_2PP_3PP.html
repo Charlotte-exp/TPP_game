@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
 <div class="block-header">
     {{ button_block|safe }}
 </div>
@@ -258,7 +262,7 @@
     <!-- Add hidden input to store the selected value -->
     <input type="hidden" name="pref_2PP_3PP" id="selected-option-1">
 
-        {{ formfield_errors 'pref_2PP_3PP' }}
+<!--        {{ formfield_errors 'pref_2PP_3PP' }}-->
 
     <div class='responsive-div'>
 

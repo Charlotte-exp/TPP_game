@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
     <p style="text-align: center; font-size: 26px; margin-bottom: 4px; "> {{ intro_title }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
@@ -21,6 +25,11 @@
 {{ block content }}
 
 <div class="card-body">
+
+    {{ if lang == "ar" }}
+    <div style="text-align: right;">
+    {{ endif }}
+
 
     {{ if C.prolific == True }}
 
@@ -101,6 +110,10 @@
     </b>
 
     {{ endif }}
+
+        {{ if lang == "ar" }}
+            </div>
+            {{ endif }}
 
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px">

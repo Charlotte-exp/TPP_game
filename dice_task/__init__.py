@@ -129,7 +129,7 @@ class DiceRatings(Page):
             very_untrustworthy=get_translation("very_untrustworthy", lang),
             very_trustworthy=get_translation("very_trustworthy", lang),
             dice_likable=get_translation("dice_likable", lang),
-            very_unlikable=get_translation('very_unlikable', lang),
+            very_unlikable=get_translation('not_at_all_likable', lang),
             very_likable=get_translation('very_likable', lang),
             dice_error=get_translation("error3", lang),
             dice_trust_game=get_translation("dice_trust_game", lang,
@@ -147,6 +147,7 @@ class DiceRatings(Page):
             button_next=get_translation("button_next", lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('block_title', lang, block_num=2),
+            lang = lang,
             total_pages=player.session.config['total_pages'],
         )
 

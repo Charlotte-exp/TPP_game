@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
 <div class="block-header">
     {{ button_block|safe }}
 </div>
@@ -382,6 +386,8 @@
 <body>
 <div class="card-body">
 
+    <div style="text-align: center;">
+
     <p>
         {{ dice_observe }}
     </p>
@@ -433,6 +439,8 @@
             {{ dice_reported }}
         </div>
     </div>
+
+        </div>
 
     <br>
     <div class='responsive-div'>
@@ -486,10 +494,18 @@
     </div>
 
     <br>
+
+    <div style="text-align: center;">
+
     <p>
         {{ dice_trust_game }}
+    </p>
+
+    <p>
         {{ dice_example }}
     </p>
+
+        </div>
 
     <div class='responsive-div'>
         <p style="text-align: center;">

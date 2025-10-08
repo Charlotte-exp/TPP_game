@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
     <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
@@ -116,6 +120,8 @@
 
 <!--    {{ formfield_errors 'self_other' }}-->
 
+    <div style="text-align: center;">
+
     <p>
         {{ circle_intro|safe }}
     </p>
@@ -123,6 +129,8 @@
     <p style="text-align: center;">
         <b>{{ circle_question|safe }}</b>
     </p>
+
+        </div>
 
     <table class="IOS">
         <tr>

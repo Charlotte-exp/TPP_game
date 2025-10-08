@@ -85,6 +85,14 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+# def js_vars(player: 'Player'):
+#     # This function runs for every page load for every player.
+#     # We get the language from your custom participant field.
+#     lang_code = player.participant.language
+#     return dict(
+#         language_code=lang_code
+#     )
+
 def creating_session(subsession):
 
     # print('Creating session; round number: {}'.format(subsession.round_number))
@@ -494,6 +502,7 @@ class Consent(Page):
     def vars_for_template(player: Player):
         participant = player.participant
         lang = participant.language
+        print("language: ", lang)
 
         # Load countrynames in selected language
         participant.current_countryname = get_country_dict(lang, participant.current_country)
@@ -525,6 +534,7 @@ class Consent(Page):
             consent_questions=get_translation('consent_questions', lang),
             consent_contact=get_translation('consent_contact', lang),
             button_consent=get_translation('button_consent', lang),
+            lang = lang,
             ipregistry_key= os.getenv("IPREGISTRY_KEY")
         )
 
@@ -563,6 +573,7 @@ class Introduction(Page):
             intro_points_title=get_translation('intro_points_title', lang),
             intro_points=get_translation('intro_points', lang),
             intro_carefully=get_translation('intro_carefully', lang),
+            lang = lang,
             button_start=get_translation('button_start', lang),
         )
 
@@ -669,6 +680,7 @@ class Instructions(Page):
             person_a=get_translation('person_a', lang),
             person_b=get_translation('person_b', lang),
             person_c=get_translation('person_c', lang),
+            lang = lang,
             button_understood=get_translation('button_understood', lang),
         )
 
@@ -737,6 +749,7 @@ class ComprehensionQuestionPage(Page):
                                                       points1=1,
                                                       points2=1),
             button_next=get_translation('button_next', lang),
+            lang = lang,
             error_incorrect=get_translation('error_incorrect', lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('block_title', lang, block_num=1),
@@ -804,6 +817,7 @@ class AttentionCheckPage(Page):
             attention_check2=get_translation('attention_check1', lang,
                                                  attention_num=2),
             attention_title=get_translation('attention_title', lang),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 
@@ -973,6 +987,7 @@ class TPPage(Page):
             button_next=get_translation('button_next', lang),
             button_block=get_translation('block_title', lang, block_num=1),
             error3=get_translation('error3', lang),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 
@@ -1094,6 +1109,7 @@ class DictatorPage(Page):
             button_next=get_translation('button_next', lang),
             button_block=get_translation('block_title', lang, block_num=1),
             error1=get_translation('error1', lang),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
             )
 
@@ -1139,6 +1155,7 @@ class UniversalNormPage(Page):
             num_countries=list(range(0, C.NUM_COUNTRIES+1)),
             endowments=range(0, int(C.total_endowment) + 1),
             image=image,
+            lang=lang,
             total_pages=player.session.config['total_pages'],
             )
 

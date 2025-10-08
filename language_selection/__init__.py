@@ -55,6 +55,14 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+# def js_vars(player: 'Player'):
+#     # This function runs for every page load for every player.
+#     # We get the language from your custom participant field.
+#     lang_code = player.participant.language
+#     return dict(
+#         language_code=lang_code
+#     )
+
 
 def creating_session(subsession):
 
@@ -76,7 +84,6 @@ def creating_session(subsession):
         else:
             participant.all_language_test = False
             participant.current_country = current_country
-
 
 
 class Group(BaseGroup):

@@ -248,6 +248,7 @@ class CrowdingInOutPage(Page):
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('block_title', lang, block_num=2),
             # charities = charities,
+            lang=lang,
             local_red_cross = local_red_cross,
             image_red_cross_local = image_red_cross_local,
             current_country=current_countryname,
@@ -303,6 +304,7 @@ class DescriptiveNormPage(Page):
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('block_title', lang, block_num=2),
             current_country=current_countryname,
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 
@@ -387,6 +389,7 @@ class ConditionalCoopPage(Page):
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('block_title', lang, block_num=2),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 
@@ -544,6 +547,7 @@ class ConditionalCoopInterdepPage(Page):
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision', lang),
             button_block=get_translation('block_title', lang, block_num=2),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 
