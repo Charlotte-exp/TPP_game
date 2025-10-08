@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
     <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
@@ -90,9 +94,13 @@
     <input type="hidden" name="choosing_1" id="selected-answer-3" value="">
     <input type="hidden" name="choosing_2" id="selected-answer-4" value="">
 
+    <div style="text-align: center;">
+
     <p>
         {{ rel_intro|safe }}
     </p>
+
+        </div>
 
     <div class="responsive-div">
 

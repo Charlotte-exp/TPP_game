@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
 <div class="block-header">
     {{ button_block|safe }}
 </div>
@@ -280,6 +284,8 @@
 
     {% if "2PP" in player.treatment %}
 
+    <div style="text-align: center;">
+
         <div class='responsive-div'>
 
             <p>
@@ -296,6 +302,8 @@
             </div>
 
         <hr>
+        </div>
+
         </div>
 
     {% endif %}

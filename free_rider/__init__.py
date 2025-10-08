@@ -94,6 +94,7 @@ class Narratives(Page):
             button_next=get_translation("button_next", lang),
             error3=get_translation("error3", lang),
             additional_questions=get_translation("additional_questions", lang),
+            lang = lang,
             total_pages=player.session.config['total_pages'],
         )
 

@@ -32,17 +32,22 @@
     </style>
 
         <br>
-        <p>
-            {{ language_confirmation_question|safe }}
-        </p>
 
-        {{ if lang != "en" }}
+        <div style="text-align: center;">
 
-            <p style="color: grey;">
-                {{ language_confirmation_question_en|safe }}
+            <p>
+                {{ language_confirmation_question|safe }}
             </p>
 
-        {{ endif }}
+            {{ if lang != "en" }}
+
+                <p style="color: grey;">
+                    {{ language_confirmation_question_en|safe }}
+                </p>
+
+            {{ endif }}
+
+        </div>
 
         <br>
 

@@ -1,5 +1,19 @@
 /* shared_styles.css */
 
+    /*!* We are adding it to the <html> tag with JavaScript. *!*/
+    /*.rtl {*/
+    /*  direction: rtl;*/
+    /*}*/
+
+    /*!* This makes sure the text inside the body aligns correctly. *!*/
+    /*.rtl body {*/
+    /*  text-align: right;*/
+    /*}*/
+
+    .center {
+    text-align: center;
+    }
+
     body {
         justify-content: center;
         align-items: center;

@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
     <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center">
@@ -19,6 +23,8 @@
 
 <div class="card-body">
 
+    <div style="text-align: center;">
+
     <p>
         {{ ladder_intro|safe }}
     </p>
@@ -26,6 +32,8 @@
     <p>
         <b> {{ ladder_question|safe }} </b>
     </p>
+
+        </div>
 
     <div class="ladder-wrapper">
         <div class="ladder-label top-label">{{ ladder_best_off|safe }}</div>

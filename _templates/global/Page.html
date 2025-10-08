@@ -2,6 +2,33 @@
 {{ load otree }}
 
 {{ block global_styles  }}
+
+<!--    {# This checks the custom language code passed in from js_vars #}-->
+<!--    {% if language_code == 'ar' %}-->
+
+<!--    <script>-->
+<!--        // If you see this message, the IF condition was successful!-->
+<!--        console.log("SUCCESS: The condition participant.language == 'ar' was met.");-->
+<!--    </script>-->
+
+<!--    <style>-->
+<!--        html {-->
+<!--            direction: rtl;-->
+<!--        }-->
+<!--        body {-->
+<!--            text-align: right;-->
+<!--        }-->
+<!--    </style>-->
+<!--    {% endif %}-->
 {{ endblock }}
-{{ block global_scripts  }}
+
+{{ block global_scripts }}
+<!--    <script>-->
+<!--        // This script runs on every page load.-->
+<!--        // js_vars.language_code is passed directly from our Python function.-->
+<!--        if (js_vars.language_code === 'ar') {-->
+<!--            // If the language is Arabic, add the 'rtl' class to the root <html> element.-->
+<!--            document.documentElement.classList.add('rtl');-->
+<!--        }-->
+<!--    </script>-->
 {{ endblock }}

@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
 <div class="block-header">
     {{ button_block|safe }}
 </div>
@@ -179,7 +183,7 @@
 
             function updatePointsDisplay() {
                 const baseText = condition === "hurt_other" ? ruleAnotherLose : ruleMeLose;
-                pointsDisplay.textContent = `${baseText.replace('{points}', pointsLost)}`;
+                pointsDisplay.innerHTML = `${baseText.replace('{points}', pointsLost)}`;
             }
 
             updatePointsDisplay();

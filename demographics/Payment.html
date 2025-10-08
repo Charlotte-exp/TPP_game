@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
     <p style="text-align: center; font-size: 26px; "> {{ thank_you_short|safe }} </p>
 
 <div style="display: flex; justify-content: center">
@@ -20,12 +24,15 @@
 
 <div class="card-body">
 
+    <div style="text-align: center;">
+
     <p>
         {{ study_complete|safe }}
     </p>
 
     <div class="panel panel-default" style="margin-bottom:10px">
-        <div class="panel-body">
+        <div class="panel-body" >
+
             <b>{{ thank_you|safe }}</b> <br> <br>
 
             {{ if prolific == True }}
@@ -61,6 +68,8 @@
                 <button class="btn btn-primary">{{button_next | safe}}</button>
             </div>
          {{ endif }}
+    </div>
+
     </div>
 </div>
 

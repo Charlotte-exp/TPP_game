@@ -1,5 +1,11 @@
 {{ block title }}
 
+<!--Somehow RTL here messes up images, so not activated here. Problem only with error messages.-->
+
+<!--{% if lang == "ar" %}-->
+<!--<html lang="ar" dir="rtl">-->
+<!--{% endif %}-->
+
 <div class="block-header">
     {{ button_block|safe }}
 </div>
@@ -807,6 +813,8 @@
         </div>
         <br>
 
+    {{ if lang == "ar" }} <div style="text-align: right;" class="rtl"> {{ endif }}
+
         {% if crowding_out_button_pos %}
 
         <div class="option-row" data-input="selected-option-1">
@@ -867,12 +875,17 @@
         <hr>
         <br>
 
+    {{ if lang == "ar" }} </div> {{ endif }}
+
     </div>
 
 
 <!--    NORM ELICITATION PART-->
 
     <div class='responsive-div'>
+
+        {{ if lang == "ar" }} <div style="text-align: right;" class="rtl"> {{ endif }}
+
 
         <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
 
@@ -906,6 +919,7 @@
             {% endif %}
 
          </div>
+
 
         <br>
 
@@ -995,6 +1009,9 @@
             {{ error_all_sliders|safe }}
         </div>
     <br>
+
+        {{ if lang == "ar" }} </div> {{ endif }}
+
     </div>
 
 <!--    <div style="display: flex; justify-content: flex-end">-->
@@ -1008,9 +1025,19 @@
 <!--        </button>-->
 <!--    </div>-->
 
+    {{ if lang == "ar" }}
+
+    <div style="display: flex; justify-content: flex-end; direction: rtl;">
+        <button class="btn btn-primary">{{ button_next|safe }}</button>
+    </div>
+
+    {{else}}
+
     <div style="display: flex; justify-content: flex-end">
         <button class="btn btn-primary">{{ button_next|safe }}</button>
     </div>
+
+    {{ endif }}
 
 
 </form>

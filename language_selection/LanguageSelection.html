@@ -31,10 +31,10 @@
 
         <div class="card-body">
 
-            <div style="margin-bottom: 1rem;">
+            <div style="text-align: center; margin-bottom: 2rem;">
                 <label>{{language_selection}}</label><br/>
 
-                <select name="lang" class="form-control">
+                <select name="lang" class="form-control" style="display: inline-block; width: auto;">
                     <option value="" disabled selected>{{language_select}}</option>
                     {% for code, name in language_options %}
                         <option value="{{ code }}">{{ name }}</option>

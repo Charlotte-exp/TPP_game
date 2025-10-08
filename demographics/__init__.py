@@ -207,6 +207,7 @@ class Demographics(Page):
             select_country=get_translation('select_country', lang),
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
+            lang = lang,
             error3=get_translation('error3', lang),
             countries=countries,
         )
@@ -235,6 +236,7 @@ class Ladder(Page):
             ladder_worst_off=get_translation('ladder_worst_off', lang),
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
+            lang=lang,
             error1=get_translation('error1', lang),
         )
 
@@ -273,6 +275,7 @@ class RelationalMobility(Page):
             strongly_agree=get_translation('strongly_agree', lang),
             button_next=get_translation('button_next', lang), #"다음"
             additional_questions=get_translation('additional_questions', lang), #"추가 질문"
+            lang = lang,
             error3=get_translation('error3', lang),
         )
 
@@ -298,6 +301,7 @@ class Circle(Page):
             your_country=get_translation('your_country', lang),
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
+            lang=lang,
             error1=get_translation('error1', lang),
         )
 
@@ -323,6 +327,7 @@ class CommentBox(Page):
             feedback=get_translation('feedback', lang),
             #comment_intro=get_translation('comment_intro', lang),
             question_box=get_translation('question_box', lang),
+            lang=lang,
             #comment_box=get_translation('comment_box', lang),
             button_next=get_translation('button_next', lang)
         )
@@ -357,6 +362,7 @@ class Payment(Page):
             debrief=get_translation('debrief', lang),
             close_window=get_translation('close_window', lang),
             bonus_payment=get_translation('bonus_payment', lang),
+            lang=lang,
             button_next=get_translation('button_next', lang)
         )
 
@@ -384,6 +390,7 @@ class ProlificLink(Page):
             redirect_prolific_wait=get_translation('redirect_prolific_wait', lang),
             redirect_prolific_info=get_translation('redirect_prolific_info', lang),
             redirect_prolific_code=get_translation('redirect_prolific_code', lang),
+            lang=lang,
             button_next=get_translation('button_next', lang)
         )
 

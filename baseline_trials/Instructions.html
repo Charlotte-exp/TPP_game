@@ -1,5 +1,8 @@
-
 {{ block title }}
+
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
 
 <div class="block-header">
     {{ button_block|safe }}
@@ -547,6 +550,8 @@
 
     {{ if treatment_type == '0DG' }}
 
+        <div style="text-align: center;">
+
         <p>{{ instru_0DG_decision }}</p>
 
         <div class="figure-container short-figure-container">
@@ -577,10 +582,14 @@
             {{ instru_0DG_pairing }}
         </p>
 
+            </div>
+
     {{ endif }}
 
 
     {{ if player.round_number == 3 }}
+
+        <div style="text-align: center;">
 
         <p>
             {{ instru_2PP_stages }}
@@ -636,10 +645,14 @@
 
         </div>
 
+            </div>
+
     {{ endif }}
 
 
     {{ if treatment_type == '3PP' and player.round_number < 9 }}
+
+    <div style="text-align: center;">
 
         <div class="figure-container">
 
@@ -674,6 +687,8 @@
             {{ instru_3PP_rules }}
         </p>
 
+        </div>
+
     {{ endif }}
 
 
@@ -681,6 +696,8 @@
 
 
     {{ if block3 == True }}
+
+    <div style="text-align: center;">
 
         <p style="color: red; text-align: center; font-weight: bold;">
             {{ instru_3PP_change }}
@@ -742,6 +759,7 @@
             {{ instru_countries_remove }}
         </p>
 
+        </div>
 
     {{ endif }}
 

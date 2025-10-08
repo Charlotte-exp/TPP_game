@@ -104,6 +104,7 @@ class Pref_2PP_3PP(Page):
             or_button=get_translation("or_button", lang),
             button_next=get_translation("button_next", lang),
             button_block=get_translation('block_title', lang, block_num=1),
+            lang = lang,
             error3=get_translation("error3", lang),
             total_pages=player.session.config['total_pages'],
         )

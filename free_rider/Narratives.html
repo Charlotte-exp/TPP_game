@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
 <p style="text-align: center; font-size: 26px; "> {{ additional_questions|safe }} </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
