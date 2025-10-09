@@ -1,5 +1,9 @@
 {{ block title }}
 
+{% if default_language == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
 
     <p style="text-align: center; font-size: 26px; "> {{ language_confirmation|safe }} </p>
 

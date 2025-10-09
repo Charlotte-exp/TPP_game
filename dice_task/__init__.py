@@ -145,7 +145,7 @@ class DiceRatings(Page):
             dice_3points=get_translation('points_button', lang,
                                                  num_points=3),
             button_next=get_translation("button_next", lang),
-            button_decision=get_translation('button_decision', lang),
+            button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number),
             button_block=get_translation('block_title', lang, block_num=2),
             lang = lang,
             total_pages=player.session.config['total_pages'],
@@ -169,6 +169,7 @@ class FillerEndBlock2(Page):
             filler_completed=get_translation("filler2b_completed", lang),
             filler_next_page=get_translation("filler2b_next_page", lang),
             button_next=get_translation("button_next", lang),
+            lang = lang,
             total_pages=player.session.config['total_pages'],
         )
 
