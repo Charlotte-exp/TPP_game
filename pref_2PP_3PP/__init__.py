@@ -63,6 +63,7 @@ class FillerEndBlock1(Page):
             filler1_completed=get_translation("filler1_completed", lang),
             filler1_next_page=get_translation("filler1_next_page", lang),
             button_next=get_translation("button_next", lang),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 
@@ -128,6 +129,7 @@ class FillerStartBlock2(Page):
             filler2_selected=get_translation("filler2_selected", lang),
             filler2a_different=get_translation("filler2a_different", lang),
             button_next=get_translation("button_next", lang),
+            lang=lang,
             total_pages=player.session.config['total_pages'],
         )
 

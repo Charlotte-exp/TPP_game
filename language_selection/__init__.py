@@ -132,6 +132,7 @@ class LanguageSelection(Page):
             language_selection = get_translation('language_selection', default_language),
             language_select=get_translation('language_selection_placeholder', default_language),
             button_next=get_translation('button_next', default_language),
+            default_language = default_language,
             error3=get_translation('error3', default_language),
         )
 
@@ -174,6 +175,7 @@ class LanguageConfirmation(Page):
                                                   language = selected_lang_name_en),
             button_go_back_en=get_translation('button_go_back', 'en'),
             button_confirm_en=get_translation('button_confirm', 'en'),
+            default_language = default_language,
             error3=get_translation('error3', default_language),
         )
 

@@ -1,10 +1,8 @@
 {{ block title }}
 
-<!--Somehow RTL here messes up images, so not activated here. Problem only with error messages.-->
-
-<!--{% if lang == "ar" %}-->
-<!--<html lang="ar" dir="rtl">-->
-<!--{% endif %}-->
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
 
 <div class="block-header">
     {{ button_block|safe }}
@@ -318,6 +316,13 @@
         left:calc(50% - 85px);
     }
 
+    /* override RTL for the image area */
+    .rtl .image-container,
+    html[dir="rtl"] .image-container {
+      direction: ltr;
+    }
+
+
 
 </style>
 </head>
@@ -370,8 +375,6 @@
 
         <br>
 
-        {{ if lang == "ar" }} <div style="text-align: right;" class="rtl"> {{ endif }}
-
         <p style="text-align: center; ">
             {{ descr_question|safe }}
         </p>
@@ -392,7 +395,6 @@
         </div>
     </div>
 
-        {{ if lang == "ar" }} </div> {{ endif }}
     </div>
 
     <br>
@@ -414,19 +416,10 @@
 <!--        </button>-->
 <!--    </div>-->
 
-    {{ if lang == "ar" }}
-
-    <div style="display: flex; justify-content: flex-end; direction: rtl;">
-        <button class="btn btn-primary">{{ button_next|safe }}</button>
-    </div>
-
-    {{else}}
 
     <div style="display: flex; justify-content: flex-end">
         <button class="btn btn-primary">{{ button_next|safe }}</button>
     </div>
-
-    {{ endif }}
 
 
 </form>
