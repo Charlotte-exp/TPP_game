@@ -1,16 +1,14 @@
 {{ block title }}
 
-<!--Somehow RTL here messes up images, so not activated here. Problem only with error messages.-->
-
-<!--{% if lang == "ar" %}-->
-<!--<html lang="ar" dir="rtl">-->
-<!--{% endif %}-->
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
 
 <div class="block-header">
     {{ button_block|safe }}
 </div>
 
-<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }} {{ participant.decision_page_number }} </p>
+<p style="text-align: center; font-size: 26px;  "> {{ button_decision|safe }}  </p>
 
 <div style="display: flex; justify-content: center; margin-bottom: 4px;">
     <label>
@@ -735,6 +733,13 @@
     margin: auto; /* centers vertically & horizontally */
 }
 
+/* override RTL for the image area */
+.rtl .image-container,
+html[dir="rtl"] .image-container {
+  direction: ltr;
+}
+
+
 .responsive-div {
     width: 100%;
     max-width: 800px;
@@ -813,8 +818,6 @@
         </div>
         <br>
 
-    {{ if lang == "ar" }} <div style="text-align: right;" class="rtl"> {{ endif }}
-
         {% if crowding_out_button_pos %}
 
         <div class="option-row" data-input="selected-option-1">
@@ -875,16 +878,12 @@
         <hr>
         <br>
 
-    {{ if lang == "ar" }} </div> {{ endif }}
-
     </div>
 
 
 <!--    NORM ELICITATION PART-->
 
     <div class='responsive-div'>
-
-        {{ if lang == "ar" }} <div style="text-align: right;" class="rtl"> {{ endif }}
 
 
         <div class="image-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
@@ -1010,7 +1009,6 @@
         </div>
     <br>
 
-        {{ if lang == "ar" }} </div> {{ endif }}
 
     </div>
 
@@ -1025,19 +1023,9 @@
 <!--        </button>-->
 <!--    </div>-->
 
-    {{ if lang == "ar" }}
-
-    <div style="display: flex; justify-content: flex-end; direction: rtl;">
-        <button class="btn btn-primary">{{ button_next|safe }}</button>
-    </div>
-
-    {{else}}
-
     <div style="display: flex; justify-content: flex-end">
         <button class="btn btn-primary">{{ button_next|safe }}</button>
     </div>
-
-    {{ endif }}
 
 
 </form>

@@ -43,6 +43,9 @@
 
     var correct_answers = {{correct_answers}}
 
+    var comprehension_error_green = "{{ comprehension_error_green }}";
+    var comprehension_error_red = "{{ comprehension_error_red }}";
+
     /// Function for showing customized error messages
     let errorDiv = document.querySelector('.otree-form-errors');
 
@@ -95,7 +98,7 @@
                 if (value == correct_answers[index]) { //If correct
                     if (current_treatment.includes("3PC")) { // For 3PC, additionally check if other question is correct
                         if ($('#selected-comprehension3PC1').val() == 0) {
-                            errorDiv.textContent = "Correct answers! Please press 'Next'."
+                            errorDiv.textContent = comprehension_error_green;
                             errorDiv.style.color = 'green';
                             errorDiv.style.backgroundColor = 'lightgreen';
                             errorDiv.style.border = '1px solid green'
@@ -106,13 +109,13 @@
                             errorDiv.style.border = '1px solid green'
                         }
                     } else {
-                        errorDiv.textContent = "Correct answer! Please press 'Next'."
+                        errorDiv.textContent = comprehension_error_green;
                         errorDiv.style.color = 'green';
                         errorDiv.style.backgroundColor = 'lightgreen';
                         errorDiv.style.border = '1px solid green'
                     }
                 } else { //If incorrect
-                    errorDiv.textContent = "Wrong answer! Please select the correct answer."
+                    errorDiv.textContent = comprehension_error_red;
                     errorDiv.style.color = '';
                     errorDiv.style.backgroundColor = '';
                     errorDiv.style.border = ''
@@ -173,7 +176,7 @@
             if (errorDiv) { // If there is already an error, which was caused by clicking next: Update the error message, because otherwise no way to remove error message
                 if (value === 0) { //If correct
                     if ($('#selected-comprehension3PC2').val() == correct_answers[index] ) { //If correct AND other 3PC Q also correct
-                        errorDiv.textContent = "Correct answer! Please press 'Next'."
+                        errorDiv.textContent = comprehension_error_green;
                         errorDiv.style.color = 'green';
                         errorDiv.style.backgroundColor = 'lightgreen';
                         errorDiv.style.border = '1px solid green'
@@ -184,7 +187,7 @@
                         errorDiv.style.border = '1px solid green'
                     }
                 } else { //If incorrect
-                    errorDiv.textContent = "Wrong answer! Please select the correct answer."
+                    errorDiv.textContent = comprehension_error_red;
                     errorDiv.style.color = '';
                     errorDiv.style.backgroundColor = '';
                     errorDiv.style.border = ''

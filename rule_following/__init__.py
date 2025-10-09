@@ -113,7 +113,7 @@ class RuleFollowing(Page):
             rule_me_lose=get_translation("rule_me_lose", lang),
             aim= player.rule_aim,
             button_next=get_translation('button_next', lang),
-            button_decision=get_translation('button_decision', lang),
+            button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number),
             button_block=get_translation('block_title', lang, block_num=2),
             lang = lang,
             error_all_sliders=get_translation('error_all_sliders', lang),
