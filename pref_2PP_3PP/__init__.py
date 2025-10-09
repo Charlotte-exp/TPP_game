@@ -88,7 +88,7 @@ class Pref_2PP_3PP(Page):
             pref_2PP_3PP_button_pos = player.participant.pref_2PP_3PP_button_pos,
             image2PP=image2PP,
             image3PP=image3PP,
-            button_decision=get_translation("button_decision", lang),
+            button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number),
             person_a=get_translation("person_a", lang),
             person_b=get_translation("person_b", lang),
             person_c=get_translation("person_c", lang),
