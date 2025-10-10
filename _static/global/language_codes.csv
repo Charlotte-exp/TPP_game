@@ -1,30 +1,30 @@
-language_en,language_code,language
-Arabic,ar,اَلْعَرَبِيَّةُ(al-ʿarabiyyah)
-Bulgarian,bg,Български (Bulgarski)
-Chinese (Simplified),zh-CN,简体中文 (Jiǎntǐ Zhōngwén)
-Chinese (Traditional),zh-TW,繁體中文 (Fántǐ Zhōngwén)
-Croatian,hr,Hrvatski
-English,en,English
-Finnish,fi,Suomi
-Filipino,tl,Wikang Filipino
-French,fr,Français
-German,de,Deutsch
-Greek,el,Ελληνικά
-Hindi,hi,हिन्दी (Hindī)
-Hungarian,hu,Magyar nyelv
-Indonesian,id,bahasa Indonesia
-Italian,it,Italiano
-Japanese,ja,日本語 (Nihongo)
-Korean,ko,한국어 (Hangugeo)조선말 (Chosŏnmal)
-Malay,ms,بهاس ملايو (bahasa Melayu)
-Polish,pl,Polski
-Portuguese,pt,Português
-Romanian,ro,Română
-Russian,ru,Русский язык (Russkiĭ âzyk)
-"Spanish, Castilian",es,Español; Castellano
-Swahili,sw,Kiswahili; كِسوَحِيلِ
-Swedish,sv,Svenska
-Thai,th,ภาษาไทย (Phasa Thai)
-Turkish,tr,Türkçe
-Ukrainian,uk,Українська (Ukraїnska)
-Vietnamese,vi,tiếng Việt
+language_en,language_code,language_formal,language,language_included
+Arabic,ar,اَلْعَرَبِيَّةُ(al-ʿarabiyyah),اَلْعَرَبِيَّةُ,1
+Bulgarian,bg,Български (Bulgarski),Български,0
+German,de,Deutsch,Deutsch,1
+Greek,el,Ελληνικά,Ελληνικά,1
+English,en,English,English,1
+Spanish,es,Español; Castellano,Español,1
+Finnish,fi,Suomi,Suomi,0
+French,fr,Français,Français,1
+Hindi,hi,हिन्दी (Hindī),हिन्दी,0
+Croatian,hr,Hrvatski,Hrvatski,0
+Hungarian,hu,Magyar,Magyar,1
+Indonesian,id,bahasa Indonesia,Bahasa Indonesia,1
+Italian,it,Italiano,Italiano,1
+Japanese,ja,日本語 (Nihongo),日本語,1
+Korean,ko,한국어 (Hangugeo)조선말 (Chosŏnmal),한국어,1
+Malay,ms,بهاس ملايو (bahasa Melayu),Bahasa Melayu,1
+Polish,pl,Polski,Polski,1
+Portuguese,pt,Português,Português,1
+Romanian,ro,Română,Română,1
+Russian,ru,Русский язык (Russkiĭ âzyk),Русский,1
+Swedish,sv,Svenska,Svenska,1
+Swahili,sw,Kiswahili; كِسوَحِيلِ,Kiswahili,0
+Thai,th,ภาษาไทย (Phasa Thai),ภาษาไทย,1
+Filipino,tl,Wikang Filipino,Filipino,1
+Turkish,tr,Türkçe,Türkçe,1
+Ukrainian,uk,Українська (Ukraїnska),Українська,1
+Vietnamese,vi,tiếng Việt,Tiếng Việt,1
+Chinese (Simplified),zh-CN,简体中文,简体中文,1
+Chinese (Traditional),zh-TW,繁體中文,繁體中文,1
