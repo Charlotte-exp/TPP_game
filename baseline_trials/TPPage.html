@@ -649,15 +649,15 @@
                 <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
                 <div class="person-a">
-                    <b>{{ person_a }}</b>
+                    <b>{{ PERSON_spacing|safe }}{{ person_a }}</b>
                 </div>
                 <div class="person-b">
-                    <b>{{ person_b }}</b>
+                    <b>{{ PERSON_spacing|safe }}{{ person_b }}</b>
                 </div>
 
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
                     <div class="person-c">
-                    <b>{{ person_c }}</b>
+                    <b>{{ PERSON_spacing|safe }}{{ person_c }}</b>
                 </div>
                 {% endif %}
 
@@ -793,25 +793,25 @@
                 <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
                 <div class="person-a">
-                    <b>{{ person_a }}</b>
+                    <b>{{ PERSON_spacing|safe }}{{ person_a }}</b>
                 </div>
                 <div class="person-b">
-                    <b>{{ person_b }}</b>
+                    <b>{{ PERSON_spacing|safe }}{{ person_b }}</b>
                 </div>
 
                 {% if "3PP" in player.treatment or "3PR" in player.treatment or "3PC" in player.treatment %}
                 <div class="person-c">
-                    <b>{{ person_c }}</b>
+                    <b>{{ PERSON_spacing|safe }}{{ person_c }}</b>
                 </div>
 
                 <div class="you-third-party">
-                    <b>{{ you }}</b>
+                    <b>{{ YOU_spacing|safe }}{{ you|safe }}</b>
                 </div>
                 {% endif %}
 
                 {% if "2PP" in player.treatment %}
                 <div class="you-receiver">
-                    <b>{{ you }}</b>
+                    <b>{{ YOU_spacing|safe }}{{ you|safe }}</b>
                 </div>
                 {% endif %}
 

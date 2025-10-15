@@ -594,49 +594,50 @@
 
     /* positioning elements in the figure */
     .person-a {
-        left: calc(50% - 136px);
+        left: calc(50% - 142px);
         top: 63px;
         font-size:10px;
         position: absolute;
     }
 
     .person-b {
-        left: calc(50% + 82px);
+        left: calc(50% + 75px);
         top: 64px;
         font-size:10px;
         position: absolute;
     }
 
     .person-c {
-        left: calc(50% - 20px);
+        left: calc(50% - 27px);
         top:191px;
         font-size:10px;
         position: absolute;
     }
 
     .you-dictator {
-        left:calc(50% - 126.5px);
+        left:calc(50% - 132px);
         top: 36px;
-        font-size:16px;
+        font-size:14px;
         color: red;
         position: absolute;
     }
 
     .you-receiver { /* for 2PP punish */
-        left:calc(50% + 92px);
+        left:calc(50% + 86px);
         top: 38px;
-        font-size:16px;
+        font-size:14px;
         color: red;
         position: absolute;
     }
 
     .you-third-party {
-        left:calc(50% - 10px);
+        left:calc(50% - 16px);
         top: 165px;
-        font-size:16px;
+        font-size:14px;
         color: red;
         position: absolute;
     }
+
 
     .scenario_image {
         width:280px;

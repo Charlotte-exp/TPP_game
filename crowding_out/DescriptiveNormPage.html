@@ -353,7 +353,7 @@
             </div>
 
             <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-                <p><b class="label-a">{{ person_a|safe }}</b></p>
+                <p><b class="label-a">{{ PERSON_spacing|safe }}{{ person_a|safe }}</b></p>
                 <p><b class="label-charity">{{ button_charity|safe }}</b></p>
 
                 <span class='coinstack coinstackD-static'></span>

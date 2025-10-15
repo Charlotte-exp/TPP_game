@@ -501,22 +501,23 @@
     .label-a {
         position: absolute;
         font-size: 14px;
-        left:calc(50% - 165px);
+        left:calc(50% - 175px);
         top: 75px;
     }
 
     .label-charity {
+        text-align: center;
         position: absolute;
         font-size: 14px;
-        left:calc(50% + 93px);
+        left:calc(50% + 50px);
         top: 78px;
     }
 
     .label-you {
         color: red;
-        font-size: 18px;
+        font-size: 16px;
         position: absolute;
-        left:calc(50% - 148px);
+        left:calc(50% - 154px);
         top: 46px;
     }
 
@@ -797,9 +798,9 @@ html[dir="rtl"] .image-container {
         </div>
 
         <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-            <p><b class="label-a">{{ person_a|safe }}</b></p>
-            <p><b class="label-charity">{{ button_charity|safe }}</b></p>
-            <p><b class="label-you">{{ you|safe }}</b></p>
+            <p><b class="label-a">{{ PERSON_spacing|safe }}{{ person_a|safe }}</b></p>
+            <p><b class="label-charity">{{ CHARITY_spacing|safe }}{{ button_charity|safe }}</b></p>
+            <p><b class="label-you">{{ YOU_spacing|safe }}{{ you|safe }}</b></p>
 
             <span class='coinstack coinstackD'></span>
             <div class="coin-count-labelD" id="countD"></div>
@@ -900,8 +901,8 @@ html[dir="rtl"] .image-container {
         </div>
 
         <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
-            <p><b class="label-a">{{ person_a|safe }}</b></p>
-            <p><b class="label-charity">{{ button_charity|safe }}</b></p>
+            <p><b class="label-a">{{ PERSON_spacing|safe }}{{ person_a|safe }}</b></p>
+            <p><b class="label-charity">{{ CHARITY_spacing|safe }}{{ button_charity|safe }}</b></p>
 
             <span class='coinstack coinstackD-static'></span>
             <div class="coin-count-labelD-static" id="countD"></div>

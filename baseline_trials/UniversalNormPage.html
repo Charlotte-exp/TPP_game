@@ -275,10 +275,10 @@
             <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
             <div class="person-a">
-                <b> {{ person_a|safe }} </b>
+                <b> {{ PERSON_spacing|safe }}{{ person_a|safe }} </b>
             </div>
             <div class="person-b">
-                <b>{{ person_b|safe }}</b>
+                <b>{{ PERSON_spacing|safe }}{{ person_b|safe }}</b>
             </div>
 
             <span class='coinstack coinstackD-static'></span>
