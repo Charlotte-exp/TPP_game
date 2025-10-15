@@ -9,16 +9,17 @@ doc = """
 Your app description
 """
 
-def get_country_dict(lang, iso2=None):
+def get_country_dict_no_in(lang, iso2=None):
     with open('_static/global/country_codes_Toluna_lang.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
-        if lang not in reader.fieldnames:
-            raise ValueError(f"Language '{lang}' not found in CSV columns: {reader.fieldnames}")
+        column_name = f"{lang}_no_in"
+        if column_name not in reader.fieldnames:
+            raise ValueError(f"Column '{column_name}' not found in CSV columns: {reader.fieldnames}")
 
         country_dict = {
-            row["iso2"]: row[lang]
+            row["iso2"]: row[column_name]
             for row in reader
-            if row.get("iso2") and row.get(lang)
+            if row.get("iso2") and row.get(column_name)
         }
 
     if iso2:
@@ -59,7 +60,7 @@ def creating_session(subsession):
         if 'progress' not in participant.vars:
             participant.progress = 1
             participant.decision_page_number = 0
-            participant.current_countryname = get_country_dict(participant.language, participant.current_country)
+            #participant.current_countryname_no_in = get_country_dict_no_in(participant.language, participant.current_country)
 
 
 
@@ -172,10 +173,11 @@ class Demographics(Page):
         participant = player.participant
         lang = participant.language
 
-        current_countryname = player.participant.current_countryname
+        #current_countryname = player.participant.current_countryname
+        current_countryname_no_in = get_country_dict_no_in(participant.language, participant.current_country)
 
         all_countries = get_country_list(lang)
-        countries = [current_countryname] + [c for c in all_countries if c != current_countryname]
+        countries = [current_countryname_no_in] + [c for c in all_countries if c != current_countryname_no_in]
 
         return dict(
             total_pages=player.session.config['total_pages'],

@@ -312,10 +312,10 @@
                 <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/{{ image }}">
 
                 <div class="person-a">
-                    <b>PERSON A</b>
+                    <b>{{ person_a|safe }}</b>
                 </div>
                 <div class="person-b">
-                    <b>PERSON B</b>
+                    <b>{{ person_b|safe }}</b>
                 </div>
 
                 <span class='coinstack coinstackD' data-index="{{ dic_norm_decision.index }}"></span>
