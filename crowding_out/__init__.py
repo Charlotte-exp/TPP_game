@@ -246,7 +246,6 @@ class CrowdingInOutPage(Page):
             you=get_translation('you', lang),
             YOU_spacing=get_translation('YOU_spacing', lang),
             PERSON_spacing=get_translation('PERSON_spacing', lang),
-            CHARITY_spacing=get_translation('CHARITY_spacing', lang),
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number),
             button_block=get_translation('block_title', lang, block_num=2),

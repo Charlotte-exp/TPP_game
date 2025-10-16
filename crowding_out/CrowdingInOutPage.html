@@ -21,7 +21,8 @@
 {{ endblock }}
 {{ block content }}
 
-<html>
+<!--<html>-->
+<html class="lang-{{ lang }}">
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -513,6 +514,32 @@
         top: 78px;
     }
 
+    html.lang-en .label-charity {transform: translateX(calc(-50% + 5.2em)); }
+    html.lang-fr .label-charity {transform: translateX(calc(-50% + 5.1em)); }
+    html.lang-de .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-de_ch .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-es .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-el .label-charity {transform: translateX(calc(-50% + 5.6em)); }
+    html.lang-it .label-charity {transform: translateX(calc(-50% + 5.2em)); }
+    html.lang-hu .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-ja .label-charity {transform: translateX(calc(-50% + 4.8em)); font-size: 16px; }
+    html.lang-ms .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-id .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-ko .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+    html.lang-pl .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-pt .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-ro .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-sv .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-th .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-tl .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-tr .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-uk .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-vi .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-zh-CN .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+    html.lang-zh-TW .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+    html.lang-ar .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+
+
     .label-you {
         color: red;
         font-size: 16px;
@@ -799,7 +826,8 @@ html[dir="rtl"] .image-container {
 
         <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
             <p><b class="label-a">{{ PERSON_spacing|safe }}{{ person_a|safe }}</b></p>
-            <p><b class="label-charity">{{ CHARITY_spacing|safe }}{{ button_charity|safe }}</b></p>
+
+            <p><b class="label-charity">{{ button_charity|safe }}</b></p>
             <p><b class="label-you">{{ YOU_spacing|safe }}{{ you|safe }}</b></p>
 
             <span class='coinstack coinstackD'></span>
@@ -902,7 +930,7 @@ html[dir="rtl"] .image-container {
 
         <div class="extras-container {% if treatment_incentive %}treatment-true{% else %}treatment-false{% endif %}">
             <p><b class="label-a">{{ PERSON_spacing|safe }}{{ person_a|safe }}</b></p>
-            <p><b class="label-charity">{{ CHARITY_spacing|safe }}{{ button_charity|safe }}</b></p>
+            <p><b class="label-charity">{{ button_charity|safe }}</b></p>
 
             <span class='coinstack coinstackD-static'></span>
             <div class="coin-count-labelD-static" id="countD"></div>
@@ -930,6 +958,8 @@ html[dir="rtl"] .image-container {
         </p>
 
         {% else %}
+
+        <br>
 
         <p style="text-align: center; ">
             {{ crowding_norm|safe }}

@@ -92,6 +92,7 @@ class Pref_2PP_3PP(Page):
             person_a=get_translation("person_a", lang),
             person_b=get_translation("person_b", lang),
             person_c=get_translation("person_c", lang),
+            PERSON_spacing=get_translation('PERSON_spacing', lang),
             pref_2PP_first=get_translation("pref_2PP_3PP", lang,
                                            person1=get_translation('person_b_lower', lang),
                                            person2=get_translation('person_c_lower', lang)),
