@@ -180,7 +180,7 @@
 
     .image-box {
         position: relative;
-        width: 180px; /* Fixed width */
+        width: 240px; /* Fixed width */
         flex: 0 0 auto; /* Prevent flex resizing */
         margin-bottom: 20px;
     }
@@ -237,11 +237,11 @@
         /*border-radius: 3px;*/
     }
 
-    .label-person-a-3pp { top: 33%; left: 4%; }
-    .label-person-b-3pp { top: 33%; left: 74%; }
-    .label-person-c { top: 90%; left: 42%; }
-    .label-person-a-2pp { top: 60%; left: 4%; /* Careful: negative left goes outside the box */ }
-    .label-person-b-2pp { top: 60%; left: 74%; }
+    .label-person-a-3pp { top: 33%; left: 3%; }
+    .label-person-b-3pp { top: 33%; left: 75%; }
+    .label-person-c { top: 91%; left: 42%; }
+    .label-person-a-2pp { top: 60%; left: 3%; /* Careful: negative left goes outside the box */ }
+    .label-person-b-2pp { top: 60%; left: 75%; }
 
     /* Consider removing the <p> tags around the <b> tags for cleaner structure,
        or ensure they don't add unwanted margin/padding */
@@ -272,17 +272,17 @@
                 <div class="image-box">
                     <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
                     <!-- Removed unnecessary <p> tags -->
-                    <b class="label label-person-a-2pp">{{ person_a }}</b>
-                    <b class="label label-person-b-2pp">{{ person_b }}</b>
+                    <b class="label label-person-a-2pp">{{ PERSON_spacing|safe }}{{ person_a }}</b>
+                    <b class="label label-person-b-2pp">{{ PERSON_spacing|safe }}{{ person_b }}</b>
                 </div>
 
                 <p class="or-label"><u>{{ or_button }}</u></p>
 
                 <div class="image-box">
                     <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
-                    <b class="label label-person-a-3pp">{{ person_a }}</b>
-                    <b class="label label-person-b-3pp">{{ person_b }}</b>
-                    <b class="label label-person-c">{{ person_c}}</b>
+                    <b class="label label-person-a-3pp">{{ PERSON_spacing|safe }}{{ person_a }}</b>
+                    <b class="label label-person-b-3pp">{{ PERSON_spacing|safe }}{{ person_b }}</b>
+                    <b class="label label-person-c">{{ PERSON_spacing|safe }}{{ person_c}}</b>
                 </div>
              </div>
 
@@ -304,17 +304,17 @@
                 <div class="image-box">
                     <img id="T3PP-image" src="{% static image3PP %}" alt="Coins" class="T3PP-img" />
                     <!-- Removed unnecessary <p> tags -->
-                    <b class="label label-person-a-3pp">{{ person_a }}</b>
-                    <b class="label label-person-b-3pp">{{ person_b }}</b>
-                    <b class="label label-person-c">{{ person_c}}</b>
+                    <b class="label label-person-a-3pp">{{ PERSON_spacing|safe }}{{ person_a }}</b>
+                    <b class="label label-person-b-3pp">{{ PERSON_spacing|safe }}{{ person_b }}</b>
+                    <b class="label label-person-c">{{ PERSON_spacing|safe }}{{ person_c}}</b>
                 </div>
 
                 <p class="or-label"><u>OR</u></p>
 
                 <div class="image-box">
                     <img id="T2PP-image" src="{% static image2PP %}" alt="Coins" class="T2PP-img" />
-                    <b class="label label-person-a-2pp">{{ person_a }}</b>
-                    <b class="label label-person-b-2pp">{{ person_b }}</b>
+                    <b class="label label-person-a-2pp">{{ PERSON_spacing|safe }}{{ person_a }}</b>
+                    <b class="label label-person-b-2pp">{{ PERSON_spacing|safe }}{{ person_b }}</b>
                 </div>
             </div>
 
