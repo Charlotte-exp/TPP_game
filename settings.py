@@ -91,7 +91,7 @@ SESSION_CONFIGS = [
     dict(
         name='all_lang_block2',
         display_name="ALL LANGUAGES BLOCK 2",
-        app_sequence=['language_selection', 'pref_2PP_3PP', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],#'rule_following',
+        app_sequence=['language_selection', 'pref_2PP_3PP', 'rule_following', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),

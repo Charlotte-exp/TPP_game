@@ -40,7 +40,8 @@
     table.IOS {
         border-collapse: collapse;
         width: 70%;
-        margin-left: 15%;
+        /*margin-left: 15%;*/
+        margin: 0 auto; /* centers table horizontally */
         margin-top: 0%;
     }
 
@@ -65,8 +66,8 @@
     }
 
     .slider2::-moz-range-thumb {
-        height: 30px !important;
-        width: 20px !important;
+        height: 25px !important;
+        width: 15px !important;
         border-radius: 5px !important;
         background: #A9A9A9 !important;
         cursor: pointer !important;
@@ -84,8 +85,8 @@
     }
 
     .slider2::-webkit-slider-thumb {
-        height: 30px !important;
-        width: 20px !important;
+        height: 25px !important;
+        width: 15px !important;
         border-radius: 5px !important;
         background: #A9A9A9 !important;
         cursor: pointer !important;
@@ -110,6 +111,8 @@
         line-height: 40px;
         margin: 0 0 20 0;
     }
+
+
 </style>
 
 
@@ -132,10 +135,11 @@
 
         </div>
 
+    <div style="text-align:center;">
     <table class="IOS">
         <tr>
           <td style="text-align:center">
-            <canvas id="IOSscreen" width="400" height="180" style="border:1px solid #d3d3d3;"></canvas>
+            <canvas id="IOSscreen" width="400" height="180" style="width:100%; max-width:400px; height:auto;border:1px solid #d3d3d3;"></canvas>
           </td>
         </tr>
         <tr>
@@ -156,6 +160,7 @@
           </td>
         </tr>
     </table>
+        </div>
 
     <div style="display: flex; justify-content: flex-end">
         <button class="btn btn-primary">{{button_next | safe}}</button>
@@ -175,8 +180,19 @@
 
     //function change is executed every time the slider is moved (see html)
     function change() {
+
        var c = document.getElementById("IOSscreen");
        var ctx = c.getContext("2d");
+
+       // Scale canvas for retina to make text sharp
+        var dpr = window.devicePixelRatio || 1;
+        c.width = 400 * dpr;   // internal pixels
+        c.height = 180 * dpr;
+        c.style.width = '400px';   // display size
+        c.style.height = '180px';
+        var ctx = c.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
 
        //initiate value that is not defined to have screen initially empty
        var Value = -1;

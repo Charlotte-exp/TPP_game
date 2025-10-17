@@ -20,7 +20,8 @@
 {{ endblock }}
 {{ block content }}
 
-<html>
+<!--<html>-->
+<html class="lang-{{ lang }}">
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -290,16 +291,44 @@
     .label-a {
         position: absolute;
         font-size: 14px;
-        left:calc(50% - 165px);
+        left:calc(50% - 173px);
         top: 75px;
     }
 
     .label-charity {
+        text-align: center;
         position: absolute;
         font-size: 14px;
-        left:calc(50% + 90px);
-        top: 76px;
+        left:calc(50% + 50px);
+        top: 78px;
     }
+
+    html.lang-en .label-charity {transform: translateX(calc(-50% + 5.2em)); }
+    html.lang-fr .label-charity {transform: translateX(calc(-50% + 5.1em)); }
+    html.lang-de .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-de_ch .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-ru .label-charity {transform: translateX(calc(-50% + 5em)); }
+    html.lang-es .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-el .label-charity {transform: translateX(calc(-50% + 5.6em)); }
+    html.lang-it .label-charity {transform: translateX(calc(-50% + 5.2em)); }
+    html.lang-hu .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-ja .label-charity {transform: translateX(calc(-50% + 4.8em)); font-size: 16px; }
+    html.lang-ms .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-id .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-ko .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+    html.lang-pl .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-pt .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-ro .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-sv .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-th .label-charity {transform: translateX(calc(-50% + 5.4em)); }
+    html.lang-tl .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-tr .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-uk .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-vi .label-charity {transform: translateX(calc(-50% + 5.3em)); }
+    html.lang-zh-CN .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+    html.lang-zh-TW .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+    html.lang-ar .label-charity {transform: translateX(calc(-50% + 4.7em)); font-size: 16px; }
+
 
     .label-you {
         color: red;
