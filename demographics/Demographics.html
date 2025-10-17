@@ -77,43 +77,37 @@
             </label><br/><br/>
 
 
-            <div style="margin-bottom: 1rem;">
-                <label>{{born_question}}</label><br/>
-
-                <select name="born" required>
-                    <option value="" disabled selected>{{select_country}}</option>
-                    <!-- Placeholder option -->
-                    {% for country in countries %}
-                    <option value="{{ country }}">{{country}}</option>
-                    {% endfor %}
-                    <option value="Prefer not to say">{{pnts}}</option>
-                </select>
+            <div class="responsive-field">
+              <label>{{ born_question }}</label><br/>
+              <select name="born" required>
+                <option value="" disabled selected>{{ select_country }}</option>
+                {% for country in countries %}
+                  <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+                <option value="Prefer not to say">{{ pnts }}</option>
+              </select>
             </div>
 
-            <div style="margin-bottom: 1rem;">
-                <label>{{born_mother_question}}</label><br/>
-
-                <select name="born_mother" required>
-                    <option value="" disabled selected>{{select_country}}</option>
-                    <!-- Placeholder option -->
-                    {% for country in countries %}
-                    <option value="{{ country }}">{{country}}</option>
-                    {% endfor %}
-                    <option value="Prefer not to say">{{pnts}}</option>
-                </select>
+            <div class="responsive-field">
+              <label>{{ born_mother_question }}</label><br/>
+              <select name="born_mother" required>
+                <option value="" disabled selected>{{ select_country }}</option>
+                {% for country in countries %}
+                  <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+                <option value="Prefer not to say">{{ pnts }}</option>
+              </select>
             </div>
 
-            <div style="margin-bottom: 1rem;">
-                <label>{{born_father_question}}</label><br/>
-
-                <select name="born_father" required>
-                    <option value="" disabled selected>{{select_country}}</option>
-                    <!-- Placeholder option -->
-                    {% for country in countries %}
-                    <option value="{{ country }}">{{country}}</option>
-                    {% endfor %}
-                    <option value="Prefer not to say">{{pnts}}</option>
-                </select>
+            <div class="responsive-field">
+              <label>{{ born_father_question }}</label><br/>
+              <select name="born_father" required>
+                <option value="" disabled selected>{{ select_country }}</option>
+                {% for country in countries %}
+                  <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+                <option value="Prefer not to say">{{ pnts }}</option>
+              </select>
             </div>
 
             <!--    {{ born_mother_question }}-->

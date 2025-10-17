@@ -69,8 +69,9 @@
         left:calc(50% - 10vw);
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
+        /*flex-wrap: wrap; !* Optional: allows wrapping if buttons exceed container width *!*/
+        flex-wrap: nowrap;
+        align-items: stretch; /* Ensures proper vertical alignment */
     }
 
     .number-row-comp {
@@ -121,8 +122,12 @@
     }
 
     .norm {
-        width: 75px;
-        height: 55px;
+        /*width: 75px;*/
+        /*height: 55px;*/
+        padding: 0.5rem 0.75rem;         /* added: gives internal spacing instead of fixed height */
+        box-sizing: border-box;          /* added: include padding inside total width */
+        flex: 1 1 0;              /* <-- key: equal share of available space */
+        min-width: 0;             /* <-- key: allow shrinking past intrinsic content width */
         flex-direction: column;
         text-align: center;
         display: flex;
@@ -131,15 +136,19 @@
         font-size: 11.5px;
         background-color: #e0e0e0;
         border: 1.5px solid #000000;
-        border-radius: 10%;
+        border-radius: 8px;
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
     .neg-norm {
-        width: 75px;
-        height: 55px;
+        /*width: 75px;*/
+        /*height: 55px;*/
+        padding: 0.5rem 0.75rem;         /* added: gives internal spacing instead of fixed height */
+        box-sizing: border-box;          /* added: include padding inside total width */
+        flex: 1 1 0;              /* <-- key: equal share of available space */
+        min-width: 0;             /* <-- key: allow shrinking past intrinsic content width */
         flex-direction: column;
         text-align: center;
         display: flex;
@@ -148,15 +157,19 @@
         font-size: 11.5px;
         background-color: #e0e0e0;
         border: 1.5px solid #000000;
-        border-radius: 10%;
+        border-radius: 8px;
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
     }
 
     .recorded-norm {
-        width: 75px; /* Width scales with viewport width */
-        height: 55px; /* Height scales with viewport width */
+        /*width: 75px;*/
+        /*height: 55px;*/
+        padding: 0.5rem 0.75rem;         /* added: gives internal spacing instead of fixed height */
+        box-sizing: border-box;          /* added: include padding inside total width */
+        flex: 1 1 0;              /* <-- key: equal share of available space */
+        min-width: 0;             /* <-- key: allow shrinking past intrinsic content width */
         flex-direction: column;
         text-align: center; /* Center-aligns the text */
         display: flex;
@@ -165,7 +178,7 @@
         font-size: 11.5px;
         background-color: #e0e0e0;
         border: 1px solid #000000;
-        border-radius: 10%; /* Slightly rounded corners */
+        border-radius: 8px; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
@@ -422,24 +435,30 @@
         left:calc(50% - 10vw);
         /*gap: 1vw; PREVIOUS GAP WITH 30 ENDOWMENT !* Space between numbers scales with viewport width *!*/
         gap: 0.2vw; /* Space between numbers scales with viewport width */
-        flex-wrap: wrap; /* Optional: allows wrapping if buttons exceed container width */
-        align-items: center; /* Ensures proper vertical alignment */
+        /*flex-wrap: wrap; !* Optional: allows wrapping if buttons exceed container width *!*/
+        /*align-items: center; !* Ensures proper vertical alignment *!*/
+        flex-wrap: nowrap;
+        align-items: stretch; /* Ensures proper vertical alignment */
     }
 
     .answer {
-        width: 68px; /* should not scale */
-        height: 50px; /* should not scale */
+        padding: 0.5rem 0.75rem;         /* added: gives internal spacing instead of fixed height */
+        box-sizing: border-box;          /* added: include padding inside total width */
+        flex: 1 1 0;              /* <-- key: equal share of available space */
+        min-width: 0;             /* <-- key: allow shrinking past intrinsic content width */
+        /*width: 68px; !* should not scale *!*/
+        /*height: 50px; !* should not scale *!*/
         flex-direction: column;
         text-align: center; /* Center-aligns the text */
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 12px; /* should not scale */
-        line-height: 1.1;
+        font-size: 11.5px; /* should not scale */
+        /*line-height: 1.1;*/
         background-color: #e0e0e0;
-        padding: 1.5px;
+        /*padding: 1.5px;*/
         border: 1.5px solid #000000;
-        border-radius: 6px; /* Slightly rounded corners */
+        border-radius: 8px; /* Slightly rounded corners */
         cursor: pointer;
         font-family: Arial, Helvetica, sans-serif;
         transition: background-color 0.3s ease;
@@ -463,6 +482,27 @@
         color:#d3d3d3;
         cursor: not-allowed;
         pointer-events: none; /* Disable interactions */
+    }
+
+    /*Drop-down menus*/
+    /* make the form row responsive */
+    .responsive-field {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;   /* ensure padding doesn't add to width */
+      margin-bottom: 1rem;      /* keep your spacing */
+    }
+
+    /* responsive select that never overflows the container */
+    .responsive-field select,
+    .responsive-field .form-control, /* bootstrap fallback */
+    .responsive-field input,
+    .responsive-field textarea {
+      display: block;
+      width: 100%;               /* key: fill the available space */
+      max-width: 100%;
+      box-sizing: border-box;    /* include padding/border in width */
+      min-width: 0;              /* prevents some flexbox intrinsic-size bugs */
     }
 
     /* Blocks */
@@ -537,17 +577,17 @@
         }
         .norm {
             width: 67px; /* Width scales with viewport width */
-            height: 50px; /* Height scales with viewport width */
+            height: 100px; /* Height scales with viewport width */
             font-size: 10px;
         }
         .neg-norm {
             width: 67px; /* Width scales with viewport width */
-            height: 50px; /* Height scales with viewport width */
+            height: 100px; /* Height scales with viewport width */
             font-size: 10px;
         }
         .recorded-norm {
             width: 67px; /* Width scales with viewport width */
-            height: 50px; /* Height scales with viewport width */
+            height: 100px; /* Height scales with viewport width */
             font-size: 10px;
         }
     }
@@ -569,17 +609,17 @@
         }
         .norm {
             width: 55px; /* Width scales with viewport width */
-            height: 45px; /* Height scales with viewport width */
+            height: 88px; /* Height scales with viewport width */
             font-size: 8.5px;
         }
         .neg-norm {
             width: 55px; /* Width scales with viewport width */
-            height: 45px; /* Height scales with viewport width */
+            height: 88px; /* Height scales with viewport width */
             font-size: 8.5px;
         }
         .recorded-norm {
             width: 55px; /* Width scales with viewport width */
-            height: 45px; /* Height scales with viewport width */
+            height: 88px; /* Height scales with viewport width */
             font-size: 8.5px;
         }
         .question {
@@ -587,8 +627,8 @@
         }
         .answer {
             width: 55px; /* should not scale */
-            height: 45px; /* should not scale */
-            font-size: 11px; /* sould not scale */
+            height: 55px; /* should not scale */
+            font-size: 8.5px; /* should not scale */
         }
     }
 
@@ -615,7 +655,7 @@
     }
 
     .you-dictator {
-        left:calc(50% - 132px);
+        left:calc(50% - 135px);
         top: 36px;
         font-size:14px;
         color: red;
