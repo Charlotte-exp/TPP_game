@@ -234,6 +234,7 @@
         ctx.textBaseline = 'middle';
         var you = "{{ you }}";
         var your_country = "{{ your_country }}";
+        you = you.replace('&nbsp;&nbsp;&nbsp;&#8201', '')
         ctx.fillText(you, center-((radius*headers)/2), horizontal);
         ctx.fillText(your_country, center+((radius*headers)/2), horizontal);
 
