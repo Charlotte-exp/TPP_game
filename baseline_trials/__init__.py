@@ -851,6 +851,7 @@ class TPPage(Page):
         if "2PP punish" in player.treatment:
             person = get_translation('person_b_lower', lang)
             person_gen = get_translation('person_b_gen', lang)
+            person_gen_uk = get_translation('person_b_gen_uk', lang)
             #person2 = get_translation('you_lower', lang)
             image = 'global/treatments/2PP punish.png'
             ## dictator_keeps is assigned here so that we can have different multiple decisions per treatment.
@@ -862,6 +863,7 @@ class TPPage(Page):
         if "3PP punish" in player.treatment or "3PP country" in player.treatment:
             person = get_translation('person_c_lower', lang)
             person_gen = get_translation('person_c_gen', lang)
+            person_gen_uk = get_translation('person_c_gen_uk', lang)
             #person2 = get_translation('person_b_lower', lang)
             image = 'global/treatments/3PP punish.png'
             dictator_keeps_1 = C.dictator_keeps_everything
@@ -969,10 +971,8 @@ class TPPage(Page):
             tpp_3PP_norm_instru=get_translation('norm_instru', lang,
                                                    person=get_translation('person_c_gen', lang)),
             tpp_dict_action=get_translation('tpp_dict_action', lang),
-            tpp_norm_question=get_translation('tpp_norm_question', lang,
-                                              person=person),
-            tpp_norm_neg_question=get_translation('tpp_norm_neg_question', lang,
-                                                  person=person),
+            tpp_norm_question=get_translation('tpp_norm_question', lang, person=person_gen_uk),
+            tpp_norm_neg_question=get_translation('tpp_norm_neg_question', lang, person=person_gen_uk),
             tpp_decision_strategy=get_translation('tpp_decision_strategy', lang),
             tpp_decision_you=get_translation('tpp_decision_you', lang,
                                              person=person),
