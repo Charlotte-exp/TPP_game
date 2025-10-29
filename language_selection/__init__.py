@@ -142,6 +142,24 @@ class LanguageSelection(Page):
         participant.progress += 1
         participant.language = player.lang
 
+        # Code for fetching participant and study IDS
+        request = getattr(player.participant, "_request", None)
+
+        if request is not None:
+            gid = request.GET.get("GID")
+            sname = request.GET.get("sname")
+        else:
+            # fallback for local testing or if _request is not available
+            gid = "LOCAL_TEST"
+            sname = "LOCAL_TEST"
+
+        player.participant.vars['GID'] = gid
+        player.participant.vars['sname'] = sname
+
+        print(f"TEST: GID={gid}, sname={sname}")
+
+
+
 
 class LanguageConfirmation(Page):
 
