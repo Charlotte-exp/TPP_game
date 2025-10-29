@@ -87,6 +87,7 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
         config=dict(CURRENT_COUNTRY="all",prolific = False),
+        use_browser_urls=True, # for fetching IDs
     ),
     dict(
         name='all_lang_block2',
