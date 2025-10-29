@@ -36,7 +36,7 @@
         </div>
 
     <div class="ladder-wrapper">
-        <div class="ladder-label top-label">{{ ladder_best_off|safe }}</div>
+        <div class="ladder-label top-label" style="word-break: keep-all;">{{ ladder_best_off|safe }}</div>
 
         <div id="ladder-container">
             {% for i in ladder_values %}
@@ -44,7 +44,7 @@
             {% endfor %}
         </div>
 
-        <div class="ladder-label bottom-label">{{ ladder_worst_off|safe }}</div>
+        <div class="ladder-label bottom-label" style="word-break: keep-all;">{{ ladder_worst_off|safe }}</div>
     </div>
 
     <input type="hidden" name="income_ladder" id="income_ladder">
