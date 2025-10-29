@@ -145,7 +145,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['language', 'lang_confirmed', 'language_selection_shown', 'current_country', 'current_countryname', 'dictator_country', 'receiver_country', 'progress', 'decision_page_number',
                       'treatment_order_inout', 'treatment_order_baseline_trials', 'instruction_rounds_shown', 'comprehension_shown',
-                      'treatment_incentive', 'treatment_rule_hurt_self', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos', 'all_language_test']
+                      'treatment_incentive', 'treatment_rule_hurt_self', 'pref_2PP_3PP_button_pos', 'crowding_out_button_pos', 'all_language_test', 'GID', 'sname']
 SESSION_FIELDS = []
 
 # ISO-639 code
