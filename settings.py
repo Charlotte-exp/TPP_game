@@ -78,6 +78,7 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
         config=dict(CURRENT_COUNTRY="us",prolific = False),
+        # toluna_sname='Study_test',
     ),
     dict(
         name='all_lang_block1',
