@@ -94,6 +94,8 @@ class Subsession(BaseSubsession):
 #     )
 
 def creating_session(subsession):
+    for p in subsession.get_players():
+        participant = p.participant
 
     # print('Creating session; round number: {}'.format(subsession.round_number))
 

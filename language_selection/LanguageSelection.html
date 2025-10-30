@@ -71,6 +71,38 @@
     });
 
 
+
+    // This function runs as soon as the page is loaded
+    window.onload = function() {
+        // Your function to find parameters in the URL
+        function findGetParameter(parameterName) {
+            var result = null,
+                tmp = [];
+            location.search
+                .substr(1)
+                .split("&")
+                .forEach(function (item) {
+                  tmp = item.split("=");
+                  if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                });
+            return result;
+        }
+
+        // Use the function to get your data
+        const gid = findGetParameter('GID');
+        const sname = findGetParameter('sname');
+
+        // Check if we found the data
+        if (gid && sname) {
+            // Use liveSend to send the data back to the oTree server.
+            // We package it into a dictionary (or 'object' in JS).
+            liveSend({'type': 'save_url_vars', 'gid_data': gid, 'sname_data': sname});
+            console.log('Sent URL parameters to server:', {gid, sname});
+        } else {
+            console.log('Could not find GID or sname in URL.');
+        }
+    };
+
 </script>
 
 
