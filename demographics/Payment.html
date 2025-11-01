@@ -54,9 +54,14 @@
                 {{ debrief|safe }}
             </p>
 
-            <p>
-                {{ close_window|safe }}
-            </p>
+<!--            <p>-->
+<!--                {{ close_window|safe }}-->
+<!--            </p>-->
+
+        <div style="display: flex; justify-content: flex-end">
+                <button class="btn btn-primary">{{button_next | safe}}</button>
+            </div>
+
          {{ endif }}
 
          {{ if prolific == True }}

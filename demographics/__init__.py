@@ -1,9 +1,9 @@
 from otree.api import *
 import csv
 import os
+import time
 
 from translations import get_translation
-
 
 doc = """
 Your app description
@@ -71,17 +71,11 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 
     ## Demographics
-    age = models.IntegerField(
-        min=10, max=100
-    )
-    gender = models.StringField()
-
-    #gender = models.StringField()
-
-    # born = models.StringField(
-    #     choices=['Yes', 'No'],
-    #     widget=widgets.RadioSelect
+    # age = models.IntegerField(
+    #     min=10, max=100
     # )
+    # gender = models.StringField()
+
     born = models.StringField()
     born_mother = models.StringField()
     born_father = models.StringField()
@@ -162,12 +156,15 @@ class Player(BasePlayer):
 
     toluna_id = models.IntegerField()
 
+    is_speeder = models.BooleanField(default=False)  # This stores whether the player is a speeder. It defaults to False.
+    speeder_reason = models.StringField(blank=True) # This stores the reason.
+
 
 ########### PAGES ############
 
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['age', 'gender','born','born_mother', 'born_father', 'education', 'rural_urban', 'toluna_id']
+    form_fields = ['born','born_mother', 'born_father', 'education', 'rural_urban'] #'age', 'gender', 'toluna_id'
 
     def vars_for_template(player: Player):
         participant = player.participant
@@ -217,6 +214,33 @@ class Demographics(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
+        ### Screen out too-fast participants
+        MINIMUM_TOTAL_SECONDS = 900 # Less than 15 minutes (900 seconds) is speeding
+
+        # Get start time
+        start_time = player.participant.vars.get('session_start_time')
+
+        # Calculate the difference in seconds
+        if start_time:
+            # Get end time
+            end_time = time.time()
+            total_time_spent = end_time - start_time
+
+            print(f"Player {player.id_in_subsession} has spent a total of {total_time_spent:.2f} seconds in the session.")
+
+            # 5. Compare against your threshold.
+            if total_time_spent < MINIMUM_TOTAL_SECONDS:
+                player.is_speeder = True
+                player.speeder_reason = "Participant completed the study too quickly."
+                print(f"Player {player.id_in_subsession} SCREENED OUT for being too fast.")
+        else:
+            print("WARNING: 'session_start_time' not found in participant.vars. Cannot check for speeding.")
+
+        ### Register this participant as complete IF they were not speeders
+        if player.born is not None and player.is_speeder == False:
+            player.participant.vars['is_fully_complete'] = True
+            print(f"Participant {player.participant.id_in_session} has been marked as fully complete.")
 
 
 class Ladder(Page):
@@ -372,6 +396,56 @@ class Payment(Page):
         participant = player.participant
         participant.progress += 1
 
+class SpeederLink(Page):
+    """
+    This page redirects people to Toluna automatically if they are speeders
+    """
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.is_speeder:
+            return True
+
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        sname = participant.sname
+        gid = participant.GID
+
+        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
+        print("redirect_link terminate", redirect_link)
+
+        return dict(
+            speeder_info=get_translation('speeder_info', lang),
+            redirect_wait=get_translation('redirect_wait', lang),
+            redirect_link=redirect_link,
+            lang=lang,
+            button_next=get_translation('button_next', lang)
+        )
+
+
+class TolunaLink(Page):
+    """
+    This page redirects people to Toluna automatically if completed
+    """
+
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        sname = participant.sname
+        gid = participant.GID
+
+        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOQualified.aspx?sname={sname}&gid={gid}"
+        print("redirect_link complete", redirect_link)
+
+        return dict(
+            redirect_wait=get_translation('redirect_wait', lang),
+            redirect_link=redirect_link,
+            lang=lang,
+            button_next=get_translation('button_next', lang)
+        )
+
 
 class ProlificLink(Page):
     """
@@ -401,5 +475,7 @@ page_sequence = [RelationalMobility,
                  Circle,
                  Ladder,
                  Demographics,
+                 SpeederLink,
                  Payment,
+                 TolunaLink,
                  ProlificLink]

@@ -1,0 +1,11 @@
+{{ block title }}{{ endblock }}
+{{ block content }}{{ endblock }}
+{{ block scripts }}
+    <script>
+        // This script will run as soon as the page content is ready.
+        window.onload = function() {
+            // Find the 'Next' button form and submit it immediately.
+            document.querySelector('.otree-form').submit();
+        };
+    </script>
+{{ endblock }}

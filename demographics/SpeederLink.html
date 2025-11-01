@@ -1,0 +1,46 @@
+{{ block title }}
+
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
+{{ endblock }}
+
+
+{{ block content }}
+
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
+
+<div style="font-size: 14px; text-align: center;">
+    <p> {{ speeder_info|safe }}</p>
+
+    <p>{{ redirect_wait|safe }}
+        <b><a href="{{ redirect_link|safe }}"> {{ redirect_link|safe }} </a></b>
+    </p>
+
+<!--    <div style="display: flex; justify-content: flex-end">-->
+<!--        <button class="btn btn-primary">{{button_next | safe}}</button>-->
+<!--    </div>-->
+
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+
+    <script type="text/javascript">
+
+    // This function will run after a 5000 millisecond (5 second) delay
+    setTimeout(function() {
+
+        // The redirect code is now placed inside the function
+        window.location.replace("{{ redirect_link|safe }}");
+
+    }, 10000); // The delay in milliseconds
+
+    </script>
+
+{{ endblock }}

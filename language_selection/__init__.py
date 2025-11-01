@@ -7,40 +7,6 @@ Your app description
 """
 
 
-def parse_participant_label(label_string):
-    """
-    Parses a participant label string with the format "gid[GID]_sname[sname]".
-
-    Args:
-        label_string (str): The participant label, e.g., "gid0012_snameDEU1".
-
-    Returns:
-        tuple: A tuple containing (gid, sname).
-               Returns (None, None) if the format is incorrect.
-    """
-    try:
-        # 1. Split the string into two parts at the underscore
-        gid_part, sname_part = label_string.split('_')
-
-        # 2. Check if the parts have the correct prefixes
-        if gid_part.startswith('gid') and sname_part.startswith('sname'):
-            # 3. Extract the values by slicing off the prefixes
-            # "gid" is 3 characters long, "sname" is 5 characters long.
-            gid = gid_part[3:]
-            sname = sname_part[5:]
-
-            # 4. Return the extracted values
-            return gid, sname
-        else:
-            # The prefixes were not correct
-            return None, None
-
-    except (ValueError, IndexError):
-        # This block runs if .split() fails (no '_') or other errors occur.
-        # It prevents your app from crashing if a bad label is used.
-        return None, None
-
-
 def get_possible_languages(country):
     import csv
     with open('_static/global/languages_by_country.csv', newline='', encoding='utf-8') as csvfile:
@@ -146,6 +112,7 @@ class LanguageSelection(Page):
         return ['lang']
 
     def vars_for_template(player: Player):
+
         participant = player.participant
         current_country = participant.current_country
         all_language_test = participant.all_language_test
@@ -176,26 +143,6 @@ class LanguageSelection(Page):
         participant = player.participant
         participant.progress += 1
         participant.language = player.lang
-
-        ### Fetch GID (participant ID) and sname (study name) from url input participant_label
-
-        # Get the raw label from the URL
-        raw_label = participant.label
-        print(f"Raw url label '{raw_label}'")
-
-        # Call function to parse the label and extract gid and sname
-        gid_value, sname_value = parse_participant_label(raw_label)
-
-        # Check if parsing was successful before saving the data
-        if gid_value and sname_value:
-            participant.GID = gid_value
-            participant.sname = sname_value
-            print(f"-> SUCCESS: Saved GID='{participant.GID}' and sname='{participant.sname}'")
-        else:
-            # Handle cases with bad labels. You can assign defaults or leave them blank.
-            participant.GID = "INVALID_LABEL_FORMAT"
-            participant.sname = "INVALID_LABEL_FORMAT"
-            print(f"-> ERROR: Could not parse label. Assigned default error values.")
 
 
 class LanguageConfirmation(Page):
