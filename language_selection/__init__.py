@@ -6,6 +6,7 @@ doc = """
 Your app description
 """
 
+
 def get_possible_languages(country):
     import csv
     with open('_static/global/languages_by_country.csv', newline='', encoding='utf-8') as csvfile:
@@ -111,6 +112,7 @@ class LanguageSelection(Page):
         return ['lang']
 
     def vars_for_template(player: Player):
+
         participant = player.participant
         current_country = participant.current_country
         all_language_test = participant.all_language_test
@@ -141,11 +143,6 @@ class LanguageSelection(Page):
         participant = player.participant
         participant.progress += 1
         participant.language = player.lang
-        gid = participant.vars.get("GID")  # returns 'abc123'
-        sname = participant.vars.get("sname")  # returns 'DE_Study'
-        print(f"GID={gid}, sname={sname}")
-
-
 
 
 class LanguageConfirmation(Page):

@@ -44,38 +44,6 @@
         <div class="card-body">
 
 
-            <!--    <p>-->
-            <!--        Please answer the following questions. These are used for demographic purposes only.-->
-            <!--        This information will not be associated with your name. You remain anonymous to all the other players and the experimenters.-->
-            <!--    </p>-->
-
-
-            {{formfield 'age' label=age_question}}
-
-            <!--    {{ formfield 'gender' label=gender_question }}-->
-
-            <label>{{gender_question}}</label><br/>
-
-            <label>
-                <input type="radio" name="gender" value="Female"/>
-                {{female}}
-            </label><br/>
-
-            <label>
-                <input type="radio" name="gender" value="Male"/>
-                {{male}}
-            </label><br/>
-
-            <label>
-                <input type="radio" name="gender" value="Other"/>
-                {{other}}
-            </label><br/>
-
-            <label>
-                <input type="radio" name="gender" value="Prefer not to say"/>
-                {{pnts}}
-            </label><br/><br/>
-
 
             <div class="responsive-field">
               <label>{{ born_question }}</label><br/>
@@ -183,8 +151,6 @@
             </label><br/>
 
             <br>
-
-            {{formfield 'toluna_id' label=toluna_id_question}}
 
 
             <div style="display: flex; justify-content: flex-end">

@@ -94,6 +94,8 @@ class Subsession(BaseSubsession):
 #     )
 
 def creating_session(subsession):
+    for p in subsession.get_players():
+        participant = p.participant
 
     # print('Creating session; round number: {}'.format(subsession.round_number))
 
@@ -1123,6 +1125,11 @@ class DictatorPage(Page):
         player.payoff = C.total_endowment - player.dic_decision1
         participant = player.participant
         participant.progress += 8
+
+        # # QUOTA TESTING Register this participant as complete for quota screening
+        # if player.dic_decision1 is not None:
+        #     player.participant.vars['is_fully_complete'] = True
+        #     print(f"Participant {player.participant.id_in_session} has been marked as fully complete.")
 
 
 class UniversalNormPage(Page):

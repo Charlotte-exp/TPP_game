@@ -1,0 +1,79 @@
+{{ block title }}
+
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
+    <p style="text-align: center; font-size: 26px; "> {{ consent_title|safe }} </p>
+
+<div style="display: flex; justify-content: center">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
+{{ endblock }}
+
+{{ block content }}
+
+<script>
+
+    var error3 = "{{ error3 }}";
+
+    /// Function for showing customized error messages
+    const errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+        errorDiv.textContent = error3
+    }
+
+    </script>
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'shared_styles.css' %}"/>
+
+
+        <style>
+            label[for="id_born"] {
+            display: none;
+        }
+        </style>
+
+
+        <div class="card-body">
+
+
+            {{formfield 'age' label=age_question}}
+
+            <label>{{gender_question}}</label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Female"/>
+                {{female}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Male"/>
+                {{male}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Other"/>
+                {{other}}
+            </label><br/>
+
+            <label>
+                <input type="radio" name="gender" value="Prefer not to say"/>
+                {{pnts}}
+            </label><br/><br/>
+
+
+            <div style="display: flex; justify-content: flex-end">
+                <button class="btn btn-primary">{{button_next | safe}}</button>
+            </div>
+
+</div>
+
+
+{{ endblock }}
