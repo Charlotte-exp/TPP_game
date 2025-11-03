@@ -63,6 +63,31 @@
             }
         }
 
+        /* Mobile-specific slider thumbs */
+        @media (max-width: 400px) {
+            /* Chrome, Safari, Edge */
+            input[type=range]::-webkit-slider-thumb {
+                width: 20px;   /* bigger for mobile */
+                height: 30px;
+                margin-top: -11px; /* adjust to center on track */
+            }
+
+            /* Firefox */
+            input[type=range]::-moz-range-thumb {
+                width: 20px;
+                height: 30px;
+                margin-top: -11px;
+            }
+
+            /* IE/Edge */
+            input[type=range]::-ms-thumb {
+                width: 20px;
+                height: 30px;
+                margin-top: -11px;
+            }
+        }
+
+
         /* Webkit-based browsers (Chrome, Safari) */
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
@@ -260,9 +285,9 @@
         </p>
         {{ endif }}
 
-        <p style="text-align: center; ">
-            {{ rule_not_attention_check }}
-        </p>
+<!--        <p style="text-align: center; ">-->
+<!--            {{ rule_not_attention_check }}-->
+<!--        </p>-->
 
         <p style="text-align: center; ">
             <b> {{ rule_rule }} </b>

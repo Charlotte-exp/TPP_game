@@ -1,0 +1,193 @@
+{{ block title }}
+
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
+<p style="font-size: 22px; text-decoration: underline;">
+    {{ button_block|safe }}
+</p>
+
+<p style="text-align: center; font-size: 26px; margin-bottom: 4px; "> {{ button_decision|safe }} </p>
+
+<div style="display: flex; justify-content: center; margin-bottom: 4px;">
+    <label>
+        <progress value="{{ participant.progress }}" max="{{ total_pages }}">
+        </progress>
+    </label>
+</div>
+
+{{ endblock }}
+{{ block content }}
+
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+
+
+<script>
+
+    /////////// global variables
+
+    var current_treatment = "{{ treatment }}";
+
+    var current_round_number = "{{player.round_number}}";
+
+
+    //// error message handling for no-response versus incorrect-response
+
+    var correct_answers = {{correct_answers}};
+
+
+    /// Function for showing customized error messages
+    var error1 = "{{ error1 }}";
+
+    let errorDiv = document.querySelector('.otree-form-errors');
+
+    if (errorDiv) {
+            errorDiv.textContent = error1
+        }
+
+    failedAttempts = 0;
+
+
+
+////////////// function for displaying the task, numbers, and labels and managing the click event
+
+    $(document).ready(function () {
+
+        //Actions on click: ALTERNATIVE NORM MEASURE
+        $('.comprehension-option').on('click', function () {
+            // Remove 'selected' class from all buttons
+            $(this).closest('.comprehension-row').find('.comprehension-option').removeClass('selected');
+
+            // Add 'selected' class to the clicked button
+            $(this).addClass('selected');
+
+            // Get the value of the clicked button
+            const value = $(this).data('value');
+
+            // Update the hidden input fields
+            $('#selected-attention3').val(value);
+
+            console.log("before update", failedAttempts)
+
+                if (value != correct_answers) {
+                    failedAttempts += 1;
+                    console.log("after update", failedAttempts)
+                }
+            // }
+
+            // Debugging
+            console.log("selected_value, correct_answers, correct_answers[index]")
+            console.log(`Updated decision: ${value}`);
+
+        });
+
+        // Submit button click handler
+        $('#submit-button').on('click', function () {
+            // Submit number of failed responses
+            document.querySelector('form').onsubmit = function () {
+                // Store failed attempts
+                document.querySelector('input[name="att_failed3"]').value = failedAttempts;
+            };
+            // Submit the form
+            $('form').submit();
+        });
+
+
+    });
+
+</script>
+</head>
+
+
+<body>
+
+<form method="post">
+
+
+        <!-- Add hidden input to store the selected value -->
+        <input type="hidden" name="attention3" id="selected-attention3">
+
+        <input type="hidden" name="att_failed3"/>
+
+
+    <div class="comprehension-error-green" id="correct-message" >
+        {{ attention_error_green|safe }}
+    </div>
+
+    <div class="comprehension-error-red" id="incorrect-message" >
+        {{ attention_error_red|safe }}
+    </div>
+
+    <div class="figure-container">
+
+        <img class="scenario_image" alt="figure with characters giving or receiver coins" src="/static/global/treatments/3PP give.png">
+
+        <div class="person-a">
+            <b>{{ PERSON_spacing|safe }}{{ person_a|safe }}</b>
+        </div>
+        <div class="person-b">
+            <b>{{ PERSON_spacing|safe }}{{ person_b|safe }}</b>
+        </div>
+        <div class="person-c">
+            <b>{{ PERSON_spacing|safe }}{{ person_c|safe }}</b>
+        </div>
+
+    </div>
+
+        <div class='responsive-div'>
+
+            <div style="text-align: center;">
+
+            <p> {{ attention_check3|safe }} </p>
+
+                </div>
+
+            <div class='numbers'>
+                <div class="comprehension-row" data-input="selected-attention3">
+                    <div class="comprehension-option" data-value="0" >{{ attention_0points|safe }} </div>
+                    <div class="comprehension-option" data-value="1" >{{ attention_2points|safe }} </div>
+                    <div class="comprehension-option" data-value="2" >{{ attention_4points|safe }} </div>
+                    <div class="comprehension-option" data-value="3" >{{ attention_6points|safe }} </div>
+                </div>
+            </div>
+
+        <br>
+        <hr>
+        </div>
+
+
+   <div style="display: flex; justify-content: flex-end">
+        <button style="color: #fff;
+                       background-color: #007bff;
+                       border: 1px solid #007bff;
+                       font-size: 1rem;
+                       border-radius: 0.25rem;
+                       padding: 4px 12px;" type="button" id="submit-button">
+            {{ button_next|safe }}
+        </button>
+    </div>
+
+    <br>
+
+
+
+</form>
+
+
+</body>
+</html>
+
+
+
+
+
+{{ endblock }}

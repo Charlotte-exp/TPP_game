@@ -83,7 +83,7 @@ SESSION_CONFIGS = [
     dict(
         name='all_lang_block1',
         display_name="ALL LANGUAGES BLOCK 1",
-        app_sequence=['language_selection', 'demographics_age_gender', 'baseline_trials'],
+        app_sequence=['language_selection', 'consent_demographics_age_gender', 'baseline_trials'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
@@ -117,7 +117,7 @@ for code, name in zip(COUNTRIES, COUNTRYNAMES):
             display_name=f"Complete study for {name}",  # show full country name in admin
             app_sequence=[
                 'language_selection',
-                'demographics_age_gender',
+                'consent_demographics_age_gender',
                 'baseline_trials',
                 'pref_2PP_3PP',
                 'rule_following',

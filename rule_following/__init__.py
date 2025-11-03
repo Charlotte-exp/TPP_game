@@ -116,7 +116,7 @@ class RuleFollowing(Page):
             button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number),
             button_block=get_translation('block_title', lang, block_num=2),
             lang = lang,
-            error_all_sliders=get_translation('error_all_sliders', lang),
+            error_all_sliders=get_translation('error3', lang),
         )
 
     def before_next_page(player: Player, timeout_happened):
