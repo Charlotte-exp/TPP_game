@@ -34,66 +34,86 @@
 
 <div class="card-body">
 
-  <div>
+    <form method="post">
 
-      <p style="word-break: keep-all;">
-          {{ consent_thank_you }}
-      </p>
+         <input type="hidden" name="declined_consent" id="declined" value="0">
 
-      <h6><u>{{ consent_intro_title }}</u></h6>
+          <p style="word-break: keep-all;">
+              {{ consent_thank_you }}
+          </p>
 
-      <ul>
+          <h6><u>{{ consent_intro_title }}</u></h6>
 
-          <li>{{ consent_intro1 }}</li>
-          <li>{{ consent_intro2 }}</li>
-          <li>{{ consent_intro3 }}</li>
+          <ul>
 
-      </ul>
+              <li>{{ consent_intro1 }}</li>
+              <li>{{ consent_intro2 }}</li>
+              <li>{{ consent_intro3 }}</li>
 
-      <h6><u>{{ consent_payment_title }}</u></h6>
+          </ul>
 
-      {{ if C.prolific == True }}
-      {{ consent_payment_prolific|safe }}
-      {{ else }}
+          <h6><u>{{ consent_payment_title }}</u></h6>
 
-      <ul>
+          {{ if C.prolific == True }}
+          {{ consent_payment_prolific|safe }}
+          {{ else }}
 
-          <li>{{ consent_payment_toluna1|safe }}</li>
-          <li>{{ consent_payment_toluna2|safe }}</li>
-          <li>{{ consent_payment_toluna3|safe }}</li>
+          <ul>
 
-      </ul>
+              <li>{{ consent_payment_toluna1|safe }}</li>
+              <li>{{ consent_payment_toluna2|safe }}</li>
+              <li>{{ consent_payment_toluna3|safe }}</li>
 
-      {{ endif }}
+          </ul>
 
-      <h6><u>{{ consent_rights_title }}</u></h6>
+          {{ endif }}
 
-      <ul>
-           <li>{{ consent_rights1 }}</li>
-           <li>{{ consent_rights2 }} {{ consent_toluna_ID }}</li>
-           <li>{{ consent_rights3 }}</li>
-      </ul>
+          <h6><u>{{ consent_rights_title }}</u></h6>
 
-      <p>
-          <b>{{ consent_click }}</b>
-      </p>
+          <ul>
+               <li>{{ consent_rights1 }}</li>
+               <li>{{ consent_rights2 }} {{ consent_toluna_ID }}</li>
+               <li>{{ consent_rights3 }}</li>
+          </ul>
 
-      <p>
-          {{ consent_questions }}
-      </p>
-      <p>
-          {{ consent_contact }}
-<!--            <a href="mailto:charlotte.rossetti@uzh.ch"> charlotte.rossetti@uzh.ch </a>-->
-<!--            or <a href="mailto:caroline.graf@uzh.ch"> caroline.graf@uzh.ch </a>-->
-      </p>
+          <p>
+              <b>{{ consent_click }}</b>
+          </p>
 
-    </div>
+          <p>
+              {{ consent_questions }}
+          </p>
+          <p>
+              {{ consent_contact }}
+    <!--            <a href="mailto:charlotte.rossetti@uzh.ch"> charlotte.rossetti@uzh.ch </a>-->
+    <!--            or <a href="mailto:caroline.graf@uzh.ch"> caroline.graf@uzh.ch </a>-->
+          </p>
 
-     <div style="display: flex; justify-content: flex-end">
-        <button style="color: #fff; background-color: #b08600; border: 1px solid transparent; font-size: 1rem; border-radius: 0.25rem;">
-            {{ button_consent }}
-        </button>
-    </div>
+
+<!--         <div style="display: flex; justify-content: flex-end">-->
+<!--            <button style="color: #fff; background-color: #b08600; border: 1px solid transparent; font-size: 1rem; border-radius: 0.25rem;">-->
+<!--                {{ button_consent }}-->
+<!--            </button>-->
+<!--        </div>-->
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between; ">
+            <button type="button"
+                    style="color: #fff; background-color: #6c757d; border: 1px solid transparent;
+                           font-size: 1rem; border-radius: 0.25rem; padding: 0.5rem 1rem;"
+                    onclick="document.getElementById('declined').value='1'; this.form.submit();">
+                {{ consent_declined }}
+            </button>
+
+            <button type="submit"
+                    style="color: #fff; background-color: #b08600; border: 1px solid transparent;
+                           font-size: 1rem; border-radius: 0.25rem; padding: 0.5rem 1rem;">
+                {{ button_consent }}
+            </button>
+        </div>
+
+        </form>
 
 </div>
 

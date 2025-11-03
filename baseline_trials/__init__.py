@@ -361,6 +361,8 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
+    declined_consent = models.StringField(blank=True)  # This stores whether the player declined to consent.
+
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
     comprehension_true = models.BooleanField()
@@ -465,6 +467,9 @@ class Consent(Page):
         else:
             return False
 
+    form_model = 'player'
+    form_fields = ['declined_consent']
+
     @staticmethod
     def live_method(player, data):
         if data.get('geo_data'):
@@ -536,6 +541,7 @@ class Consent(Page):
             consent_questions=get_translation('consent_questions', lang),
             consent_contact=get_translation('consent_contact', lang),
             button_consent=get_translation('button_consent', lang),
+            consent_declined=get_translation('consent_declined', lang),
             lang = lang,
             ipregistry_key= os.getenv("IPREGISTRY_KEY")
         )
@@ -544,6 +550,43 @@ class Consent(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
+
+        print("player.declined_consent", player.declined_consent)
+
+        if player.declined_consent == "1":
+            participant.vars['declined_consent_boolean'] = True
+            print("participant.vars['declined_consent_boolean']", participant.vars['declined_consent_boolean'])
+            print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: Declined to consent.")
+
+
+
+class ConsentDeclined(Page):
+    """
+    This page redirects people to Toluna automatically if they declined to consent
+    """
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.participant.vars.get('declined_consent_boolean'):
+            return True
+
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        sname = participant.sname
+        gid = participant.GID
+
+        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
+        print("redirect_link consent declined", redirect_link)
+
+        return dict(
+            consent_declined_info=get_translation('consent_declined_info', lang),
+            redirect_wait=get_translation('redirect_wait', lang),
+            redirect_link=redirect_link,
+            lang=lang,
+            button_next=get_translation('button_next', lang)
+        )
+
 
 
 class Introduction(Page):
@@ -1175,6 +1218,7 @@ class UniversalNormPage(Page):
 
 
 page_sequence = [Consent,
+                 ConsentDeclined,
                  Introduction,
                  AttentionCheckPage,
                  Instructions,
