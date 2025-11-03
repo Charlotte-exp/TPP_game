@@ -1126,12 +1126,6 @@ class DictatorPage(Page):
         participant = player.participant
         participant.progress += 8
 
-        # # QUOTA TESTING Register this participant as complete for quota screening
-        # if player.dic_decision1 is not None:
-        #     player.participant.vars['is_fully_complete'] = True
-        #     print(f"Participant {player.participant.id_in_session} has been marked as fully complete.")
-
-
 class UniversalNormPage(Page):
 
     @staticmethod

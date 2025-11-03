@@ -3,6 +3,8 @@ import csv
 import os
 import random
 import time
+import re
+from typing import Tuple, Optional
 
 from translations import get_translation
 
@@ -12,22 +14,51 @@ Your app description
 """
 
 # For testing the QUOTA/SPEEDERS redirects: Change speeder threshold in demographics; remove some pages for faster advancing; use quota_by_country_test.csv with U.S.
+# Participant label must be included in format ?participant_label=gid001_snameDEU1
 
-def parse_participant_label(label_string):
+def parse_participant_label(
+    label_string: str,
+    gid_prefix: str = "gid",
+    sname_prefix: str = "sname",
+    id_pattern: str = r"[A-Za-z0-9]+",
+) -> Tuple[Optional[str], Optional[str]]:
+    """
+    Parse a participant label and return (gid, sname) or (None, None) if not found.
+
+    - Finds occurrences like "gid<id>" and "sname<id>" anywhere in the string.
+    - id_pattern controls what characters are allowed in the id (default: letters+digits).
+    - Case-insensitive.
+    """
     if not label_string:
         return None, None
-    try:
-        gid_part, sname_part = label_string.split('_')
-        if gid_part.startswith('gid') and sname_part.startswith('sname'):
-            gid = gid_part[3:]
-            sname = sname_part[5:]
-            return gid, sname
-        else:
-            return None, None
-    except (ValueError, IndexError):
-        return None, None
 
-def get_quotas(country): ### TO TEST QUOTAS, comment out baseline_trials/init 1130
+    # build regexes like r'gid([A-Za-z0-9]+)'
+    gid_re = re.compile(rf"{re.escape(gid_prefix)}({id_pattern})", re.IGNORECASE)
+    sname_re = re.compile(rf"{re.escape(sname_prefix)}({id_pattern})", re.IGNORECASE)
+
+    gid_match = gid_re.search(label_string)
+    sname_match = sname_re.search(label_string)
+
+    gid = gid_match.group(1) if gid_match else None
+    sname = sname_match.group(1) if sname_match else None
+
+    return gid, sname
+
+# def parse_participant_label(label_string):
+#     if not label_string:
+#         return None, None
+#     try:
+#         gid_part, sname_part = label_string.split('_')
+#         if gid_part.startswith('gid') and sname_part.startswith('sname'):
+#             gid = gid_part[3:]
+#             sname = sname_part[5:]
+#             return gid, sname
+#         else:
+#             return None, None
+#     except (ValueError, IndexError):
+#         return None, None
+
+def get_quotas(country):
     import csv
     # Quotas to extract:
     required_columns = ['male', 'female', 'age1', 'age2', 'age3', 'age4', 'age5']
