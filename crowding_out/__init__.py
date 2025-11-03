@@ -159,6 +159,14 @@ class Player(BasePlayer):
         min=0,
         max=101,
     )
+    att_failed3 = models.IntegerField(initial=0)
+    attention3 = models.IntegerField(
+        initial=0,
+        choices=[
+            [0, f'value 0'], [1, f'value 1'], [2, f'value 2'], [3, f'value 3'],
+        ],
+        widget=widgets.RadioSelect,
+    )
 
 
 # PAGES
@@ -559,10 +567,60 @@ class ConditionalCoopInterdepPage(Page):
         participant.progress += 1
         participant.decision_page_number += 1
 
+class AttentionCheckPageCrowding(Page):
+    form_model = 'player'
+
+    def get_form_fields(player: Player):
+        return ['attention3', 'att_failed3']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        image = 'global/treatments/3PP give.png'
+        correct_answers = 3
+
+        participant = player.participant
+        lang = participant.language
+
+        return dict(
+            treatment="attention3",
+            page_name=AttentionCheckPageCrowding,
+            image=image,
+            correct_answers=correct_answers,
+            attention3=player.attention3,
+            button_next=get_translation('button_next', lang),
+            button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number - 1),
+            button_block=get_translation('block_title', lang, block_num=1),
+            error1=get_translation('error1', lang),
+            person_a=get_translation('person_a', lang),
+            person_b=get_translation('person_b', lang),
+            person_c=get_translation('person_c', lang),
+            PERSON_spacing=get_translation('PERSON_spacing', lang),
+            attention_error_green=get_translation('attention_error_green', lang),
+            attention_error_red=get_translation('attention_error_red', lang),
+            attention_check3=get_translation('attention_check1', lang,
+                                                 attention_num=6),
+            attention_0points=get_translation('points_button', lang,
+                                                 num_points=0),
+            attention_2points=get_translation('points_button', lang,
+                                                 num_points=2),
+            attention_4points=get_translation('points_button', lang,
+                                                 num_points=4),
+            attention_6points=get_translation('points_button', lang,
+                                                 num_points=6),
+            attention_title=get_translation('attention_title', lang),
+            lang=lang,
+            total_pages=player.session.config['total_pages'],
+        )
+
+    def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.progress += 3
+
 
 
 page_sequence = [CrowdingInOutPage,
                  DescriptiveNormPage,
+                 AttentionCheckPageCrowding,
                  ConditionalCoopPage,
                  ConditionalCoopInterdepPage,
                  ]
