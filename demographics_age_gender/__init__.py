@@ -11,6 +11,22 @@ doc = """
 Your app description
 """
 
+# For testing the QUOTA/SPEEDERS redirects: Change speeder threshold in demographics; remove some pages for faster advancing; use quota_by_country_test.csv with U.S.
+
+def parse_participant_label(label_string):
+    if not label_string:
+        return None, None
+    try:
+        gid_part, sname_part = label_string.split('_')
+        if gid_part.startswith('gid') and sname_part.startswith('sname'):
+            gid = gid_part[3:]
+            sname = sname_part[5:]
+            return gid, sname
+        else:
+            return None, None
+    except (ValueError, IndexError):
+        return None, None
+
 def get_quotas(country): ### TO TEST QUOTAS, comment out baseline_trials/init 1130
     import csv
     # Quotas to extract:
@@ -56,8 +72,6 @@ class C(BaseConstants):
     NAME_IN_URL = 'demographics_age_gender'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-
-
 
 
 class Subsession(BaseSubsession):
@@ -107,11 +121,28 @@ class Demographics_age_gender(Page):
 
     def vars_for_template(player: Player):
         participant = player.participant
-        lang = participant.language
 
-        # Record start time
+        ### Fetch URL parameter with GID and sname
+        raw_label = participant.label  # label must be included as ?participant_label=gid001_snameDEU1
+
+        gid_value, sname_value = parse_participant_label(raw_label)
+
+        if gid_value and sname_value:
+            participant.GID = gid_value
+            participant.sname = sname_value
+            print(
+                f"-> SUCCESS: Participant {participant.id_in_session} - Parsed GID='{participant.GID}' and sname='{participant.sname}'")
+        else:
+            participant.GID = "INVALID_LABEL_FORMAT"
+            participant.sname = "INVALID_LABEL_FORMAT"
+            print(
+                f"-> ERROR: Participant {participant.id_in_session} - Could not parse label '{raw_label}'.")
+
+        ### Record start time
         player.participant.vars['session_start_time'] = time.time()
         print('Start time', player.participant.vars.get('session_start_time'))
+
+        lang = participant.language
 
         #current_countryname = player.participant.current_countryname
         current_countryname_no_in = get_country_dict_no_in(participant.language, participant.current_country)
