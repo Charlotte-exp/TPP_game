@@ -361,8 +361,6 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
-    declined_consent = models.StringField(blank=True)  # This stores whether the player declined to consent.
-
     treatment = models.StringField()
     instruction_round_true = models.BooleanField()
     comprehension_true = models.BooleanField()
@@ -457,137 +455,6 @@ class Player(BasePlayer):
 
 
 ######## PAGES ########
-
-class Consent(Page):
-
-    @staticmethod
-    def is_displayed(player: Player):
-        if player.round_number == 1:
-            return True
-        else:
-            return False
-
-    form_model = 'player'
-    form_fields = ['declined_consent']
-
-    @staticmethod
-    def live_method(player, data):
-        if data.get('geo_data'):
-            geo = data['geo_data']
-            player.ip_country_code = geo.get('country_code3')
-            player.ip_country_name = geo.get('country_name')
-            player.ip_region = geo.get('region')
-            player.ip_city = geo.get('city')
-            player.ip_latitude_rounded = geo.get('latitude_rounded')
-            player.ip_longitude_rounded = geo.get('longitude_rounded')
-            player.ip_time_zone = geo.get('time_zone')
-            player.ip_current_time = geo.get('current_time')
-            player.ip_is_proxy = geo.get('is_proxy')
-            player.ip_is_vpn = geo.get('is_vpn')
-            player.ip_is_tor = geo.get('is_tor')
-            player.ip_is_anonymous = geo.get('is_anonymous')
-            player.ip_mobile_desktop = geo.get('mobile_desktop')
-            player.ip_browser = geo.get('browser')
-
-            # print('player.ip_country_code', player.ip_country_code)
-            # print('player.ip_country_name', player.ip_country_name)
-            # print('player.ip_region', player.ip_region)
-            # print('player.ip_city', player.ip_city)
-            # print('player.ip_latitude_rounded', player.ip_latitude_rounded)
-            # print('player.ip_longitude_rounded', player.ip_longitude_rounded)
-            # print('player.ip_time_zone', player.ip_time_zone)
-            # print('player.ip_current_time', player.ip_current_time)
-            # print('player.ip_is_proxy', player.ip_is_proxy)
-            # print('player.ip_is_vpn', player.ip_is_vpn)
-            # print('player.ip_is_tor', player.ip_is_tor)
-            # print('player.ip_is_anonymous', player.ip_is_anonymous)
-            # print('player.ip_mobile_desktop', player.ip_mobile_desktop)
-            # print('player.ip_browser', player.ip_browser)
-
-        return {}
-
-    def vars_for_template(player: Player):
-        participant = player.participant
-        lang = participant.language
-        print("language: ", lang)
-
-        # Load countrynames in selected language
-        participant.current_countryname = get_country_dict(lang, participant.current_country)
-
-        # Load dotenv to get API key for logging IP-related info
-        load_dotenv()
-
-        return dict(
-            consent_title=get_translation('consent_title', lang),
-            consent_thank_you=get_translation('consent_thank_you', lang),
-            consent_intro_title=get_translation('consent_intro_title', lang),
-            consent_intro1=get_translation('consent_intro1', lang,
-                                          decisions_approx=C.NUM_DECISIONS_APPROX,
-                                          time=C.STUDY_TIME),
-            consent_intro2=get_translation('consent_intro2', lang),
-            consent_intro3=get_translation('consent_intro3', lang),
-            consent_payment_title=get_translation('consent_payment_title', lang),
-            consent_payment_prolific=get_translation('consent_payment_prolific', lang,
-                                            participation_fee=player.session.config['participation_fee']),
-            consent_payment_toluna1=get_translation('consent_payment_toluna1', lang),
-            consent_payment_toluna2=get_translation('consent_payment_toluna2', lang),
-            consent_payment_toluna3=get_translation('consent_payment_toluna3', lang),
-            consent_rights_title= get_translation('consent_rights_title', lang),
-            consent_rights1=get_translation('consent_rights1', lang),
-            consent_rights2=get_translation('consent_rights2', lang),
-            consent_rights3=get_translation('consent_rights3', lang),
-            consent_toluna_ID=get_translation('consent_toluna_ID', lang),
-            consent_click=get_translation('consent_click', lang),
-            consent_questions=get_translation('consent_questions', lang),
-            consent_contact=get_translation('consent_contact', lang),
-            button_consent=get_translation('button_consent', lang),
-            consent_declined=get_translation('consent_declined', lang),
-            lang = lang,
-            ipregistry_key= os.getenv("IPREGISTRY_KEY")
-        )
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        participant.progress += 1
-
-        print("player.declined_consent", player.declined_consent)
-
-        if player.declined_consent == "1":
-            participant.vars['declined_consent_boolean'] = True
-            print("participant.vars['declined_consent_boolean']", participant.vars['declined_consent_boolean'])
-            print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: Declined to consent.")
-
-
-
-class ConsentDeclined(Page):
-    """
-    This page redirects people to Toluna automatically if they declined to consent
-    """
-    @staticmethod
-    def is_displayed(player: Player):
-        if player.participant.vars.get('declined_consent_boolean'):
-            return True
-
-    def vars_for_template(player: Player):
-        participant = player.participant
-        lang = participant.language
-
-        sname = participant.sname
-        gid = participant.GID
-
-        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
-        print("redirect_link consent declined", redirect_link)
-
-        return dict(
-            consent_declined_info=get_translation('consent_declined_info', lang),
-            redirect_wait=get_translation('redirect_wait', lang),
-            redirect_link=redirect_link,
-            lang=lang,
-            button_next=get_translation('button_next', lang)
-        )
-
-
 
 class Introduction(Page):
 
@@ -1217,9 +1084,7 @@ class UniversalNormPage(Page):
         participant.decision_page_number = player.round_number +1
 
 
-page_sequence = [Consent,
-                 ConsentDeclined,
-                 Introduction,
+page_sequence = [Introduction,
                  AttentionCheckPage,
                  Instructions,
                  ComprehensionQuestionPage,

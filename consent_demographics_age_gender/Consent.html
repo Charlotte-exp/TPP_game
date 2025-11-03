@@ -1,0 +1,168 @@
+{% block title %}
+
+{% if lang == "ar" %}
+<html lang="ar" dir="rtl">
+{% endif %}
+
+<!--    <div style="display: flex; justify-content: flex-end">-->
+<!--        <img/>-->
+<!--    </div>-->
+
+
+<p style="text-align: center; font-size: 26px;  ">{{ consent_title|safe }}</p>
+
+{% endblock %}
+
+{{ block style }}
+
+    <style>
+
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 4vw;
+            background-color: #f4f4f4;
+        }
+
+    </style>
+
+{{ endblock }}
+
+
+{% block content %}
+
+<div class="card-body">
+
+    <form method="post">
+
+         <input type="hidden" name="declined_consent" id="declined" value="0">
+
+          <p style="word-break: keep-all;">
+              {{ consent_thank_you }}
+          </p>
+
+          <h6><u>{{ consent_intro_title }}</u></h6>
+
+          <ul>
+
+              <li>{{ consent_intro1 }}</li>
+              <li>{{ consent_intro2 }}</li>
+              <li>{{ consent_intro3 }}</li>
+
+          </ul>
+
+          <h6><u>{{ consent_payment_title }}</u></h6>
+
+          {{ if C.prolific == True }}
+          {{ consent_payment_prolific|safe }}
+          {{ else }}
+
+          <ul>
+
+              <li>{{ consent_payment_toluna1|safe }}</li>
+              <li>{{ consent_payment_toluna2|safe }}</li>
+              <li>{{ consent_payment_toluna3|safe }}</li>
+
+          </ul>
+
+          {{ endif }}
+
+          <h6><u>{{ consent_rights_title }}</u></h6>
+
+          <ul>
+               <li>{{ consent_rights1 }}</li>
+               <li>{{ consent_rights2 }} {{ consent_toluna_ID }}</li>
+               <li>{{ consent_rights3 }}</li>
+          </ul>
+
+          <p>
+              <b>{{ consent_click }}</b>
+          </p>
+
+          <p>
+              {{ consent_questions }}
+          </p>
+          <p>
+              {{ consent_contact }}
+    <!--            <a href="mailto:charlotte.rossetti@uzh.ch"> charlotte.rossetti@uzh.ch </a>-->
+    <!--            or <a href="mailto:caroline.graf@uzh.ch"> caroline.graf@uzh.ch </a>-->
+          </p>
+
+
+<!--         <div style="display: flex; justify-content: flex-end">-->
+<!--            <button style="color: #fff; background-color: #b08600; border: 1px solid transparent; font-size: 1rem; border-radius: 0.25rem;">-->
+<!--                {{ button_consent }}-->
+<!--            </button>-->
+<!--        </div>-->
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between; ">
+            <button type="button"
+                    style="color: #fff; background-color: #6c757d; border: 1px solid transparent;
+                           font-size: 1rem; border-radius: 0.25rem; padding: 0.5rem 1rem;"
+                    onclick="document.getElementById('declined').value='1'; this.form.submit();">
+                {{ consent_declined }}
+            </button>
+
+            <button type="submit"
+                    style="color: #fff; background-color: #b08600; border: 1px solid transparent;
+                           font-size: 1rem; border-radius: 0.25rem; padding: 0.5rem 1rem;">
+                {{ button_consent }}
+            </button>
+        </div>
+
+        </form>
+
+</div>
+
+<!--Script for logging IP info related to approximate location, browser, VPN use -->
+
+<!--Helpful resource: https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+
+    let apiKey = "{{ ipregistry_key }}";
+    console.log(apiKey)
+
+    function roundCoord(coord, precision = 0.5) {
+        return Math.round(coord / precision) * precision;
+    }
+
+    $.getJSON('https://api.ipregistry.co/?key=' + apiKey, function (data) {
+
+        //console.log(data)
+
+        let lat = data.location.latitude;
+        let lon = data.location.longitude;
+
+        // Round to 0.5° grid (~50 km)
+        let roundedLat = roundCoord(lat, 0.5);
+        let roundedLon = roundCoord(lon, 0.5);
+
+        let geoInfo = {
+            country_code3: data.location.country.code || '',
+            country_name: data.location.country.name || '',
+            region: data.location.region.name || '',
+            city: data.location.city || '',
+            latitude_rounded: roundedLat || 999,
+            longitude_rounded: roundedLon || 999,
+            time_zone: data.time_zone.name || '',
+            current_time: data.time_zone.current_time || '',
+            is_proxy: data.security.is_proxy || false,
+            is_vpn: data.security.is_vpn || false,
+            is_tor: data.security.is_tor || false,
+            is_anonymous: data.security.is_anonymous || false,
+            mobile_desktop: data.user_agent.device.type || '',
+            browser: data.user_agent.name || ''
+        };
+
+        liveSend({geo_data: geoInfo});
+
+    });
+</script>
+
+
+{% endblock %}
