@@ -23,27 +23,50 @@ def parse_participant_label(
     label_string: str,
     gid_prefix: str = "gid",
     sname_prefix: str = "sname",
-    id_pattern: str = r"[A-Za-z0-9]+",
+    #id_pattern: str = r"[A-Za-z0-9]+",
 ) -> Tuple[Optional[str], Optional[str]]:
     """
     Parse a participant label and return (gid, sname) or (None, None) if not found.
 
     - Finds occurrences like "gid<id>" and "sname<id>" anywhere in the string.
-    - id_pattern controls what characters are allowed in the id (default: letters+digits).
+    - Captures ANY characters for the id (letters, numbers, symbols)
+      until it finds another identifier (gid or sname) or the end of the string.
     - Case-insensitive.
     """
     if not label_string:
         return None, None
 
-    # build regexes like r'gid([A-Za-z0-9]+)'
-    gid_re = re.compile(rf"{re.escape(gid_prefix)}({id_pattern})", re.IGNORECASE)
-    sname_re = re.compile(rf"{re.escape(sname_prefix)}({id_pattern})", re.IGNORECASE)
+    # pattern: capture prefix (gid|sname) then non-greedily capture everything until
+    # the next prefix or end of string.
+    combined_prefix = rf"(?:{re.escape(gid_prefix)}|{re.escape(sname_prefix)})"
+    pattern = rf"(?i)({combined_prefix})(.*?)(?=(?:{combined_prefix})|$)"
 
-    gid_match = gid_re.search(label_string)
-    sname_match = sname_re.search(label_string)
+    gid = None
+    sname = None
 
-    gid = gid_match.group(1) if gid_match else None
-    sname = sname_match.group(1) if sname_match else None
+    for m in re.finditer(pattern, label_string, flags=re.DOTALL):
+        prefix = m.group(1).lower()
+        value = m.group(2)
+        if prefix == gid_prefix.lower():
+            gid = value
+        elif prefix == sname_prefix.lower():
+            sname = value
+
+    # strip surrounding whitespace (if any) but keep symbols inside the id
+    if gid is not None:
+        gid = gid.strip()
+    if sname is not None:
+        sname = sname.strip()
+
+    # # build regexes like r'gid([A-Za-z0-9]+)'
+    # gid_re = re.compile(rf"{re.escape(gid_prefix)}({id_pattern})", re.IGNORECASE)
+    # sname_re = re.compile(rf"{re.escape(sname_prefix)}({id_pattern})", re.IGNORECASE)
+    #
+    # gid_match = gid_re.search(label_string)
+    # sname_match = sname_re.search(label_string)
+    #
+    # gid = gid_match.group(1) if gid_match else None
+    # sname = sname_match.group(1) if sname_match else None
 
     return gid, sname
 
@@ -228,13 +251,22 @@ class Consent(Page):
         if gid_value and sname_value:
             participant.GID = gid_value
             participant.sname = sname_value
-            print(
-                f"-> SUCCESS: Participant {participant.id_in_session} - Parsed GID='{participant.GID}' and sname='{participant.sname}'")
+            print(f"-> SUCCESS: Participant {participant.id_in_session} - Parsed GID='{participant.GID}' and sname='{participant.sname}'")
+
+        elif gid_value and not sname_value:
+            participant.GID = gid_value
+            participant.sname = None
+            print(f"-> SUCCESS (partial): Participant {participant.id_in_session} - Parsed GID='{participant.GID}' (no sname found)")
+
+        elif sname_value and not gid_value:
+            participant.GID = None
+            participant.sname = sname_value
+            print(f"-> SUCCESS (partial): Participant {participant.id_in_session} - Parsed sname='{participant.sname}' (no GID found)")
+
         else:
             participant.GID = "INVALID_LABEL_FORMAT"
             participant.sname = "INVALID_LABEL_FORMAT"
-            print(
-                f"-> ERROR: Participant {participant.id_in_session} - Could not parse label '{raw_label}'.")
+            print(f"-> ERROR: Participant {participant.id_in_session} - Could not parse label '{raw_label}'.")
 
         ### Record start time
         player.participant.vars['session_start_time'] = time.time()
