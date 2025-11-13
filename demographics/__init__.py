@@ -417,7 +417,7 @@ class SpeederLink(Page):
 
         return dict(
             speeder_info=get_translation('speeder_info', lang),
-            redirect_wait=get_translation('redirect_wait', lang),
+            #redirect_wait=get_translation('redirect_wait', lang),
             redirect_link=redirect_link,
             lang=lang,
             button_next=get_translation('button_next', lang)
@@ -440,7 +440,7 @@ class TolunaLink(Page):
         print("redirect_link complete", redirect_link)
 
         return dict(
-            redirect_wait=get_translation('redirect_wait', lang),
+            #redirect_wait=get_translation('redirect_wait', lang),
             redirect_link=redirect_link,
             lang=lang,
             button_next=get_translation('button_next', lang)

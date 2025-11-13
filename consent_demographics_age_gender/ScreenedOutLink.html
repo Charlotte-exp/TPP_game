@@ -14,18 +14,6 @@
     <link rel="stylesheet" href="{% static 'shared_styles.css' %}">
 
 
-<div style="font-size: 14px; text-align: center;">
-    <p> {{ quota_full_info|safe }}</p>
-
-    <p>{{ redirect_wait|safe }}
-        <b><a href="{{ redirect_link|safe }}"> {{ redirect_link|safe }} </a></b>
-    </p>
-
-<!--    <div style="display: flex; justify-content: flex-end">-->
-<!--        <button class="btn btn-primary">{{button_next | safe}}</button>-->
-<!--    </div>-->
-
-</div>
 
 {{ endblock }}
 
@@ -39,7 +27,7 @@
         // The redirect code is now placed inside the function
         window.location.replace("{{ redirect_link|safe }}");
 
-    }, 10000); // The delay in milliseconds
+    }, 0); // The delay in milliseconds
 
     </script>
 

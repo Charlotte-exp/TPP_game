@@ -58,31 +58,7 @@ def parse_participant_label(
     if sname is not None:
         sname = sname.strip()
 
-    # # build regexes like r'gid([A-Za-z0-9]+)'
-    # gid_re = re.compile(rf"{re.escape(gid_prefix)}({id_pattern})", re.IGNORECASE)
-    # sname_re = re.compile(rf"{re.escape(sname_prefix)}({id_pattern})", re.IGNORECASE)
-    #
-    # gid_match = gid_re.search(label_string)
-    # sname_match = sname_re.search(label_string)
-    #
-    # gid = gid_match.group(1) if gid_match else None
-    # sname = sname_match.group(1) if sname_match else None
-
     return gid, sname
-
-# def parse_participant_label(label_string):
-#     if not label_string:
-#         return None, None
-#     try:
-#         gid_part, sname_part = label_string.split('_')
-#         if gid_part.startswith('gid') and sname_part.startswith('sname'):
-#             gid = gid_part[3:]
-#             sname = sname_part[5:]
-#             return gid, sname
-#         else:
-#             return None, None
-#     except (ValueError, IndexError):
-#         return None, None
 
 def get_quotas(country):
     import csv
@@ -345,8 +321,8 @@ class ConsentDeclined(Page):
         print("redirect_link consent declined", redirect_link)
 
         return dict(
-            consent_declined_info=get_translation('consent_declined_info', lang),
-            redirect_wait=get_translation('redirect_wait', lang),
+            #consent_declined_info=get_translation('consent_declined_info', lang),
+            #redirect_wait=get_translation('redirect_wait', lang),
             redirect_link=redirect_link,
             lang=lang,
             button_next=get_translation('button_next', lang)
@@ -501,8 +477,8 @@ class ScreenedOutLink(Page):
         print("redirect_link", redirect_link)
 
         return dict(
-            quota_full_info=get_translation('quota_full_info', lang),
-            redirect_wait=get_translation('redirect_wait', lang),
+            #quota_full_info=get_translation('quota_full_info', lang),
+            #redirect_wait=get_translation('redirect_wait', lang),
             redirect_link=redirect_link,
             lang=lang,
             button_next=get_translation('button_next', lang)
