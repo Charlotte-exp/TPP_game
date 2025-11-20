@@ -71,14 +71,11 @@ def get_local_red_cross_info(country_name):
     with open(filepath, encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            if row["countryname"] == country_name:
+            if row["iso2"] == country_name:
                 red_cross_local = row["red_cross_local"]
-                iso2_code = row["iso2"]
-                # Construct the image path
-                # image_path = f"../_static/global/charities/local_red_cross/iso2_{iso2_code}_fitted.png"
-                image_path = f"global/charities/local_red_cross/iso2_{iso2_code}.png"
+                image_path = f"global/charities/local_red_cross/iso2_{country_name}.png"
                 return red_cross_local, image_path
-    return " ", "../_static/global/charities/unknown_charity.png"  # default if not found
+    return "Unknown", "../_static/global/charities/unknown_charity.png"  # default if not found
 
 
 
@@ -190,10 +187,11 @@ class CrowdingInOutPage(Page):
         print("treatment_incentive", treatment_incentive)
 
         current_countryname = player.participant.current_countryname
-        # print('player.participant.current_countryname', player.participant.current_countryname)
+        current_country = player.participant.current_country
+        #print('player.participant.current_country', player.participant.current_country)
 
-        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_countryname)
-        # print("current_countryname, local_red_cross", current_countryname, local_red_cross, image_red_cross_local)
+        local_red_cross, image_red_cross_local = get_local_red_cross_info(current_country)
+        #print("current_country, local_red_cross", current_country, local_red_cross, image_red_cross_local)
 
         total_endowment = 4
         receiver_endowment = 0
@@ -257,7 +255,6 @@ class CrowdingInOutPage(Page):
             button_next=get_translation('button_next', lang),
             button_decision=get_translation('button_decision_num', lang, decision_num=participant.decision_page_number),
             button_block=get_translation('block_title', lang, block_num=2),
-            # charities = charities,
             lang=lang,
             local_red_cross = local_red_cross,
             image_red_cross_local = image_red_cross_local,
