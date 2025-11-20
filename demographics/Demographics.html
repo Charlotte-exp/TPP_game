@@ -152,6 +152,19 @@
 
             <br>
 
+            <div class="responsive-field">
+              <label>{{ region_question }}</label><br/>
+              <select name="region" required>
+                <option value="" disabled selected>{{ select_region }}</option>
+                {% for region in regions %}
+                  <option value="{{ region }}">{{ region }}</option>
+                {% endfor %}
+                <option value="Prefer not to say">{{ pnts }}</option>
+              </select>
+            </div>
+
+            <br>
+
 
             <div style="display: flex; justify-content: flex-end">
                 <button class="btn btn-primary">{{button_next | safe}}</button>
