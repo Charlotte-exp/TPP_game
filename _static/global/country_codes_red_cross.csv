@@ -1,72 +1,72 @@
-"countryname","iso2","red_cross_local"
-"Algeria","dz","Algerian Red Crescent"
-"Argentina","ar","Argentine Red Cross"
-"Australia","au","Australian Red Cross"
-"Austria","at","Austrian Red Cross"
-"Belgium","be","Belgian Red Cross"
-"Bolivia","bo","Bolivian Red Cross"
-"Brazil","br","Brazilian Red Cross"
-"Bulgaria","bg","Bulgarian Red Cross"
-"Canada","ca","Canadian Red Cross"
-"Chile","cl","Chilean Red Cross"
-"China","cn","China Red Cross Society"
-"Colombia","co","Colombian Red Cross"
-"Costa Rica","cr","Costa Rican Red Cross"
-"Croatia","hr","Croatian Red Cross"
-"Denmark","dk","Danish Red Cross"
-"Ecuador","ec","Ecuadorian Red Cross"
-"Egypt","eg","Egyptian Red Crescent"
-"El Salvador","sv","Salvadorian Red Cross"
-"Estonia","ee","Estonian Red Cross"
-"Finland","fi","Finnish Red Cross"
-"France","fr","French Red Cross"
-"Germany","de","German Red Cross"
-"Greece","gr","Hellenic Red Cross"
-"Guatemala","gt","Guatemalan Red Cross"
-"Hong Kong","hk","Hong Kong Red Cross"
-"Hungary","hu","Hungarian Red Cross"
-"India","in","Indian Red Cross Society"
-"Indonesia","id","Indonesian Red Cross Society"
-"Ireland","ie","Irish Red Cross"
-"Israel","il","Magen David Adom"
-"Italy","it","Italian Red Cross"
-"Japan","jp","Japanese Red Cross Society"
-"Kazakhstan","kz","Kazakh Red Crescent"
-"Kenya","ke","Kenya Red Cross"
-"Latvia","lv","Latvian Red Cross"
-"Lithuania","lt","Lithuanian Red Cross"
-"Malaysia","my","Malaysian Red Crescent"
-"Mexico","mx","Mexican Red Cross"
-"Morocco","ma","Moroccan Red Crescent"
-"New Zealand","nz","New Zealand Red Cross"
-"Nigeria","ng","Nigerian Red Cross"
-"Norway","no","Norwegian Red Cross"
-"Pakistan","pk","Pakistan Red Crescent"
-"Peru","pe","Unknown"
-"Poland","pl","Polish Red Cross"
-"Portugal","pt","Portuguese Red Cross"
-"Puerto Rico","pr", "American Red Cross (Chapter of Puerto Rico)"
-"Romania","ro","Romanian Red Cross"
-"Russia","ru","Russian Red Cross"
-"Saudi Arabia","sa","Saudi Red Crescent"
-"Singapore","sg","Singapore Red Cross Society"
-"Slovakia","sk","Slovak Red Cross"
-"South Africa","za","South African Red Cross Society"
-"South Korea","kr","Korean Red Cross"
-"Spain","es","Spanish Red Cross"
-"Sweden","se","Swedish Red Cross"
-"Switzerland","ch","Swiss Red Cross"
-"Taiwan","tw","Red Cross Society of the Republic of China"
-"Thailand","th","Thai Red Cross Society"
-"Turkey","tr","Turkish Red Crescent"
-"Ukraine","ua","Ukrainian Red Cross Society"
-"Uruguay","uy","Uruguayan Red Cross"
-"Venezuela","ve","Venezuelan Red Cross Society"
-"Vietnam","vn","Viet Nam Red Cross Society"
-"the Czech Republic","cz","Czech Red Cross"
-"the Dominican Republic","do","Dominican Red Cross"
-"the Netherlands","nl","Netherlands Red Cross"
-"the Philippines","ph","Philippine Red Cross"
-"the United Arab Emirates","ae","Emirates Red Crescent"
-"the United Kingdom","gb","British Red Cross"
-"the United States","us","American Red Cross"
+countryname,iso2,red_cross_local
+Algeria,dz,Algerian Red Crescent
+Argentina,ar,Argentine Red Cross
+Australia,au,Australian Red Cross
+Austria,at,Austrian Red Cross
+Belgium,be,Belgian Red Cross
+Bolivia,bo,Bolivian Red Cross
+Brazil,br,Brazilian Red Cross
+Bulgaria,bg,Bulgarian Red Cross
+Canada,ca,Canadian Red Cross
+Chile,cl,Chilean Red Cross
+China,cn,China Red Cross Society
+Colombia,co,Colombian Red Cross
+Costa Rica,cr,Costa Rican Red Cross
+Croatia,hr,Croatian Red Cross
+Denmark,dk,Danish Red Cross
+Ecuador,ec,Ecuadorian Red Cross
+Egypt,eg,Egyptian Red Crescent
+El Salvador,sv,Salvadorian Red Cross
+Estonia,ee,Estonian Red Cross
+Finland,fi,Finnish Red Cross
+France,fr,French Red Cross
+Germany,de,German Red Cross
+Greece,gr,Hellenic Red Cross
+Guatemala,gt,Guatemalan Red Cross
+Hong Kong,hk,Hong Kong Red Cross
+Hungary,hu,Hungarian Red Cross
+India,in,Indian Red Cross Society
+Indonesia,id,Indonesian Red Cross Society
+Ireland,ie,Irish Red Cross
+Israel,il,Magen David Adom
+Italy,it,Italian Red Cross
+Japan,jp,Japanese Red Cross Society
+Kazakhstan,kz,Kazakh Red Crescent
+Kenya,ke,Kenya Red Cross
+Latvia,lv,Latvian Red Cross
+Lithuania,lt,Lithuanian Red Cross
+Malaysia,my,Malaysian Red Crescent
+Mexico,mx,Mexican Red Cross
+Morocco,ma,Moroccan Red Crescent
+New Zealand,nz,New Zealand Red Cross
+Nigeria,ng,Nigerian Red Cross
+Norway,no,Norwegian Red Cross
+Pakistan,pk,Pakistan Red Crescent
+Peru,pe,Peruvian Red Cross
+Poland,pl,Polish Red Cross
+Portugal,pt,Portuguese Red Cross
+Puerto Rico,pr," ""American Red Cross (Chapter of Puerto Rico)"""
+Romania,ro,Romanian Red Cross
+Russia,ru,Russian Red Cross
+Saudi Arabia,sa,Saudi Red Crescent
+Singapore,sg,Singapore Red Cross Society
+Slovakia,sk,Slovak Red Cross
+South Africa,za,South African Red Cross Society
+South Korea,kr,Korean Red Cross
+Spain,es,Spanish Red Cross
+Sweden,se,Swedish Red Cross
+Switzerland,ch,Swiss Red Cross
+Taiwan,tw,Red Cross Society of the Republic of China
+Thailand,th,Thai Red Cross Society
+Turkey,tr,Turkish Red Crescent
+Ukraine,ua,Ukrainian Red Cross Society
+Uruguay,uy,Uruguayan Red Cross
+Venezuela,ve,Venezuelan Red Cross Society
+Vietnam,vn,Viet Nam Red Cross Society
+the Czech Republic,cz,Czech Red Cross
+the Dominican Republic,do,Dominican Red Cross
+the Netherlands,nl,Netherlands Red Cross
+the Philippines,ph,Philippine Red Cross
+the United Arab Emirates,ae,Emirates Red Crescent
+the United Kingdom,gb,British Red Cross
+the United States,us,American Red Cross
