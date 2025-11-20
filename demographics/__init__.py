@@ -27,10 +27,46 @@ def get_country_dict_no_in(lang, iso2=None):
     return country_dict
 
 
-class C(BaseConstants):
-    NAME_IN_URL = 'demographics'
-    PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 1
+def get_regions_by_lang(iso2, lang):
+    """
+    Returns a list of regions for a given country and language.
+
+    Args:
+        country_code (str): ISO2 country code, e.g., 'dz', 'au'.
+        lang (str): Language code, e.g., 'en', 'ar', 'es'.
+
+    Returns:
+        list of str: Region names in the requested language.
+    """
+    with open('_static/global/region_names.csv', newline='', encoding='utf-8') as csvfile:
+        reader = list(csv.reader(csvfile))
+
+        if len(reader) < 2:
+            raise ValueError("CSV file seems too short or not formatted properly.")
+
+        country_row = reader[0]  # country codes
+        lang_row = reader[1]  # languages
+
+        # Find the index of the column matching the requested country and language
+        try:
+            col_index = next(
+                i for i, (c, l) in enumerate(zip(country_row, lang_row))
+                if c == iso2 and l == lang
+            )
+        except StopIteration:
+            # Fallback to English if available
+            try:
+                col_index = next(
+                    i for i, (c, l) in enumerate(zip(country_row, lang_row))
+                    if c == iso2 and l == 'en'
+                )
+            except StopIteration:
+                raise ValueError(f"No column found for country '{iso2}' with language '{lang}' or English fallback")
+
+        # Collect all region names in that column (skip the first two header rows)
+        regions = [row[col_index] for row in reader[2:] if row[col_index]]
+
+        return regions
 
 
 def get_country_list(lang):
@@ -43,6 +79,12 @@ def get_country_list(lang):
         countries_world.sort()  # Sort alphabetically
         return countries_world
 
+
+
+class C(BaseConstants):
+    NAME_IN_URL = 'demographics'
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
 
 
 class Subsession(BaseSubsession):
@@ -79,6 +121,7 @@ class Player(BasePlayer):
     born = models.StringField()
     born_mother = models.StringField()
     born_father = models.StringField()
+    region = models.StringField()
     income_ladder = models.IntegerField(
         choices=[i for i in range(1, 11)],
         blank=True,
@@ -164,7 +207,7 @@ class Player(BasePlayer):
 
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['born','born_mother', 'born_father', 'education', 'rural_urban'] #'age', 'gender', 'toluna_id'
+    form_fields = ['born','born_mother', 'born_father', 'education', 'region', 'rural_urban'] #'age', 'gender', 'toluna_id'
 
     def vars_for_template(player: Player):
         participant = player.participant
@@ -176,6 +219,11 @@ class Demographics(Page):
         all_countries = get_country_list(lang)
         countries = [current_countryname_no_in] + [c for c in all_countries if c != current_countryname_no_in]
 
+        # Get region names for country in current language
+        regions = get_regions_by_lang(lang = participant.language, iso2 = participant.current_country)
+        #region_names = [r for r in region_names_list]
+
+
         return dict(
             total_pages=player.session.config['total_pages'],
             #descr_incentive=get_translation('descr_incentive', lang),
@@ -186,6 +234,7 @@ class Demographics(Page):
             born_father_question=get_translation('born_father_question', lang),
             education_question=get_translation('education_question', lang),
             rural_urban_question=get_translation('rural_urban_question', lang),
+            region_question=get_translation('region_question', lang),
             female=get_translation('female', lang),
             male=get_translation('male', lang),
             other=get_translation('other', lang),
@@ -204,11 +253,13 @@ class Demographics(Page):
             edu8=get_translation('edu8', lang),
             toluna_id_question = get_translation('toluna_id', lang),
             select_country=get_translation('select_country', lang),
+            select_region=get_translation('select_region', lang),
             button_next=get_translation('button_next', lang),
             additional_questions=get_translation('additional_questions', lang),
             lang = lang,
             error3=get_translation('error3', lang),
             countries=countries,
+            regions=regions,
         )
 
     def before_next_page(player: Player, timeout_happened):
