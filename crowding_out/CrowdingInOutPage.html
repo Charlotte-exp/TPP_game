@@ -701,13 +701,6 @@
     margin-top: 20px;
 }
 
-    .option-row {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: stretch; /* keeps buttons same height */
-}
-
 .option {
     flex: 1;
     padding: 20px;
@@ -729,8 +722,8 @@
 
 
 .charity-logo {
-    width: 90px;
-    height: 90px;
+    width: 110px;
+    height: 110px;
     object-fit: contain;
     border: 2px solid transparent;
     border-radius: 6px;
@@ -747,6 +740,14 @@
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 12px;
+}
+
+@media (min-width: 600px) {
+    .charity-logos {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+    }
 }
 
 .charity-logo:hover {
@@ -862,10 +863,10 @@ html[dir="rtl"] .image-container {
                     <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
 
                     <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
-                    <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">
-                    <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">
                     <img src="{% static 'global/charities/padded_WWF.png' %}" alt="World Wildlife Fund" data-charity="World Wildlife Fund" class="charity-logo">
 
+<!--                    <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">-->
+<!--                    <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">-->
 <!--                    <img src="{% static 'global/charities/padded_who.png' %}" alt="World Health Organization" data-charity="World Health Organization" class="charity-logo">-->
 
                     {% if local_red_cross != "Unknown" %}
@@ -887,10 +888,10 @@ html[dir="rtl"] .image-container {
                     <img src="{% static 'global/charities/padded_red_cross.png' %}" alt="Red Cross" data-charity="Red Cross / Red Crescent" class="charity-logo">
 
                     <img src="{% static 'global/charities/padded_unicef.png' %}" alt="Unicef" data-charity="Unicef" class="charity-logo">
-                    <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">
-                    <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">
                     <img src="{% static 'global/charities/padded_WWF.png' %}" alt="World Wildlife Fund" data-charity="World Wildlife Fund" class="charity-logo">
 
+<!--                    <img src="{% static 'global/charities/padded_wfp.png' %}" alt="World Food Programme" data-charity="World Food Programme" class="charity-logo">-->
+<!--                    <img src="{% static 'global/charities/padded_The_Salvation_Army.png' %}" alt="The Salvation Army" data-charity="The Salvation Army" class="charity-logo">-->
 <!--                    <img src="{% static 'global/charities/padded_who.png' %}" alt="World Health Organization" data-charity="World Health Organization" class="charity-logo">-->
 
                     {% if local_red_cross != "Unknown" %}
