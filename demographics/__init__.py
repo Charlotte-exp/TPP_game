@@ -202,6 +202,10 @@ class Player(BasePlayer):
     is_speeder = models.BooleanField(default=False)  # This stores whether the player is a speeder. It defaults to False.
     speeder_reason = models.StringField(blank=True) # This stores the reason.
 
+    is_fully_complete = models.BooleanField(initial=False)
+
+    current_countryname_no_in = models.StringField()
+
 
 ########### PAGES ############
 
@@ -215,6 +219,7 @@ class Demographics(Page):
 
         #current_countryname = player.participant.current_countryname
         current_countryname_no_in = get_country_dict_no_in(participant.language, participant.current_country)
+        player.current_countryname_no_in = get_country_dict_no_in("en", participant.current_country)
 
         all_countries = get_country_list(lang)
         countries = [current_countryname_no_in] + [c for c in all_countries if c != current_countryname_no_in]
@@ -291,6 +296,7 @@ class Demographics(Page):
         ### Register this participant as complete IF they were not speeders
         if player.born is not None and player.is_speeder == False:
             player.participant.vars['is_fully_complete'] = True
+            player.is_fully_complete = True
             print(f"Participant {player.participant.id_in_session} has been marked as fully complete.")
 
 
