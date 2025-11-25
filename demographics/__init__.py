@@ -332,7 +332,7 @@ class Ladder(Page):
         participant.progress += 1
 
 
-class RelationalMobility(Page):
+class RelMob(Page):
     form_model = 'player'
     form_fields = ['meeting_1', 'meeting_2', 'choosing_1', 'choosing_2']
 
@@ -528,7 +528,7 @@ class ProlificLink(Page):
         )
 
 
-page_sequence = [RelationalMobility,
+page_sequence = [RelMob,
                  Circle,
                  Ladder,
                  Demographics,

@@ -167,7 +167,7 @@ class Player(BasePlayer):
 
 
 # PAGES
-class CrowdingInOutPage(Page):
+class GivingPage(Page):
 
     # @staticmethod
     # def is_displayed(player: Player):
@@ -268,7 +268,7 @@ class CrowdingInOutPage(Page):
         participant.decision_page_number += 1
 
 
-class DescriptiveNormPage(Page):
+class DescrPage(Page):
 
     form_model = 'player'
 
@@ -322,7 +322,7 @@ class DescriptiveNormPage(Page):
         participant.decision_page_number += 1
 
 
-class ConditionalCoopPage(Page):
+class CondPage(Page):
 
     form_model = 'player'
 
@@ -407,7 +407,7 @@ class ConditionalCoopPage(Page):
         participant.decision_page_number += 1
 
 
-class ConditionalCoopInterdepPage(Page):
+class CondInterPage(Page):
 
     form_model = 'player'
 
@@ -615,9 +615,9 @@ class AttentionCheckPageCrowding(Page):
 
 
 
-page_sequence = [CrowdingInOutPage,
-                 DescriptiveNormPage,
+page_sequence = [GivingPage,
+                 DescrPage,
                  AttentionCheckPageCrowding,
-                 ConditionalCoopPage,
-                 ConditionalCoopInterdepPage,
+                 CondPage,
+                 CondInterPage,
                  ]

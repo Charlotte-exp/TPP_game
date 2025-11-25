@@ -901,7 +901,7 @@ class TPPage(Page):
         participant.progress += 8
 
 
-class DictatorPage(Page):
+class DictPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
@@ -974,7 +974,7 @@ class DictatorPage(Page):
                 ),
             ],
             treatment=player.treatment,
-            page_name=DictatorPage,
+            page_name=DictPage,
             endowments=range(0, int(C.total_endowment) + 1),
             dic_identity=dic_identity,
             recip_identity=recip_identity,
@@ -1023,7 +1023,7 @@ class DictatorPage(Page):
         participant = player.participant
         participant.progress += 8
 
-class UniversalNormPage(Page):
+class UnivPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
@@ -1075,7 +1075,7 @@ page_sequence = [Introduction,
                  AttentionCheckPage,
                  Instructions,
                  ComprehensionQuestionPage,
-                 DictatorPage,
+                 DictPage,
                  TPPage,
-                 UniversalNormPage
+                 UnivPage
                  ]
