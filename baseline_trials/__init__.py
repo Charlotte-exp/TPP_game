@@ -438,20 +438,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    ip_country_code = models.LongStringField()
-    ip_country_name = models.LongStringField()
-    ip_region = models.LongStringField()
-    ip_city = models.LongStringField()
-    ip_latitude_rounded = models.FloatField()
-    ip_longitude_rounded = models.FloatField()
-    ip_time_zone = models.LongStringField()
-    ip_current_time = models.LongStringField()
-    ip_is_proxy = models.BooleanField()
-    ip_is_vpn = models.BooleanField()
-    ip_is_tor = models.BooleanField()
-    ip_is_anonymous = models.BooleanField()
-    ip_mobile_desktop = models.LongStringField()
-    ip_browser = models.LongStringField()
+
 
 
 ######## PAGES ########
