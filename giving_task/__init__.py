@@ -29,7 +29,7 @@ def get_country_dict(lang, iso2=None):
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'crowding_out'
+    NAME_IN_URL = 'giving_task'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -617,7 +617,7 @@ class AttentionCheckPageCrowding(Page):
 
 page_sequence = [GivingPage,
                  DescrPage,
-                 AttentionCheckPageCrowding,
                  CondPage,
                  CondInterPage,
+                 AttentionCheckPageCrowding,
                  ]

@@ -11,7 +11,7 @@ Your app description
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'rule_following'
+    NAME_IN_URL = 'slider_task'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
