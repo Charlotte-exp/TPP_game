@@ -8,7 +8,7 @@ Your app description
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'free_rider'
+    NAME_IN_URL = 'narr_task'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
