@@ -154,7 +154,7 @@ class Player(BasePlayer):
 
     ## Demographics
     age = models.IntegerField(
-        min=10, max=100
+        min=18, max=100
     )
     gender = models.StringField()
 
@@ -165,6 +165,21 @@ class Player(BasePlayer):
     is_screened_out = models.BooleanField(default=False) # This stores whether the player is screened out. It defaults to False.
 
     screenout_reason = models.StringField(blank=True) # This stores the reason.
+
+    ip_country_code = models.LongStringField()
+    ip_country_name = models.LongStringField()
+    ip_region = models.LongStringField()
+    ip_city = models.LongStringField()
+    ip_latitude_rounded = models.FloatField()
+    ip_longitude_rounded = models.FloatField()
+    ip_time_zone = models.LongStringField()
+    ip_current_time = models.LongStringField()
+    ip_is_proxy = models.BooleanField()
+    ip_is_vpn = models.BooleanField()
+    ip_is_tor = models.BooleanField()
+    ip_is_anonymous = models.BooleanField()
+    ip_mobile_desktop = models.LongStringField()
+    ip_browser = models.LongStringField()
 
 ########### PAGES ############
 
@@ -372,6 +387,10 @@ class Demographics_age_gender(Page):
             player.age_group = 4
         else:
             player.age_group = 5
+
+        # Special case: Morocco has no age category 5 and category 4 is 45+ --> Recode age groups 5 to 4
+        if participant.current_country == "ma" and player.age_group == 5:
+            player.age_group = 4
 
         ## 2) Get quotas
         quotas = get_quotas(participant.current_country)
