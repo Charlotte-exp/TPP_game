@@ -19,7 +19,7 @@ SESSION_CONFIGS = [
     dict(
         name='extras',
         display_name="All extra tasks",
-        app_sequence=['language_selection', 'pref_2PP_3PP', 'rule_following', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],
+        app_sequence=['language_selection', 'pref_2PP_3PP', 'slider_task', 'giving_task', 'dice_task', 'narr_task', 'demographics'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
@@ -28,7 +28,7 @@ SESSION_CONFIGS = [
     dict(
         name='crowding',
         display_name="Crowding-out",
-        app_sequence=['language_selection', 'crowding_out'],
+        app_sequence=['language_selection', 'giving_task'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
@@ -55,7 +55,7 @@ SESSION_CONFIGS = [
     dict(
         name='rule',
         display_name="Anti-social rule following",
-        app_sequence=['language_selection', 'rule_following'],
+        app_sequence=['language_selection', 'slider_task'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
@@ -64,7 +64,7 @@ SESSION_CONFIGS = [
     dict(
         name='narratives',
         display_name="Free rider narratives",
-        app_sequence=['language_selection', 'free_rider'],
+        app_sequence=['language_selection', 'narr_task'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
@@ -93,7 +93,7 @@ SESSION_CONFIGS = [
     dict(
         name='all_lang_block2',
         display_name="ALL LANGUAGES BLOCK 2",
-        app_sequence=['language_selection', 'pref_2PP_3PP', 'rule_following', 'crowding_out', 'dice_task', 'free_rider', 'demographics'],
+        app_sequence=['language_selection', 'pref_2PP_3PP', 'slider_task', 'giving_task', 'dice_task', 'narr_task', 'demographics'],
         num_demo_participants=6,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
@@ -120,10 +120,10 @@ for code, name in zip(COUNTRIES, COUNTRYNAMES):
                 'consent_demographics_age_gender',
                 'baseline_trials',
                 'pref_2PP_3PP',
-                'rule_following',
-                'crowding_out',
+                'slider_task',
+                'giving_task',
                 'dice_task',
-                'free_rider',
+                'narr_task',
                 'demographics'
             ],
             num_demo_participants=6,

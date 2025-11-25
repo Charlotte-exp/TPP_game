@@ -81,7 +81,7 @@ class Player(BasePlayer):
 
 ######## PAGES ########
 
-class RuleFollowing(Page):
+class SliderPage(Page):
     form_model = "player"
     form_fields = ["slider1", "slider2", "slider3"]
 
@@ -126,5 +126,5 @@ class RuleFollowing(Page):
 
 
 
-page_sequence = [RuleFollowing,
+page_sequence = [SliderPage,
                  ]

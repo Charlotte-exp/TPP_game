@@ -70,7 +70,7 @@ class Player(BasePlayer):
 
 
 #########  PAGES  ###########
-class Narratives(Page):
+class NarrPage(Page):
     form_model = "player"
     form_fields = ["wealthy_contribution", "wealthy_merit", "poor_contribution", "poor_merit"]
 
@@ -103,6 +103,6 @@ class Narratives(Page):
         participant.progress += 1
 
 
-page_sequence = [Narratives,
+page_sequence = [NarrPage,
                  #ResultsWaitPage,
                  ]
