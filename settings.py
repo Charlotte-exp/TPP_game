@@ -141,7 +141,7 @@ for code, name in zip(COUNTRIES, COUNTRYNAMES):
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=0.33,
     participation_fee=4.50,
-    total_pages=321,
+    total_pages=324,
     doc=""
 )
 
