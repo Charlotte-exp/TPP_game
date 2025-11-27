@@ -438,10 +438,10 @@ class Demographics_age_gender(Page):
                 if p.id_in_subsession == player.id_in_subsession:
                     continue
 
-                # Safely get the value of the gender field to see if they passed demographics.
+                # Safely check if they passed demographics.
                 gender_for_quota_check = p.field_maybe_none('quota_gender')
 
-                # Safely get the value of your MILESTONE field to see if they are "complete".
+                # Safely check if they are "complete".
                 is_complete = p.participant.vars.get('is_fully_complete')
 
                 # Only count people who have submitted BOTH the demographics AND the final page.
@@ -508,7 +508,7 @@ class ScreenedOutAge(Page):
         gid = participant.GID
 
         redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
-        print("redirect_link consent declined", redirect_link)
+        print("redirect_link age check failed", redirect_link)
 
         return dict(
             redirect_link=redirect_link,
