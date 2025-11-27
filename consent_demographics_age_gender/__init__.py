@@ -355,6 +355,8 @@ class Demographics_age_gender(Page):
         #current_countryname = player.participant.current_countryname
         current_countryname_no_in = get_country_dict_no_in(participant.language, participant.current_country)
 
+        current_country = participant.current_country
+
         return dict(
             total_pages=player.session.config['total_pages'],
             #descr_incentive=get_translation('descr_incentive', lang),
@@ -367,6 +369,7 @@ class Demographics_age_gender(Page):
             button_next=get_translation('button_next', lang),
             consent_title=get_translation('consent_title', lang),
             lang = lang,
+            current_country = current_country,
             error3=get_translation('error3', lang),
         )
 
