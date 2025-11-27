@@ -58,10 +58,14 @@
                 {{male}}
             </label><br/>
 
+            {% if current_country not in ["dz", "eg", "ma", "sa", "ae"] %}
+
             <label>
                 <input type="radio" name="gender" value="Other"/>
                 {{other}}
             </label><br/>
+
+            {% endif %}
 
             <label>
                 <input type="radio" name="gender" value="Prefer not to say"/>

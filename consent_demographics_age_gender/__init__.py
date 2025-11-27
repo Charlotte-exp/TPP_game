@@ -154,7 +154,7 @@ class Player(BasePlayer):
 
     ## Demographics
     age = models.IntegerField(
-        min=18, max=100
+        min=1, max=100
     )
     gender = models.StringField()
 
@@ -355,6 +355,8 @@ class Demographics_age_gender(Page):
         #current_countryname = player.participant.current_countryname
         current_countryname_no_in = get_country_dict_no_in(participant.language, participant.current_country)
 
+        current_country = participant.current_country
+
         return dict(
             total_pages=player.session.config['total_pages'],
             #descr_incentive=get_translation('descr_incentive', lang),
@@ -367,113 +369,153 @@ class Demographics_age_gender(Page):
             button_next=get_translation('button_next', lang),
             consent_title=get_translation('consent_title', lang),
             lang = lang,
+            current_country = current_country,
             error3=get_translation('error3', lang),
         )
 
+    @staticmethod
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 1
 
-        #### CHECK QUOTAS
+        #### CHECK IF TOO YOUNG
 
-        ## 1) Age categorization
-        if 18 <= player.age <= 24:
-            player.age_group = 1
-        elif 25 <= player.age <= 34:
-            player.age_group = 2
-        elif 35 <= player.age <= 44:
-            player.age_group = 3
-        elif 45 <= player.age <= 54:
-            player.age_group = 4
-        else:
-            player.age_group = 5
+        print("player.age", player.age)
 
-        # Special case: Morocco has no age category 5 and category 4 is 45+ --> Recode age groups 5 to 4
-        if participant.current_country == "ma" and player.age_group == 5:
-            player.age_group = 4
+        if player.age < 18:
+            participant.vars['age_too_low_boolean'] = True
+            print("participant.vars['age_too_low_boolean']", participant.vars['age_too_low_boolean'])
+            print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: Age too low.")
 
-        ## 2) Get quotas
-        quotas = get_quotas(participant.current_country)
-        print("quotas_country", quotas)
-        print("input age_group", player.age_group)
-        print("input gender", player.gender)
+        if player.age >= 18:
 
-        # Determine Gender for Quota Check
-        # Create a temporary variable, quota_gender. This preserves the player's actual response in player.gender.
+            #### CHECK QUOTAS
 
-        actual_gender = player.gender
+            ## 1) Age categorization
+            if 18 <= player.age <= 24:
+                player.age_group = 1
+            elif 25 <= player.age <= 34:
+                player.age_group = 2
+            elif 35 <= player.age <= 44:
+                player.age_group = 3
+            elif 45 <= player.age <= 54:
+                player.age_group = 4
+            else:
+                player.age_group = 5
 
-        if actual_gender == 'Female':
-            player.quota_gender = 'Female'
-        elif actual_gender == 'Male':
-            player.quota_gender = 'Male'
-        else:  # Since quota is binary, randomly allocate non-binary responses ('Other', 'Prefer not to say') to one of the two categories
-            player.quota_gender = random.choice(['Male', 'Female'])
-            print(f"Player {player.id_in_subsession} chose '{actual_gender}', randomly assigned to '{player.quota_gender}' for quota check.")
+            # Special case: Morocco has no age category 5 and category 4 is 45+ --> Recode age groups 5 to 4
+            if participant.current_country == "ma" and player.age_group == 5:
+                player.age_group = 4
 
-        ## 3) Count other completed players
-        current_female_count = 0
-        current_male_count = 0
-        current_age_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}  # A dictionary to hold counts for each age group
+            ## 2) Get quotas
+            quotas = get_quotas(participant.current_country)
+            print("quotas_country", quotas)
+            print("input age_group", player.age_group)
+            print("input gender", player.gender)
 
-        # Get all players in the session
-        all_players = player.subsession.get_players()
+            # Determine Gender for Quota Check
+            # Create a temporary variable, quota_gender. This preserves the player's actual response in player.gender.
 
-        for p in all_players:
-            if p.id_in_subsession == player.id_in_subsession:
-                continue
+            actual_gender = player.gender
 
-            # Safely get the value of the gender field to see if they passed demographics.
-            gender_for_quota_check = p.field_maybe_none('quota_gender')
+            if actual_gender == 'Female':
+                player.quota_gender = 'Female'
+            elif actual_gender == 'Male':
+                player.quota_gender = 'Male'
+            else:  # Since quota is binary, randomly allocate non-binary responses ('Other', 'Prefer not to say') to one of the two categories
+                player.quota_gender = random.choice(['Male', 'Female'])
+                print(f"Player {player.id_in_subsession} chose '{actual_gender}', randomly assigned to '{player.quota_gender}' for quota check.")
 
-            # Safely get the value of your MILESTONE field to see if they are "complete".
-            is_complete = p.participant.vars.get('is_fully_complete')
+            ## 3) Count other completed players
+            current_female_count = 0
+            current_male_count = 0
+            current_age_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}  # A dictionary to hold counts for each age group
 
-            # Only count people who have submitted BOTH the demographics AND the final page.
-            if gender_for_quota_check is not None and is_complete is not None:
+            # Get all players in the session
+            all_players = player.subsession.get_players()
 
-                # Now we know this is a "complete" response, so we can count them.
-                if gender_for_quota_check == 'Female':
-                    current_female_count += 1
-                elif gender_for_quota_check == 'Male':
-                    current_male_count += 1
+            for p in all_players:
+                if p.id_in_subsession == player.id_in_subsession:
+                    continue
 
-                age_group_value = p.field_maybe_none('age_group')
-                if age_group_value in current_age_counts:
-                    current_age_counts[age_group_value] += 1
+                # Safely check if they passed demographics.
+                gender_for_quota_check = p.field_maybe_none('quota_gender')
 
-        print("current_female_count", current_female_count)
-        print("current_male_count", current_male_count)
-        print("current_age_counts[player_age_group]", current_age_counts[player.age_group])
+                # Safely check if they are "complete".
+                is_complete = p.participant.vars.get('is_fully_complete')
 
-        ## 4) Compare current player against quotas
-        is_screened_out = False
-        screenout_reason = ""
+                # Only count people who have submitted BOTH the demographics AND the final page.
+                if gender_for_quota_check is not None and is_complete is not None:
 
-        # Check gender quota
-        if player.quota_gender == 'Female' and current_female_count >= quotas['female']:
-            is_screened_out = True
-            screenout_reason = "Gender quota (Female) is full"
+                    # Now we know this is a "complete" response, so we can count them.
+                    if gender_for_quota_check == 'Female':
+                        current_female_count += 1
+                    elif gender_for_quota_check == 'Male':
+                        current_male_count += 1
 
-        elif player.quota_gender == 'Male' and current_male_count >= quotas['male']:
-            is_screened_out = True
-            screenout_reason = "Gender quota (Male) is full"
+                    age_group_value = p.field_maybe_none('age_group')
+                    if age_group_value in current_age_counts:
+                        current_age_counts[age_group_value] += 1
 
-        # Check age quota
-        player_age_group = player.age_group
-        if not is_screened_out and current_age_counts[player_age_group] >= quotas[f'age{player_age_group}']:
-            is_screened_out = True
-            screenout_reason = f"Age group {player_age_group} quota full"
+            print("current_female_count", current_female_count)
+            print("current_male_count", current_male_count)
+            print("current_age_counts[player_age_group]", current_age_counts[player.age_group])
 
-        ## 5) Set a flag on the participant
-        if is_screened_out:
-            player.is_screened_out = True
-            player.screenout_reason = screenout_reason
-            print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: {player.screenout_reason}")
-        else:
-            # The default is already False, but it's good to be explicit
-            player.is_screened_out = False
-            print(f"Player {player.id_in_subsession} PASSED quotas.")
+            ## 4) Compare current player against quotas
+            is_screened_out = False
+            screenout_reason = ""
+
+            # Check gender quota
+            if player.quota_gender == 'Female' and current_female_count >= quotas['female']:
+                is_screened_out = True
+                screenout_reason = "Gender quota (Female) is full"
+
+            elif player.quota_gender == 'Male' and current_male_count >= quotas['male']:
+                is_screened_out = True
+                screenout_reason = "Gender quota (Male) is full"
+
+            # Check age quota
+            player_age_group = player.age_group
+            if not is_screened_out and current_age_counts[player_age_group] >= quotas[f'age{player_age_group}']:
+                is_screened_out = True
+                screenout_reason = f"Age group {player_age_group} quota full"
+
+            ## 5) Set a flag on the participant
+            if is_screened_out:
+                player.is_screened_out = True
+                player.screenout_reason = screenout_reason
+                print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: {player.screenout_reason}")
+            else:
+                # The default is already False, but it's good to be explicit
+                player.is_screened_out = False
+                print(f"Player {player.id_in_subsession} PASSED quotas.")
+
+
+class ScreenedOutAge(Page):
+    """
+    This page redirects people to Toluna automatically if they are under 18 years
+    """
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.participant.vars.get('age_too_low_boolean'):
+            return True
+
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        sname = participant.sname
+        gid = participant.GID
+
+        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
+        print("redirect_link age check failed", redirect_link)
+
+        return dict(
+            redirect_link=redirect_link,
+            lang=lang,
+            button_next=get_translation('button_next', lang)
+        )
+
 
 
 class ScreenedOutLink(Page):
@@ -507,5 +549,6 @@ class ScreenedOutLink(Page):
 page_sequence = [Consent,
                  ConsentDeclined,
                  Demographics_age_gender,
+                 ScreenedOutAge,
                  ScreenedOutLink,
                  ]

@@ -720,9 +720,52 @@ class AttentionCheckPage(Page):
             total_pages=player.session.config['total_pages'],
         )
 
+    @staticmethod
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         participant.progress += 3
+
+        #### CHECK IF TWO ATTENTION TESTS FAILED
+
+        if player.round_number == C.attention_check_rounds[0]:
+            participant.vars['attention_fail_counter'] = 0
+            print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
+
+        if player.att_failed1 == 1 or player.att_failed2 == 1:
+            participant.vars['attention_fail_counter'] += 1
+            print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
+
+        if participant.vars['attention_fail_counter'] == 2:
+            participant.vars['attention_failed_boolean'] = True
+            print("participant.vars['attention_failed_boolean']", participant.vars['attention_failed_boolean'])
+            print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: Two attention checks failed.")
+
+
+class ScreenedOutAttention(Page):
+    """
+    This page redirects people to Toluna automatically if they fail two attention checks
+    """
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.participant.vars.get('attention_failed_boolean'):
+            return True
+
+    def vars_for_template(player: Player):
+        participant = player.participant
+        lang = participant.language
+
+        sname = participant.sname
+        gid = participant.GID
+
+        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOFraud.aspx?sname={sname}&gid={gid}"
+        print("redirect_link attention checks failed", redirect_link)
+
+        return dict(
+            redirect_link=redirect_link,
+            lang=lang,
+            button_next=get_translation('button_next', lang)
+        )
+
 
 
 class TPPage(Page):
@@ -1073,6 +1116,7 @@ class UnivPage(Page):
 
 page_sequence = [Introduction,
                  AttentionCheckPage,
+                 ScreenedOutAttention,
                  Instructions,
                  ComprehensionQuestionPage,
                  DictPage,
