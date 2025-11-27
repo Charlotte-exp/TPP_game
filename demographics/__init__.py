@@ -272,7 +272,7 @@ class Demographics(Page):
         participant.progress += 1
 
         ### Screen out too-fast participants
-        MINIMUM_TOTAL_SECONDS = 900 # Less than 15 minutes (900 seconds) is speeding
+        MINIMUM_TOTAL_SECONDS = 180 # Less than 15 minutes (900 seconds) is speeding
 
         # Get start time
         start_time = player.participant.vars.get('session_start_time')
@@ -469,7 +469,8 @@ class SpeederLink(Page):
         sname = participant.sname
         gid = participant.GID
 
-        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
+        redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOFraud.aspx?sname={sname}&gid={gid}"
+        #redirect_link = f"http://ups.surveyrouter.com/trafficui/mscui/SOTerminated.aspx?sname={sname}&gid={gid}"
         print("redirect_link terminate", redirect_link)
 
         return dict(
