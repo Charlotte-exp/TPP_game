@@ -1,5 +1,5 @@
 countryname,iso3,country,languages
-Algeria,DZA,dz,"ar, en"
+Algeria,DZA,dz,"ar, en, fr"
 Argentina,ARG,ar,"es, en"
 Australia,AUS,au,en
 Brazil,BRA,br,"pt, en"
@@ -19,9 +19,9 @@ Italy,ITA,it,"it, en"
 Japan,JPN,jp,"ja, en"
 Kenya,KEN,ke,en
 Korea,KOR,kr,"ko, en"
-Malaysia,MYS,my,"ms, en"
+Malaysia,MYS,my,"ms, en, zh-CN"
 Mexico,MEX,mx,"es, en"
-Morocco,MAR,ma,"ar, en"
+Morocco,MAR,ma,"ar, en, fr"
 Nigeria,NGA,ng,en
 Peru,PER,pe,"es, en"
 Philippines,PHL,ph,"en, tl"
