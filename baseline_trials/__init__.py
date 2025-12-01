@@ -731,9 +731,17 @@ class AttentionCheckPage(Page):
             participant.vars['attention_fail_counter'] = 0
             print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
 
-        if player.att_failed1 == 1 or player.att_failed2 == 1:
+        if player.round_number == C.attention_check_rounds[0] and player.attention1 != 2:
             participant.vars['attention_fail_counter'] += 1
             print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
+
+        if player.round_number == C.attention_check_rounds[1] and player.attention2 != 1:
+            participant.vars['attention_fail_counter'] += 1
+            print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
+
+        # if player.att_failed1 == 1 or player.att_failed2 == 1:
+        #     participant.vars['attention_fail_counter'] += 1
+        #     print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
 
         if participant.vars['attention_fail_counter'] == 2:
             participant.vars['attention_failed_boolean'] = True
