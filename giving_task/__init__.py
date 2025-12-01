@@ -55,6 +55,7 @@ def creating_session(subsession): # Just for testing on its own
             participant.progress = 1
             participant.decision_page_number = 0
             participant.current_countryname = get_country_dict(participant.language, participant.current_country)
+            participant.vars['attention_fail_counter'] = 0
 
         if 'treatment_incentive' not in participant.vars:
             participant.treatment_incentive = random.choice([True, False])
@@ -616,9 +617,13 @@ class AttentionCheckPageCrowding(Page):
 
         #### CHECK IF TWO ATTENTION TESTS FAILED
 
-        if player.att_failed3 == 1:
+        if player.attention3 != 3:
             participant.vars['attention_fail_counter'] += 1
             print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
+
+        # if player.att_failed3 == 1:
+        #     participant.vars['attention_fail_counter'] += 1
+        #     print("participant.vars['attention_fail_counter']", participant.vars['attention_fail_counter'])
 
         if participant.vars['attention_fail_counter'] == 2:
             participant.vars['attention_failed_boolean'] = True
