@@ -84,7 +84,7 @@ SESSION_CONFIGS = [
         name='all_lang_block1',
         display_name="ALL LANGUAGES BLOCK 1",
         app_sequence=['language_selection', 'consent_demographics_age_gender', 'baseline_trials'],
-        num_demo_participants=6,
+        num_demo_participants=100,
         use_browser_bots=False,
         oTree_version_used=popen('otree --version').read().strip(),
         config=dict(CURRENT_COUNTRY="all",prolific = False),

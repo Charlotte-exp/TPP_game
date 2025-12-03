@@ -63,7 +63,7 @@ class C(BaseConstants):
 
     ### Treatments ###
 
-    ## 1) Baseline (13 trials)
+    ## 1) Baseline (8 trials)
     trials_DG = ['0DG give', '0DG give norm']
     trials_3PP_DIC = ['3PP give']
     trials_3PP_TP = ['3PP punish', '3PP punish norm']
@@ -94,15 +94,12 @@ class Subsession(BaseSubsession):
 #     )
 
 def creating_session(subsession):
-    for p in subsession.get_players():
-        participant = p.participant
 
-    # print('Creating session; round number: {}'.format(subsession.round_number))
+    if subsession.round_number == 1: # Once per session, in the first round, create immutable variables shared across session
 
-    # Make trial structure only in first round (steps I - IV) (only step V: assigning treatment etc is done per round)
-    if subsession.round_number == 1:
 
         ### I) Set core variables: language, country, progress
+
         for player in subsession.get_players():
             participant = player.participant
 
@@ -120,7 +117,82 @@ def creating_session(subsession):
             participant.progress = 1
 
 
-        ### II) Use block randomization to allocate BETWEEN-SUBJECT CONDITIONS: rule following (harm self / harm other) and incentive (yes / no)
+        ### II) Create possible combinations of trials for DG, 2PP, 3PP and partner-country trials
+
+        # Preparation of counterbalancing of treatment order for INOUT
+
+        # Order of in-in, in-out, out-in, out-out (hom/het) is COUNTERBALANCED, everything else (order dic/pun; norm/beh) is just randomized.
+
+        # Make order permutations of the 5 INOUT treatments
+        ALL_ORDERS = list(itertools.permutations(
+            ['in_in', 'in_out', 'out_in', 'out_out_homog', 'out_out_heterog']
+        ))
+
+        random.shuffle(ALL_ORDERS)  # Shuffle once globally
+
+        # Initialize counter in session.vars (only once per session)
+        if 'order_counter' not in subsession.session.vars:
+            subsession.session.vars['order_counter'] = 0
+
+        ## Make immutable variables for partner-country block
+
+        # Make country list without current country
+        country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != current_country]
+        country_list_no_current = [item + " 3PP give country" for item in country_list_no_current]
+
+        # Make all possible combinations
+        combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
+
+        # Get IN-IN trial
+        trials_partner_in_in = [entry + ('IN IN',) for entry in combinations if entry[0] == entry[1] == current_country]
+        # trials_partner_in_in = [entry for entry in combinations if entry[0] == entry[1] == current_country]
+
+        # Remove IN-IN trials, which every participant sees only once
+        combinations = [entry for entry in combinations if not entry[0] == entry[1] == current_country]
+
+        # Filter different trial types
+        trials_partner_in_out = [entry for entry in combinations if entry[0] == current_country]
+        trials_partner_out_in = [entry for entry in combinations if entry[1] == current_country]
+        trials_partner_out_out_homog = [entry for entry in combinations if
+                                        (entry[0] != current_country and entry[1] != current_country and entry[0] ==
+                                         entry[1])]
+        trials_partner_out_out_heterog = [entry for entry in combinations if
+                                          (entry[0] != current_country and entry[1] != current_country and entry[0] !=
+                                           entry[1])]
+
+        # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
+        country_list_no_current_editable = country_list_no_current.copy()
+        #country_list_no_current_editable = [item + " 3PP give country" for item in country_list_no_current_editable] #This line caused a bug
+        trials_partner_in_out_editable = trials_partner_in_out.copy()
+        trials_partner_out_in_editable = trials_partner_out_in.copy()
+        trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
+        trials_partner_out_out_heterog_editable = trials_partner_out_out_heterog.copy()
+
+        # Make sampling function to sample without replacement
+        def sample_trials_partner(pool, num_trials, pool_name):
+            # If empty, refill from the original pool
+            # print("pool used ", pool)
+            # There are problems with eval(poolname), therefore assign original pool manually
+            if pool_name == 'country_list_no_current': pool_original = country_list_no_current
+            if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
+            if pool_name == 'trials_partner_in_out': pool_original = trials_partner_in_out
+            if pool_name == 'trials_partner_out_out_homog': pool_original = trials_partner_out_out_homog
+            if pool_name == 'trials_partner_out_out_heterog': pool_original = trials_partner_out_out_heterog
+            # If pool is depleted, refresh
+            if len(pool) < num_trials:
+                # print("country_list_no_current ", country_list_no_current)
+                pool = pool_original.copy()
+                # pool = eval(pool_name).copy()
+                # print("pool refreshed, pool ", pool)
+            # Otherwise, keep sampling without replacement
+            trials = random.sample(pool, num_trials)
+            # print("trials chosen ", trials)
+            for trial in trials:
+                pool.remove(trial)
+            return trials, pool
+
+
+        ### III) Use block randomization to allocate BETWEEN-SUBJECT CONDITIONS: rule following (harm self / harm other) and incentive (yes / no)
 
         participants = subsession.session.get_participants()
         num_participants = len(participants)
@@ -151,84 +223,10 @@ def creating_session(subsession):
                 )
 
 
-        ### III) Create possible combinations of trials for DG, 2PP, 3PP and partner-country trials
-
-        ## Preparation of counterbalancing of treatment order for INOUT
-
-        # Order of in-in, in-out, out-in, out-out (hom/het) is COUNTERBALANCED, everything else (order dic/pun; norm/beh) is just randomized.
-
-        # Make order permutations of the 5 INOUT treatments
-        ALL_ORDERS = list(itertools.permutations(
-            ['in_in', 'in_out', 'out_in', 'out_out_homog', 'out_out_heterog']
-        ))
-
-        random.shuffle(ALL_ORDERS)  # Shuffle once globally
-
-        # Initialize counter in session.vars (only once per session)
-        if 'order_counter' not in subsession.session.vars:
-            subsession.session.vars['order_counter'] = 0
-
-        ## Make immutable variables for partner-country block
-
-        # Make country list without current country
-        country_list_no_current = [entry for entry in C.COUNTRY_LIST if entry != current_country]
-
-        # Make all possible combinations
-        combinations = [(x, y) for x in C.COUNTRY_LIST for y in C.COUNTRY_LIST]
-
-        # Get IN-IN trial
-        trials_partner_in_in = [entry + ('IN IN',) for entry in combinations if entry[0] == entry[1] == current_country]
-        #trials_partner_in_in = [entry for entry in combinations if entry[0] == entry[1] == current_country]
-
-
-        # Remove IN-IN trials, which every participant sees only once
-        combinations = [entry for entry in combinations if not entry[0] == entry[1] == current_country]
-
-        # Filter different trial types
-        trials_partner_in_out = [entry for entry in combinations if entry[0] == current_country]
-        trials_partner_out_in = [entry for entry in combinations if entry[1] == current_country]
-        trials_partner_out_out_homog = [entry for entry in combinations if
-                                        (entry[0] != current_country and entry[1] != current_country and entry[0] ==
-                                         entry[1])]
-        trials_partner_out_out_heterog = [entry for entry in combinations if
-                                          (entry[0] != current_country and entry[1] != current_country and entry[0] !=
-                                           entry[1])]
-
-
-        # Duplicate original pools of trial types for removing used trials (and later refilling pools once empty)
-        country_list_no_current_editable = country_list_no_current.copy()
-        country_list_no_current_editable = [item + " 3PP give country" for item in country_list_no_current_editable]
-        trials_partner_in_out_editable = trials_partner_in_out.copy()
-        trials_partner_out_in_editable = trials_partner_out_in.copy()
-        trials_partner_out_out_homog_editable = trials_partner_out_out_homog.copy()
-        trials_partner_out_out_heterog_editable = trials_partner_out_out_heterog.copy()
-
-        # Make sampling function to sample without replacement
-        def sample_trials_partner(pool, num_trials, pool_name):
-            # If empty, refill from the original pool
-            #print("pool used ", pool)
-            # There are problems with eval(poolname), therefore assign original pool manually
-            if pool_name == 'country_list_no_current': pool_original = country_list_no_current
-            if pool_name == 'trials_partner_out_in': pool_original = trials_partner_out_in
-            if pool_name == 'trials_partner_in_out': pool_original = trials_partner_in_out
-            if pool_name == 'trials_partner_out_out_homog': pool_original = trials_partner_out_out_homog
-            if pool_name == 'trials_partner_out_out_heterog': pool_original = trials_partner_out_out_heterog
-            # If pool is depleted, refresh
-            if len(pool) < num_trials:
-                # print("country_list_no_current ", country_list_no_current)
-                pool = pool_original.copy()
-                #pool = eval(pool_name).copy()
-                #print("pool refreshed, pool ", pool)
-            # Otherwise, keep sampling without replacement
-            trials = random.sample(pool, num_trials)
-            #print("trials chosen ", trials)
-            for trial in trials:
-                pool.remove(trial)
-            return trials, pool
-
         ## IV) Create trial structure for DG, 2PP, 3PP and partner-country trials by looping through participants
 
         for player in subsession.get_players():
+
             participant = player.participant
 
             ### RANDOMIZATION
@@ -253,8 +251,8 @@ def creating_session(subsession):
             trials_partner_dic_out_current, country_list_no_current_editable = sample_trials_partner(country_list_no_current_editable, C.number_trials_partner_dic_out, "country_list_no_current")
 
             # Add unknown country trials and randomize order
-            trials_partner_dic = trials_partner_dic_out_current + C.trials_3PP_INOUT_DIC
-            random.shuffle(trials_partner_dic)
+            trials_partner_dic_current = trials_partner_dic_out_current + C.trials_3PP_INOUT_DIC
+            random.shuffle(trials_partner_dic_current)
 
             ## b) Punisher role
 
@@ -264,28 +262,24 @@ def creating_session(subsession):
             trials_partner_out_out_heterog_current, trials_partner_out_out_heterog_editable = sample_trials_partner(trials_partner_out_out_heterog_editable, C.number_trials_partner_out_out_heterog, "trials_partner_out_out_heterog")
 
             # Add unknown country trials and randomize order
-            trials_partner_in_out = trials_partner_in_out_current + [C.trials_3PP_INOUT_TP[0]]
-            trials_partner_out_in = trials_partner_out_in_current + [C.trials_3PP_INOUT_TP[1]]
+
+            trials_partner_in_out_participant = trials_partner_in_out_current + [C.trials_3PP_INOUT_TP[0]]
+            trials_partner_out_in_participant = trials_partner_out_in_current + [C.trials_3PP_INOUT_TP[1]]
             # OUT-OUT unknown can go either together with out-out homog or out-out heterog
             if random.choice([True, False]):
-                trials_partner_out_out_homog = trials_partner_out_out_homog_current + [C.trials_3PP_INOUT_TP[2]]
-                trials_partner_out_out_heterog = trials_partner_out_out_heterog_current
+                trials_partner_out_out_homog_participant = trials_partner_out_out_homog_current + [C.trials_3PP_INOUT_TP[2]]
+                trials_partner_out_out_heterog_participant = trials_partner_out_out_heterog_current
             else:
-                trials_partner_out_out_heterog = trials_partner_out_out_heterog_current + [C.trials_3PP_INOUT_TP[2]]
-                trials_partner_out_out_homog = trials_partner_out_out_homog_current
+                trials_partner_out_out_heterog_participant = trials_partner_out_out_heterog_current + [C.trials_3PP_INOUT_TP[2]]
+                trials_partner_out_out_homog_participant = trials_partner_out_out_homog_current
 
-            random.shuffle(trials_partner_in_out)
-            random.shuffle(trials_partner_out_in)
-            random.shuffle(trials_partner_out_out_homog)
-            random.shuffle(trials_partner_out_out_heterog)
+            random.shuffle(trials_partner_in_out_participant)
+            random.shuffle(trials_partner_out_in_participant)
+            random.shuffle(trials_partner_out_out_homog_participant)
+            random.shuffle(trials_partner_out_out_heterog_participant)
 
 
             ## c) Merge and randomize order of trials within punisher role # UPDATE: Shuffle order of treatments, but not across treatments # NEW UPDATE: Counterbalance order of treatment
-
-            # trials_partner_TP_current = [trials_partner_in_in, trials_partner_in_out, trials_partner_out_in, trials_partner_out_out_homog, trials_partner_out_out_heterog]
-            #
-            # # Shuffle the merged list
-            # random.shuffle(trials_partner_TP_current)
 
             # Get current index and permutation
             idx = subsession.session.vars['order_counter']
@@ -301,10 +295,10 @@ def creating_session(subsession):
 
             order_mapping = {
                 'in_in': trials_partner_in_in,
-                'in_out': trials_partner_in_out,
-                'out_in': trials_partner_out_in,
-                'out_out_homog': trials_partner_out_out_homog,
-                'out_out_heterog': trials_partner_out_out_heterog
+                'in_out': trials_partner_in_out_participant,
+                'out_in': trials_partner_out_in_participant,
+                'out_out_homog': trials_partner_out_out_homog_participant,
+                'out_out_heterog': trials_partner_out_out_heterog_participant
             }
             trials_partner_TP_current = [order_mapping[key] for key in order]
 
@@ -318,12 +312,12 @@ def creating_session(subsession):
             ]
 
             ## d) Randomize order of DIC/TP
-            treatment_order_partner_no_univ_norm = trials_partner_TP_current + trials_partner_dic if random.choice(
-                [True, False]) else trials_partner_dic + trials_partner_TP_current
+            treatment_order_partner_no_univ_norm_current = trials_partner_TP_current + trials_partner_dic_current if random.choice(
+                [True, False]) else trials_partner_dic_current + trials_partner_TP_current
 
             ## e) Place universal norm always at the end of block
             trials_partner_universal_norm = ['universal norm']
-            participant.treatment_order_partner = treatment_order_partner_no_univ_norm + trials_partner_universal_norm
+            participant.treatment_order_partner = treatment_order_partner_no_univ_norm_current + trials_partner_universal_norm
 
             ### 4) Put all treatment orders together
             participant.treatment_order = participant.treatment_order_baseline + participant.treatment_order_partner
