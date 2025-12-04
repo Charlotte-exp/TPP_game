@@ -1,8 +1,8 @@
 from os import environ
 from os import popen
 
-COUNTRIES = ['all', 'dz', 'ar', 'au', 'bo', 'br', 'bg', 'ca', 'cl', 'cn', 'co', 'cr', 'hr', 'do', 'ec', 'eg', 'sv', 'fi', 'fr', 'de', 'gr', 'gt', 'hu', 'in', 'id', 'it', 'jp', 'ke', 'kr', 'my', 'mx', 'ma', 'nz', 'ng', 'pe', 'ph', 'pl', 'ro', 'ru', 'sa', 'sg', 'za', 'es', 'se', 'ch', 'tw', 'th', 'tr', 'ae', 'ua', 'us', 'vn']
-COUNTRYNAMES = ['ALL_LANGUAGES', 'Algeria', 'Argentina', 'Australia', 'Bolivia', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica', 'Croatia', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Finland', 'France', 'Germany', 'Greece', 'Guatemala', 'Hungary', 'India', 'Indonesia', 'Italy', 'Japan', 'Kenya', 'Korea', 'Malaysia', 'Mexico', 'Morocco', 'New Zealand', 'Nigeria', 'Peru', 'Philippines', 'Poland', 'Romania', 'Russia', 'Saudi Arabia', 'Singapore', 'South Africa', 'Spain', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United States', 'Vietnam']
+COUNTRIES = ['all', 'dz', 'ar', 'au', 'br', 'cl', 'cn', 'co', 'do', 'eg', 'fr', 'de', 'gr', 'gt', 'hu', 'in', 'id', 'it', 'jp', 'ke', 'kr', 'my', 'mx', 'ma', 'ng', 'pe', 'ph', 'pl', 'ro', 'ru', 'sa', 'sg', 'za', 'es', 'se', 'ch', 'tw', 'th', 'tr', 'ae', 'ua', 'us', 'vn']
+COUNTRYNAMES = ['ALL_LANGUAGES', 'Algeria', 'Argentina', 'Australia', 'Brazil', 'Chile', 'China', 'Colombia', 'Dominican Republic', 'Egypt', 'France', 'Germany', 'Greece', 'Guatemala', 'Hungary', 'India', 'Indonesia', 'Italy', 'Japan', 'Kenya', 'Korea', 'Malaysia', 'Mexico', 'Morocco', 'Nigeria', 'Peru', 'Philippines', 'Poland', 'Romania', 'Russia', 'Saudi Arabia', 'Singapore', 'South Africa', 'Spain', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Turkey', 'UAE', 'Ukraine', 'United States', 'Vietnam']
 
 # SESSION_CONFIGS = []
 
@@ -141,7 +141,7 @@ for code, name in zip(COUNTRIES, COUNTRYNAMES):
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=0.33,
     participation_fee=4.50,
-    total_pages=324,
+    total_pages=352,
     doc=""
 )
 
