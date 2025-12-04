@@ -272,7 +272,7 @@ class Demographics(Page):
         participant.progress += 1
 
         ### Screen out too-fast participants
-        MINIMUM_TOTAL_SECONDS = 900 # Less than 15 minutes (900 seconds) is speeding
+        MINIMUM_TOTAL_SECONDS = 840 # Less than 14 minutes (840 seconds) is speeding
 
         # Get start time
         start_time = player.participant.vars.get('session_start_time')
