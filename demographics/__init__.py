@@ -210,6 +210,7 @@ class Player(BasePlayer):
 ########### PAGES ############
 
 class Demographics(Page):
+
     form_model = 'player'
     form_fields = ['born','born_mother', 'born_father', 'education', 'region', 'rural_urban'] #'age', 'gender', 'toluna_id'
 
@@ -301,6 +302,15 @@ class Demographics(Page):
 
 
 class Ladder(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.participant.current_country == "cn":
+            print("Current country: China: ladder not shown")
+            return False
+        else:
+            return True
+
     form_model = 'player'
     form_fields = ['income_ladder']
 
@@ -368,6 +378,15 @@ class RelMob(Page):
 
 
 class Circle(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.participant.current_country == "cn":
+            print("Current country: China: circle task not shown")
+            return False
+        else:
+            return True
+
     form_model = 'player'
     form_fields = ['self_other']
 

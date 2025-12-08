@@ -71,6 +71,15 @@ class Player(BasePlayer):
 
 #########  PAGES  ###########
 class NarrPage(Page):
+
+    @staticmethod
+    def is_displayed(player: Player):
+        if player.participant.current_country == "cn":
+            print("Current country: China: Freerider narratives not shown")
+            return False
+        else:
+            return True
+
     form_model = "player"
     form_fields = ["wealthy_contribution", "wealthy_merit", "poor_contribution", "poor_merit"]
 
