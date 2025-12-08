@@ -19,24 +19,24 @@
     {% if "3PP" in player.treatment and player.round_number < 9%}
         {{ instru_part3|safe }}
     {% endif %}
-    {% if "3PR" in player.treatment and player.round_number < 9%}
-        {{ instru_part4|safe }}
-    {% endif %}
-    {% if "3PC" in player.treatment and player.round_number < 9%}
-        {{ instru_part5|safe }}
-    {% endif %}
-    {% if "3PC" in player.treatment %}
-        {% if "IN" in player.treatment or "OUT" in player.treatment %}
-            Part 6
-        {% endif %}
-    {% endif %}
-    {% if "3PP" in player.treatment  %}
-        {% if "IN" in player.treatment or "OUT" in player.treatment %}
-            {{ instru_part4 }}
-        {% endif %}
-    {% endif %}
-    {% if "3PP country" in player.treatment %}
-        {{ instru_part5 }}
+<!--    {% if "3PR" in player.treatment and player.round_number < 9%}-->
+<!--        {{ instru_part4|safe }}-->
+<!--    {% endif %}-->
+<!--    {% if "3PC" in player.treatment and player.round_number < 9%}-->
+<!--        {{ instru_part5|safe }}-->
+<!--    {% endif %}-->
+<!--    {% if "3PC" in player.treatment %}-->
+<!--        {% if "IN" in player.treatment or "OUT" in player.treatment %}-->
+<!--            Part 6-->
+<!--        {% endif %}-->
+<!--    {% endif %}-->
+<!--    {% if "3PP" in player.treatment  %}-->
+<!--        {% if "IN" in player.treatment or "OUT" in player.treatment %}-->
+<!--            {{ instru_part4 }}-->
+<!--        {% endif %}-->
+<!--    {% endif %}-->
+    {% if "3PP country" in player.treatment or "3PP give country" in player.treatment or "3PP give IN" in player.treatment or "3PP give OUT" in player.treatment %}
+        {{ instru_part4 }}
     {% endif %}
 </p>
 
