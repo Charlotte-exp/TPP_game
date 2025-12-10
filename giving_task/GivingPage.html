@@ -1123,9 +1123,7 @@ html[dir="rtl"] .image-container {
     donateOption.addEventListener('click', function (event) {
         if (!selectedCharity) {
             const fallbackCharities = [
-                "Red Cross / Red Crescent",
-                "Unicef",
-                "World Food Programme"
+                "Unspecified"
             ];
             const randomCharity = fallbackCharities[Math.floor(Math.random() * fallbackCharities.length)];
             hiddenCharityField.value = randomCharity;
