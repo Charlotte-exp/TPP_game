@@ -430,6 +430,7 @@ class Demographics_age_gender(Page):
             current_female_count = 0
             current_male_count = 0
             current_age_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}  # A dictionary to hold counts for each age group
+            current_total_count = 0
 
             # Get all players in the session
             all_players = player.subsession.get_players()
@@ -446,6 +447,8 @@ class Demographics_age_gender(Page):
 
                 # Only count people who have submitted BOTH the demographics AND the final page.
                 if gender_for_quota_check is not None and is_complete is not None:
+
+                    current_total_count += 1
 
                     # Now we know this is a "complete" response, so we can count them.
                     if gender_for_quota_check == 'Female':
@@ -466,7 +469,11 @@ class Demographics_age_gender(Page):
             screenout_reason = ""
 
             # Check gender quota
-            if player.quota_gender == 'Female' and current_female_count >= quotas['female']:
+            if current_total_count >= 365:
+                is_screened_out = True
+                screenout_reason = "Total quota is full"
+
+            elif player.quota_gender == 'Female' and current_female_count >= quotas['female']:
                 is_screened_out = True
                 screenout_reason = "Gender quota (Female) is full"
 
