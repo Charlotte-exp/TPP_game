@@ -469,11 +469,11 @@ class Demographics_age_gender(Page):
             screenout_reason = ""
 
             # Check gender quota
-            if current_total_count >= 365:
+            if current_total_count >= 376:
                 is_screened_out = True
                 screenout_reason = "Total quota is full"
 
-            elif player.quota_gender == 'Female' and current_female_count >= quotas['female']:
+            elif player.quota_gender == 'Female':
                 is_screened_out = True
                 screenout_reason = "Gender quota (Female) is full"
 
