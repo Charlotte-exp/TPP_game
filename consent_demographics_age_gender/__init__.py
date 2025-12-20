@@ -432,6 +432,12 @@ class Demographics_age_gender(Page):
             current_age_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}  # A dictionary to hold counts for each age group
             current_total_count = 0
 
+            # Extra counts to check how many people started survey in last 25 minutes
+            NOW = time.time()
+            WINDOW_SECONDS = 25 * 60
+            MAX_ACTIVE_STARTERS = 50
+            recent_starters = 0
+
             # Get all players in the session
             all_players = player.subsession.get_players()
 
@@ -460,13 +466,28 @@ class Demographics_age_gender(Page):
                     if age_group_value in current_age_counts:
                         current_age_counts[age_group_value] += 1
 
+                # Additionally check how many activiely participate
+                start_time = p.participant.vars.get('session_start_time')
+
+                if start_time is None:
+                    continue
+
+                if NOW - start_time <= WINDOW_SECONDS:
+                    recent_starters += 1
+
             print("current_female_count", current_female_count)
             print("current_male_count", current_male_count)
             print("current_age_counts[player_age_group]", current_age_counts[player.age_group])
+            print("recent_starters", recent_starters)
 
             ## 4) Compare current player against quotas
             is_screened_out = False
             screenout_reason = ""
+
+            # Screen out if too many people currently in study
+            if recent_starters > MAX_ACTIVE_STARTERS:
+                is_screened_out = True
+                screenout_reason = "Too many participants currently in the study"
 
             # Check gender quota
             if current_total_count >= 365:
