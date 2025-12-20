@@ -484,21 +484,56 @@ class Demographics_age_gender(Page):
             is_screened_out = False
             screenout_reason = ""
 
+            # Adjust quotas based on country updates
+            QUOTAS_UPDATED = {
+                'dz': {'total': 365, 'female': 999, 'male': 999},
+                'au': {'total': 365, 'female': 999, 'male': 999},
+                'do': {'total': 365, 'female': 7,   'male': 999},
+                'eg': {'total': 365, 'female': 999, 'male': 999},
+                'fr': {'total': 370, 'female': 0,   'male': 0},
+                'de': {'total': 365, 'female': 999, 'male': 999},
+                'gr': {'total': 365, 'female': 2,   'male': 999},
+                'gt': {'total': 365, 'female': 999, 'male': 999},
+                'hu': {'total': 369, 'female': 0,   'male': 999},
+                'jp': {'total': 369, 'female': 999, 'male': 0},
+                'ke': {'total': 365, 'female': 999, 'male': 0},
+                'ru': {'total': 365, 'female': 999, 'male': 999},
+                'sa': {'total': 365, 'female': 999, 'male': 999},
+                'sg': {'total': 365, 'female': 999, 'male': 999},
+                'za': {'total': 370, 'female': 0,   'male': 999},
+                'es': {'total': 371, 'female': 0,   'male': 999},
+                'se': {'total': 365, 'female': 999, 'male': 999},
+                'ch': {'total': 365, 'female': 999, 'male': 999},
+                'tw': {'total': 368, 'female': 999, 'male': 0},
+                'th': {'total': 374, 'female': 0,   'male': 999},
+                'tr': {'total': 365, 'female': 999, 'male': 999},
+                'ae': {'total': 365, 'female': 999, 'male': 999},
+                'ua': {'total': 392, 'female': 999, 'male': 0},
+                'us': {'total': 365, 'female': 999, 'male': 999},
+                'vn': {'total': 365, 'female': 999, 'male': 999},
+            }
+
+
+            country_quota = QUOTAS_UPDATED.get(participant.current_country)
+
+            if country_quota is None:
+                country_quota = {'total': 365, 'female': 999, 'male': 999}
+
             # Screen out if too many people currently in study
             if recent_starters > MAX_ACTIVE_STARTERS:
                 is_screened_out = True
                 screenout_reason = "Too many participants currently in the study"
 
             # Check gender quota
-            if current_total_count >= 365:
+            if current_total_count >= country_quota['total']:
                 is_screened_out = True
                 screenout_reason = "Total quota is full"
 
-            elif player.quota_gender == 'Female' and current_female_count >= quotas['female']:
+            elif player.quota_gender == 'Female' and (current_female_count >= quotas['female'] or current_female_count >= country_quota['female']):
                 is_screened_out = True
                 screenout_reason = "Gender quota (Female) is full"
 
-            elif player.quota_gender == 'Male' and current_male_count >= quotas['male']:
+            elif player.quota_gender == 'Male' and (current_male_count >= quotas['male'] or current_male_count >= country_quota['male']):
                 is_screened_out = True
                 screenout_reason = "Gender quota (Male) is full"
 
