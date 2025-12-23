@@ -509,7 +509,7 @@ class Demographics_age_gender(Page):
                 'ae': {'total': 365, 'female': 999, 'male': 999},
                 'ua': {'total': 405, 'female': 999, 'male': 0},
                 'us': {'total': 365, 'female': 999, 'male': 999},
-                'vn': {'total': 365, 'female': 999, 'male': 999},
+                'vn': {'total': 365, 'female': 999, 'male': 0},
             }
 
 
