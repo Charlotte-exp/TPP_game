@@ -505,7 +505,7 @@ class Demographics_age_gender(Page):
                 'se': {'total': 365, 'female': 999, 'male': 999},
                 'ch': {'total': 365, 'female': 999, 'male': 999},
                 'tw': {'total': 368, 'female': 999, 'male': 0},
-                'tr': {'total': 365, 'female': 999, 'male': 999},
+                'tr': {'total': 369, 'female': 0, 'male': 999},
                 'ae': {'total': 365, 'female': 999, 'male': 999},
                 'ua': {'total': 405, 'female': 999, 'male': 0},
                 'us': {'total': 365, 'female': 999, 'male': 999},
