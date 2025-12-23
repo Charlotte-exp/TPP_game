@@ -435,7 +435,7 @@ class Demographics_age_gender(Page):
             # Extra counts to check how many people started survey in last 25 minutes
             NOW = time.time()
             WINDOW_SECONDS = 25 * 60
-            MAX_ACTIVE_STARTERS = 50
+            MAX_ACTIVE_STARTERS = 35
             recent_starters = 0
 
             # Get all players in the session
