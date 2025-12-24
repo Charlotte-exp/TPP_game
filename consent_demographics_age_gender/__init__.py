@@ -490,7 +490,7 @@ class Demographics_age_gender(Page):
                 'au': {'total': 365, 'female': 999, 'male': 999},
                 'do': {'total': 365, 'female': 999, 'male': 999},
                 'eg': {'total': 365, 'female': 999, 'male': 999},
-                'fr': {'total': 370, 'female': 0, 'male': 999},
+                'fr': {'total': 371, 'female': 0, 'male': 999},
                 'de': {'total': 365, 'female': 999, 'male': 0},
                 'gr': {'total': 365, 'female': 0, 'male': 999},
                 'gt': {'total': 365, 'female': 999, 'male': 999},
