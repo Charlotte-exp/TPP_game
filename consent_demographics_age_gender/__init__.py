@@ -487,13 +487,13 @@ class Demographics_age_gender(Page):
             # Adjust quotas based on country updates
             QUOTAS_UPDATED = {
                 'dz': {'total': 365, 'female': 999, 'male': 999},
-                'au': {'total': 365, 'female': 999, 'male': 999},
+                'au': {'total': 365, 'female': 999, 'male': 0},
                 'do': {'total': 365, 'female': 999, 'male': 999},
                 'eg': {'total': 365, 'female': 999, 'male': 999},
                 'fr': {'total': 370, 'female': 0, 'male': 999},
                 'de': {'total': 365, 'female': 999, 'male': 0},
                 'gr': {'total': 365, 'female': 0, 'male': 999},
-                'gt': {'total': 365, 'female': 999, 'male': 999},
+                'gt': {'total': 365, 'female': 0, 'male': 999},
                 'hu': {'total': 370, 'female': 0, 'male': 999},
                 'jp': {'total': 369, 'female': 999, 'male': 0},
                 'ke': {'total': 371, 'female': 999, 'male': 0},
@@ -508,7 +508,7 @@ class Demographics_age_gender(Page):
                 'tr': {'total': 373, 'female': 0, 'male': 999},
                 'ae': {'total': 365, 'female': 999, 'male': 999},
                 'ua': {'total': 405, 'female': 999, 'male': 0},
-                'us': {'total': 365, 'female': 999, 'male': 999},
+                'us': {'total': 369, 'female': 999, 'male': 0},
                 'vn': {'total': 365, 'female': 999, 'male': 0},
             }
 
