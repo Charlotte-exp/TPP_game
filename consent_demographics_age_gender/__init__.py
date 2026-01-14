@@ -486,7 +486,7 @@ class Demographics_age_gender(Page):
 
             # Adjust quotas based on country updates
             QUOTAS_UPDATED = {
-                'dz': {'total': 636, 'female': 999, 'male': 999}, # 271 excluded for low quality
+                'dz': {'total': 728, 'female': 999, 'male': 999}, # 365 excluded for low quality
                 #'au': {'total': 365, 'female': 999, 'male': 0},
                 'do': {'total': 365, 'female': 0, 'male': 999},
                 #'eg': {'total': 365, 'female': 999, 'male': 999},
