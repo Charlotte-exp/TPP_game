@@ -484,73 +484,72 @@ class Demographics_age_gender(Page):
             is_screened_out = False
             screenout_reason = ""
 
-            # Adjust quotas based on country updates
-            QUOTAS_UPDATED = {
-                'dz': {'total': 57, 'female': 999, 'male': 0}, # 365 excluded for low quality
-                #'au': {'total': 365, 'female': 999, 'male': 0},
-                'do': {'total': 365, 'female': 0, 'male': 999},
-                #'eg': {'total': 365, 'female': 999, 'male': 999},
-                #'fr': {'total': 370, 'female': 0, 'male': 999},
-                #'de': {'total': 365, 'female': 999, 'male': 0},
-                #'gr': {'total': 365, 'female': 0, 'male': 999},
-                #'gt': {'total': 365, 'female': 0, 'male': 999},
-                #'hu': {'total': 370, 'female': 0, 'male': 999},
-                #'jp': {'total': 369, 'female': 999, 'male': 0},
-                #'ke': {'total': 371, 'female': 999, 'male': 0},
-                'ru': {'total': 365, 'female': 999, 'male': 0},
-                #'sa': {'total': 365, 'female': 999, 'male': 999},
-                #'sg': {'total': 365, 'female': 999, 'male': 999},
-                #'za': {'total': 371, 'female': 0, 'male': 999},
-                #'es': {'total': 371, 'female': 0, 'male': 999},
-                'se': {'total': 373, 'female': 0, 'male': 999},
-                'ch': {'total': 365, 'female': 999, 'male': 999},
-                #'tw': {'total': 368, 'female': 999, 'male': 0},
-                #'tr': {'total': 373, 'female': 0, 'male': 999},
-                #'ae': {'total': 365, 'female': 999, 'male': 999},
-                #'ua': {'total': 405, 'female': 999, 'male': 0},
-                #'us': {'total': 369, 'female': 999, 'male': 0},
-                #'vn': {'total': 365, 'female': 999, 'male': 0},
-            }
-
-
-            country_quota = QUOTAS_UPDATED.get(participant.current_country)
-
-            if country_quota is None:
-                country_quota = {'total': 365, 'female': 999, 'male': 999}
-
-            # Screen out if too many people currently in study
-            if recent_starters > MAX_ACTIVE_STARTERS:
-                is_screened_out = True
-                screenout_reason = "Too many participants currently in the study"
-
-            # Check gender quota
-            if current_total_count >= country_quota['total']:
-                is_screened_out = True
-                screenout_reason = "Total quota is full"
-
-            elif player.quota_gender == 'Female' and (current_female_count >= quotas['female'] or current_female_count >= country_quota['female']):
-                is_screened_out = True
-                screenout_reason = "Gender quota (Female) is full"
-
-            elif player.quota_gender == 'Male' and (current_male_count >= quotas['male'] or current_male_count >= country_quota['male']):
-                is_screened_out = True
-                screenout_reason = "Gender quota (Male) is full"
-
-            # Check age quota
-            player_age_group = player.age_group
-            if not is_screened_out and current_age_counts[player_age_group] >= quotas[f'age{player_age_group}']:
-                is_screened_out = True
-                screenout_reason = f"Age group {player_age_group} quota full"
-
-            ## 5) Set a flag on the participant
-            if is_screened_out:
-                player.is_screened_out = True
-                player.screenout_reason = screenout_reason
-                print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: {player.screenout_reason}")
-            else:
-                # The default is already False, but it's good to be explicit
-                player.is_screened_out = False
-                print(f"Player {player.id_in_subsession} PASSED quotas.")
+            # # Adjust quotas based on country updates
+            # QUOTAS_UPDATED = {
+            #     'dz': {'total': 57, 'female': 999, 'male': 0}, # 365 excluded for low quality
+            #     #'au': {'total': 365, 'female': 999, 'male': 0},
+            #     'do': {'total': 365, 'female': 0, 'male': 999},
+            #     #'eg': {'total': 365, 'female': 999, 'male': 999},
+            #     #'fr': {'total': 370, 'female': 0, 'male': 999},
+            #     #'de': {'total': 365, 'female': 999, 'male': 0},
+            #     #'gr': {'total': 365, 'female': 0, 'male': 999},
+            #     #'gt': {'total': 365, 'female': 0, 'male': 999},
+            #     #'hu': {'total': 370, 'female': 0, 'male': 999},
+            #     #'jp': {'total': 369, 'female': 999, 'male': 0},
+            #     #'ke': {'total': 371, 'female': 999, 'male': 0},
+            #     'ru': {'total': 365, 'female': 999, 'male': 0},
+            #     #'sa': {'total': 365, 'female': 999, 'male': 999},
+            #     #'sg': {'total': 365, 'female': 999, 'male': 999},
+            #     #'za': {'total': 371, 'female': 0, 'male': 999},
+            #     #'es': {'total': 371, 'female': 0, 'male': 999},
+            #     'se': {'total': 373, 'female': 0, 'male': 999},
+            #     'ch': {'total': 365, 'female': 999, 'male': 999},
+            #     #'tw': {'total': 368, 'female': 999, 'male': 0},
+            #     #'tr': {'total': 373, 'female': 0, 'male': 999},
+            #     #'ae': {'total': 365, 'female': 999, 'male': 999},
+            #     #'ua': {'total': 405, 'female': 999, 'male': 0},
+            #     #'us': {'total': 369, 'female': 999, 'male': 0},
+            #     #'vn': {'total': 365, 'female': 999, 'male': 0},
+            # }
+            #
+            # country_quota = QUOTAS_UPDATED.get(participant.current_country)
+            #
+            # if country_quota is None:
+            #     country_quota = {'total': 365, 'female': 999, 'male': 999}
+            #
+            # # Screen out if too many people currently in study
+            # if recent_starters > MAX_ACTIVE_STARTERS:
+            #     is_screened_out = True
+            #     screenout_reason = "Too many participants currently in the study"
+            #
+            # # Check gender quota
+            # if current_total_count >= country_quota['total']:
+            #     is_screened_out = True
+            #     screenout_reason = "Total quota is full"
+            #
+            # elif player.quota_gender == 'Female' and (current_female_count >= quotas['female'] or current_female_count >= country_quota['female']):
+            #     is_screened_out = True
+            #     screenout_reason = "Gender quota (Female) is full"
+            #
+            # elif player.quota_gender == 'Male' and (current_male_count >= quotas['male'] or current_male_count >= country_quota['male']):
+            #     is_screened_out = True
+            #     screenout_reason = "Gender quota (Male) is full"
+            #
+            # # Check age quota
+            # player_age_group = player.age_group
+            # if not is_screened_out and current_age_counts[player_age_group] >= quotas[f'age{player_age_group}']:
+            #     is_screened_out = True
+            #     screenout_reason = f"Age group {player_age_group} quota full"
+            #
+            # ## 5) Set a flag on the participant
+            # if is_screened_out:
+            #     player.is_screened_out = True
+            #     player.screenout_reason = screenout_reason
+            #     print(f"Player {player.id_in_subsession} SCREENED OUT. Reason: {player.screenout_reason}")
+            # else:
+            #     # The default is already False, but it's good to be explicit
+            #     player.is_screened_out = False
+            #     print(f"Player {player.id_in_subsession} PASSED quotas.")
 
 
 class ScreenedOutAge(Page):
